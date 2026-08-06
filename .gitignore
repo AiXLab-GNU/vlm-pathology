@@ -1,0 +1,50 @@
+# Pathology datasets and local mirrors
+opendataset
+song-datasets
+
+# Python environments and caches
+.venv/
+models/.venv-*/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Local agent and tool state
+.codex/
+.agents/
+.claude/
+.gstack/
+**/.cache/
+
+# Whole-slide images, arrays, stores, and model weights
+*.svs
+*.tif
+*.tiff
+*.ome.tif
+*.ome.tiff
+*.zarr/
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+
+# Generated reports and build artifacts
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.pdf
+paper_backup_pre_restructure_*/
+
+# Editor, operating-system, and temporary files
+.DS_Store
+*~
+*.swp
+*.tmp
