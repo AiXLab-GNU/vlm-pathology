@@ -43,3 +43,28 @@ Confirm every structured review field from the approved design is either listed 
 - [ ] **Step 4: Review readability**
 
 Confirm the memo is concise, uses plain Korean, distinguishes the current morphology-label stage from the later contour stage, and has no placeholder language.
+
+### Task 2: Add the final objective and research roadmap
+
+**Files:**
+- Modify: `docs/PRECISE_PNI_MORPHOLOGY_REREVIEW_PATHOLOGIST_MEMO_KO.md`
+
+**Interfaces:**
+- Consumes: `docs/superpowers/specs/2026-08-06-precise-pni-pathologist-memo-roadmap-design.md`
+- Produces: A clinician-facing roadmap that identifies the current rereview as the gate before contouring and quantitative analysis.
+
+- [ ] **Step 1: Add the final research objective**
+
+State that the long-term goal is a pathologist-in-the-loop pipeline combining AI candidate triage, specialist confirmation, morphology/contour quantification, and later larger-cohort clinical or molecular research. Explicitly exclude autonomous diagnosis and whole-slide sensitivity claims.
+
+- [ ] **Step 2: Add the seven-stage roadmap**
+
+List the frozen-score audit, current 14-focus rereview, review lock, contouring, PRECISE quantification, larger-cohort burden construction, and independent clinical/molecular validation. Mark stage 2 as the current requested pathologist task.
+
+- [ ] **Step 3: Explain the current decision gate**
+
+State that morphology labels must be evaluable and internally consistent before a case advances to contouring, and that uncertain/not-evaluable findings remain explicit.
+
+- [ ] **Step 4: Verify scope and blinding**
+
+Confirm the revised memo contains the final objective and all seven roadmap stages but no previous PNI-positive count, prior morphology distribution, original candidate ID, model score, rank, or stratum.
