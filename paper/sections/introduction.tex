@@ -31,18 +31,55 @@ or validated by one aggregate metric. These propositions define the logic evalua
 they do not imply that every target had an identical external cohort or that lack of support
 in the frozen analysis establishes biological absence.
 
+% Previous prose version retained for provenance:
+% To test this logic, we assembled complementary evidence from five prostate-pathology data
+% resources. NADT-Prostate provided source-cohort grade and phenotype evaluations
+% \cite{nadt2021}; PANDA provided case images from Karolinska and Radboud for transfer without
+% refitting \cite{panda2022}; PRECISE provided an additional session-level grade evaluation
+% \cite{precise2026}; TCGA-PRAD provided molecular labels, site structure and explicitly
+% distinguished recurrence endpoints \cite{tcgaprad2015,tcgacdr2018}; and the LEOPARD-derived
+% analysis supplied a post-hoc recurrence signal for transfer \cite{leopard2026}. Across frozen
+% CONCH and Virchow representations, we evaluated grade, tumor phenotype, PTEN loss, SPOP
+% mutation, androgen-receptor activity and recurrence. The analyses linked cross-cohort
+% transfer to held-out confounder increments, site-specific uncertainty, a correlated
+% encoder--scale--tile--seed grid and endpoint-specific survival comparisons. This design
+% allowed the same candidate to succeed on one evidentiary axis while remaining unresolved
+% on another.
+
 To test this logic, we assembled complementary evidence from five prostate-pathology data
-resources. NADT-Prostate provided source-cohort grade and phenotype evaluations; PANDA
-provided case images from Karolinska and Radboud for transfer without refitting
-\cite{panda2022}; PRECISE provided an additional session-level grade evaluation;
-TCGA-PRAD provided molecular labels, site structure and explicitly distinguished recurrence
-endpoints; and the LEOPARD-derived analysis supplied a post-hoc recurrence signal for
-transfer. Across frozen CONCH and Virchow representations, we evaluated grade, tumor
-phenotype, PTEN loss, SPOP mutation, androgen-receptor activity and recurrence. The
-analyses linked cross-cohort transfer to held-out confounder increments, site-specific
-uncertainty, a correlated encoder--scale--tile--seed grid and endpoint-specific survival
-comparisons. This design allowed the same candidate to succeed on one evidentiary axis
-while remaining unresolved on another.
+resources, summarized below.
+
+\begin{table}[!htbp]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.15}
+\caption*{\textbf{Study data resources and their roles in signal qualification.} Each
+resource supplied a distinct evidence component; no resource alone covered every
+qualification dimension.}
+\begin{tabular}{@{}p{0.21\textwidth}p{0.40\textwidth}p{0.30\textwidth}@{}}
+\toprule
+Resource & Evidence supplied & Role in the qualification design \\
+\midrule
+NADT-Prostate \cite{nadt2021} & Source-cohort images, grade and phenotype labels &
+Source-cohort grade and phenotype evaluation \\
+PANDA \cite{panda2022} & Karolinska and Radboud case images & Cross-cohort transfer
+without refitting \\
+PRECISE \cite{precise2026} & Session-level pathologist-assigned grade & Additional
+grade evaluation \\
+TCGA-PRAD \cite{tcgaprad2015,tcgacdr2018} & Molecular labels, source-site structure
+and distinguished recurrence endpoints & Molecular, site and endpoint audits \\
+LEOPARD \cite{leopard2026} & Post-hoc recurrence signal & Transfer to TCGA-PRAD \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Across frozen CONCH and Virchow representations, we evaluated grade, tumor phenotype, PTEN
+loss, SPOP mutation, androgen-receptor activity and recurrence. The analyses linked
+cross-cohort transfer to held-out confounder increments, site-specific uncertainty, a
+correlated encoder--scale--tile--seed grid and endpoint-specific survival comparisons. This
+design allowed the same candidate to succeed on one evidentiary axis while remaining
+unresolved on another.
 
 The study makes three contributions. First, it operationalizes pathology foundation-model
 signal qualification as a joint, target-level assessment of transport, confounding, site
