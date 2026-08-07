@@ -1,42 +1,68 @@
 % Figure-caption definitions are rendered inline by paper/sections/results.tex.
 \newcommand{\figQualificationLegend}{%
 \textbf{Qualification framework and evidence map.}
-Candidate claims are connected to the evaluation dimensions that determine their evidence
-state. Cross-cohort transport, confounder adjustment, site behavior, correlated setting
-sensitivity and endpoint dependence are evaluated separately. Context-sensitive and
-unsupported states retain their target-specific limitations.}
+\textbf{a}, Each dot assigns one target-level decision to the strongest evidence state
+supported by the frozen analyses: transportable, context-sensitive, or unsupported in the
+frozen design. \textbf{b}, Counts of the same six decisions by evidentiary hierarchy comprise
+four primary decisions and two exploratory marker-7 decisions. The states summarize the
+joint pattern across cross-cohort transport, confounder adjustment, site behavior, correlated
+setting sensitivity, and endpoint dependence; they are not a model-performance ranking, and
+support on one axis does not replace evidence missing on another.}
 
 \newcommand{\figTransportLegend}{%
 \textbf{Cross-cohort grade and phenotype results.}
-Frozen NADT-Prostate CONCH signals are shown with unrefitted PANDA transfer estimates and
-the PRECISE session-level grade association. Metrics retain the saved patient, case or
-session analysis unit. Missing intervals are displayed as unavailable and were not
-reconstructed from aggregate estimates.}
+\textbf{a}, Spearman rank correlations for Gleason or phenotype in NADT-Prostate and for
+Gleason after transfer without refitting to PANDA and PRECISE. \textbf{b}, Phenotype AUROC
+after transfer without refitting to the Karolinska and Radboud PANDA subsets. Filled circles
+with horizontal whiskers show the saved point estimate and patient-bootstrap interval;
+open circles mark estimates for which no interval was saved. Dashed vertical lines denote
+the metric null ($0$ for Spearman correlation and $0.5$ for AUROC). Labels give the saved
+patient, case-image, or session denominator; unavailable intervals were not reconstructed.}
 
 \newcommand{\figMolecularLegend}{%
 \textbf{Patient-level molecular qualification.}
-PTEN loss and SPOP mutation are summarized by AUROC, and androgen-receptor activity by
-Spearman correlation. Patient-bootstrap intervals describe the frozen primary analyses;
-global seed-cell ranges describe correlated setting sensitivity and are not patient-level
-confidence intervals.}
+\textbf{a}, PTEN-loss and SPOP-mutation patient AUROCs in the fixed 273-patient TCGA-PRAD
+frame. \textbf{b}, Androgen-receptor (AR) activity patient-level Spearman correlation in the
+same frame. In \textbf{a--b}, filled circles and whiskers are frozen-primary estimates and
+saved patient-bootstrap intervals; thick lines are the global minimum--maximum range across
+60 correlated encoder--scale--tile--seed cells, with open circles marking their mean. These
+ranges are sensitivity summaries, not patient-level confidence intervals. \textbf{c},
+site-stratified SPOP patient AUROCs and patient-bootstrap intervals; site codes are retained
+from the source. The cross marks CH, where AUROC was undefined because there were no positive
+events among 23 patients. Dashed lines mark $0.5$ for AUROC and $0$ for correlation.}
 
 \newcommand{\figConfounderLegend}{%
 \textbf{Confounder and site audits.}
-Held-out patient-level increments beyond grade and site-specific androgen-receptor
-correlations are displayed with their corresponding analysis and clustering units.
-Site-specific intervals use patient-cluster resampling; these comparisons do not identify
-scanner, stain or site as a cause.}
+\textbf{a}, Held-out patient-level PTEN AUROC increment beyond grade for CONCH and Virchow.
+\textbf{b}, Corresponding held-out AR $R^2$ increment. Both increment panels use the fixed
+273-patient frame; points and whiskers are saved patient-bootstrap estimates and intervals.
+\textbf{c}, Site-specific slide-level AR Spearman correlations with patient-cluster bootstrap
+intervals, followed by the pooled patient-level estimate with its patient-bootstrap interval.
+Source site codes and slide/patient denominators are printed on the ordinate. Dashed vertical
+lines mark zero; positive increments favor adding the image signal. These observational site
+comparisons do not identify scanner, stain, or site as a cause.}
 
 \newcommand{\figMarkerSevenLegend}{%
 \textbf{Endpoint-conditioned marker 7 transfer.}
-Frozen-risk performance and same-patient, same-bootstrap-draw paired improvements are
-separated for the reconstructed with-tumor endpoint and Official TCGA-CDR PFI. Positive
-C-index improvement and positive integrated Brier score improvement both favor the
-image-augmented model; the two endpoint definitions are not treated as equivalent.}
+\textbf{a}, Frozen image-risk C-index in 270 TCGA-PRAD patients for the reconstructed
+with-tumor endpoint (57 events) and Official TCGA-CDR progression-free interval (PFI;
+42 events). \textbf{b--c}, Same-patient, same-bootstrap-draw paired changes in C-index and
+integrated Brier score (IBS; 0.5--5 years) for five model contrasts among 153 complete cases
+(30 reconstructed-endpoint and 15 official-PFI events). Blue denotes the reconstructed
+endpoint and orange official PFI. Points and whiskers are estimates and 95\% percentile
+patient-bootstrap intervals from 2,000 valid paired draws; zero draws were undefined.
+Dashed lines mark $0.5$ in \textbf{a} and no change in \textbf{b--c}. C-index change is
+comparison minus reference and IBS improvement is reference minus comparison, so positive
+values favor the first-named comparison model. The endpoint definitions are not equivalent.}
 
 \newcommand{\figStabilityLegend}{%
 \textbf{Decision-level stability overview.}
-Global seed-cell ranges and observed five-seed-range null-straddle counts summarize
-correlated sensitivity across encoder, physical scale and tile-budget settings. These
-settings reuse cohorts and folds and are not independent validations; detailed grids and
-seed-matched contrasts are provided in the Supplementary Information.}
+\textbf{a--c}, Spearman correlation, AUROC, and C-index summaries expressed relative to
+their marker-specific null. Thick lines span the global minimum--maximum across 60 correlated
+seed cells per marker (12 encoder--scale--tile configurations, five seeds each); open circles
+mark the 60-cell mean and dashed lines the null. \textbf{d}, Percentage of the 12
+configurations whose observed five-seed range straddled the null (grey) and percentage of
+65 seed-matched paired contrasts whose endpoints lay on opposite sides of the null (orange).
+The cells reuse patients and folds, so neither the ranges nor the null-crossing percentages
+are population uncertainty estimates or independent validations. Complete grids and contrast
+directions are provided in the Supplementary Information.}

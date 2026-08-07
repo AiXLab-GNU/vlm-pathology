@@ -362,6 +362,63 @@ class SubmissionDraftContractTests(unittest.TestCase):
         self.assertIn(r"\captionof{table}", stable3)
         self.assertIn("justification=raggedright", stable3)
 
+    def test_main_and_supplement_figure_legends_are_self_contained(self) -> None:
+        legends = _read("paper/sections/figure_legends.tex")
+        blocks = {
+            match.group(1): " ".join(match.group(2).split())
+            for match in re.finditer(
+                r"\\newcommand\{\\(\w+)\}\{%?(.*?)(?=\n\\newcommand|\Z)",
+                legends,
+                flags=re.DOTALL,
+            )
+        }
+        required_by_legend = {
+            "figQualificationLegend": (
+                r"\textbf{a}", r"\textbf{b}", "four primary decisions",
+                "not a model-performance ranking",
+            ),
+            "figTransportLegend": (
+                "Filled circles", "open circles", "metric null", "case-image",
+            ),
+            "figMolecularLegend": (
+                r"\textbf{a--b}", "60 correlated", "cross marks CH", "Dashed lines",
+            ),
+            "figConfounderLegend": (
+                "patient-cluster bootstrap", "slide/patient denominators",
+                "positive increments",
+            ),
+            "figMarkerSevenLegend": (
+                "2,000 valid paired draws", "IBS improvement is reference minus comparison",
+                "endpoint definitions are not equivalent",
+            ),
+            "figStabilityLegend": (
+                "12 encoder--scale--tile configurations", "65 seed-matched",
+                "population uncertainty estimates",
+            ),
+        }
+        self.assertEqual(set(blocks), set(required_by_legend))
+        for command, phrases in required_by_legend.items():
+            for phrase in phrases:
+                with self.subTest(command=command, phrase=phrase):
+                    self.assertIn(phrase, blocks[command])
+
+        results = " ".join(_read("paper/sections/results.tex").split())
+        self.assertIn("CH contained no SPOP-positive patients", results)
+        self.assertIn("other five source-coded sites included the AUROC null", results)
+
+        supplement = " ".join(
+            _read("paper/sections/supplementary_information.tex").split()
+        )
+        for phrase in (
+            "Filled points with whiskers",
+            "connecting lines are visual guides across quintiles",
+            "shared 1.76~$\\mu$m-per-pixel minus native scale (180)",
+            "The abscissa is metric $B-A$",
+            "Cell labels are S (supported), C (conditional)",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, supplement)
+
     def test_supplement_numbering_and_first_citation_order_are_s1_to_s4(self) -> None:
         supplement_main = _read("paper/supplement_main.tex")
         supplement = _read("paper/sections/supplementary_information.tex")

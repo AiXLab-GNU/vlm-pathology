@@ -40,10 +40,14 @@ not reconstructed from aggregate values. Missing intervals remain visibly unavai
 \centering
 \includegraphics[width=\textwidth]{figures/sfig1_detailed_roc.pdf}
 \caption{\textbf{Saved grade and phenotype transport details.} Aggregate patient-,
-case-image-, or session-level
-estimates and available uncertainty intervals are shown by target and cohort. The graphic
-does not imply that an unavailable interval was zero and does not convert aggregate
-statistics into reconstructed curves.}
+case-image-, or session-level estimates are separated by metric: \textbf{a}, Gleason
+Spearman correlations in NADT-Prostate, PANDA, and PRECISE; \textbf{b}, NADT-Prostate
+phenotype Spearman correlation; and \textbf{c}, phenotype AUROC after transfer without
+refitting to the Karolinska and Radboud PANDA subsets. Filled points with whiskers show the
+saved estimate and patient-bootstrap interval; open points denote estimates for which no
+interval was saved. Dashed lines mark $0$ for correlation and $0.5$ for AUROC. Denominators
+and analysis units are printed for every row. Unavailable intervals were not treated as zero,
+and aggregate statistics were not converted into reconstructed curves.}
 \label{fig:supp-discrimination-details}
 \end{figure}
 
@@ -83,10 +87,14 @@ interpreted as an independently validated prognostic biomarker.
 \centering
 \includegraphics[width=\textwidth]{figures/sfig2_marker7_survival.pdf}
 \caption{\textbf{Legacy reconstructed-endpoint marker 7 survival summaries.}
-Time-dependent AUROC and calibration values are rendered from the saved legacy sources for
-the Reconstructed with-tumor endpoint (270 patients; 57 events), not Official TCGA-CDR PFI.
-The endpoint name, denominator and event count were fail-closed against the saved
-frozen-risk metadata row and the horizon-specific calibration totals.}
+Values are rendered from saved legacy sources for the Reconstructed with-tumor endpoint
+(270 patients; 57 events), not Official TCGA-CDR PFI. \textbf{a}, Time-dependent AUROC;
+the dashed line is chance ($0.5$), and the dotted line is the saved integrated mean over
+1--5 years. \textbf{b}, Mean predicted event probability versus Kaplan--Meier observed
+probability by risk quintile (Q1--Q5) at 3 and 5 years; the diagonal is ideal calibration and
+connecting lines are visual guides across quintiles. The endpoint identity, denominator,
+event count, and horizon-specific calibration totals were reconciled to the saved frozen-risk
+metadata. This legacy summary is exploratory and supplies no Official-PFI calibration claim.}
 \label{fig:supp-marker7-survival}
 \end{figure}
 
@@ -114,9 +122,16 @@ encoder, scale or tile count, and the 360 cells are not independent validations.
 \centering
 \includegraphics[page=1,width=0.94\textwidth,height=0.70\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
 \caption{\textbf{Complete stability grids and paired contrasts.} Pages 1--6 display all
-72 validated configuration means from the saved grid, one target per page. Pages 7--9
-display the 390 seed-matched contrasts by comparison type. Null crossings are descriptive
-setting checks on reused cohorts and folds.}
+72 validated configuration means from the saved grid, one target per page. On each page,
+panels \textbf{a--b} are CONCH and Virchow; columns combine 16, 32, or 64 tiles with the
+encoder-native physical scale or the shared 1.76~$\mu$m-per-pixel scale. Each cell reports
+the five-seed mean minus the marker-specific null and the number of seeds at or below that
+null; color is centred at zero separately for each target. Pages 7--9 display all 390
+seed-matched contrasts: shared 1.76~$\mu$m-per-pixel minus native scale (180), Virchow minus
+CONCH at 1.76~$\mu$m per pixel (90), and 64 minus 16 tiles (120). The abscissa is metric
+$B-A$ and the dashed line is zero; orange points cross the marker-specific null whereas blue
+points remain on the same side. These are descriptive setting checks on reused cohorts and
+folds, not independent validations or population-confidence intervals.}
 \label{fig:supp-stability-heatmaps}
 \end{figure}
 
@@ -208,10 +223,14 @@ state.
 \centering
 \includegraphics[width=\textwidth]{figures/sfig4_evidence_axis_matrix.pdf}
 \caption{\textbf{Target-by-axis evidence coverage.} Each cell records the evidence state
-supported by the frozen analyses. Supported and conditional cells remain bounded to the
-named axis; unsupported refers to the frozen primary design, unresolved marks an evaluated
-question without sufficient support, and not evaluated or not applicable cells are shown
-explicitly rather than treated as negative evidence.}
+supported by the frozen analyses for one target row and one evidentiary-axis column. Columns
+separate frozen-primary support, cross-cohort transport, clinical increment, site behavior,
+setting stability, and endpoint fidelity. Cell labels are S (supported), C (conditional),
+U (unsupported in the frozen primary design), ? (evaluated but unresolved), -- (not
+evaluated), and N/A (not applicable). A supported or conditional cell is bounded to its
+named axis and cannot fill another cell; not-evaluated and not-applicable cells are not
+negative evidence. The source-linked audit table below provides the claim basis and evidence
+needed to change every cell.}
 \label{fig:supp-evidence-axis-matrix}
 \end{figure}
 
