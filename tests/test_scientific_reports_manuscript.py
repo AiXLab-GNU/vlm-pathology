@@ -349,12 +349,15 @@ class SubmissionDraftContractTests(unittest.TestCase):
             r"173.*400--416\.e11.*10\.1016/j\.cell\.2018\.02\.052",
         )
 
-    def test_figure_legends_are_locally_compacted_without_smaller_figure_assets(self) -> None:
+    def test_figure_legends_are_defined_once_for_inline_rendering(self) -> None:
         legends = _read("paper/sections/figure_legends.tex")
-        self.assertIn(r"\begingroup", legends)
-        self.assertIn(r"\small", legends)
-        self.assertRegex(legends, r"\\setlength\{\\parskip\}\{[^{}]+\}")
-        self.assertTrue(legends.rstrip().endswith(r"\endgroup"))
+        commands = (
+            "figQualificationLegend", "figTransportLegend", "figMolecularLegend",
+            "figConfounderLegend", "figMarkerSevenLegend", "figStabilityLegend",
+        )
+        for command in commands:
+            self.assertEqual(legends.count(rf"\newcommand{{\{command}}}"), 1)
+        self.assertNotIn(r"\section*{Figure legends}", legends)
         stable3 = _read("paper/generated/stable3_stability_summary.tex")
         self.assertIn(r"\captionof{table}", stable3)
         self.assertIn("justification=raggedright", stable3)
@@ -421,30 +424,29 @@ class SubmissionDraftContractTests(unittest.TestCase):
         self.assertNotIn(r"\section*{References}", main)
         self.assertEqual(bibliography.count(r"\begin{thebibliography}"), 1)
 
-    def test_six_complete_figure_legends_follow_the_bibliography(self) -> None:
+    def test_six_complete_figure_legends_render_with_their_figures(self) -> None:
         main = _read("paper/main.tex")
         results = _read("paper/sections/results.tex")
         legends = _read("paper/sections/figure_legends.tex")
-        self.assertTrue(
-            _appear_in_order(
-                main,
-                (r"\input{sections/bibliography}", r"\input{sections/figure_legends}"),
-            )
+        self.assertLess(
+            main.index(r"\input{sections/figure_legends}"), main.index(r"\begin{document}")
         )
-        self.assertNotIn(r"\caption{", results)
-        self.assertEqual(results.count(r"\refstepcounter{figure}"), 6)
-        for number in range(1, 7):
-            self.assertEqual(
-                len(re.findall(rf"\\textbf\{{Figure {number}\.\}}", legends)), 1
-            )
-        self.assertNotIn("accompany the corresponding figure environments", main)
+        commands = (
+            "figQualificationLegend", "figTransportLegend", "figMolecularLegend",
+            "figConfounderLegend", "figMarkerSevenLegend", "figStabilityLegend",
+        )
+        self.assertEqual(results.count(r"\caption{"), 6)
+        self.assertNotIn(r"\refstepcounter{figure}", results)
+        for command in commands:
+            self.assertEqual(results.count(rf"\caption{{\{command}}}"), 1)
+        self.assertEqual(legends.count(r"\newcommand{"), 6)
 
-    def test_compiled_main_has_one_references_heading_and_six_legends(self) -> None:
+    def test_compiled_main_has_inline_legends_and_no_legend_appendix(self) -> None:
         text = _pdf_text("paper/main.pdf")
         self.assertEqual(len(re.findall(r"(?m)^References\s*$", text)), 1)
-        legends = text.split("Figure legends", 1)[1]
+        self.assertNotIn("Figure legends", text)
         for number in range(1, 7):
-            self.assertEqual(len(re.findall(rf"Figure {number}\.", legends)), 1)
+            self.assertEqual(len(re.findall(rf"Figure {number}:", text)), 1)
 
     def test_compiled_supplement_exposes_s1_s2_s3_and_legacy_endpoint(self) -> None:
         text = _pdf_text("paper/supplement_main.pdf")

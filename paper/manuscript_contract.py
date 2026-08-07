@@ -50,7 +50,6 @@ EXPECTED_SECTION_ORDER = (
     "Competing Interests",
     "Ethics and consent statement",
     "References",
-    "Figure legends",
 )
 
 
