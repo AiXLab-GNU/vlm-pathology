@@ -1,0 +1,255 @@
+\section*{Supplementary Methods and Results}
+
+This document reports the saved extended analyses that support, but do not enlarge, the
+claims in the main manuscript. Patient-level uncertainty and repeated tile-sampling
+variation are kept distinct. Missing or unevaluable outcomes were never treated as negative
+labels, and all endpoint names retain their source definitions.
+
+\noindent Supplementary Table~\ref{tab:supp-endpoint-hierarchy} records the complete
+audited endpoint hierarchy without renaming reconstructed outcomes as official PFI.
+
+\input{generated/stable1_endpoint_hierarchy.tex}
+
+\subsection*{The complete 17-test family}
+
+The multiplicity family contained 13 marker hypotheses and four nested/refit confounder
+audits. Continuous marker hypotheses used two-sided Spearman tests, binary hypotheses used
+two-sided Mann--Whitney tests, and the refit-permutation audit used the saved one-sided
+test for positive improvement. Benjamini--Hochberg false-discovery-rate adjustment was applied
+jointly to these 17 rows. External or cross-encoder evaluations of an already counted
+hypothesis were qualification checks rather than additional discovery-family rows.
+
+\input{generated/stable2_multiplicity_family.tex}
+
+Supplementary Table~\ref{tab:supp-family} reports every row in the saved 17-row
+revision-analysis multiplicity family; no selected subset is presented as the family.
+
+The family records the tests as originally defined. Later endpoint-matched, same-patient
+and same-bootstrap-draw comparisons are reported below and govern the narrower recurrence
+interpretation; they do not retrospectively replace rows in the saved multiplicity family.
+
+\subsection*{Detailed discrimination summaries}
+
+Supplementary Figure~\ref{fig:supp-discrimination-details} shows the saved aggregate
+discrimination and association estimates for grade and phenotype transfer across NADT,
+PANDA and PRECISE. No
+receiver operating characteristic coordinates were stored for these rows, so curves were
+not reconstructed from aggregate values. Missing intervals remain visibly unavailable.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/sfig1_detailed_roc.pdf}
+\caption{\textbf{Saved grade and phenotype transport details.} Aggregate patient-,
+case-image-, or session-level
+estimates and available uncertainty intervals are shown by target and cohort. The graphic
+does not imply that an unavailable interval was zero and does not convert aggregate
+statistics into reconstructed curves.}
+\label{fig:supp-discrimination-details}
+\end{figure}
+
+\subsection*{Recurrence endpoints, paired bootstrap and common-source sensitivity}
+
+The recurrence endpoints were analysed separately. On the 270-patient target frame,
+official TCGA-CDR PFI had 42 events and the reconstructed with-tumor endpoint had 57.
+Their event agreement was 0.870, Cohen's $\kappa=0.569$, and follow-up-time Spearman
+$\rho=0.849$. Official PFI and the cBioPortal TCGA-CDR PFS fields agreed exactly on the
+270 common evaluable patients; this identity does not make the separately reconstructed
+endpoint equivalent to PFI. Among 192 patients shared with DFS, event agreement was 0.979
+and $\kappa=0.835$. Among 220 patients shared with the strict recurrence-only sensitivity,
+event agreement was 0.955 and $\kappa=0.564$. These endpoint concordance results come from
+\texttt{models/pfi\_endpoint\_concordance.csv}.
+
+The paired survival analysis used 153 complete cases for each endpoint, with 30
+reconstructed-endpoint events and 15 official-PFI events. Every reported model and contrast
+requested 2,000 patient-bootstrap resamples. The saved accounting was 2,000 valid and zero
+undefined bootstrap replicates (undefined fraction 0) for all 44 model-metric summaries and
+all 20 paired contrast-metric summaries. Zero undefined replicates is reported rather than
+silently assumed; another dataset could yield undefined concordance or Brier-score draws.
+
+The marker 7 source-retention audit compared all 60 seed cells on the saved source sets with
+the same cells restricted to the common-498 patient intersection. No cell crossed the
+C-index null, and all 65 paired contrast directions were preserved. The largest absolute
+cell shift was 0.023. This common-498 sensitivity limits source-retention confounding in the
+saved grid but does not provide an independent cohort or a causal representation comparison.
+
+Supplementary Figure~\ref{fig:supp-marker7-survival} displays the saved time-dependent AUROC
+and calibration summaries for the reconstructed with-tumor endpoint only. This legacy
+figure source is not Official TCGA-CDR PFI. Its endpoint identity and analysis frame were
+accepted only after the calibration quintiles at both horizons reconciled to the saved
+frozen-risk metadata row (270 patients and 57 events). The exploratory marker is not
+interpreted as an independently validated prognostic biomarker.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/sfig2_marker7_survival.pdf}
+\caption{\textbf{Legacy reconstructed-endpoint marker 7 survival summaries.}
+Time-dependent AUROC and calibration values are rendered from the saved legacy sources for
+the Reconstructed with-tumor endpoint (270 patients; 57 events), not Official TCGA-CDR PFI.
+The endpoint name, denominator and event count were fail-closed against the saved
+frozen-risk metadata row and the horizon-specific calibration totals.}
+\label{fig:supp-marker7-survival}
+\end{figure}
+
+\clearpage
+\subsection*{Full correlated stability analysis}
+
+The saved grid has 72 configurations: six targets, two encoders, two physical scales per
+encoder and three tile budgets. Each configuration contains five repeated sampling seeds,
+giving 360 correlated seed cells. All settings reused the underlying cohorts and folds.
+The five-seed Student-$t$ intervals therefore describe tile-sampling variation, not patient
+or population uncertainty. The saved paired-contrast table contains 390 seed-matched
+comparisons: 180 native-versus-shared-scale, 90 Virchow-versus-CONCH at shared scale and
+120 64-versus-16-tile comparisons.
+
+Supplementary Table~\ref{tab:supp-stability-summary} separates the observed seed range
+from the descriptive Student-$t$ interval. Supplementary
+Figure~\ref{fig:supp-stability-heatmaps} contains the complete configuration means followed
+by the paired contrasts. A setting-specific direction does not identify a causal effect of
+encoder, scale or tile count, and the 360 cells are not independent validations.
+
+\input{generated/stable3_stability_summary.tex}
+
+\clearpage
+\begin{figure}[p]
+\centering
+\includegraphics[page=1,width=0.94\textwidth,height=0.70\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\caption{\textbf{Complete stability grids and paired contrasts.} Pages 1--6 display all
+72 validated configuration means from the saved grid, one target per page. Pages 7--9
+display the 390 seed-matched contrasts by comparison type. Null crossings are descriptive
+setting checks on reused cohorts and folds.}
+\label{fig:supp-stability-heatmaps}
+\end{figure}
+
+\clearpage
+\thispagestyle{plain}
+\vspace*{\fill}
+\begin{center}
+\textbf{Supplementary Figure S3 (continued; page 2 of 9)}\\[0.6em]
+\includegraphics[page=2,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\end{center}
+\vspace*{\fill}
+
+\clearpage
+\thispagestyle{plain}
+\vspace*{\fill}
+\begin{center}
+\textbf{Supplementary Figure S3 (continued; page 3 of 9)}\\[0.6em]
+\includegraphics[page=3,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\end{center}
+\vspace*{\fill}
+
+\clearpage
+\thispagestyle{plain}
+\vspace*{\fill}
+\begin{center}
+\textbf{Supplementary Figure S3 (continued; page 4 of 9)}\\[0.6em]
+\includegraphics[page=4,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\end{center}
+\vspace*{\fill}
+
+\clearpage
+\thispagestyle{plain}
+\vspace*{\fill}
+\begin{center}
+\textbf{Supplementary Figure S3 (continued; page 5 of 9)}\\[0.6em]
+\includegraphics[page=5,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\end{center}
+\vspace*{\fill}
+
+\clearpage
+\thispagestyle{plain}
+\vspace*{\fill}
+\begin{center}
+\textbf{Supplementary Figure S3 (continued; page 6 of 9)}\\[0.6em]
+\includegraphics[page=6,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\end{center}
+\vspace*{\fill}
+
+\clearpage
+\thispagestyle{plain}
+\vspace*{\fill}
+\begin{center}
+\textbf{Supplementary Figure S3 (continued; page 7 of 9)}\\[0.6em]
+\includegraphics[page=7,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\end{center}
+\vspace*{\fill}
+
+\clearpage
+\thispagestyle{plain}
+\vspace*{\fill}
+\begin{center}
+\textbf{Supplementary Figure S3 (continued; page 8 of 9)}\\[0.6em]
+\includegraphics[page=8,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\end{center}
+\vspace*{\fill}
+
+\clearpage
+\thispagestyle{plain}
+\vspace*{\fill}
+\begin{center}
+\textbf{Supplementary Figure S3 (continued; page 9 of 9)}\\[0.6em]
+\includegraphics[page=9,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\end{center}
+\vspace*{\fill}
+\clearpage
+
+\subsection*{Target-by-axis evidence coverage}
+
+The qualification framework deliberately preserves both positive evidence and evidentiary
+gaps. Supplementary Figure~\ref{fig:supp-evidence-axis-matrix} shows the complete matrix of
+frozen-primary support, cross-cohort transport, clinical increment, site behavior, setting
+stability and endpoint fidelity for each target group. A supported cell refers only to the
+scope stated for that axis; it does not fill an unevaluated cell elsewhere. Supplementary
+Table~\ref{tab:supp-evidence-axis-audit} links every cell to the audited claim source,
+states the current interpretation and identifies the evidence required to change that
+state.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/sfig4_evidence_axis_matrix.pdf}
+\caption{\textbf{Target-by-axis evidence coverage.} Each cell records the evidence state
+supported by the frozen analyses. Supported and conditional cells remain bounded to the
+named axis; unsupported refers to the frozen primary design, unresolved marks an evaluated
+question without sufficient support, and not evaluated or not applicable cells are shown
+explicitly rather than treated as negative evidence.}
+\label{fig:supp-evidence-axis-matrix}
+\end{figure}
+
+\input{generated/stable4_evidence_axis_audit.tex}
+
+\clearpage
+
+\subsection*{AR site uncertainty and SPOP detectable-effect calculations}
+
+The AR site audit estimated slide-level Spearman correlations and used patient-cluster
+bootstrap intervals. Six leave-one-site-out rows were available: CH, $-0.128$
+($-0.561$ to 0.350); EJ, 0.127 ($-0.121$ to 0.363); G9, 0.195 ($-0.258$ to 0.598);
+HC, 0.217 ($-0.072$ to 0.471); KK, 0.265 ($-0.087$ to 0.558); and YL, 0.227
+($-0.135$ to 0.541). Every site-specific interval included zero. The positive pooled
+patient-level estimate therefore did not establish transport at any individual site, and
+the data did not identify scanner or stain as a cause.
+
+For SPOP, the saved planning calculation used 29 positive and 244 negative patients, a
+two-sided $\alpha=0.05$ test and a fixed-score Hanley--McNeil normal approximation. The
+minimum detectable AUROC was 0.661 at 80\% power and 0.685 at 90\% power. These values omit
+probe-training uncertainty, out-of-fold dependence, site heterogeneity, setting selection
+and multiplicity. They are planning approximations, not effect-exclusion bounds; they do
+not show that smaller effects or sampling dilution are absent.
+
+\subsection*{Provenance and reproducibility scope}
+
+The extended results were read from saved CSV sources rather than recomputed from remembered
+values. Stability lineage is recorded in \path{models/stability_run_manifest.csv} and
+\path{models/stability_qc_report.json}; recurrence lineage is recorded in the paired
+survival and common-source run configurations and manifests; AR and SPOP source hashes are
+recorded in \path{models/ar_spop_evidence_manifest.csv}. The manuscript source tables
+and figure renderers are linked by the submission figure manifest. The PRECISE clinician
+review source was kept immutable and its SHA256 was checked against
+\texttt{c1dd522b}\allowbreak\texttt{4ff4f233}\allowbreak
+\texttt{b3a23630}\allowbreak\texttt{bf9074da}\allowbreak
+\texttt{881bb7b9}\allowbreak\texttt{145996fc}\allowbreak
+\texttt{47c3383a}\allowbreak\texttt{0448d2a3}.
+
+These records support auditability of the saved analyses. They do not establish population
+prevalence, whole-slide diagnostic performance, external molecular validation or clinical
+utility.

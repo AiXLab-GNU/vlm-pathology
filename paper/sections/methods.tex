@@ -1,0 +1,160 @@
+The Methods follow the same evidentiary sequence as the Results. We first define cohorts,
+labels, analysis units and frozen representations; then specify cross-cohort and
+patient-disjoint evaluation; and finally describe confounder, site, setting and endpoint
+audits, uncertainty and provenance. This ordering keeps each qualification decision tied to
+the data and analysis that can support it.
+
+\subsection{Cohorts and labels}
+
+NADT-Prostate provided paired prostate histology, per-core or per-slide grade and phenotype
+labels, and patient identifiers for source-probe fitting and patient aggregation. PANDA
+provided institution-labelled case images and official ISUP grades; its tumor/benign
+phenotype was derived as ISUP 0 versus ISUP at least 1. TCGA-PRAD provided histology,
+patient identifiers, grade, PTEN copy-number loss, SPOP mutation and AR-activity labels, as
+well as separately constructed recurrence-style endpoints. PRECISE provided expert-annotated
+serial sections and per-image pathologist Gleason scores. LEOPARD provided biochemical
+recurrence event and follow-up labels for recurrence-model fitting. The public NADT,
+PANDA and PRECISE resources are described in their source records
+\cite{nadt2021,panda2022,precise2026}; LEOPARD is described in the MIDL 2026 challenge
+report \cite{leopard2026}, and the organizer baseline remains an arXiv preprint
+\cite{grisi2026}. Each analysis used only
+rows with an evaluable target; missing or uncertain outcomes were not converted to negative
+labels.
+
+For NADT patient-level evaluation, labels and predictions were aggregated within patient;
+the phenotype target was the patient's mean tumor fraction rather than a rounded binary
+label. PANDA sampling capped each institution--ISUP stratum at 100 cases before tissue
+filtering; its grade-derived phenotype was not a separately supplied annotation.
+
+The recurrence endpoints were retained under their source definitions. The Reconstructed
+with-tumor endpoint used a recorded with-tumor follow-up as an event and censored at the
+latest valid non-event follow-up. The strict recurrence-only sensitivity required a
+tumor-free visit before a later with-tumor visit. TCGA-CDR PFS and DFS used their named
+cBioPortal comparator fields. Official TCGA-CDR PFI used the official PFI event and time
+fields \cite{tcgacdr2018}. No
+endpoint substitution was renamed as official PFI.
+
+\subsection{Frozen embeddings and aggregation}
+
+CONCH and Virchow were used as frozen encoders; encoder weights were not fine-tuned.
+Tissue-qualified tiles were embedded and averaged to slide representations. Where the
+endpoint unit was the patient, multiple slide values were aggregated by patient before
+primary scoring. PANDA used case-image rows, PRECISE used imaging sessions, AR site effects
+used slide-level estimates with patient-cluster resampling, and all such departures from a
+patient-level effect unit were recorded in the figure source tables.
+
+The sensitivity analysis crossed each encoder with native and shared physical scales, tile
+budgets of 16, 32 and 64, and five repeated sampling seeds. These settings were applied to
+the fixed cohorts and folds. They were not treated as newly sampled populations.
+
+\subsection{Fixed probes and patient-disjoint evaluation}
+
+Continuous marker-family targets used standardized ridge regression with the saved fixed
+alpha grid. Binary TCGA-PRAD screening tests used standardized logistic regression with
+fixed regularization and balanced class weighting. The frozen NADT phenotype probe used for
+PANDA transfer was instead \texttt{LogisticRegression(C=1.0)} with 2,000 maximum iterations
+and without class weighting, matching its saved generating script. Within-cohort evaluation
+used five patient-disjoint grouped folds, keeping all slides from a patient within one fold.
+Continuous targets were scored by patient Spearman correlation, binary targets by patient
+AUROC, and time-to-event targets by patient-level concordance and the saved time-dependent
+metrics.
+
+For zero-shot transfer, the source-cohort probe and preprocessing were applied to the target
+cohort without refitting. Native refits and held-out site analyses were reported as distinct
+evaluation types and did not substitute for zero-shot transfer.
+
+\subsection{Qualification criteria and multiplicity}
+
+Transportable evidence required an appropriate cross-cohort evaluation with consistent
+direction. Context-sensitive evidence indicated material dependence on site, encoder,
+physical scale, tile budget or endpoint. Unsupported evidence indicated that the frozen
+primary analysis did not support the proposed effect; it was not interpreted as evidence of
+biological absence. These dimensions address published concerns about molecular-label
+confounding, task-dependent foundation-model rankings and institution-associated technical
+signals \cite{dawood2026,neidlinger2025,pathorob2026}.
+
+The saved 17-test family comprised 13 marker hypotheses---the six initial candidates and
+seven additional screening candidates---plus four nested/refit confounder audits: PTEN
+beyond grade, AR beyond grade, and marker 7 beyond grade or a fully adjusted clinical model.
+Continuous marker hypotheses used two-sided Spearman tests; binary marker hypotheses used
+two-sided Mann--Whitney tests. The fully refitted, grade-stratified audit permutations used
+one-sided refit-permutation $p$ values for positive improvement. Statistical support used
+$\alpha=0.05$ with Benjamini--Hochberg false-discovery-rate adjustment across this family.
+Re-tests of an existing hypothesis in another cohort or encoder were qualification evidence
+and were not added to the discovery family.
+
+\subsection{Confounder and site analyses}
+
+PTEN and AR increment analyses compared clinical-only, image-only and combined models in
+outer patient-disjoint folds. Inner out-of-fold image predictions were used to construct
+outer-training meta-model features, and the image probe was refitted on each complete
+outer-training fold before application to untouched outer-test patients. Primary increments
+were the paired held-out change in AUROC for PTEN and change in $R^2$ for AR.
+
+The nonparametric check permuted patient labels within rounded patient-mean Gleason strata
+and refitted the full nested pipeline. AR site analyses estimated slide-level Spearman
+correlations and resampled patients as clusters. Site descriptors and pooled estimates were
+kept at their recorded units. Raw scanner identifiers were not interpreted as validated
+scanner models, and absent stain metadata were not inferred.
+
+\subsection{Correlated stability analysis}
+
+For each marker, seed-level scores were summarized into encoder--scale--tile configurations.
+The saved summaries report mean, sample standard deviation, range, chance-or-worse count and
+a Student-$t$ interval across the five tile-sampling seeds. AUROC and C-index used a null of
+$0.5$; Spearman correlation used zero. Paired comparisons preserved the seed-level pairing
+for scale, encoder and tile-budget contrasts.
+
+Because cohorts, patients and folds were shared across settings, all grid summaries were
+interpreted as correlated sensitivity analyses. Seed intervals were descriptive sampling
+intervals, not patient-bootstrap or population-confidence intervals. No grid setting was
+used to revise frozen labels, scores, folds or evidence thresholds.
+
+\subsection{Recurrence endpoints and paired comparisons}
+
+Marker 7 was a post-hoc Cox risk score fitted in LEOPARD and applied without target-cohort
+refitting to TCGA-PRAD. Its existing PCA dimension sweep served only as exploratory sensitivity
+analysis. PCA-dimension selection was not nested within an outer evaluation,
+so the sweep did not provide an unbiased model-selection estimate and no dimension was
+interpreted as an unbiased optimum.
+
+Paired TCGA-PRAD comparisons used the same complete-case patients and the same bootstrap
+draw for the clinical model and its image-augmented counterpart. Models were compared for
+the Reconstructed with-tumor endpoint and Official TCGA-CDR PFI separately. C-index
+improvement was defined as augmented minus reference C-index; integrated-Brier-score
+improvement was reference minus augmented IBS, so positive values favored the augmented
+model for both metrics. Reconstructed recurrence, PFS, DFS and official PFI were never
+pooled into one endpoint.
+
+\subsection{Bootstrap uncertainty and missingness}
+
+Where the saved source supported this construction, patient-level estimates used
+95\% percentile patient-bootstrap intervals. AR site rows used a patient-cluster bootstrap
+around a slide-level effect. For legacy NADT/TCGA primary and AR site interval summaries,
+saved tables retained interval endpoints but not requested, valid and undefined accounting,
+except requested 2,000 where explicitly recorded; unavailable counts were not reconstructed.
+Paired marker 7 outputs separately retained 2,000 valid and zero undefined replicates.
+Paired survival contrasts used identical patient draws for both models. Outputs with
+replicate accounting retained and reported undefined replicate counts and fractions;
+estimates without a saved interval were marked unavailable. Analyses used their
+saved evaluable or complete-case frames; no missing, uncertain or unevaluable value was
+recoded as a negative outcome. Multiple imputation was not performed for the marker 7 paired
+comparison.
+
+\subsection{Software and provenance}
+
+Analyses were executed with the repository's locked Python environment and auditable entry
+scripts. Fixed random seeds, software versions, input hashes, endpoint mappings and output
+hashes were recorded in saved run configurations and manifests. Main figures were rendered
+from saved CSV source tables rather than transient objects. Source-table schema, analysis
+unit, denominator, endpoint identifier and interval type were checked before a result was
+used in the manuscript. The clinician review source for PRECISE remained immutable throughout
+the manuscript work.
+
+\paragraph{Large language model assistance.}
+An assistive large language model, OpenAI Codex, was used during code and manuscript
+revision for code editing, test authoring, figure-production assistance and manuscript
+language revision. It was not treated as an author and did not independently determine the
+study endpoints or scientific conclusions. The exact product/model version, usage dates and
+accountable authors' final verification statement require author confirmation before
+submission.

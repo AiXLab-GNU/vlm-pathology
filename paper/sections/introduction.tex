@@ -1,0 +1,62 @@
+Pathology foundation models turn whole-slide images into reusable representations from
+which lightweight probes can recover grade, tissue phenotype, molecular labels and
+clinical outcomes \cite{conch2023,virchow2023}. This capability has made candidate signals
+much easier to produce than to interpret. A high pooled AUROC or correlation can arise
+because the representation captures the target, but it can also reflect grade composition,
+institutional case mix, acquisition conditions, sampling choices or the definition of the
+clinical endpoint. Consequently, the central problem is no longer only whether a frozen
+embedding contains a statistically detectable association. It is whether the available
+evidence is sufficient to qualify that association as transportable, to restrict it to a
+specific context, or to leave it unsupported in the evaluated design.
+
+This distinction matters because common validation practices collapse different scientific
+questions into a single performance number. External transport asks whether a signal
+retains direction in a different cohort without refitting. Confounder auditing asks whether
+it contributes information beyond established clinical structure such as grade. Site
+analysis asks whether a pooled result survives institutional heterogeneity. Representation
+and sampling audits ask whether the interpretation depends on encoder, physical scale,
+tile budget or sampling seed. Endpoint auditing asks whether an outcome association
+survives a change in event definition rather than merely a change in name. Success on one
+axis cannot substitute for missing evidence on another, and repeated estimates obtained
+from the same patients and folds are sensitivity analyses rather than independent
+replications.
+
+We organized the study around three testable propositions. First, signals corresponding to
+morphology directly expressed in routine histology should show stronger cross-cohort
+transport than signals whose labels are molecular or outcome-derived. Second, an apparent
+molecular or outcome association may narrow after grade, site, representation or endpoint
+audits even when its pooled estimate is positive. Third, candidate signals should therefore
+be assigned evidence states from the pattern of support across these dimensions, not ranked
+or validated by one aggregate metric. These propositions define the logic evaluated here;
+they do not imply that every target had an identical external cohort or that lack of support
+in the frozen analysis establishes biological absence.
+
+To test this logic, we assembled complementary evidence from five prostate-pathology data
+resources. NADT-Prostate provided source-cohort grade and phenotype evaluations; PANDA
+provided case images from Karolinska and Radboud for transfer without refitting
+\cite{panda2022}; PRECISE provided an additional session-level grade evaluation;
+TCGA-PRAD provided molecular labels, site structure and explicitly distinguished recurrence
+endpoints; and the LEOPARD-derived analysis supplied a post-hoc recurrence signal for
+transfer. Across frozen CONCH and Virchow representations, we evaluated grade, tumor
+phenotype, PTEN loss, SPOP mutation, androgen-receptor activity and recurrence. The
+analyses linked cross-cohort transfer to held-out confounder increments, site-specific
+uncertainty, a correlated encoder--scale--tile--seed grid and endpoint-specific survival
+comparisons. This design allowed the same candidate to succeed on one evidentiary axis
+while remaining unresolved on another.
+
+The study makes three contributions. First, it operationalizes pathology foundation-model
+signal qualification as a joint, target-level assessment of transport, confounding, site
+behavior, representation stability and endpoint fidelity. The resulting categories---
+transportable, context-sensitive and unsupported in the frozen design---describe the scope
+of evidence rather than a league table of model performance. Second, it provides an
+empirical evidence map across morphologic, molecular and outcome targets: grade and
+phenotype showed the clearest transport; PTEN and androgen-receptor activity required
+narrower interpretations; SPOP was unsupported in the fixed primary configuration; and
+recurrence remained endpoint- and representation-conditioned. Third, it demonstrates why
+pooled discrimination alone is insufficient: apparently positive probes can lose
+incremental support, remain unresolved across sites or change interpretation with endpoint
+and representation. The accompanying source-linked workflow makes those qualification
+decisions auditable and reproducible. The contribution is therefore not another encoder or
+a deployable classifier, but a concrete framework and empirical failure map for deciding
+which foundation-model signals warrant further validation, under what conditions, and with
+which claims.

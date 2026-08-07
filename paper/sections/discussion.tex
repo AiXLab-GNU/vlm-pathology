@@ -1,0 +1,112 @@
+\subsection{The contribution is a qualification logic, not another performance benchmark}
+
+The central contribution of this study is to separate signal detection from signal
+qualification. Frozen pathology representations made every evaluated association
+technically testable, but the scientific status of those associations differed once
+transport, confounding, site, representation and endpoint were examined separately. The
+result is not a league table of encoders or targets. It is an operational logic for deciding
+which claim the available evidence supports, which claim must be restricted to a context,
+and which claim remains unsupported in the tested design. The accompanying evidence map
+makes that decision explicit and source-linked rather than leaving qualification implicit in
+a collection of performance estimates.
+
+\subsection{The three propositions are supported at different evidentiary levels}
+
+The first proposition was supported within the available cross-cohort comparisons: grade
+and phenotype, which are directly expressed in routine morphology, showed the clearest
+transport. This finding does not establish that morphologic targets are universally easier
+than molecular targets, because matching external labels were not equally available.
+Rather, it identifies the strongest evidence state attained in this study and demonstrates
+what transport evidence looks like when a frozen probe is applied without refitting.
+
+The second proposition was supported by the narrowing of apparently positive signals.
+PTEN retained within-cohort support but not an established held-out increment beyond grade.
+AR retained a positive pooled direction while site transport and grade-independent
+increment remained unresolved. The post-hoc recurrence signal changed with endpoint,
+covariate hierarchy and representation. SPOP illustrates a different boundary: the fixed
+primary analysis was unsupported and the wider audit was setting-sensitive, but neither
+result proves biological absence. Together, these cases show that target morphology,
+clinical structure and data provenance determine the scope of a foundation-model claim.
+
+The third proposition was supported by the separation of targets into transportable,
+context-sensitive and unsupported evidence states. These states retained information that
+a scalar ranking would discard: the same pooled direction could coexist with uncertain
+increment, unresolved site transport or endpoint-dependent transfer. The framework is thus
+a decision structure for research evidence, not a new significance test or a calibrated
+probability that a biomarker is valid.
+
+\subsection{Why pooled performance fails as a scientific claim}
+
+Pooled performance fails when it answers a narrower question than the claim attached to
+it. A pooled association can show that information is present in a representation without
+showing what generated that information. Grade composition may explain part of a molecular
+association; institutional composition may support a pooled effect that is imprecise within
+sites; encoder and scale choices may change the recovered signal; and similarly named
+clinical outcomes may encode different events. None of these failures makes the original
+metric erroneous. They make the broader interpretation underidentified.
+
+This distinction changes how robustness should be reported. Repetition across encoders,
+scales, tile budgets and seeds can reveal dependence on analytic choices, but the settings
+reuse patients and folds and therefore cannot manufacture independent replication.
+Likewise, reproducible code and source-linked outputs establish computational traceability,
+not external validity. The practical implication is that a candidate signal should advance
+only with the evidence state and unresolved axes reported together. Performance without
+that qualification invites the strongest-looking number to stand in for transport,
+increment and clinical meaning that were never tested.
+
+\subsection{Limitations and unresolved inferential problems}
+
+The main limitation is asymmetry of evidence. Grade and phenotype had compatible
+cross-cohort labels, whereas molecular targets were available primarily within TCGA-PRAD.
+The stronger state attained by morphology-linked targets therefore reflects both their
+observed transport and the opportunity to test transport. It cannot establish an inherent
+ordering of biological learnability across target classes. The framework also evaluates
+only the axes represented in the available data; unmeasured clinical, demographic,
+pre-analytic or acquisition factors may remain.
+
+Several uncertainty estimates were inherited from legacy outputs. Some saved intervals did
+not retain valid and undefined bootstrap-replicate accounting, and some binary rows did not
+retain event counts. Those quantities were not reconstructed. The configuration grid reused
+cohorts, folds and patients, so its seed intervals describe tile-sampling variation rather
+than patient or population uncertainty. Its cells and paired contrasts are correlated and
+cannot be counted as independent confirmations. Consequently, stability across the grid can
+bound setting dependence but cannot substitute for a new cohort.
+
+The site analysis cannot separate tissue source from scanner, staining, preparation or case
+mix. Site-specific uncertainty therefore remains a transport problem rather than evidence
+for a causal acquisition mechanism. Recurrence analyses face a related identification
+problem: reconstructed recurrence, progression-free measures and official PFI use different
+event definitions and are not interchangeable. The paired analyses used a complete-case
+cohort with modest event counts and no multiple imputation, so selection and missingness may
+affect the estimated increments.
+
+The recurrence signal was discovered post hoc, and its PCA sweep was not nested model
+selection. It therefore remains exploratory even where a point estimate appears favorable.
+More generally, the three evidence states are qualitative research decisions tied to the
+frozen analyses and available labels; they are not posterior probabilities, universal
+biomarker grades or clinical action thresholds. The study covers prostate pathology, two
+frozen encoders and the represented institutions. It does not establish whole-slide
+diagnostic performance, treatment utility, population prevalence, causal biology or
+generalization to other cancers and deployment environments.
+
+\subsection{Implications and conclusion}
+
+The unresolved axes specify the next experiments more clearly than a request for more
+benchmarking. A transport claim requires an independent cohort with a compatible target
+definition and locked preprocessing. A molecular claim requires target-appropriate assays
+and patient-level evaluation beyond grade and other clinical structure. A site claim
+requires acquisition metadata or a design that can separate site from scanner, stain and
+case mix. An outcome claim requires harmonized endpoints, adequate events, model selection
+locked before target-cohort evaluation and paired incremental comparison against a clinically meaningful
+reference. These are not optional refinements to a pooled metric; they are the evidence
+needed to change its qualification state.
+
+The study therefore establishes a concrete rule for pathology foundation-model research:
+do not promote a detectable association on pooled performance alone. Report whether it
+transports, what clinical information it adds, how it behaves across sites and
+representations, which endpoint it predicts, and which dimension remains unresolved. In the
+evaluated data, that logic supported grade and phenotype transport, narrowed PTEN and AR,
+left SPOP unsupported in the fixed design, and restricted recurrence to an exploratory,
+endpoint- and representation-conditioned interpretation. The broader contribution is an
+auditable framework and empirical failure map for prioritizing candidate signals without
+claiming more than the evidence can support.
