@@ -211,6 +211,27 @@ class SubmissionDraftContractTests(unittest.TestCase):
         self.assertRegex(declarations, r"(?is)author contributions.*must.*before submission")
         self.assertRegex(declarations, r"(?is)competing interests.*must.*before submission")
 
+    def test_code_availability_names_the_public_repository_and_entry_points(self) -> None:
+        declarations = _read("paper/sections/declarations.tex")
+        flattened = " ".join(declarations.split())
+        self.assertIn(
+            "https://github.com/AiXLab-GNU/vlm-pathology/tree/"
+            "feat/precise-pni-morphology-rereview",
+            declarations,
+        )
+        self.assertNotIn("No public code archive", declarations)
+        for path in (
+            "models/build_revision_p0_artifacts.py",
+            "models/aggregate_stability_grid.py",
+            "models/build_tcga_cdr_pfi_evidence.py",
+            "models/build_marker7_survival_paired_analysis.py",
+            "models/run_marker7_common_source_sensitivity.py",
+            "models/build_ar_spop_evidence_closure.py",
+        ):
+            self.assertIn(path, declarations)
+            self.assertTrue((ROOT / path).is_file(), path)
+        self.assertIn("patient-level derived outputs are not redistributed", flattened)
+
     def test_main_and_standalone_supplement_show_same_provisional_metadata_notice(self) -> None:
         notice = (
             "Draft submission metadata: the final author list, affiliations and "

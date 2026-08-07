@@ -1,92 +1,88 @@
-# Major-revision reproduction entry points
+# Reproducing the qualification analyses and manuscript
 
-Run commands from the repository root. Existing cached embeddings are required for the
-CPU-only analyses; raw-slide stability reruns additionally require the local slide data and
-model weights.
+Run commands from the repository root. The code preserves the saved analysis
+units, endpoints, scores and configuration grids used by the manuscript. It
+does not retrain or recalibrate the frozen pathology representations.
 
 ## Environment
+
+Create the recorded environment with either:
 
 ```bash
 conda env create -f environment.yml
 conda activate vlm-pathology-revision
 ```
 
-The current workspace also contains `models/.venv-conch`. The lock files capture the core
-analysis package versions observed in that environment. CONCH and Virchow weights are not
-vendored by these files.
+or install the exact Python package pins from `requirements-lock.txt` into an
+isolated environment. The workspace commands below use `.venv/bin/python`.
+CONCH and Virchow weights are not vendored.
 
-## Rebuild documentation/provenance artifacts
+## Data and model assets
 
-```bash
-models/.venv-conch/bin/python models/build_revision_p0_artifacts.py
-```
+Whole-slide images, source cohort data, pretrained weights, cached embeddings,
+access-governed LEOPARD artifacts and patient-level derived outputs are not
+redistributed. Obtain them from their original providers under the applicable
+terms and place them at the paths documented by the corresponding entry-point
+configuration. Publication-facing aggregate source tables and rendered
+artifacts are kept separate from these restricted or bulky inputs.
 
-## Core completed analyses
-
-```bash
-models/.venv-conch/bin/python models/pilot_confounder_audit_nested.py
-models/.venv-conch/bin/python models/pilot_confounder_refit_permutation.py \
-  --n-perm 2000 --suffix final2000
-models/.venv-conch/bin/python models/pilot_marker7_clinical_hierarchy.py
-models/.venv-conch/bin/python models/pilot_tcga_prad_label_benchmark.py
-models/.venv-conch/bin/python models/pilot_marker7_survival_curves.py
-models/.venv-conch/bin/python models/build_revision_global_fdr.py
-```
-
-## Freeze the pending stability-grid design
+## Audited analysis entry points
 
 ```bash
-models/.venv-conch/bin/python models/build_stability_grid_spec.py
+.venv/bin/python models/aggregate_stability_grid.py --help
+.venv/bin/python models/build_tcga_cdr_pfi_evidence.py --help
+.venv/bin/python models/build_marker7_survival_paired_analysis.py --help
+.venv/bin/python models/run_marker7_common_source_sensitivity.py --help
+.venv/bin/python models/build_ar_spop_evidence_closure.py --help
+.venv/bin/python models/build_revision_p0_artifacts.py
 ```
 
-This creates the 360-cell minimum design and marker-specific patient fold assignments. The
-GPU smoke/full runners must consume these files rather than constructing new folds per cell.
-
-The coordinate-audited GPU runners are:
+Each final analysis entry point validates its input schema and semantic keys,
+records source and output hashes, and fails closed on reconciliation errors.
+The stability workflow uses the fixed specification and runners:
 
 ```bash
-models/.venv-conch/bin/python models/run_stability_tcga.py --help
-models/.venv-conch/bin/python models/run_stability_nadt.py --help
-models/.venv-conch/bin/python models/run_stability_marker7.py --help
+.venv/bin/python models/build_stability_grid_spec.py
+.venv/bin/python models/run_stability_tcga.py --help
+.venv/bin/python models/run_stability_nadt.py --help
+.venv/bin/python models/run_stability_marker7.py --help
 ```
 
-They save incremental outputs under `models/stability_runs/<tag>/`, including accepted tile
-coordinates, per-tile embeddings, metadata, cell metrics, and fold metrics. Tile-count cells
-reuse fixed prefixes of the same maximum-size sampled tile set.
+The resulting encoder--scale--tile--seed cells are correlated sensitivity
+settings, not independent patient replications or confirmatory tests.
 
-### Durable full-grid session
+## Manuscript package
 
-The long-running full grid is supervised by tmux session `vlm_stability`, with windows
-`tcga_conch`, `tcga_virchow`, `nadt_conch`, `nadt_virchow`, and `marker7`. It was migrated from
-interactive PTYs after 96 cells had completed. All runners support configuration-level resume
-and skip a configuration only when its complete cell rows and coordinate/embedding/meta cache
-files all exist.
+With the saved publication source tables available, build an isolated package
+without changing the repository artifacts:
 
 ```bash
-tmux attach -t vlm_stability
-tmux list-windows -t vlm_stability
-tail -f models/stability_runs/logs/tcga_conch.log
+MPLCONFIGDIR=/tmp/vlm-pathology-mpl \
+  .venv/bin/python paper/build_revision_package.py \
+  --output-root /tmp/vlm-pathology-submission
 ```
 
-Inside tmux, use `Ctrl-b w` to select a window and `Ctrl-b d` to detach without stopping work.
-The launch dispatcher is `models/run_stability_tmux.sh`.
+This regenerates the active figures and tables, validates their manifests and
+numeric source mappings, and compiles the main and supplementary PDFs twice.
+Use `--skip-pdf` only for a focused non-PDF package check.
 
-The 2,000-permutation command can take substantial CPU time. Existing final CSVs should be
-retained when only rebuilding the manuscript.
-
-## Manuscript
+## Verification
 
 ```bash
-cd paper
-xelatex -interaction=nonstopmode main.tex
-xelatex -interaction=nonstopmode main.tex
+MPLCONFIGDIR=/tmp/vlm-pathology-mpl \
+  .venv/bin/python -m unittest discover -s tests -v
+.venv/bin/python -m py_compile \
+  models/build_revision_p0_artifacts.py \
+  models/aggregate_stability_grid.py \
+  models/build_tcga_cdr_pfi_evidence.py \
+  models/build_marker7_survival_paired_analysis.py \
+  models/run_marker7_common_source_sensitivity.py \
+  models/build_ar_spop_evidence_closure.py \
+  paper/build_revision_package.py
+sha256sum 'opendataset/PRECISE/precise_pni_review (1).csv'
 ```
 
-## Known remaining reproduction gaps
-
-- The full 6-marker × 2-encoder × 5-seed tile/scale grid has not yet been run.
-- Historical tile coordinates were not saved; new stability runs must save them.
-- Official TCGA-CDR PFI has not yet been added; current benchmark files contain PFS/DFS.
-- Some figure scripts still contain transcribed numerical values or absolute project paths.
-- `protocol_provenance.json` is a retrospective checksum snapshot, not evidence of a historical
-  Git protocol-freeze commit.
+The immutable PRECISE clinician source must retain SHA256
+`c1dd522b4ff4f233b3a23630bf9074da881bb7b9145996fc47c3383a0448d2a3`.
+Endpoint names remain source-specific: reconstructed recurrence, PFS, DFS and
+official TCGA-CDR PFI are not interchangeable.

@@ -29,6 +29,7 @@ Run with the CONCH-only venv, on a free GPU:
 """
 import os
 import re
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -41,7 +42,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from conch.open_clip_custom import create_model_from_pretrained
 
-ROOT = "/home/jinhyun/prj_ws/prj_jin/vlm-pathology"
+ROOT = str(Path(__file__).resolve().parents[1])
 PRECISE_DIR = os.path.join(ROOT, "opendataset/PRECISE/extracted/data")
 PARTICIPANTS_CSV = os.path.join(ROOT, "opendataset/PRECISE/participants.csv")
 NADT_CACHE = os.path.join(ROOT, "models/nadt_conch_cache")

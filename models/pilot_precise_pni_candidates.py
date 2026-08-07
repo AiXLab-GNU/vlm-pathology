@@ -12,7 +12,7 @@ signals:
 Outputs retain slide coordinates, mask fractions, all component scores, and review crops.
 Run a small smoke pilot on a free GPU, for example:
 
-    CUDA_VISIBLE_DEVICES=1 HF_HOME=/home/jinhyun/.cache/huggingface-jhkim \
+    CUDA_VISIBLE_DEVICES=1 HF_HOME=/path/to/huggingface-cache \
       models/.venv-conch/bin/python models/pilot_precise_pni_candidates.py \
       --limit-images 3 --max-candidates-per-image 600 --top-k-per-image 12
 

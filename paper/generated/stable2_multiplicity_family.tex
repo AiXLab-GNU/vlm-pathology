@@ -1,0 +1,33 @@
+\begingroup
+\small
+\begin{longtable}{@{}p{0.38\textwidth}p{0.14\textwidth}rrr@{}}
+\caption{Complete saved 17-row revision-analysis multiplicity family. Effects and probability values are copied from the audited source; $q$ is the Benjamini--Hochberg value.}
+\label{tab:supp-family}\\
+\toprule
+Test & Metric & Effect & $p$ & $q$ \\
+\midrule
+\endfirsthead
+\toprule
+Test & Metric & Effect & $p$ & $q$ \\
+\midrule
+\endhead
+\textcircled{1} NADT H\&E -> Gleason & Spearman\_rho & 0.478 & 0.00207 & 0.00703 \\
+\textcircled{2} NADT H\&E -> Phenotype & Spearman\_rho & 0.8 & $9.63\times10^{-10}$ & $1.64\times10^{-8}$ \\
+\textcircled{3} NADT ERG -> Gleason & Spearman\_rho & 0.524 & 0.00061 & 0.00346 \\
+\textcircled{4} TCGA-PRAD H\&E -> PTEN loss & AUROC & 0.632 & 0.000562 & 0.00346 \\
+\textcircled{5} TCGA-PRAD H\&E -> SPOP mutation & AUROC & 0.519 & 0.742 & 0.788 \\
+\textcircled{6} TCGA-PRAD H\&E -> AR score & Spearman\_rho & 0.195 & 0.00122 & 0.0052 \\
+TCGA-PRAD H\&E -> TP53 mutation & AUROC & 0.485 & 0.835 & 0.835 \\
+TCGA-PRAD H\&E -> TP53 CNA loss & AUROC & 0.562 & 0.0981 & 0.208 \\
+TCGA-PRAD H\&E -> RB1 CNA loss & AUROC & 0.536 & 0.363 & 0.441 \\
+TCGA-PRAD H\&E -> SPINK1 high & AUROC & 0.618 & 0.152 & 0.288 \\
+TCGA-PRAD H\&E -> ETV1 altered & AUROC & 0.429 & 0.245 & 0.347 \\
+TCGA-PRAD H\&E -> ETV4 altered & AUROC & 0.687 & 0.023 & 0.0559 \\
+TCGA-PRAD H\&E -> ERG fusion status & AUROC & 0.526 & 0.458 & 0.519 \\
+marker4\_pten / grade\_only & delta\_AUROC & 0.0195 & 0.203 & 0.314 \\
+marker6\_ar / grade\_only & delta\_R2 & 0.0044 & 0.176 & 0.299 \\
+marker7\_recurrence / grade\_only & delta\_C-index & 0.0619 & 0.01 & 0.0283 \\
+marker7\_recurrence / fully\_adjusted & delta\_C-index & 0.00163 & 0.305 & 0.399 \\
+\bottomrule
+\end{longtable}
+\endgroup

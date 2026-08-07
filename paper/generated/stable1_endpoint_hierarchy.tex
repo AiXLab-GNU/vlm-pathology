@@ -1,0 +1,25 @@
+\begingroup
+\small
+\begin{longtable}{@{}p{0.06\textwidth}p{0.12\textwidth}p{0.38\textwidth}p{0.35\textwidth}@{}}
+\caption{Endpoint hierarchy retained from the audited endpoint source.}
+\label{tab:supp-endpoint-hierarchy}\\
+\toprule
+ID & Hierarchy & Endpoint & Primary metric \\
+\midrule
+\endfirsthead
+\toprule
+ID & Hierarchy & Endpoint & Primary metric \\
+\midrule
+\endhead
+E01 & primary & continuous marker qualification & patient Spearman rho \\
+E02 & primary & binary marker qualification & patient AUROC \\
+E03 & secondary & PTEN/AR held-out increment & delta AUROC or delta R2 \\
+E04 & exploratory & reconstructed with-tumor endpoint & C-index; td-AUC; IBS; calibration \\
+E05 & exploratory & strict recurrence-only endpoint & C-index; td-AUC \\
+E06 & exploratory & TCGA-CDR PFS & C-index; td-AUC; landmark AUC \\
+E07 & exploratory & TCGA-CDR DFS & C-index; td-AUC; landmark AUC \\
+E08 & exploratory & official TCGA-CDR PFI & C-index; endpoint concordance \\
+E09 & secondary & 3-year and 5-year landmark & landmark C-index/AUROC \\
+\bottomrule
+\end{longtable}
+\endgroup
