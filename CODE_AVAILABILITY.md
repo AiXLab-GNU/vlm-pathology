@@ -22,6 +22,8 @@ The manuscript analysis and build code is publicly maintained at:
 The repository also contains the source scripts required by these entry
 points, the frozen stability runners, validation tests, environment
 specifications, manuscript builder, table generator and figure renderers.
+Repository-authored software and documentation are released under the
+[MIT License](LICENSE).
 
 ## Reproduction boundary
 
@@ -29,6 +31,7 @@ The repository does not redistribute whole-slide images, source cohort data,
 cached embeddings, pretrained model weights, access-governed LEOPARD
 artifacts, or patient-level derived outputs. These assets must be obtained
 from their original providers under the applicable access and reuse terms.
+They are not licensed by the repository's MIT License.
 The tracked environment and lock files document the software dependencies.
 
 Publication-facing aggregate tables and rendered figures are separated from

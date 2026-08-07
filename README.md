@@ -40,3 +40,10 @@ committing large or derived data artifacts.
 
 See [AGENTS.md](AGENTS.md) for the complete scientific, reproducibility, and Git
 safety policy. Claude Code sessions should also read [CLAUDE.md](CLAUDE.md).
+
+## License
+
+Repository-authored software and documentation are released under the
+[MIT License](LICENSE). This license does not apply to third-party datasets,
+whole-slide images, pretrained model weights, or other externally governed
+assets; those remain subject to their original providers' terms.
