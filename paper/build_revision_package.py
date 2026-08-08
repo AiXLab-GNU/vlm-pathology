@@ -406,7 +406,7 @@ def _numeric_rows() -> list[dict[str, str]]:
     derived("PANDA_STRATUM_CAP", "PANDA_STRATUM_CAP", "value", "int", "100",
             "PANDA used a {token}-case cap")
     derived("PANDA_SAMPLED_N", "PANDA_SAMPLED_N", "value", "comma_int", "1,200",
-            "ISUP stratum: {token} sampled cases")
+            "(ISUP) stratum: {token} sampled cases")
     derived("PANDA_FILTERED_N", "PANDA_FILTERED_N", "value", "comma_int", "1,137",
             "were drawn and {token} passed tissue filtering")
     add("NADT_GLEASON_N", f2, "semantic_key=gleason:nadt", "n", "int", "39",
@@ -535,9 +535,9 @@ def _numeric_rows() -> list[dict[str, str]]:
         "straddled the null for SPOP in ${token}$ configurations")
     add("MARKER7_NULL_STRADDLE_RESULT", f6, "semantic_key=marker7:configuration_range",
         "n_null_crossings/n_configurations", "ratio", "1/12",
-        "marker 7 in ${token}$. Across")
+        "recurrence risk signal in ${token}$. Across")
     derived("STABILITY_CELLS_PER_MARKER", "STABILITY_CELLS_PER_MARKER", "value", "int", "60",
-            "Across the {token} seed cells for each marker")
+            "Across the {token} seed cells for each target")
     for item in (
         ("GLEASON_STABILITY_LOW", "gleason:configuration_range", "range_low", ".3f", "0.271",
          "global seed-cell range was ${token}$--$0.646$ for Gleason"),
@@ -571,17 +571,16 @@ def _numeric_rows() -> list[dict[str, str]]:
     add("COMMON_OFFICIAL_EVENTS", f5, e08_delta, "n_events", "int", "15",
         "and {token} official PFI events")
     add("RECON_RISK_CINDEX", f5, e04_risk, "primary_estimate", ".3f", "0.673",
-        "reconstructed endpoint, frozen-risk C-index was ${token}$")
+        "reconstructed endpoint, the concordance index (C-index) was ${token}$")
     derived("RECON_RISK_CI_LEVEL", "PFI_PERCENTILE_INTERVAL_LEVEL", "value", "int", "95",
-            "frozen-risk C-index was $0.673$ ({token}\\% CI")
+            "concordance index (C-index) was $0.673$ ({token}\\%")
     add("RECON_RISK_CI_LOW", f5, e04_risk, "ci_low", ".3f", "0.587",
-        "$0.673$ (95\\% CI ${token}$")
+        "confidence interval (CI) ${token}$")
     add("RECON_RISK_CI_HIGH", f5, e04_risk, "ci_high", ".3f", "0.759",
-        "CI $0.587$--${token}$;")
+        "$0.587$--${token}$;")
     add("RECON_RISK_N", f5, e04_risk, "n", "int", "270",
         "$0.759$; {token} patients")
     add("RECON_RISK_EVENTS", f5, e04_risk, "n_events", "int", "57",
-        "reconstructed endpoint, frozen-risk C-index was $0.673$ (95\\% CI "
         "$0.587$--$0.759$; 270 patients, {token} events)")
     add("OFFICIAL_PFI_CINDEX", f5, e08_risk, "primary_estimate", ".3f", "0.586",
         "official PFI C-index was {token}")
@@ -674,34 +673,9 @@ STRUCTURAL_NUMERIC_OCCURRENCES = (
         "context_anchor": "corresponding AR increments in $R^{token}$ were",
     },
     {
-        "occurrence_id": "STRUCT_MARKER7_STABILITY_FRAME",
+        "occurrence_id": "STRUCT_LEGACY_MARKER7_NAME",
         "expected_token": "7",
-        "context_anchor": "correlated seed cells. Marker {token}'s setting sensitivity",
-    },
-    {
-        "occurrence_id": "STRUCT_MARKER7_NULL_RESULT",
-        "expected_token": "7",
-        "context_anchor": "configurations and marker {token} in $1/12$",
-    },
-    {
-        "occurrence_id": "STRUCT_MARKER7_SETTING_RESULT",
-        "expected_token": "7",
-        "context_anchor": "SPOP and marker {token} showed greater setting sensitivity",
-    },
-    {
-        "occurrence_id": "STRUCT_MARKER7_SETTING_CONCLUSION",
-        "expected_token": "7",
-        "context_anchor": "narrowed SPOP and marker {token} to setting-conditioned interpretations",
-    },
-    {
-        "occurrence_id": "STRUCT_MARKER7_TRANSFER_FRAME",
-        "expected_token": "7",
-        "context_anchor": "post-hoc marker {token} risk score was transferred",
-    },
-    {
-        "occurrence_id": "STRUCT_MARKER7_POSTHOC_LIMITATION",
-        "expected_token": "7",
-        "context_anchor": "Marker {token} was discovered post hoc",
+        "context_anchor": "This score is called ``marker {token}'' only in legacy analysis artifacts",
     },
 )
 

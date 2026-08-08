@@ -456,9 +456,9 @@ class RevisionFinalPackageTests(unittest.TestCase):
         technical_spans = builder._technical_numeric_spans(text)
         structural_spans = builder._structural_numeric_spans(text)
         parsed = set(builder._numeric_occurrences(text))
-        self.assertEqual(len(parsed), 110)
+        self.assertEqual(len(parsed), 105)
         self.assertEqual(len(technical_spans), 11)
-        self.assertEqual(len(structural_spans), 9)
+        self.assertEqual(len(structural_spans), 4)
         self.assertFalse(technical_spans & structural_spans)
         self.assertEqual(len(parsed - technical_spans - structural_spans), 90)
 
@@ -518,25 +518,23 @@ class RevisionFinalPackageTests(unittest.TestCase):
     def test_structural_numeric_allowlist_is_exact_and_fail_closed(self):
         expected_ids = {
             "STRUCT_ISUP_BENIGN", "STRUCT_ISUP_TUMOR", "STRUCT_R_SQUARED",
-            "STRUCT_MARKER7_STABILITY_FRAME", "STRUCT_MARKER7_NULL_RESULT",
-            "STRUCT_MARKER7_SETTING_RESULT", "STRUCT_MARKER7_SETTING_CONCLUSION",
-            "STRUCT_MARKER7_TRANSFER_FRAME", "STRUCT_MARKER7_POSTHOC_LIMITATION",
+            "STRUCT_LEGACY_MARKER7_NAME",
         }
         self.assertTrue(hasattr(builder, "STRUCTURAL_NUMERIC_OCCURRENCES"))
         structural = builder.STRUCTURAL_NUMERIC_OCCURRENCES
         self.assertEqual({item["occurrence_id"] for item in structural}, expected_ids)
-        self.assertEqual(len(structural), 9)
-        self.assertEqual(len({item["context_anchor"] for item in structural}), 9)
+        self.assertEqual(len(structural), 4)
+        self.assertEqual(len({item["context_anchor"] for item in structural}), 4)
         with tempfile.TemporaryDirectory() as tmp:
             stage = Path(tmp)
             results = self._numeric_stage(stage)
             builder.run_numeric_qa(stage)
             text = results.read_text(encoding="utf-8")
-            self.assertEqual(len(builder._numeric_occurrences(text)), 110)
+            self.assertEqual(len(builder._numeric_occurrences(text)), 105)
             with results.open("a", encoding="utf-8") as handle:
-                handle.write("\nMarker 7 was discovered post hoc.\n")
+                handle.write("\nThis score is called ``marker 7'' only in legacy analysis artifacts.\n")
             with self.assertRaisesRegex(
-                ValueError, "STRUCT_MARKER7_POSTHOC_LIMITATION.*exactly once"
+                ValueError, "STRUCT_LEGACY_MARKER7_NAME.*exactly once"
             ):
                 builder.run_numeric_qa(stage)
 
@@ -708,10 +706,10 @@ class RevisionFinalPackageTests(unittest.TestCase):
             render_stability_summary(source, output)
             text = output.read_text(encoding="utf-8")
             self.assertIn("\\label{tab:supp-stability-summary}", text)
-            labels = ("Gleason", "Phenotype", "PTEN", "AR", "SPOP", "Marker 7")
+            labels = ("Gleason", "Phenotype", "PTEN", "AR", "SPOP", "Recurrence risk")
             positions = [text.index(label) for label in labels]
             self.assertEqual(positions, sorted(positions))
-            for expected in ("Gleason & 0.271 & 0.646 & 0/12 & 0/12", "SPOP & 0.348 & 0.679 & 8/12 & 9/12", "Marker 7 & 0.481 & 0.755 & 1/12 & 2/12"):
+            for expected in ("Gleason & 0.271 & 0.646 & 0/12 & 0/12", "SPOP & 0.348 & 0.679 & 8/12 & 9/12", "Recurrence risk & 0.481 & 0.755 & 1/12 & 2/12"):
                 self.assertIn(expected, text)
 
             with self.assertRaisesRegex(ValueError, "schema mismatch"):

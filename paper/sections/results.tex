@@ -1,4 +1,12 @@
+The Results test the three propositions in sequence, moving from the qualification rule to
+target-specific evidence and then to an integrated decision map. Each subsection therefore
+states the question being tested before reporting its analysis frame, evidence, limitation,
+and qualification decision.
+
 \subsection{Qualification framework converts the propositions into evidence tests}
+
+We begin by converting the study propositions into explicit evidence dimensions and decision
+rules that will be applied consistently to every target.
 
 \paragraph{Analysis frame.}
 Candidate signals were evaluated at their fixed analysis unit whenever an endpoint was
@@ -26,6 +34,12 @@ non-support into biological absence.
 \paragraph{Qualification rule.}
 No pooled metric alone qualified a signal. A target's state was assigned only after the
 relevant evidentiary axes had been considered together.
+Figure~\ref{fig:qualification-framework} names the evaluated targets explicitly: PTEN denotes
+phosphatase and tensin homolog loss, SPOP denotes speckle type BTB/POZ protein mutation, and
+AR denotes androgen-receptor activity. Its two exploratory recurrence decisions concern a
+post-hoc Cox risk score fitted in LEOPARD and transferred without refitting to TCGA-PRAD.
+This score is called ``marker 7'' only in legacy analysis artifacts; it is referred to as the
+post-hoc recurrence risk signal in the manuscript.
 
 \begin{figure}[htbp]
 \centering
@@ -36,11 +50,15 @@ relevant evidentiary axes had been considered together.
 
 \subsection{Morphology-linked signals show the strongest cross-cohort transport}
 
+Having defined the qualification rule, we first test whether grade and phenotype signals
+retain their direction when applied to cohorts beyond the source data.
+
 \paragraph{Analysis frame.}
 The frozen NADT-Prostate CONCH probes were evaluated on patients in the source cohort and
 then applied without refitting to PANDA case images from Karolinska and Radboud. PANDA used a
-100-case cap per institution--ISUP stratum: 1,200 sampled cases were drawn and
-1,137 passed tissue filtering. The phenotype label defined ISUP 0 as benign and ISUP $\geq1$ as tumor.
+100-case cap per institution--International Society of Urological Pathology (ISUP) stratum:
+1,200 sampled cases were drawn and 1,137 passed tissue filtering. The phenotype label
+defined ISUP 0 as benign and ISUP $\geq1$ as tumor.
 A separate PRECISE analysis used evaluable imaging sessions with pathologist-assigned Gleason
 scores (Figure~\ref{fig:transportable-signals}).
 
@@ -75,6 +93,9 @@ remaining specific to these morphology-linked targets and analysis units.
 
 \subsection{Pooled molecular associations do not determine qualification}
 
+We next ask whether pooled molecular associations are sufficient for qualification, or
+whether the PTEN, AR, and SPOP signals require different evidentiary restrictions.
+
 \paragraph{Analysis frame.}
 PTEN loss, SPOP mutation and androgen-receptor (AR) activity were evaluated at the patient
 level in the fixed 273-patient TCGA-PRAD frame using frozen CONCH outputs; the correlated
@@ -89,7 +110,8 @@ frozen-primary AUROC of $0.519$ ($0.408$--$0.627$), while its global seed-cell r
 chance ($0.348$--$0.679$). PTEN and AR were therefore context-sensitive; SPOP was
 unsupported in the frozen primary design and configuration-sensitive in the broader audit.
 The site-stratified SPOP audit did not overturn that decision (Figure~\ref{fig:molecular-qualification}c):
-CH contained no SPOP-positive patients and therefore had an undefined AUROC, while
+At the CH site (a deidentified source institution code), no patient was SPOP-positive and
+the AUROC was therefore undefined, while
 the saved patient-bootstrap interval at each of the other five source-coded sites included
 the AUROC null.
 
@@ -112,6 +134,9 @@ positive or apparently stable pooled estimate can narrow under target-appropriat
 \end{figure}
 
 \subsection{Confounder and site audits narrow the PTEN and AR claims}
+
+Because pooled association alone cannot establish independent or transportable information,
+this subsection tests whether the PTEN and AR signals persist beyond grade and across sites.
 
 \paragraph{Analysis frame.}
 Grade-adjusted increments were estimated on held-out TCGA-PRAD patients for CONCH and
@@ -147,24 +172,29 @@ proposition.
 
 \subsection{Recurrence transfer changes with endpoint and covariate hierarchy}
 
+We then examine whether the exploratory recurrence signal retains the same interpretation
+when the endpoint definition and the clinical reference model are changed.
+
 \paragraph{Analysis frame.}
-The post-hoc marker 7 risk score was transferred from LEOPARD to a fixed 270-patient
+The post-hoc recurrence risk score was transferred from LEOPARD to a fixed 270-patient
 TCGA-PRAD target frame. Frozen-risk performance was evaluated separately for the
-Reconstructed with-tumor endpoint and Official TCGA-CDR PFI. Increment analyses used the
+Reconstructed with-tumor endpoint and the official TCGA Pan-Cancer Clinical Data Resource
+progression-free interval (TCGA-CDR PFI). Increment analyses used the
 same 153-patient complete-case cohort, with 30 reconstructed-endpoint events and 15 official
 PFI events (Figure~\ref{fig:marker7-transfer}).
 
 \paragraph{Evidence state.}
-For the reconstructed endpoint, frozen-risk C-index was $0.673$ (95\% CI
+For the reconstructed endpoint, the concordance index (C-index) was $0.673$ (95\%
+confidence interval (CI)
 $0.587$--$0.759$; 270 patients, 57 events). The official PFI C-index was 0.586
 (95\% CI 0.482--0.689; 270 patients, 42 events). The reconstructed endpoint
 grade-plus-image versus grade delta C-index was $+0.083$ (95\% CI $+0.012$ to
-$+0.157$), but its paired integrated-Brier-score interval included zero. The official PFI
+$+0.157$), but its paired integrated Brier score (IBS) interval included zero. The official PFI
 grade-plus-image increment was $+0.032$ ($-0.040$ to $+0.126$), and all official-PFI
 paired C-index and IBS intervals include zero.
 
 \paragraph{Local limitation.}
-Marker 7 was discovered post hoc, endpoint definitions differed, and multiple imputation
+The recurrence risk signal was discovered post hoc, endpoint definitions differed, and multiple imputation
 was not performed. The official-PFI result and every paired comparison were based on the
 saved evaluable or complete-case frames; unobserved outcomes were not treated as events or
 non-events.
@@ -184,9 +214,13 @@ the second proposition.
 
 \subsection{Correlated setting audits distinguish stable from conditional signals}
 
+After the cohort-, confounder-, site-, and endpoint-specific tests, we assess whether each
+interpretation remains stable across the evaluated representation and sampling settings.
+
 \paragraph{Analysis frame.}
-Six markers were each summarized across 12 encoder--scale--tile configurations and five
-sampling seeds, giving $6\times12\times5=360$ correlated seed cells. Marker 7's setting
+Six targets were each summarized across 12 encoder--scale--tile configurations and five
+sampling seeds, giving $6\times12\times5=360$ correlated seed cells. The post-hoc recurrence
+risk signal's setting
 sensitivity was interpreted alongside its endpoint-conditioned transfer summary
 (Figure~\ref{fig:marker7-transfer}), and the decision-level grid summary is shown in
 Figure~\ref{fig:stability-overview}. Paired
@@ -195,9 +229,10 @@ contrasts preserved shared patients, folds and settings.
 \paragraph{Evidence state.}
 No configuration's observed five-seed range straddled the metric null for Gleason,
 phenotype, PTEN or AR. The observed five-seed range straddled the null for SPOP in $8/12$
-configurations and marker 7 in $1/12$. Across the 60 seed cells for each marker, the global
+configurations and the recurrence risk signal in $1/12$. Across the 60 seed cells for each
+target, the global
 seed-cell range was $0.271$--$0.646$ for Gleason and $0.845$--$0.965$ for phenotype; PTEN
-remained above its null across all seed cells. SPOP and marker 7 showed greater setting
+remained above its null across all seed cells. SPOP and the recurrence risk signal showed greater setting
 sensitivity than the transported signals.
 
 \paragraph{Local limitation.}
@@ -210,7 +245,8 @@ contrast directions do not identify a causal effect of encoder, scale or tile bu
 \paragraph{Qualification decision.}
 The stability audit bounded setting dependence without elevating evidence states. It
 reinforced transported directions for grade and phenotype, preserved within-cohort PTEN
-support, and narrowed SPOP and marker 7 to setting-conditioned interpretations. Repeated
+support, and narrowed SPOP and the recurrence risk signal to setting-conditioned
+interpretations. Repeated
 performance across correlated settings therefore informed robustness but did not constitute
 independent validation.
 
@@ -222,6 +258,9 @@ independent validation.
 \end{figure}
 
 \subsection{Joint evidence states replace a single performance ranking}
+
+Finally, we integrate the preceding evidence axes to determine what can be claimed for each
+target and what remains unresolved.
 
 Across targets, the three propositions converged on one result: detectability and
 qualification were not interchangeable. Morphology-linked grade and phenotype provided the

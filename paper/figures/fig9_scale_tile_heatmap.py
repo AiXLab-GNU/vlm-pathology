@@ -32,7 +32,7 @@ MARKER_LABELS = {
     "pten": "PTEN",
     "spop": "SPOP",
     "ar": "AR",
-    "marker7": "Marker 7",
+    "marker7": "Recurrence risk",
 }
 MARKER_MAPPING = {
     "gleason": ("patient_spearman_rho", 0.0),
@@ -412,7 +412,10 @@ def build_figure(grid: pd.DataFrame, contrasts: pd.DataFrame):
     _heatmap(ax_a, grid, "CONCH", "A", norm, cmap)
     _heatmap(ax_b, grid, "Virchow", "B", norm, cmap)
     _interval_panel(ax_c1, grid, "spop", "C  SPOP — five-seed mean and sampling-seed t interval")
-    _interval_panel(ax_c2, grid, "marker7", "Marker 7 — five-seed mean and sampling-seed t interval")
+    _interval_panel(
+        ax_c2, grid, "marker7",
+        "Post-hoc recurrence risk — five-seed mean and sampling-seed t interval",
+    )
     _contrast_panel(ax_d, contrasts)
     fig.suptitle("Frozen Gate A sensitivity grid: 72 five-seed configurations and 390 paired contrasts", fontsize=12, fontweight="bold")
     fig.text(0.5, -0.015, "Heatmap magnitudes are interpreted within marker because metrics differ. Sampling-seed intervals describe five repeated tile-sampling seeds, not patient or population confidence intervals. Settings are correlated and share frozen cohorts and folds.", ha="center", fontsize=7.5)

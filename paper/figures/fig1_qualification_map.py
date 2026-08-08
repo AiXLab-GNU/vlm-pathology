@@ -95,14 +95,14 @@ def render(source_paths: Sequence[Path], output_pdf: Path) -> None:
     ]
     labels = {
         "C02": "Grade and phenotype",
-        "C03": "PTEN",
-        "C04": "SPOP",
-        "C05": "AR",
-        "C06": "Marker 7 transfer",
-        "C07": "Marker 7 increment",
+        "C03": "PTEN loss",
+        "C04": "SPOP mutation",
+        "C05": "AR activity",
+        "C06": "Post-hoc recurrence transfer",
+        "C07": "Post-hoc recurrence increment",
     }
     state_order = ("transportable", "context_sensitive", "unsupported_in_frozen_design")
-    state_labels = ("Transportable", "Context-sensitive", "Unsupported\nin frozen design")
+    state_labels = ("Transportable", "Context-\nsensitive", "Unsupported\nin frozen design")
     state_colors = {
         "transportable": COLORBLIND_SAFE_PALETTE[2],
         "context_sensitive": COLORBLIND_SAFE_PALETTE[1],
@@ -125,6 +125,7 @@ def render(source_paths: Sequence[Path], output_pdf: Path) -> None:
     for yy in np.arange(-0.5, len(selected) + 0.5, 1.0):
         axis.axhline(yy, color="#E5E7EB", linewidth=1.0, zorder=0)
     axis.set_xticks(range(3), state_labels)
+    axis.tick_params(axis="x", labelsize=8)
     axis.set_yticks(y, [labels[key] for key in selected["semantic_key"]])
     axis.tick_params(length=0)
     axis.spines[:].set_visible(False)

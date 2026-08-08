@@ -5,12 +5,33 @@ claims in the main manuscript. Patient-level uncertainty and repeated tile-sampl
 variation are kept distinct. Missing or unevaluable outcomes were never treated as negative
 labels, and all endpoint names retain their source definitions.
 
+\noindent\textbf{Abbreviations.} CONCH denotes CONtrastive learning from Captions for
+Histopathology; NADT denotes neoadjuvant androgen-deprivation therapy; PANDA denotes
+Prostate cANcer graDe Assessment; TCGA-PRAD denotes The Cancer Genome Atlas prostate
+adenocarcinoma cohort; and TCGA-CDR denotes the TCGA Pan-Cancer Clinical Data Resource.
+Area under the receiver operating characteristic curve (AUROC), time-dependent area under
+the curve (td-AUC), concordance index (C-index), integrated Brier score (IBS),
+progression-free interval (PFI), progression-free survival (PFS), disease-free survival
+(DFS), hematoxylin and eosin (H\&E), copy-number alteration (CNA), confidence interval
+(CI), and 256-bit Secure Hash Algorithm (SHA256) are used below. Gene/protein symbols are
+expanded as follows: phosphatase and tensin
+homolog (PTEN), speckle type BTB/POZ protein (SPOP), androgen receptor (AR), tumor protein
+p53 (TP53), RB transcriptional corepressor 1 (RB1), serine peptidase inhibitor Kazal type 1
+(SPINK1), ETS variant transcription factors 1 and 4 (ETV1 and ETV4), and ETS transcription
+factor ERG (ERG). The post-hoc Cox recurrence-risk score called ``marker 7'' in legacy
+artifacts is termed the post-hoc recurrence risk signal here.
+CH, EJ, G9, HC, KK, and YL are deidentified source institution codes rather than expanded
+institution names.
+
 \noindent Supplementary Table~\ref{tab:supp-endpoint-hierarchy} records the complete
 audited endpoint hierarchy without renaming reconstructed outcomes as official PFI.
 
 \input{generated/stable1_endpoint_hierarchy.tex}
 
 \subsection*{The complete 17-test family}
+
+This subsection enumerates the complete multiplicity family so that the main-text findings
+can be interpreted against all saved discovery-family tests rather than a selected subset.
 
 The multiplicity family contained 13 marker hypotheses and four nested/refit confounder
 audits. Continuous marker hypotheses used two-sided Spearman tests, binary hypotheses used
@@ -29,6 +50,9 @@ and same-bootstrap-draw comparisons are reported below and govern the narrower r
 interpretation; they do not retrospectively replace rows in the saved multiplicity family.
 
 \subsection*{Detailed discrimination summaries}
+
+We first expand the cross-cohort grade and phenotype evidence underlying the transportable
+state assigned in the main Results.
 
 Supplementary Figure~\ref{fig:supp-discrimination-details} shows the saved aggregate
 discrimination and association estimates for grade and phenotype transfer across NADT,
@@ -53,6 +77,9 @@ and aggregate statistics were not converted into reconstructed curves.}
 
 \subsection*{Recurrence endpoints, paired bootstrap and common-source sensitivity}
 
+This subsection tests how the recurrence interpretation changes with endpoint definition,
+paired uncertainty estimation, and restriction to a common patient source frame.
+
 The recurrence endpoints were analysed separately. On the 270-patient target frame,
 official TCGA-CDR PFI had 42 events and the reconstructed with-tumor endpoint had 57.
 Their event agreement was 0.870, Cohen's $\kappa=0.569$, and follow-up-time Spearman
@@ -70,7 +97,7 @@ undefined bootstrap replicates (undefined fraction 0) for all 44 model-metric su
 all 20 paired contrast-metric summaries. Zero undefined replicates is reported rather than
 silently assumed; another dataset could yield undefined concordance or Brier-score draws.
 
-The marker 7 source-retention audit compared all 60 seed cells on the saved source sets with
+The post-hoc recurrence-risk source-retention audit compared all 60 seed cells on the saved source sets with
 the same cells restricted to the common-498 patient intersection. No cell crossed the
 C-index null, and all 65 paired contrast directions were preserved. The largest absolute
 cell shift was 0.023. This common-498 sensitivity limits source-retention confounding in the
@@ -86,7 +113,7 @@ interpreted as an independently validated prognostic biomarker.
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/sfig2_marker7_survival.pdf}
-\caption{\textbf{Legacy reconstructed-endpoint marker 7 survival summaries.}
+\caption{\textbf{Legacy reconstructed-endpoint post-hoc recurrence-risk summaries.}
 Values are rendered from saved legacy sources for the Reconstructed with-tumor endpoint
 (270 patients; 57 events), not Official TCGA-CDR PFI. \textbf{a}, Time-dependent AUROC;
 the dashed line is chance ($0.5$), and the dotted line is the saved integrated mean over
@@ -100,6 +127,9 @@ metadata. This legacy summary is exploratory and supplies no Official-PFI calibr
 
 \clearpage
 \subsection*{Full correlated stability analysis}
+
+We next expose the complete sensitivity grid behind the condensed stability decision in the
+main manuscript while preserving its correlated, non-confirmatory interpretation.
 
 The saved grid has 72 configurations: six targets, two encoders, two physical scales per
 encoder and three tile budgets. Each configuration contains five repeated sampling seeds,
@@ -210,6 +240,9 @@ folds, not independent validations or population-confidence intervals.}
 
 \subsection*{Target-by-axis evidence coverage}
 
+This subsection makes the synthesis explicit by showing which evidence axis supports,
+restricts, or remains unavailable for each target.
+
 The qualification framework deliberately preserves both positive evidence and evidentiary
 gaps. Supplementary Figure~\ref{fig:supp-evidence-axis-matrix} shows the complete matrix of
 frozen-primary support, cross-cohort transport, clinical increment, site behavior, setting
@@ -240,6 +273,9 @@ needed to change every cell.}
 
 \subsection*{AR site uncertainty and SPOP detectable-effect calculations}
 
+We then provide the detailed checks that bound the site-specific AR interpretation and the
+effect sizes that the frozen SPOP analysis was positioned to detect.
+
 The AR site audit estimated slide-level Spearman correlations and used patient-cluster
 bootstrap intervals. Six leave-one-site-out rows were available: CH, $-0.128$
 ($-0.561$ to 0.350); EJ, 0.127 ($-0.121$ to 0.363); G9, 0.195 ($-0.258$ to 0.598);
@@ -256,6 +292,9 @@ and multiplicity. They are planning approximations, not effect-exclusion bounds;
 not show that smaller effects or sampling dilution are absent.
 
 \subsection*{Provenance and reproducibility scope}
+
+The final subsection identifies the saved records supporting computational traceability and
+distinguishes that traceability from external or clinical validation.
 
 The extended results were read from saved CSV sources rather than recomputed from remembered
 values. Stability lineage is recorded in \path{models/stability_run_manifest.csv} and

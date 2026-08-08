@@ -1,7 +1,8 @@
 Pathology foundation models turn whole-slide images into reusable representations from
 which lightweight probes can recover grade, tissue phenotype, molecular labels and
 clinical outcomes \cite{conch2023,virchow2023}. This capability has made candidate signals
-much easier to produce than to interpret. A high pooled AUROC or correlation can arise
+much easier to produce than to interpret. A high pooled area under the receiver operating
+characteristic curve (AUROC) or correlation can arise
 because the representation captures the target, but it can also reflect grade composition,
 institutional case mix, acquisition conditions, sampling choices or the definition of the
 clinical endpoint. Consequently, the central problem is no longer only whether a frozen
@@ -47,7 +48,12 @@ in the frozen analysis establishes biological absence.
 % on another.
 
 To test this logic, we assembled complementary evidence from five prostate-pathology data
-resources, summarized below.
+resources. These were the prostate cohort treated with neoadjuvant androgen-deprivation
+therapy (NADT-Prostate); the Prostate cANcer graDe Assessment (PANDA) challenge; the PRECISE
+(PRostate Expert-annotated Contiguous IHC--H\&E Serial sEctions) dataset, where IHC denotes
+immunohistochemistry and H\&E denotes hematoxylin and eosin; The Cancer Genome Atlas prostate
+adenocarcinoma (TCGA-PRAD) cohort; and the
+LEOPARD prostatectomy-slide challenge. Their roles are summarized below.
 
 \begin{table}[!htbp]
 \centering
@@ -74,8 +80,10 @@ LEOPARD \cite{leopard2026} & Post-hoc recurrence signal & Transfer to TCGA-PRAD 
 \end{tabular}
 \end{table}
 
-Across frozen CONCH and Virchow representations, we evaluated grade, tumor phenotype, PTEN
-loss, SPOP mutation, androgen-receptor activity and recurrence. The analyses linked
+Across frozen CONtrastive learning from Captions for Histopathology (CONCH) and Virchow
+representations, we evaluated grade, tumor phenotype, phosphatase and tensin homolog (PTEN)
+loss, speckle type BTB/POZ protein (SPOP) mutation, androgen-receptor (AR) activity and a
+post-hoc recurrence risk signal. The analyses linked
 cross-cohort transfer to held-out confounder increments, site-specific uncertainty, a
 correlated encoder--scale--tile--seed grid and endpoint-specific survival comparisons. This
 design allowed the same candidate to succeed on one evidentiary axis while remaining

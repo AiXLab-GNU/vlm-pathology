@@ -337,12 +337,15 @@ class SubmissionDraftContractTests(unittest.TestCase):
         )
         self.assertIn("saved tables retained interval endpoints", methods)
         self.assertIn("unavailable counts were not reconstructed", methods)
-        self.assertIn("Paired marker 7 outputs separately retained 2,000 valid and zero undefined", methods)
+        self.assertIn("Paired recurrence-risk outputs separately retained 2,000 valid and zero undefined", methods)
 
     def test_official_tcga_cdr_pfi_has_liu_cell_citation(self) -> None:
         methods = _read("paper/sections/methods.tex")
         bibliography = _read("paper/sections/bibliography.tex")
-        self.assertRegex(methods, r"Official TCGA-CDR PFI[^.]*\\cite\{tcgacdr2018\}")
+        self.assertRegex(
+            methods,
+            r"(?s)Official\s+TCGA-CDR PFI[^.]*\\cite\{tcgacdr2018\}",
+        )
         self.assertRegex(
             bibliography,
             r"(?is)\\bibitem\{tcgacdr2018\}.*Liu, J\..*\\textit\{Cell\}.*"
@@ -403,7 +406,11 @@ class SubmissionDraftContractTests(unittest.TestCase):
                     self.assertIn(phrase, blocks[command])
 
         results = " ".join(_read("paper/sections/results.tex").split())
-        self.assertIn("CH contained no SPOP-positive patients", results)
+        self.assertIn(
+            "At the CH site (a deidentified source institution code), no patient was "
+            "SPOP-positive",
+            results,
+        )
         self.assertIn("other five source-coded sites included the AUROC null", results)
 
         supplement = " ".join(
@@ -580,6 +587,59 @@ class SubmissionDraftContractTests(unittest.TestCase):
         self.assertTrue(_appear_in_order(text, required))
         self.assertEqual(len(_subsection_bodies(text)), 5)
 
+    def test_sections_and_subsections_open_with_navigational_sentences(self) -> None:
+        results = " ".join(_read("paper/sections/results.tex").split())
+        discussion = " ".join(_read("paper/sections/discussion.tex").split())
+        methods = " ".join(_read("paper/sections/methods.tex").split())
+        supplement = " ".join(
+            _read("paper/sections/supplementary_information.tex").split()
+        )
+        required = {
+            results: (
+                "The Results test the three propositions in sequence",
+                "We begin by converting the study propositions",
+                "Having defined the qualification rule, we first test",
+                "We next ask whether pooled molecular associations",
+                "this subsection tests whether the PTEN and AR signals",
+                "We then examine whether the exploratory recurrence signal",
+                "we assess whether each interpretation remains stable",
+                "Finally, we integrate the preceding evidence axes",
+            ),
+            discussion: (
+                "The Discussion interprets the evidence states",
+                "We first clarify the study's central contribution",
+                "We next consider the three propositions separately",
+                "The target-specific results motivate a broader explanation",
+                "these limitations bound every qualification decision",
+                "We close by translating the unresolved evidence axes",
+            ),
+            methods: (
+                "The Methods follow the same evidentiary sequence",
+                "This subsection defines the data source, label provenance",
+                "With the cohorts defined, we describe how frozen image representations",
+                "preventing information from the same patient",
+                "converted into evidence states",
+                "two alternative explanations for pooled performance",
+                "without treating reused cohorts and folds as independent validation data",
+                "keep the competing endpoint definitions separate",
+                "how unavailable outcomes or unretained bootstrap accounting were handled",
+                "Finally, we describe the records that connect each manuscript result",
+            ),
+            supplement: (
+                "This subsection enumerates the complete multiplicity family",
+                "We first expand the cross-cohort grade and phenotype evidence",
+                "paired uncertainty estimation, and restriction to a common patient source frame",
+                "We next expose the complete sensitivity grid",
+                "This subsection makes the synthesis explicit",
+                "the site-specific AR interpretation",
+                "The final subsection identifies the saved records",
+            ),
+        }
+        for text, phrases in required.items():
+            for phrase in phrases:
+                with self.subTest(phrase=phrase):
+                    self.assertIn(phrase, text)
+
     def test_main_narrative_and_methods_structure_are_bounded(self) -> None:
         narrative = "\n".join(
             _read(path)
@@ -699,17 +759,46 @@ class SubmissionDraftContractTests(unittest.TestCase):
             self.assertEqual(t_interval_contains_null, t_count)
         self.assertIn("observed five-seed range straddled", results)
         self.assertIn("SPOP in $8/12$", results)
-        self.assertIn("marker 7 in $1/12$", results)
+        self.assertIn("recurrence risk signal in $1/12$", results)
         self.assertNotIn("sampling-seed interval crossing", results)
         self.assertIn("$6\\times12\\times5=360$ correlated seed cells", results)
         self.assertNotRegex(results, r"(?i)360\s+independent")
         self.assertIn("seed-cell range", results)
 
+    def test_first_use_defines_key_abbreviations_and_legacy_marker_name(self) -> None:
+        abstract = " ".join(_read("paper/sections/abstract.tex").split())
+        introduction = " ".join(_read("paper/sections/introduction.tex").split())
+        results = " ".join(_read("paper/sections/results.tex").split())
+        legends = " ".join(_read("paper/sections/figure_legends.tex").split())
+        supplement = " ".join(
+            _read("paper/sections/supplementary_information.tex").split()
+        )
+        for phrase in (
+            "CONtrastive learning from Captions for Histopathology (CONCH)",
+            "phosphatase and tensin homolog (PTEN)",
+            "speckle type BTB/POZ protein (SPOP)",
+            "androgen-receptor (AR) activity",
+            "The Cancer Genome Atlas prostate adenocarcinoma (TCGA-PRAD)",
+        ):
+            self.assertIn(phrase, abstract)
+        for phrase in (
+            "area under the receiver operating characteristic curve (AUROC)",
+            "Prostate cANcer graDe Assessment (PANDA)",
+            "International Society of Urological Pathology (ISUP)",
+        ):
+            self.assertIn(phrase, introduction + " " + results)
+        self.assertIn("called ``marker 7'' only in legacy analysis artifacts", results)
+        self.assertIn("post-hoc recurrence risk signal in the manuscript", results)
+        self.assertIn("integrated Brier score (IBS)", results)
+        self.assertIn("CH site (a deidentified source institution code)", results)
+        self.assertIn("legacy analysis identifier was ``marker 7.''", legends)
+        self.assertIn(r"\noindent\textbf{Abbreviations.}", supplement)
+
     def test_panda_sampling_labels_events_and_probe_are_disclosed(self) -> None:
         results = _read("paper/sections/results.tex")
         methods = _read("paper/sections/methods.tex")
         expected_results = (
-            "100-case cap per institution--ISUP stratum",
+            "100-case cap per institution--International Society of Urological Pathology (ISUP) stratum",
             "1,200 sampled cases",
             "1,137 passed tissue filtering",
             "469/565 tumor cases",

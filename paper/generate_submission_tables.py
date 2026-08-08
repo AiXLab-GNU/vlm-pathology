@@ -65,7 +65,7 @@ STABILITY_COLUMNS = (
 )
 STABILITY_LABELS = (
     ("gleason", "Gleason"), ("phenotype", "Phenotype"), ("pten", "PTEN"),
-    ("ar", "AR"), ("spop", "SPOP"), ("marker7", "Marker 7"),
+    ("ar", "AR"), ("spop", "SPOP"), ("marker7", "Recurrence risk"),
 )
 QUALIFICATION_DISPLAY_LABELS = {
     "C01": "Qualification logic",
@@ -201,10 +201,28 @@ def _scientific_tex(value: object) -> str:
 
 
 def _display_test(value: object) -> str:
-    escaped = _escape(value)
+    display_labels = {
+        "marker4_pten / grade_only": "PTEN / grade-only",
+        "marker6_ar / grade_only": "AR / grade-only",
+        "marker7_recurrence / grade_only": "Post-hoc recurrence risk / grade-only",
+        "marker7_recurrence / fully_adjusted": (
+            "Post-hoc recurrence risk / fully adjusted"
+        ),
+    }
+    escaped = _escape(display_labels.get(str(value), value))
     for number, symbol in enumerate("①②③④⑤⑥", start=1):
         escaped = escaped.replace(symbol, rf"\textcircled{{{number}}}")
     return escaped
+
+
+def _display_metric(value: object) -> str:
+    labels = {
+        "Spearman_rho": "Spearman rho",
+        "delta_AUROC": "AUROC change",
+        "delta_R2": "R-squared change",
+        "delta_C-index": "C-index change",
+    }
+    return _escape(labels.get(str(value), value))
 
 
 def render_multiplicity_family(frame: pd.DataFrame, output_path: Path) -> Path:
@@ -222,7 +240,7 @@ def render_multiplicity_family(frame: pd.DataFrame, output_path: Path) -> Path:
     rows = []
     for row in validated.itertuples(index=False):
         rows.append(
-            f"{_display_test(row.test)} & {_escape(row.effect_metric)} & "
+            f"{_display_test(row.test)} & {_display_metric(row.effect_metric)} & "
             f"{_scientific_tex(row.effect)} & {_scientific_tex(row.p_value)} & "
             f"{_scientific_tex(row.q_value_BH_FDR_17_tests)} \\\\"
         )

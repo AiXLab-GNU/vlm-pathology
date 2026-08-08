@@ -29,7 +29,7 @@ FIGURE_WIDTH_MM = DOUBLE_COLUMN_MM
 MARKERS = ("gleason", "phenotype", "pten", "spop", "ar", "marker7")
 MARKER_LABELS = {
     "gleason": "Gleason", "phenotype": "Phenotype", "pten": "PTEN",
-    "spop": "SPOP", "ar": "AR", "marker7": "Marker 7",
+    "spop": "SPOP", "ar": "AR", "marker7": "Recurrence risk",
 }
 EXPECTED_KEYS = {
     f"{marker}:{component}" for marker in MARKERS
@@ -190,7 +190,7 @@ def render(source_paths: Sequence[Path], output_pdf: Path) -> None:
     axis_d.set_xlabel("Null-crossing sensitivity (%)")
     axis_d.set_title(
         "d   Configuration sensitivity\n"
-        "12 configurations; 60 correlated cells per marker",
+        "12 configurations; 60 correlated cells per target",
         loc="left", fontweight="bold",
     )
     axis_d.legend(frameon=False, loc="lower right")

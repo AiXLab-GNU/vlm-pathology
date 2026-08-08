@@ -1,20 +1,19 @@
 \begin{abstract}
-Pathology foundation models make image--label associations easy to detect, but high pooled
-performance does not establish whether signals transport or add information beyond
-clinical covariates. We tested the proposition that signals require evidence for cohort
-transport, confounding, site behavior,
-representation stability, and endpoint fidelity. We operationalized these requirements as
-a qualification framework with three states---transportable, context-sensitive, and
-unsupported in the frozen design---and applied it to frozen CONCH and Virchow signals for
-grade, phenotype, PTEN, SPOP, androgen-receptor activity, and post-hoc recurrence across
-five prostate-pathology resources. Grade and phenotype had the strongest cross-cohort
-support. PTEN remained detectable within TCGA-PRAD but lacked a supported held-out
-increment beyond grade. Androgen-receptor activity retained a positive pooled direction
-while site transport remained unresolved. SPOP was unsupported in the frozen primary
-configuration and setting-sensitive. Recurrence estimates varied by endpoint, encoder,
-and scale and lacked established incremental value beyond fuller clinical and site
-covariates. Thus, pooled performance separated into evidence states rather than a model
-ranking. This study contributes a reusable qualification framework and empirical failure
-map that expose when apparently successful probes are transportable, conditional, or
-unsupported, helping prioritize signals for further validation.
+Pathology foundation models readily yield image--label associations, but pooled performance
+does not establish transport or information beyond clinical covariates. We tested whether
+signals retained support across cohort transport, confounding, site, representation, and
+endpoint audits. We implemented a three-state qualification framework---transportable,
+context-sensitive, and unsupported in the frozen design---for frozen CONtrastive learning
+from Captions for Histopathology (CONCH) and Virchow signals across five prostate-pathology
+resources. Targets were grade, phenotype, phosphatase and tensin homolog (PTEN) loss,
+speckle type BTB/POZ protein (SPOP) mutation, androgen-receptor (AR) activity, and post-hoc
+recurrence. Grade and phenotype showed the strongest cross-cohort support. PTEN remained
+detectable in The Cancer Genome Atlas prostate adenocarcinoma (TCGA-PRAD) cohort but lacked
+a supported held-out increment beyond grade. AR retained a positive pooled direction while
+site transport remained unresolved. SPOP was unsupported in the frozen primary
+configuration and setting-sensitive. Recurrence estimates varied by endpoint, encoder, and
+scale and lacked established incremental value beyond fuller clinical and site covariates.
+Thus, pooled performance separated into evidence states rather than a model ranking. The
+framework and empirical failure map identify when apparently successful probes are
+transportable, conditional, or unsupported and prioritize signals for further validation.
 \end{abstract}

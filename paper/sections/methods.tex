@@ -6,6 +6,9 @@ the data and analysis that can support it.
 
 \subsection{Cohorts and labels}
 
+This subsection defines the data source, label provenance, analysis unit, and missing-outcome
+rule for every target before any model evaluation is specified.
+
 NADT-Prostate provided paired prostate histology, per-core or per-slide grade and phenotype
 labels, and patient identifiers for source-probe fitting and patient aggregation. PANDA
 provided institution-labelled case images and official ISUP grades; its tumor/benign
@@ -15,7 +18,8 @@ well as separately constructed recurrence-style endpoints. PRECISE provided expe
 serial sections and per-image pathologist Gleason scores. LEOPARD provided biochemical
 recurrence event and follow-up labels for recurrence-model fitting. The public NADT,
 PANDA and PRECISE resources are described in their source records
-\cite{nadt2021,panda2022,precise2026}; LEOPARD is described in the MIDL 2026 challenge
+\cite{nadt2021,panda2022,precise2026}; LEOPARD is described in the Medical Imaging with Deep
+Learning (MIDL) 2026 challenge
 report \cite{leopard2026}, and the organizer baseline remains an arXiv preprint
 \cite{grisi2026}. Each analysis used only
 rows with an evaluable target; missing or uncertain outcomes were not converted to negative
@@ -29,12 +33,16 @@ filtering; its grade-derived phenotype was not a separately supplied annotation.
 The recurrence endpoints were retained under their source definitions. The Reconstructed
 with-tumor endpoint used a recorded with-tumor follow-up as an event and censored at the
 latest valid non-event follow-up. The strict recurrence-only sensitivity required a
-tumor-free visit before a later with-tumor visit. TCGA-CDR PFS and DFS used their named
-cBioPortal comparator fields. Official TCGA-CDR PFI used the official PFI event and time
+tumor-free visit before a later with-tumor visit. TCGA-CDR progression-free survival (PFS)
+and disease-free survival (DFS) used their named cBioPortal comparator fields. Official
+TCGA-CDR PFI used the official PFI event and time
 fields \cite{tcgacdr2018}. No
 endpoint substitution was renamed as official PFI.
 
 \subsection{Frozen embeddings and aggregation}
+
+With the cohorts defined, we describe how frozen image representations were constructed and
+aligned to the analysis unit required by each endpoint.
 
 CONCH and Virchow were used as frozen encoders; encoder weights were not fine-tuned.
 Tissue-qualified tiles were embedded and averaged to slide representations. Where the
@@ -48,6 +56,9 @@ budgets of 16, 32 and 64, and five repeated sampling seeds. These settings were 
 the fixed cohorts and folds. They were not treated as newly sampled populations.
 
 \subsection{Fixed probes and patient-disjoint evaluation}
+
+This subsection specifies how the fixed representations were mapped to targets while
+preventing information from the same patient from entering both training and evaluation.
 
 Continuous marker-family targets used standardized ridge regression with the saved fixed
 alpha grid. Binary TCGA-PRAD screening tests used standardized logistic regression with
@@ -65,6 +76,9 @@ evaluation types and did not substitute for zero-shot transfer.
 
 \subsection{Qualification criteria and multiplicity}
 
+We next define how individual estimates were converted into evidence states and how the
+saved hypothesis family was controlled for multiplicity.
+
 Transportable evidence required an appropriate cross-cohort evaluation with consistent
 direction. Context-sensitive evidence indicated material dependence on site, encoder,
 physical scale, tile budget or endpoint. Unsupported evidence indicated that the frozen
@@ -75,7 +89,8 @@ signals \cite{dawood2026,neidlinger2025,pathorob2026}.
 
 The saved 17-test family comprised 13 marker hypotheses---the six initial candidates and
 seven additional screening candidates---plus four nested/refit confounder audits: PTEN
-beyond grade, AR beyond grade, and marker 7 beyond grade or a fully adjusted clinical model.
+beyond grade, AR beyond grade, and the post-hoc recurrence risk signal beyond grade or a
+fully adjusted clinical model.
 Continuous marker hypotheses used two-sided Spearman tests; binary marker hypotheses used
 two-sided Mann--Whitney tests. The fully refitted, grade-stratified audit permutations used
 one-sided refit-permutation $p$ values for positive improvement. Statistical support used
@@ -84,6 +99,9 @@ Re-tests of an existing hypothesis in another cohort or encoder were qualificati
 and were not added to the discovery family.
 
 \subsection{Confounder and site analyses}
+
+These analyses test two alternative explanations for pooled performance: information already
+captured by grade and effects that do not remain precise within source sites.
 
 PTEN and AR increment analyses compared clinical-only, image-only and combined models in
 outer patient-disjoint folds. Inner out-of-fold image predictions were used to construct
@@ -99,6 +117,9 @@ scanner models, and absent stain metadata were not inferred.
 
 \subsection{Correlated stability analysis}
 
+This subsection evaluates dependence on encoder, physical scale, tile budget, and sampling
+seed without treating reused cohorts and folds as independent validation data.
+
 For each marker, seed-level scores were summarized into encoder--scale--tile configurations.
 The saved summaries report mean, sample standard deviation, range, chance-or-worse count and
 a Student-$t$ interval across the five tile-sampling seeds. AUROC and C-index used a null of
@@ -112,9 +133,13 @@ used to revise frozen labels, scores, folds or evidence thresholds.
 
 \subsection{Recurrence endpoints and paired comparisons}
 
-Marker 7 was a post-hoc Cox risk score fitted in LEOPARD and applied without target-cohort
-refitting to TCGA-PRAD. Its existing PCA dimension sweep served only as exploratory sensitivity
-analysis. PCA-dimension selection was not nested within an outer evaluation,
+We then define the exploratory recurrence signal, keep the competing endpoint definitions
+separate, and specify the paired comparisons used to assess incremental value.
+
+The post-hoc recurrence risk signal was a Cox risk score fitted in LEOPARD and applied
+without target-cohort refitting to TCGA-PRAD. Its existing principal-component analysis
+(PCA) dimension sweep served only as exploratory sensitivity analysis. PCA-dimension
+selection was not nested within an outer evaluation,
 so the sweep did not provide an unbiased model-selection estimate and no dimension was
 interpreted as an unbiased optimum.
 
@@ -128,25 +153,32 @@ pooled into one endpoint.
 
 \subsection{Bootstrap uncertainty and missingness}
 
+This subsection states how uncertainty was estimated and how unavailable outcomes or
+unretained bootstrap accounting were handled without reconstruction or recoding.
+
 Where the saved source supported this construction, patient-level estimates used
 95\% percentile patient-bootstrap intervals. AR site rows used a patient-cluster bootstrap
 around a slide-level effect. For legacy NADT/TCGA primary and AR site interval summaries,
 saved tables retained interval endpoints but not requested, valid and undefined accounting,
 except requested 2,000 where explicitly recorded; unavailable counts were not reconstructed.
-Paired marker 7 outputs separately retained 2,000 valid and zero undefined replicates.
+Paired recurrence-risk outputs separately retained 2,000 valid and zero undefined replicates.
 Paired survival contrasts used identical patient draws for both models. Outputs with
 replicate accounting retained and reported undefined replicate counts and fractions;
 estimates without a saved interval were marked unavailable. Analyses used their
 saved evaluable or complete-case frames; no missing, uncertain or unevaluable value was
-recoded as a negative outcome. Multiple imputation was not performed for the marker 7 paired
+recoded as a negative outcome. Multiple imputation was not performed for the recurrence-risk paired
 comparison.
 
 \subsection{Software and provenance}
 
+Finally, we describe the records that connect each manuscript result to its code, saved
+source, execution configuration, and immutable clinical-review input.
+
 Analyses were executed with the repository's locked Python environment and auditable entry
 scripts. Fixed random seeds, software versions, input hashes, endpoint mappings and output
 hashes were recorded in saved run configurations and manifests. Main figures were rendered
-from saved CSV source tables rather than transient objects. Source-table schema, analysis
+from saved comma-separated-value (CSV) source tables rather than transient objects.
+Source-table schema, analysis
 unit, denominator, endpoint identifier and interval type were checked before a result was
 used in the manuscript. The clinician review source for PRECISE remained immutable throughout
 the manuscript work.
