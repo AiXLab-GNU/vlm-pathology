@@ -873,6 +873,29 @@ class SubmissionDraftContractTests(unittest.TestCase):
             nadt_flat.count("valid and undefined replicate counts were not retained"), 2
         )
 
+    def test_figure_two_states_transport_scope_and_precision_limit(self) -> None:
+        results = " ".join(_read("paper/sections/results.tex").split())
+        legends = " ".join(_read("paper/sections/figure_legends.tex").split())
+        for text in (results, legends):
+            self.assertIn(
+                "Grade signals retained a positive direction in both PANDA and PRECISE",
+                text,
+            )
+            self.assertIn(
+                "phenotype discrimination was retained in the Karolinska and Radboud "
+                "PANDA subsets",
+                text,
+            )
+            self.assertIn(
+                "strongest cross-cohort transport evidence among the evaluated targets",
+                text,
+            )
+        self.assertIn(
+            "no uncertainty intervals were saved for the PANDA or PRECISE estimates",
+            results,
+        )
+        self.assertIn("precision of their effect sizes remains unresolved", legends)
+
     def test_multiplicity_sidedness_and_bootstrap_are_exact(self) -> None:
         methods = _read("paper/sections/methods.tex")
         required = (
