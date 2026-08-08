@@ -89,6 +89,7 @@ endpoint equivalent to PFI. Among 192 patients shared with DFS, event agreement 
 and $\kappa=0.835$. Among 220 patients shared with the strict recurrence-only sensitivity,
 event agreement was 0.955 and $\kappa=0.564$. These endpoint concordance results come from
 \texttt{models/pfi\_endpoint\_concordance.csv}.
+Cohen's kappa measures agreement after accounting for agreement expected by chance.
 
 The paired survival analysis used 153 complete cases for each endpoint, with 30
 reconstructed-endpoint events and 15 official-PFI events. Every reported model and contrast
@@ -121,7 +122,10 @@ the dashed line is chance ($0.5$), and the dotted line is the saved integrated m
 probability by risk quintile (Q1--Q5) at 3 and 5 years; the diagonal is ideal calibration and
 connecting lines are visual guides across quintiles. The endpoint identity, denominator,
 event count, and horizon-specific calibration totals were reconciled to the saved frozen-risk
-metadata. This legacy summary is exploratory and supplies no Official-PFI calibration claim.}
+metadata. Kaplan--Meier is a nonparametric estimate of observed event probability;
+calibration compares predicted and observed probabilities; and risk quintiles divide
+patients into five ordered groups of predicted risk. This legacy summary is exploratory and
+supplies no Official-PFI calibration claim.}
 \label{fig:supp-marker7-survival}
 \end{figure}
 
@@ -289,7 +293,9 @@ two-sided $\alpha=0.05$ test and a fixed-score Hanley--McNeil normal approximati
 minimum detectable AUROC was 0.661 at 80\% power and 0.685 at 90\% power. These values omit
 probe-training uncertainty, out-of-fold dependence, site heterogeneity, setting selection
 and multiplicity. They are planning approximations, not effect-exclusion bounds; they do
-not show that smaller effects or sampling dilution are absent.
+not show that smaller effects or sampling dilution are absent. In this calculation,
+``minimum detectable'' means the smallest assumed AUROC that reaches the specified power
+under the stated assumptions, not the smallest biologically possible effect.
 
 \subsection*{Provenance and reproducibility scope}
 
@@ -307,6 +313,8 @@ review source was kept immutable and its SHA256 was checked against
 \texttt{b3a23630}\allowbreak\texttt{bf9074da}\allowbreak
 \texttt{881bb7b9}\allowbreak\texttt{145996fc}\allowbreak
 \texttt{47c3383a}\allowbreak\texttt{0448d2a3}.
+A SHA256 hash is a file fingerprint used to detect byte-level changes, while a manifest is
+an inventory linking named inputs, code, configurations and outputs.
 
 These records support auditability of the saved analyses. They do not establish population
 prevalence, whole-slide diagnostic performance, external molecular validation or clinical

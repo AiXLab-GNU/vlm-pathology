@@ -1,5 +1,6 @@
-Pathology foundation models turn whole-slide images into reusable representations from
-which lightweight probes can recover grade, tissue phenotype, molecular labels and
+Pathology foundation models turn whole-slide images (digitized views of complete tissue
+sections) into reusable numerical representations from which lightweight probes, or
+simple task-specific models, can recover grade, tissue phenotype, molecular labels and
 clinical outcomes \cite{conch2023,virchow2023}. This capability has made candidate signals
 much easier to produce than to interpret. A high pooled area under the receiver operating
 characteristic curve (AUROC) or correlation can arise
@@ -107,6 +108,15 @@ calibration, causal interpretation, or readiness for clinical use. A ``frozen'' 
 not fine-tuned in this study; a probe is a lightweight
 model fitted to its fixed representations, and transfer without refitting means applying
 that source-cohort probe unchanged to a target cohort.
+
+In the image workflow, a tile is a small crop sampled from a whole-slide image, and an
+embedding is the numerical feature vector produced for that crop. The tile budget is the
+number of crops sampled, while the sampling seed fixes the random selection so that it can
+be reproduced. A held-out estimate is computed on patients not used to fit the evaluated
+model, and patient-disjoint folds keep all material from one patient in the same data
+split. A null denotes the no-association or chance benchmark. A patient-bootstrap interval
+repeatedly resamples patients to describe statistical uncertainty, whereas a complete-case
+analysis includes only patients with every variable required for that comparison.
 
 Across frozen CONtrastive learning from Captions for Histopathology (CONCH) and Virchow
 representations, we evaluated grade, tumor phenotype, phosphatase and tensin homolog (PTEN)

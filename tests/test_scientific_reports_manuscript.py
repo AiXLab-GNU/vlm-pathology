@@ -838,7 +838,7 @@ class SubmissionDraftContractTests(unittest.TestCase):
         )
         for phrase in expected_results:
             self.assertIn(phrase, results)
-        self.assertIn("LogisticRegression(C=1.0)", methods)
+        self.assertIn(r"LogisticRegression}\allowbreak\texttt{(C=1.0)", methods)
         self.assertIn("without class weighting", methods)
         self.assertNotIn("all binary probes use", methods.lower())
         self.assertIn("labels and predictions were aggregated within patient", methods)
@@ -884,6 +884,35 @@ class SubmissionDraftContractTests(unittest.TestCase):
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, introduction)
+
+    def test_cross_disciplinary_terms_are_defined_at_point_of_use(self) -> None:
+        introduction = " ".join(_read("paper/sections/introduction.tex").split())
+        methods = " ".join(_read("paper/sections/methods.tex").split())
+        legends = " ".join(_read("paper/sections/figure_legends.tex").split())
+        supplement = " ".join(
+            _read("paper/sections/supplementary_information.tex").split()
+        )
+        for phrase in (
+            "digitized views of complete tissue sections",
+            "a tile is a small crop sampled from a whole-slide image",
+            "A held-out estimate is computed on patients not used to fit",
+            "A null denotes the no-association or chance benchmark",
+            "copy-number loss means fewer genomic copies than the reference state",
+            "Ridge regression is linear regression with coefficient shrinkage",
+            "zero-shot transfer, meaning direct application to a new cohort",
+            "The Mann--Whitney test compares score distributions between two groups",
+            "This nested evaluation separates inner model construction from outer testing",
+            "The Cox model relates predictors to relative event hazard",
+            "A cryptographic hash is a file fingerprint",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, introduction + " " + methods)
+        self.assertIn("Held-out means evaluated on patients not used for fitting", legends)
+        self.assertIn("a seed cell is one score from one reproducible", legends)
+        self.assertIn("Cohen's kappa measures agreement", supplement)
+        self.assertIn("Kaplan--Meier is a nonparametric estimate", supplement)
+        self.assertIn("minimum detectable'' means the smallest assumed AUROC", supplement)
+        self.assertIn("A SHA256 hash is a file fingerprint", supplement)
 
     def test_nadt_results_name_local_bootstrap_interval_and_resamples(self) -> None:
         results = _read("paper/sections/results.tex")

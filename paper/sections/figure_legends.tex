@@ -56,6 +56,8 @@ events among 23 patients. Dashed lines mark $0.5$ for AUROC and $0$ for correlat
 \textbf{a}, Held-out patient-level PTEN AUROC increment beyond grade for CONCH and Virchow.
 \textbf{b}, Corresponding held-out AR $R^2$ increment. Both increment panels use the fixed
 273-patient frame; points and whiskers are saved patient-bootstrap estimates and intervals.
+Held-out means evaluated on patients not used for fitting; a patient-bootstrap interval
+resamples patients to quantify uncertainty.
 \textbf{c}, Site-specific slide-level AR Spearman correlations with patient-cluster bootstrap
 intervals, followed by the pooled patient-level estimate with its patient-bootstrap interval.
 Source site codes and slide/patient denominators are printed on the ordinate. Dashed vertical
@@ -73,7 +75,9 @@ endpoint and orange official PFI. Points and whiskers are estimates and 95\% per
 patient-bootstrap intervals from 2,000 valid paired draws; zero draws were undefined.
 Dashed lines mark $0.5$ in \textbf{a} and no change in \textbf{b--c}. C-index change is
 comparison minus reference and IBS improvement is reference minus comparison, so positive
-values favor the first-named comparison model. The endpoint definitions are not equivalent.}
+values favor the first-named comparison model. C-index measures whether higher predicted
+risk correctly orders earlier events; IBS summarizes time-dependent probability error, for
+which lower raw values are better. The endpoint definitions are not equivalent.}
 
 \newcommand{\figStabilityLegend}{%
 \textbf{Decision-level stability overview.}
@@ -85,4 +89,6 @@ configurations whose observed five-seed range straddled the null (grey) and perc
 65 seed-matched paired contrasts whose endpoints lay on opposite sides of the null (orange).
 The cells reuse patients and folds, so neither the ranges nor the null-crossing percentages
 are population uncertainty estimates or independent validations. Complete grids and contrast
-directions are provided in the Supplementary Information.}
+directions are provided in the Supplementary Information. Here, the null is the chance or
+no-association reference, and a seed cell is one score from one reproducible tile-sampling
+seed within a configuration.}
