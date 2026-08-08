@@ -426,6 +426,37 @@ class SubmissionDraftContractTests(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, supplement)
 
+    def test_figure_one_explains_each_decision_and_hierarchy_encoding(self) -> None:
+        results = " ".join(_read("paper/sections/results.tex").split())
+        legends = " ".join(_read("paper/sections/figure_legends.tex").split())
+        for phrase in (
+            "The horizontal position of each dot records an evidence decision, not an "
+            "effect size or a ranking",
+            "Grade and phenotype occupy the transportable column",
+            "PTEN remains context-sensitive",
+            "AR is also context-sensitive",
+            "SPOP is unsupported in the frozen primary design",
+            "The two recurrence rows apply different questions to the same post-hoc Cox "
+            "risk score",
+            "Recurrence transfer asks whether",
+            "recurrence increment asks whether",
+            "Panel b counts how many decisions were primary or exploratory",
+        ):
+            with self.subTest(location="results", phrase=phrase):
+                self.assertIn(phrase, results)
+        for phrase in (
+            "Transportable denotes directionally consistent cross-cohort evidence",
+            "context-sensitive denotes an interpretation restricted by confounding",
+            "not biological absence",
+            "The two recurrence rows apply different questions to the same post-hoc Cox "
+            "risk score",
+            "Bar lengths count four primary decisions and two exploratory recurrence-risk "
+            "decisions",
+            "they do not encode performance, effect magnitude, or evidentiary strength",
+        ):
+            with self.subTest(location="legend", phrase=phrase):
+                self.assertIn(phrase, legends)
+
     def test_supplement_numbering_and_first_citation_order_are_s1_to_s4(self) -> None:
         supplement_main = _read("paper/supplement_main.tex")
         supplement = _read("paper/sections/supplementary_information.tex")
