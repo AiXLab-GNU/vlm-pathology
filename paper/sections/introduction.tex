@@ -80,6 +80,34 @@ LEOPARD \cite{leopard2026} & Post-hoc recurrence signal & Transfer to TCGA-PRAD 
 \end{tabular}
 \end{table}
 
+\paragraph{Clinical and analytical orientation.}
+For readers across pathology and medical AI, Gleason grading summarizes the gland-forming
+architecture of prostate cancer: a pathologist combines the predominant and next most
+prevalent patterns, and higher scores or International Society of Urological Pathology
+(ISUP) Grade Groups indicate less differentiated morphology. In this study, grade refers to
+the source-provided Gleason or ISUP label at the stated patient, case-image, or imaging-session
+unit. ``Tumor phenotype'' instead denotes the dataset-specific tumor-content target or the
+grade-derived benign-versus-tumor label; it is not a molecular subtype
+\cite{panda2022}.
+
+The molecular targets represent different aspects of prostate-cancer biology. PTEN loss is
+loss of a tumor-suppressor signal, SPOP mutation is a recurrent genomic alteration, and AR
+activity is a continuous measure of androgen-receptor-regulated transcription. They are
+molecular labels evaluated for association with histology-derived representations, not
+claims that routine morphology directly diagnoses the underlying alteration. Recurrence
+endpoints describe time to a dataset-defined progression or return event; reconstructed
+recurrence, progression-free measures, and official progression-free interval are therefore
+kept separate \cite{tcgaprad2015,tcgacdr2018}.
+
+Analytically, Spearman correlation measures preservation of continuous or ordinal ranking,
+area under the receiver operating characteristic curve (AUROC) measures binary
+discrimination, and the concordance index measures time-to-event risk ordering. These
+metrics quantify association or discrimination; they do not by themselves establish
+calibration, causal interpretation, or readiness for clinical use. A ``frozen'' encoder is
+not fine-tuned in this study; a probe is a lightweight
+model fitted to its fixed representations, and transfer without refitting means applying
+that source-cohort probe unchanged to a target cohort.
+
 Across frozen CONtrastive learning from Captions for Histopathology (CONCH) and Virchow
 representations, we evaluated grade, tumor phenotype, phosphatase and tensin homolog (PTEN)
 loss, speckle type BTB/POZ protein (SPOP) mutation, androgen-receptor (AR) activity and a

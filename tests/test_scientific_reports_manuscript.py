@@ -861,6 +861,30 @@ class SubmissionDraftContractTests(unittest.TestCase):
         self.assertNotIn("patient-level grade and phenotype labels", methods)
         self.assertNotIn("with ISUP grade and tumor/benign labels", methods)
 
+    def test_introduction_orients_pathology_and_medical_ai_readers(self) -> None:
+        introduction = " ".join(_read("paper/sections/introduction.tex").split())
+        for phrase in (
+            "Clinical and analytical orientation",
+            "Gleason grading summarizes the gland-forming architecture of prostate cancer",
+            "higher scores or International Society of Urological Pathology (ISUP) Grade "
+            "Groups indicate less differentiated morphology",
+            "Tumor phenotype'' instead denotes the dataset-specific tumor-content target",
+            "it is not a molecular subtype",
+            "PTEN loss is loss of a tumor-suppressor signal",
+            "SPOP mutation is a recurrent genomic alteration",
+            "AR activity is a continuous measure of androgen-receptor-regulated transcription",
+            "not claims that routine morphology directly diagnoses the underlying alteration",
+            "Spearman correlation measures preservation of continuous or ordinal ranking",
+            "area under the receiver operating characteristic curve (AUROC) measures binary "
+            "discrimination",
+            "the concordance index measures time-to-event risk ordering",
+            "do not by themselves establish calibration, causal interpretation, or "
+            "readiness for clinical use",
+            "transfer without refitting means applying that source-cohort probe unchanged",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, introduction)
+
     def test_nadt_results_name_local_bootstrap_interval_and_resamples(self) -> None:
         results = _read("paper/sections/results.tex")
         nadt = results.split("Among 39 NADT-Prostate patients", 1)[1].split(
