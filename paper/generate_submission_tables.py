@@ -170,7 +170,7 @@ def render_endpoint_hierarchy(frame: pd.DataFrame, output_path: Path) -> Path:
     tex = "\n".join((
         r"\begingroup", r"\small",
         r"\begin{longtable}{@{}p{0.06\textwidth}p{0.12\textwidth}p{0.38\textwidth}p{0.35\textwidth}@{}}",
-        r"\caption{Endpoint hierarchy retained from the audited endpoint source.}",
+        r"\caption{Endpoint hierarchy retained from the audited source. Rows E01--E02 are primary frozen-score qualification, E03 is secondary held-out clinical increment, and E04--E05 are exploratory recurrence analyses. The metric column states the estimand used for each endpoint class; hierarchy levels are not interchangeable.}",
         "\\label{tab:supp-endpoint-hierarchy}\\\\", r"\toprule",
         "ID & Hierarchy & Endpoint & Primary metric \\\\", r"\midrule", r"\endfirsthead",
         r"\toprule", "ID & Hierarchy & Endpoint & Primary metric \\\\", r"\midrule",
@@ -247,7 +247,7 @@ def render_multiplicity_family(frame: pd.DataFrame, output_path: Path) -> Path:
     tex = "\n".join((
         r"\begingroup", r"\small",
         r"\begin{longtable}{@{}p{0.38\textwidth}p{0.14\textwidth}rrr@{}}",
-        r"\caption{Complete saved 17-row revision-analysis multiplicity family. Effects and probability values are copied from the audited source; $q$ is the Benjamini--Hochberg value.}",
+        r"\caption{Complete saved 17-row revision-analysis multiplicity family. Every discovery-family row is shown rather than a selected subset. Effects and probability values are copied from the audited source; $q$ is the Benjamini--Hochberg false-discovery-rate-adjusted value across all 17 rows.}",
         r"\label{tab:supp-family}\\", r"\toprule",
         "Test & Metric & Effect & $p$ & $q$ \\\\", r"\midrule", r"\endfirsthead",
         r"\toprule", "Test & Metric & Effect & $p$ & $q$ \\\\", r"\midrule",
@@ -372,7 +372,7 @@ def render_evidence_axis_audit(
         r"\fontsize{9.5pt}{11pt}\selectfont",
         r"\setlength{\tabcolsep}{3pt}",
         r"\begin{longtable}{@{}p{0.11\linewidth}p{0.12\linewidth}p{0.12\linewidth}p{0.07\linewidth}p{0.26\linewidth}p{0.26\linewidth}@{}}",
-        r"\caption{Target-by-axis qualification audit. Each row links an evidence state to the audited claim source and states what evidence would be required to change that state.}",
+        r"\caption{Target-by-axis qualification audit corresponding to Supplementary Figure S4. Each row links a target-specific evidence state to the audited claim source, states the current evidence, and specifies what evidence would be required to change that state. Not evaluated and not applicable are not negative results.}",
         r"\label{tab:supp-evidence-axis-audit}\\",
         r"\toprule",
         "Target & Evidence axis & State & Claim & Current evidence & Next evidence needed \\\\",
@@ -382,6 +382,196 @@ def render_evidence_axis_audit(
         r"\midrule", r"\endhead",
         *rows, r"\bottomrule", r"\end{longtable}", r"\endgroup",
         r"\end{landscape}", "",
+    ))
+    _atomic_write(Path(output_path), tex)
+    return Path(output_path)
+
+
+def _require_columns(frame: pd.DataFrame, columns: set[str], description: str) -> None:
+    missing = sorted(columns - set(frame.columns))
+    if missing:
+        raise ValueError(f"{description} missing required columns: {missing}")
+
+
+def render_analysis_frame_inventory(
+    transport: pd.DataFrame,
+    molecular: pd.DataFrame,
+    confounder: pd.DataFrame,
+    recurrence: pd.DataFrame,
+    stability: pd.DataFrame,
+    contrasts: pd.DataFrame,
+    output_path: Path,
+) -> Path:
+    """Render a source-reconciled inventory of all major analysis frames."""
+    _require_columns(
+        transport, {"semantic_key", "signal", "cohort", "institution", "analysis_unit", "n", "n_events"},
+        "analysis-frame transport source",
+    )
+    _require_columns(
+        molecular, {"semantic_key", "target", "component", "patient_denominator", "event_count"},
+        "analysis-frame molecular source",
+    )
+    _require_columns(
+        confounder, {"semantic_key", "audit_type", "site", "n_slides", "n_patients"},
+        "analysis-frame confounder source",
+    )
+    _require_columns(
+        recurrence, {"semantic_key", "endpoint_id", "result_type", "n", "n_events"},
+        "analysis-frame recurrence source",
+    )
+    _require_columns(
+        stability, {"marker", "encoder", "tiles_per_slide", "target_mpp", "n_seeds"},
+        "analysis-frame stability source",
+    )
+    _require_columns(
+        contrasts, {"pair_id", "contrast", "marker", "sampling_seed"},
+        "analysis-frame contrast source",
+    )
+    if len(transport) != 7 or set(transport["semantic_key"]) != {
+        "gleason:nadt", "phenotype:nadt", "gleason_panda:karolinska",
+        "gleason_panda:radboud", "phenotype_panda:karolinska",
+        "phenotype_panda:radboud", "gleason_precise:all",
+    }:
+        raise ValueError("analysis-frame inventory transport rows do not reconcile")
+    primary = molecular.loc[molecular["component"].eq("frozen_primary")]
+    if set(primary["target"]) != {"PTEN", "SPOP", "AR"} or not primary["patient_denominator"].eq(273).all():
+        raise ValueError("analysis-frame inventory molecular frame does not reconcile")
+    increments = confounder.loc[confounder["audit_type"].eq("grade_adjusted_increment")]
+    if len(increments) != 4 or not increments["n_patients"].eq(273).all():
+        raise ValueError("analysis-frame inventory increment frame does not reconcile")
+    pooled_site = confounder.loc[
+        confounder["audit_type"].eq("ar_site_transport") & confounder["site"].eq("Pooled")
+    ]
+    site_rows = confounder.loc[
+        confounder["audit_type"].eq("ar_site_transport") & confounder["site"].ne("Pooled")
+    ]
+    if len(pooled_site) != 1 or len(site_rows) != 6:
+        raise ValueError("analysis-frame inventory site frame does not reconcile")
+    frozen = recurrence.loc[recurrence["result_type"].eq("frozen_risk_performance")]
+    paired = recurrence.loc[recurrence["result_type"].eq("same_patient_same_draw_delta")]
+    if len(frozen) != 2 or set(frozen["n"]) != {270} or set(frozen["n_events"]) != {42, 57}:
+        raise ValueError("analysis-frame inventory recurrence target frame does not reconcile")
+    if len(paired) != 20 or set(paired["n"]) != {153} or set(paired["n_events"]) != {15, 30}:
+        raise ValueError("analysis-frame inventory paired recurrence frame does not reconcile")
+    if len(stability) != 72 or stability["n_seeds"].sum() != 360:
+        raise ValueError("analysis-frame inventory stability grid does not reconcile")
+    if len(contrasts) != 390 or contrasts["pair_id"].duplicated().any():
+        raise ValueError("analysis-frame inventory paired contrasts do not reconcile")
+
+    rows = (
+        ("Source fitting", "NADT-Prostate", "Grade; phenotype", "Patient", "39", "Source-cohort probe fitting and patient aggregation"),
+        ("External transfer", "PANDA Karolinska", "Grade; phenotype", "Case image", "565; 469 tumor for phenotype", "Transfer without target-cohort refitting"),
+        ("External transfer", "PANDA Radboud", "Grade; phenotype", "Case image", "572; 483 tumor for phenotype", "Transfer without target-cohort refitting"),
+        ("Additional grade evaluation", "PRECISE", "Grade", "Imaging session", "17 evaluable sessions", "Independent resource and session-level analysis unit"),
+        ("Molecular primary", "TCGA-PRAD", "PTEN; SPOP; AR", "Patient", "273", "Frozen pooled association"),
+        ("Clinical increment", "TCGA-PRAD", "PTEN; AR", "Patient", "273", "Nested held-out increment beyond grade"),
+        ("Site audit", "TCGA-PRAD", "AR", "Slide with patient clustering", "300 slides; 273 patients; 6 sites", "Site-specific uncertainty, not a causal scanner analysis"),
+        ("Recurrence transfer", "TCGA-PRAD", "Post-hoc recurrence risk", "Patient", "270; 57 reconstructed and 42 Official-PFI events", "Endpoint-specific frozen-risk transfer"),
+        ("Paired recurrence increment", "TCGA-PRAD", "Post-hoc recurrence risk", "Complete-case patient", "153; 30 reconstructed and 15 Official-PFI events", "Same-patient, same-bootstrap-draw model contrasts"),
+        ("Correlated setting audit", "Multiple source cohorts", "Six targets", "Configuration and seed cell", "72 configurations; 360 cells; 390 paired contrasts", "Sensitivity analysis; cells are not independent validations"),
+    )
+    tex_rows = [" & ".join(_escape(value) for value in row) + r" \\" for row in rows]
+    tex = "\n".join((
+        r"\begingroup", r"\fontsize{9.5pt}{11pt}\selectfont",
+        r"\setlength{\tabcolsep}{3pt}",
+        r"\begin{longtable}{@{}p{0.14\linewidth}p{0.14\linewidth}p{0.14\linewidth}p{0.14\linewidth}p{0.18\linewidth}p{0.20\linewidth}@{}}",
+        r"\caption{Analysis-frame inventory. Each row identifies the resource, target, analysis unit, saved denominator or repeated structure, and scientific role of one evidence component. Counts must not be summed as independent patients or validations because patients, slides, folds, and settings can overlap across rows.}",
+        r"\label{tab:supp-analysis-frame-inventory}\\", r"\toprule",
+        "Evidence component & Resource & Target & Analysis unit & Saved frame & Role \\\\",
+        r"\midrule", r"\endfirsthead", r"\toprule",
+        "Evidence component & Resource & Target & Analysis unit & Saved frame & Role \\\\",
+        r"\midrule", r"\endhead", *tex_rows, r"\bottomrule", r"\end{longtable}",
+        r"\endgroup", "",
+    ))
+    _atomic_write(Path(output_path), tex)
+    return Path(output_path)
+
+
+def render_stability_contrast_summary(frame: pd.DataFrame, output_path: Path) -> Path:
+    """Summarize all 390 paired sensitivity contrasts without independence claims."""
+    required = {"pair_id", "contrast", "marker", "delta_b_minus_a", "null_crossing"}
+    _require_columns(frame, required, "stability contrast summary")
+    if len(frame) != 390 or frame["pair_id"].duplicated().any():
+        raise ValueError("stability contrast summary requires 390 unique pairs")
+    contrasts = (
+        ("native_vs_1.76", "Shared 1.76 mpp minus native"),
+        ("virchow_vs_conch_at_1.76", "Virchow minus CONCH at 1.76 mpp"),
+        ("tile64_vs16", "64 minus 16 tiles"),
+    )
+    markers = (
+        ("gleason", "Gleason"), ("phenotype", "Phenotype"), ("pten", "PTEN"),
+        ("ar", "AR"), ("spop", "SPOP"), ("marker7", "Recurrence risk"),
+    )
+    expected_counts = {"native_vs_1.76": 30, "virchow_vs_conch_at_1.76": 15, "tile64_vs16": 20}
+    rows = []
+    for contrast, contrast_label in contrasts:
+        for marker, marker_label in markers:
+            subset = frame.loc[frame["contrast"].eq(contrast) & frame["marker"].eq(marker)]
+            if len(subset) != expected_counts[contrast]:
+                raise ValueError(f"stability contrast summary count mismatch: {contrast}/{marker}")
+            values = pd.to_numeric(subset["delta_b_minus_a"], errors="coerce")
+            if values.isna().any():
+                raise ValueError("stability contrast summary contains non-numeric differences")
+            crossings = subset["null_crossing"].astype(str).str.lower()
+            if not crossings.isin({"true", "false"}).all():
+                raise ValueError("stability contrast summary has invalid null-crossing flags")
+            rows.append(
+                f"{_escape(contrast_label)} & {_escape(marker_label)} & {len(subset)} & "
+                f"{values.median():+.3f} & {values.quantile(0.25):+.3f} to "
+                f"{values.quantile(0.75):+.3f} & {int(crossings.eq('true').sum())}/{len(subset)} \\\\"
+            )
+    tex = "\n".join((
+        r"\begingroup", r"\small", r"\setlength{\tabcolsep}{3pt}",
+        r"\begin{longtable}{@{}p{0.29\textwidth}p{0.16\textwidth}rrrr@{}}",
+        r"\caption{Descriptive summary corresponding to Supplementary Figure S5. All 390 seed-matched setting contrasts are partitioned by comparison family and target. Differences are B minus A; medians, interquartile ranges, and null-crossing counts summarize correlated sensitivity comparisons rather than independent replicates or hypothesis tests.}",
+        r"\label{tab:supp-stability-contrast-summary}\\", r"\toprule",
+        "Comparison & Target & Pairs & Median & Interquartile range & Null crossings \\\\",
+        r"\midrule", r"\endfirsthead", r"\toprule",
+        "Comparison & Target & Pairs & Median & Interquartile range & Null crossings \\\\",
+        r"\midrule", r"\endhead", *rows, r"\bottomrule", r"\end{longtable}",
+        r"\endgroup", "",
+    ))
+    _atomic_write(Path(output_path), tex)
+    return Path(output_path)
+
+
+def render_endpoint_concordance(frame: pd.DataFrame, output_path: Path) -> Path:
+    """Render all saved comparisons against Official TCGA-CDR PFI."""
+    required = {
+        "reference_endpoint_id", "comparison_endpoint_id", "n_common_evaluable",
+        "n_reference_events_common", "n_comparison_events_common", "event_agreement",
+        "cohen_kappa", "time_spearman_rho", "status",
+    }
+    _require_columns(frame, required, "endpoint concordance table")
+    labels = {
+        "reconstructed_gdc_disease_response": "Reconstructed with-tumor",
+        "cbioportal_tcga_cdr_pfs": "TCGA-CDR PFS",
+        "cbioportal_tcga_cdr_dfs": "TCGA-CDR DFS",
+        "gdc_recurrence_only_after_tumor_free": "Strict recurrence-only",
+    }
+    if len(frame) != 4 or set(frame["comparison_endpoint_id"]) != set(labels):
+        raise ValueError("endpoint concordance table requires the complete four-row comparison set")
+    if not frame["reference_endpoint_id"].eq("official_tcga_cdr_pfi").all() or not frame["status"].eq("complete").all():
+        raise ValueError("endpoint concordance table requires complete Official-PFI comparisons")
+    rows = []
+    for endpoint_id, label in labels.items():
+        row = frame.loc[frame["comparison_endpoint_id"].eq(endpoint_id)]
+        if len(row) != 1:
+            raise ValueError(f"endpoint concordance table row is not unique: {endpoint_id}")
+        row = row.iloc[0]
+        rows.append(
+            f"{_escape(label)} & {int(row.n_common_evaluable)} & "
+            f"{int(row.n_reference_events_common)}/{int(row.n_comparison_events_common)} & "
+            f"{float(row.event_agreement):.3f} & {float(row.cohen_kappa):.3f} & "
+            f"{float(row.time_spearman_rho):.3f} \\\\"
+        )
+    tex = "\n".join((
+        r"\begin{table}[htbp]", r"\centering", r"\small",
+        r"\caption{Saved endpoint concordance corresponding to Supplementary Figure S6, with Official TCGA Pan-Cancer Clinical Data Resource progression-free interval (PFI) as the reference. Common N is the shared evaluable frame; event counts are Official PFI/comparison; agreement is raw event agreement, kappa is chance-corrected event agreement, and time rho is Spearman follow-up-time correlation.}",
+        r"\label{tab:supp-endpoint-concordance}",
+        r"\begin{tabular}{@{}lrrrrr@{}}", r"\toprule",
+        "Comparison endpoint & Common N & Events & Agreement & Kappa & Time rho \\\\",
+        r"\midrule", *rows, r"\bottomrule", r"\end{tabular}", r"\end{table}", "",
     ))
     _atomic_write(Path(output_path), tex)
     return Path(output_path)
@@ -412,6 +602,18 @@ def generate_submission_tables(
         "S4": (
             "tab:supp-evidence-axis-audit", "paper/generate_submission_tables.py", 2,
             render_evidence_axis_audit,
+        ),
+        "S5": (
+            "tab:supp-analysis-frame-inventory", "paper/generate_submission_tables.py", 6,
+            render_analysis_frame_inventory,
+        ),
+        "S6": (
+            "tab:supp-stability-contrast-summary", "paper/generate_submission_tables.py", 1,
+            render_stability_contrast_summary,
+        ),
+        "S7": (
+            "tab:supp-endpoint-concordance", "paper/generate_submission_tables.py", 1,
+            render_endpoint_concordance,
         ),
     }
     specs = tuple(table_specs)

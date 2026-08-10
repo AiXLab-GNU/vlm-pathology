@@ -276,6 +276,8 @@ class SubmissionDraftContractTests(unittest.TestCase):
             ("figures/sfig2_marker7_survival.pdf", "fig:supp-marker7-survival"),
             ("figures/sfig3_stability_heatmaps.pdf", "fig:supp-stability-heatmaps"),
             ("figures/sfig4_evidence_axis_matrix.pdf", "fig:supp-evidence-axis-matrix"),
+            ("figures/sfig5_stability_distributions.pdf", "fig:supp-stability-distributions"),
+            ("figures/sfig6_endpoint_concordance.pdf", "fig:supp-endpoint-concordance"),
         )
         for output, label in expected_figures:
             self.assertIn(output, supplement)
@@ -290,11 +292,56 @@ class SubmissionDraftContractTests(unittest.TestCase):
         findings = [pattern for pattern in prohibited if re.search(pattern, supplement, re.I)]
         self.assertEqual(findings, [])
 
+    def test_every_supplementary_figure_and_table_has_interpretive_guidance(self) -> None:
+        supplement = _read("paper/sections/supplementary_information.tex")
+        normalized_supplement = " ".join(supplement.split())
+        generated = "\n".join(
+            _read(f"paper/generated/stable{index}_{name}.tex")
+            for index, name in (
+                (1, "endpoint_hierarchy"),
+                (2, "multiplicity_family"),
+                (3, "stability_summary"),
+                (4, "evidence_axis_audit"),
+                (5, "analysis_frame_inventory"),
+                (6, "stability_contrast_summary"),
+                (7, "endpoint_concordance"),
+            )
+        )
+        guidance = (
+            "The hierarchy distinguishes what each analysis can answer",
+            "no selected subset is presented as the family",
+            "directional continuity rather than uniformly precise effect-size estimation",
+            "not two replications and not evidence of Official PFI calibration",
+            "the 360 cells are not independent validations",
+            "evidence completeness is target-specific",
+            "the listed counts must be interpreted within their row-specific analysis frames",
+            "do not rank encoders causally or turn repeated seeds into independent experiments",
+            "raw agreement alone is insufficient",
+        )
+        for phrase in guidance:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, normalized_supplement)
+        self.assertEqual(supplement.count(r"\label{fig:supp-"), 6)
+        self.assertEqual(generated.count(r"\label{tab:supp-"), 7)
+        for phrase in (
+            "hierarchy levels are not interchangeable",
+            "Every discovery-family row is shown",
+            "Not evaluated and not applicable are not negative results",
+            "patients, slides, folds, and settings can overlap across rows",
+            "All 390 seed-matched setting contrasts",
+            "agreement is raw event agreement",
+        ):
+            with self.subTest(caption_phrase=phrase):
+                self.assertIn(phrase, generated)
+
     def test_active_tables_are_generated_and_sf1_scope_is_unit_exact(self) -> None:
         supplement = _read("paper/sections/supplementary_information.tex")
         self.assertIn(r"\input{generated/stable2_multiplicity_family.tex}", supplement)
         self.assertIn(r"\input{generated/stable3_stability_summary.tex}", supplement)
         self.assertIn(r"\input{generated/stable4_evidence_axis_audit.tex}", supplement)
+        self.assertIn(r"\input{generated/stable5_analysis_frame_inventory.tex}", supplement)
+        self.assertIn(r"\input{generated/stable6_stability_contrast_summary.tex}", supplement)
+        self.assertIn(r"\input{generated/stable7_endpoint_concordance.tex}", supplement)
         self.assertNotRegex(supplement, r"(?is)\begin\{longtable\}.*complete multiplicity")
         sf1_scope = supplement[
             supplement.index(r"\subsection*{Detailed discrimination summaries}"):
@@ -457,7 +504,7 @@ class SubmissionDraftContractTests(unittest.TestCase):
             with self.subTest(location="legend", phrase=phrase):
                 self.assertIn(phrase, legends)
 
-    def test_supplement_numbering_and_first_citation_order_are_s1_to_s4(self) -> None:
+    def test_supplement_numbering_and_first_citation_order_are_s1_to_s7(self) -> None:
         supplement_main = _read("paper/supplement_main.tex")
         supplement = _read("paper/sections/supplementary_information.tex")
         self.assertIn(r"\renewcommand{\thefigure}{S\arabic{figure}}", supplement_main)
@@ -468,6 +515,8 @@ class SubmissionDraftContractTests(unittest.TestCase):
             "fig:supp-marker7-survival",
             "fig:supp-stability-heatmaps",
             "fig:supp-evidence-axis-matrix",
+            "fig:supp-stability-distributions",
+            "fig:supp-endpoint-concordance",
         )
         self.assertTrue(_appear_in_order(supplement, labels))
         generated_tables = (
@@ -475,18 +524,21 @@ class SubmissionDraftContractTests(unittest.TestCase):
             + _read("paper/generated/stable2_multiplicity_family.tex")
             + _read("paper/generated/stable3_stability_summary.tex")
             + _read("paper/generated/stable4_evidence_axis_audit.tex")
+            + _read("paper/generated/stable5_analysis_frame_inventory.tex")
+            + _read("paper/generated/stable6_stability_contrast_summary.tex")
+            + _read("paper/generated/stable7_endpoint_concordance.tex")
         )
         stable4 = _read("paper/generated/stable4_evidence_axis_audit.tex")
         self.assertIn(r"\begin{landscape}", stable4)
         self.assertIn(r"\fontsize{9.5pt}{11pt}\selectfont", stable4)
-        self.assertEqual(supplement.count(r"\caption{"), 4)
+        self.assertEqual(supplement.count(r"\caption{"), 6)
         self.assertEqual(
             generated_tables.count(r"\caption{")
             + generated_tables.count(r"\captionof{table}"),
-            4,
+            7,
         )
 
-    def test_supplementary_figure_3_uses_nine_a4_safe_page_placements(self) -> None:
+    def test_supplementary_figure_3_places_six_heatmaps_two_up(self) -> None:
         supplement = _read("paper/sections/supplementary_information.tex")
         self.assertNotRegex(supplement, r"\\includepdf")
         self.assertNotRegex(supplement, r"pages\s*=\s*-")
@@ -501,6 +553,12 @@ class SubmissionDraftContractTests(unittest.TestCase):
                 self.assertRegex(options, r"width\s*=\s*0\.9[0-9]\\textwidth")
                 self.assertRegex(options, r"height\s*=\s*0\.[0-8][0-9]\\textheight")
                 self.assertIn("keepaspectratio", options)
+                height = float(re.search(r"height\s*=\s*(0\.[0-9]+)", options).group(1))
+                if int(page) <= 6:
+                    self.assertLessEqual(height, 0.39)
+        self.assertIn("heatmaps 3--4 of 6", supplement)
+        self.assertIn("heatmaps 5--6 of 6", supplement)
+        self.assertEqual(supplement.count("Supplementary Figure S3 (continued;"), 5)
         page_one = supplement.find("page=1")
         caption = supplement.find(r"\caption{\textbf{Complete stability grids")
         self.assertGreaterEqual(page_one, 0)

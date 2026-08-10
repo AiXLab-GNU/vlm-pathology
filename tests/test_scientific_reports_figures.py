@@ -109,6 +109,20 @@ RENDERER_CONTRACTS = (
         (0, ("marker", "encoder", "tiles_per_slide", "target_mpp")),
         (0, "marker", "spop"),
     ),
+    (
+        "paper.figures.sfig5_stability_distributions",
+        (FIGURE_DATA / "fig9_stability_contrasts.csv",),
+        (0, "delta_b_minus_a"),
+        (0, ("pair_id",)),
+        (0, "contrast", "tile64_vs16"),
+    ),
+    (
+        "paper.figures.sfig6_endpoint_concordance",
+        (ROOT / "models" / "pfi_endpoint_concordance.csv",),
+        (0, "event_agreement"),
+        (0, ("comparison_endpoint_id",)),
+        (0, "comparison_endpoint_id", "reconstructed_gdc_disease_response"),
+    ),
 )
 
 FINITE_MUTATIONS = {
@@ -121,6 +135,8 @@ FINITE_MUTATIONS = {
     "paper.figures.sfig1_detailed_roc": (0, "primary_estimate"),
     "paper.figures.sfig2_marker7_survival": (0, "td_auc"),
     "paper.figures.sfig3_stability_heatmaps": (0, "mean"),
+    "paper.figures.sfig5_stability_distributions": (0, "delta_b_minus_a"),
+    "paper.figures.sfig6_endpoint_concordance": (0, "event_agreement"),
 }
 
 EXPLICIT_MISSINGNESS_RENDERERS = {
@@ -602,6 +618,26 @@ class SubmissionRendererTests(unittest.TestCase):
             matrix.to_csv(paths[0], index=False)
             with self.assertRaisesRegex(ValueError, "complete five-by-six"):
                 module.load_sources(paths)
+
+    def test_evidence_atlas_renderers_expose_complete_saved_comparisons(self):
+        stability = importlib.import_module("paper.figures.sfig5_stability_distributions")
+        (contrasts,) = stability.load_sources(
+            (FIGURE_DATA / "fig9_stability_contrasts.csv",)
+        )
+        self.assertEqual(len(contrasts), 390)
+        self.assertEqual(
+            contrasts["contrast"].value_counts().to_dict(),
+            {"native_vs_1.76": 180, "tile64_vs16": 120,
+             "virchow_vs_conch_at_1.76": 90},
+        )
+        endpoints = importlib.import_module("paper.figures.sfig6_endpoint_concordance")
+        (concordance,) = endpoints.load_sources(
+            (ROOT / "models" / "pfi_endpoint_concordance.csv",)
+        )
+        self.assertEqual(len(concordance), 4)
+        self.assertTrue(concordance["reference_endpoint_id"].eq(
+            "official_tcga_cdr_pfi"
+        ).all())
 
     def test_reviewer_validator_mutations_fail_closed(self):
         cases = []

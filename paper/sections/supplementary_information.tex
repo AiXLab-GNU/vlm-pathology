@@ -28,6 +28,13 @@ audited endpoint hierarchy without renaming reconstructed outcomes as official P
 
 \input{generated/stable1_endpoint_hierarchy.tex}
 
+The hierarchy distinguishes what each analysis can answer. E01--E02 qualify frozen
+continuous and binary marker scores, E03 asks whether PTEN or AR adds held-out information
+beyond grade, and E04--E05 are exploratory recurrence analyses with different event
+definitions. Consequently, a result in an exploratory recurrence row cannot be used to
+upgrade a primary marker claim, and agreement between two endpoint fields does not erase
+their declared provenance.
+
 \subsection*{The complete 17-test family}
 
 This subsection enumerates the complete multiplicity family so that the main-text findings
@@ -74,6 +81,13 @@ and analysis units are printed for every row. Unavailable intervals were not tre
 and aggregate statistics were not converted into reconstructed curves.}
 \label{fig:supp-discrimination-details}
 \end{figure}
+
+The central pattern is directional continuity rather than uniformly precise effect-size
+estimation: the NADT-Prostate grade and phenotype signals retain their direction in the
+external PANDA subsets and in the PRECISE grade evaluation, but the PANDA and PRECISE rows
+without stored intervals do not establish the precision of those effects. Figure S1
+therefore supports cross-resource transport of direction while leaving some target-cohort
+uncertainty unresolved.
 
 \subsection*{Recurrence endpoints, paired bootstrap and common-source sensitivity}
 
@@ -129,6 +143,12 @@ supplies no Official-PFI calibration claim.}
 \label{fig:supp-marker7-survival}
 \end{figure}
 
+Figure S2 shows that the saved post-hoc score contains time-dependent discrimination and
+risk-stratification structure for the reconstructed endpoint. Because both panels use the
+same legacy 270-patient frame and reconstructed 57-event definition, they are complementary
+descriptions of one exploratory analysis, not two replications and not evidence of Official
+PFI calibration.
+
 \clearpage
 \subsection*{Full correlated stability analysis}
 
@@ -154,13 +174,16 @@ encoder, scale or tile count, and the 360 cells are not independent validations.
 \clearpage
 \begin{figure}[p]
 \centering
-\includegraphics[page=1,width=0.94\textwidth,height=0.70\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
-\caption{\textbf{Complete stability grids and paired contrasts.} Pages 1--6 display all
-72 validated configuration means from the saved grid, one target per page. On each page,
+\includegraphics[page=1,width=0.94\textwidth,height=0.29\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\par\vspace{0.3em}
+\includegraphics[page=2,width=0.94\textwidth,height=0.29\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\caption{\textbf{Complete stability grids and paired contrasts.} Internal pages 1--6
+display all 72 validated configuration means from the saved grid, two targets per physical
+supplementary page. For each target,
 panels \textbf{a--b} are CONCH and Virchow; columns combine 16, 32, or 64 tiles with the
 encoder-native physical scale or the shared 1.76~$\mu$m-per-pixel scale. Each cell reports
 the five-seed mean minus the marker-specific null and the number of seeds at or below that
-null; color is centred at zero separately for each target. Pages 7--9 display all 390
+null; color is centred at zero separately for each target. Internal pages 7--9 display all 390
 seed-matched contrasts: shared 1.76~$\mu$m-per-pixel minus native scale (180), Virchow minus
 CONCH at 1.76~$\mu$m per pixel (90), and 64 minus 16 tiles (120). The abscissa is metric
 $B-A$ and the dashed line is zero; orange points cross the marker-specific null whereas blue
@@ -173,8 +196,10 @@ folds, not independent validations or population-confidence intervals.}
 \thispagestyle{plain}
 \vspace*{\fill}
 \begin{center}
-\textbf{Supplementary Figure S3 (continued; page 2 of 9)}\\[0.6em]
-\includegraphics[page=2,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\textbf{Supplementary Figure S3 (continued; heatmaps 3--4 of 6)}\\[0.5em]
+\includegraphics[page=3,width=0.94\textwidth,height=0.39\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\par\vspace{0.4em}
+\includegraphics[page=4,width=0.94\textwidth,height=0.39\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
 \end{center}
 \vspace*{\fill}
 
@@ -182,8 +207,10 @@ folds, not independent validations or population-confidence intervals.}
 \thispagestyle{plain}
 \vspace*{\fill}
 \begin{center}
-\textbf{Supplementary Figure S3 (continued; page 3 of 9)}\\[0.6em]
-\includegraphics[page=3,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\textbf{Supplementary Figure S3 (continued; heatmaps 5--6 of 6)}\\[0.5em]
+\includegraphics[page=5,width=0.94\textwidth,height=0.39\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
+\par\vspace{0.4em}
+\includegraphics[page=6,width=0.94\textwidth,height=0.39\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
 \end{center}
 \vspace*{\fill}
 
@@ -191,34 +218,7 @@ folds, not independent validations or population-confidence intervals.}
 \thispagestyle{plain}
 \vspace*{\fill}
 \begin{center}
-\textbf{Supplementary Figure S3 (continued; page 4 of 9)}\\[0.6em]
-\includegraphics[page=4,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
-\end{center}
-\vspace*{\fill}
-
-\clearpage
-\thispagestyle{plain}
-\vspace*{\fill}
-\begin{center}
-\textbf{Supplementary Figure S3 (continued; page 5 of 9)}\\[0.6em]
-\includegraphics[page=5,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
-\end{center}
-\vspace*{\fill}
-
-\clearpage
-\thispagestyle{plain}
-\vspace*{\fill}
-\begin{center}
-\textbf{Supplementary Figure S3 (continued; page 6 of 9)}\\[0.6em]
-\includegraphics[page=6,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
-\end{center}
-\vspace*{\fill}
-
-\clearpage
-\thispagestyle{plain}
-\vspace*{\fill}
-\begin{center}
-\textbf{Supplementary Figure S3 (continued; page 7 of 9)}\\[0.6em]
+\textbf{Supplementary Figure S3 (continued; scale contrasts)}\\[0.6em]
 \includegraphics[page=7,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
 \end{center}
 \vspace*{\fill}
@@ -227,7 +227,7 @@ folds, not independent validations or population-confidence intervals.}
 \thispagestyle{plain}
 \vspace*{\fill}
 \begin{center}
-\textbf{Supplementary Figure S3 (continued; page 8 of 9)}\\[0.6em]
+\textbf{Supplementary Figure S3 (continued; encoder contrasts)}\\[0.6em]
 \includegraphics[page=8,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
 \end{center}
 \vspace*{\fill}
@@ -236,7 +236,7 @@ folds, not independent validations or population-confidence intervals.}
 \thispagestyle{plain}
 \vspace*{\fill}
 \begin{center}
-\textbf{Supplementary Figure S3 (continued; page 9 of 9)}\\[0.6em]
+\textbf{Supplementary Figure S3 (continued; tile-budget contrasts)}\\[0.6em]
 \includegraphics[page=9,width=0.94\textwidth,height=0.82\textheight,keepaspectratio]{figures/sfig3_stability_heatmaps.pdf}
 \end{center}
 \vspace*{\fill}
@@ -271,7 +271,100 @@ needed to change every cell.}
 \label{fig:supp-evidence-axis-matrix}
 \end{figure}
 
+Read together, Figure S4 and Table S4 show that evidence completeness is target-specific.
+Grade and phenotype have the broadest support, including cross-cohort direction; PTEN and
+AR have supported within-cohort axes but unresolved or unevaluated clinical and site axes;
+SPOP remains unsupported or context-sensitive in the frozen design; and recurrence remains
+conditional on representation and endpoint. The matrix is therefore a map of qualified
+claims and open gaps, not a scorecard in which supported cells can compensate for missing
+ones.
+
 \input{generated/stable4_evidence_axis_audit.tex}
+
+\clearpage
+
+\begin{landscape}
+\subsection*{Supplementary evidence atlas}
+
+This subsection consolidates the breadth of the saved evaluation program in forms that are
+complementary to the point-and-interval plots in the main manuscript. It does not add new
+cohorts, refit a frozen representation, or treat repeated settings as independent
+experiments. Supplementary Table~\ref{tab:supp-analysis-frame-inventory} identifies the
+analysis unit, denominator, repeated structure, and scientific role of every major evidence
+component. Counts from different rows must not be added because patients, slides, folds, and
+settings can overlap.
+
+\input{generated/stable5_analysis_frame_inventory.tex}
+\end{landscape}
+
+Table S5 demonstrates breadth across cohorts, analysis units, molecular and recurrence
+targets, and correlated setting checks. It does not imply that its rows are independent:
+the same patient, slide, fold, or saved representation can contribute to more than one row,
+so the listed counts must be interpreted within their row-specific analysis frames.
+
+Supplementary Figure~\ref{fig:supp-stability-distributions} exposes all saved paired setting
+differences rather than only their global ranges. Each point is one seed-matched comparison,
+the violin shows its descriptive distribution, and the embedded box shows the median and
+interquartile range. The three panels represent shared-minus-native physical scale,
+Virchow-minus-CONCH encoder, and 64-minus-16-tile contrasts. Orange points identify pairs
+whose endpoints lie on opposite sides of the marker-specific null; they do not represent
+independent hypothesis tests. The complete numerical summaries are reported in
+Supplementary Table~\ref{tab:supp-stability-contrast-summary}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/sfig5_stability_distributions.pdf}
+\caption{\textbf{Distributions of all seed-matched stability contrasts.}
+\textbf{a}, Shared 1.76-micrometre-per-pixel scale minus each encoder's native scale.
+\textbf{b}, Virchow minus CONCH at the shared scale. \textbf{c}, 64 minus 16 sampled tiles
+per slide. Horizontal violins show the distribution of saved paired metric differences;
+white boxes span the interquartile range, black lines mark medians, and individual dots are
+the complete seed-matched contrasts. Blue pairs remain on the same side of the relevant
+null and orange pairs cross it. Positive values favor the second-named setting under the
+displayed B-minus-A convention. All pairs reuse cohorts and folds and therefore describe
+setting sensitivity rather than independent validation evidence.}
+\label{fig:supp-stability-distributions}
+\end{figure}
+
+\input{generated/stable6_stability_contrast_summary.tex}
+
+Figure S5 and Table S6 make the heterogeneity behind the condensed stability decision
+visible. Grade, phenotype, PTEN, and AR have no null-crossing pairs in the saved contrast
+families, whereas SPOP contains crossings for scale, encoder, and tile-budget comparisons.
+The recurrence-risk signal has one scale crossing and a consistently negative
+Virchow-minus-CONCH contrast on this grid. These patterns identify settings that require
+qualification; they do not rank encoders causally or turn repeated seeds into independent
+experiments.
+
+Supplementary Figure~\ref{fig:supp-endpoint-concordance} separates three notions that can
+otherwise be hidden by a single endpoint label: event agreement, chance-corrected agreement,
+and follow-up-time rank correlation. The event-pair composition shows where apparent
+agreement arises from shared non-events and where the event indicators disagree. Exact
+agreement between Official TCGA-CDR PFI and the saved TCGA-CDR PFS fields reflects their
+source-field identity in this analysis; it is not an independent replication. Conversely,
+high raw agreement with other endpoints does not make their event definitions equivalent.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/sfig6_endpoint_concordance.pdf}
+\caption{\textbf{Endpoint concordance relative to Official TCGA-CDR progression-free
+interval (PFI).} \textbf{a}, Heatmap of raw event agreement, Cohen's kappa, and Spearman
+correlation of follow-up times among common evaluable patients. Cohen's kappa adjusts event
+agreement for agreement expected by chance. \textbf{b}, Composition of the corresponding
+event pairs; numbers within sufficiently large segments are patient counts. Grey denotes
+neither endpoint recording an event, green the comparison endpoint only, orange Official
+PFI only, and blue both endpoints. Differences in evaluable frames and event definitions
+remain part of the interpretation.}
+\label{fig:supp-endpoint-concordance}
+\end{figure}
+
+\input{generated/stable7_endpoint_concordance.tex}
+
+Figure S6 and Table S7 show why raw agreement alone is insufficient. The exact Official-PFI
+and TCGA-CDR-PFS row reflects identical saved source fields in this analysis, while the
+reconstructed and strict-recurrence rows combine high raw agreement with only moderate
+chance-corrected agreement. Recurrence conclusions are therefore reported by endpoint
+rather than pooled under a single label.
 
 \clearpage
 

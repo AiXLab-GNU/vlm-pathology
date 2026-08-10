@@ -1,0 +1,27 @@
+\begingroup
+\fontsize{9.5pt}{11pt}\selectfont
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{@{}p{0.14\linewidth}p{0.14\linewidth}p{0.14\linewidth}p{0.14\linewidth}p{0.18\linewidth}p{0.20\linewidth}@{}}
+\caption{Analysis-frame inventory. Each row identifies the resource, target, analysis unit, saved denominator or repeated structure, and scientific role of one evidence component. Counts must not be summed as independent patients or validations because patients, slides, folds, and settings can overlap across rows.}
+\label{tab:supp-analysis-frame-inventory}\\
+\toprule
+Evidence component & Resource & Target & Analysis unit & Saved frame & Role \\
+\midrule
+\endfirsthead
+\toprule
+Evidence component & Resource & Target & Analysis unit & Saved frame & Role \\
+\midrule
+\endhead
+Source fitting & NADT-Prostate & Grade; phenotype & Patient & 39 & Source-cohort probe fitting and patient aggregation \\
+External transfer & PANDA Karolinska & Grade; phenotype & Case image & 565; 469 tumor for phenotype & Transfer without target-cohort refitting \\
+External transfer & PANDA Radboud & Grade; phenotype & Case image & 572; 483 tumor for phenotype & Transfer without target-cohort refitting \\
+Additional grade evaluation & PRECISE & Grade & Imaging session & 17 evaluable sessions & Independent resource and session-level analysis unit \\
+Molecular primary & TCGA-PRAD & PTEN; SPOP; AR & Patient & 273 & Frozen pooled association \\
+Clinical increment & TCGA-PRAD & PTEN; AR & Patient & 273 & Nested held-out increment beyond grade \\
+Site audit & TCGA-PRAD & AR & Slide with patient clustering & 300 slides; 273 patients; 6 sites & Site-specific uncertainty, not a causal scanner analysis \\
+Recurrence transfer & TCGA-PRAD & Post-hoc recurrence risk & Patient & 270; 57 reconstructed and 42 Official-PFI events & Endpoint-specific frozen-risk transfer \\
+Paired recurrence increment & TCGA-PRAD & Post-hoc recurrence risk & Complete-case patient & 153; 30 reconstructed and 15 Official-PFI events & Same-patient, same-bootstrap-draw model contrasts \\
+Correlated setting audit & Multiple source cohorts & Six targets & Configuration and seed cell & 72 configurations; 360 cells; 390 paired contrasts & Sensitivity analysis; cells are not independent validations \\
+\bottomrule
+\end{longtable}
+\endgroup

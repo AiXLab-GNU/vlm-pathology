@@ -79,12 +79,12 @@ class Marker7FinalFigureTests(unittest.TestCase):
                 renderer(*sources, second)
                 self.assertEqual(self._sha(first), self._sha(second))
 
-    def test_submission_configuration_has_six_main_and_four_supplementary_figures(self):
+    def test_submission_configuration_has_six_main_and_six_supplementary_figures(self):
         self.assertEqual([item.figure_id for item in MAIN_FIGURES], [
             "F1", "F2", "F3", "F4", "F5", "F6",
         ])
         self.assertEqual([item.figure_id for item in SUPPLEMENT_FIGURES], [
-            "SF1", "SF2", "SF3", "SF4",
+            "SF1", "SF2", "SF3", "SF4", "SF5", "SF6",
         ])
         for item in (*MAIN_FIGURES, *SUPPLEMENT_FIGURES):
             self.assertTrue((ROOT / item.script).is_file())

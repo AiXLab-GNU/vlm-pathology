@@ -126,9 +126,13 @@ class RevisionFinalPackageTests(unittest.TestCase):
             figures = pd.read_csv(report.figure_manifest)
             tables = pd.read_csv(report.table_manifest)
             self.assertEqual(set(figures["figure_id"]), {
-                "F1", "F2", "F3", "F4", "F5", "F6", "SF1", "SF2", "SF3", "SF4",
+                "F1", "F2", "F3", "F4", "F5", "F6",
+                "SF1", "SF2", "SF3", "SF4", "SF5", "SF6",
             })
-            self.assertEqual(set(tables["table_id"]), {"T1", "S1", "S2", "S3", "S4"})
+            self.assertEqual(
+                set(tables["table_id"]),
+                {"T1", "S1", "S2", "S3", "S4", "S5", "S6", "S7"},
+            )
             self.assertEqual(report.status, "partial")
             self.assertIsNone(report.main_pdf)
             self.assertIsNone(report.supplement_pdf)
@@ -613,7 +617,8 @@ class RevisionFinalPackageTests(unittest.TestCase):
         from paper.submission_config import TABLES
 
         self.assertEqual(
-            [spec.table_id for spec in TABLES], ["T1", "S1", "S2", "S3", "S4"]
+            [spec.table_id for spec in TABLES],
+            ["T1", "S1", "S2", "S3", "S4", "S5", "S6", "S7"],
         )
         by_id = {spec.table_id: spec for spec in TABLES}
         self.assertEqual(by_id["S2"].sources, ("models/revision_global_fdr_summary.csv",))
@@ -636,6 +641,16 @@ class RevisionFinalPackageTests(unittest.TestCase):
         self.assertEqual(by_id["S4"].label, "tab:supp-evidence-axis-audit")
         self.assertEqual(
             by_id["S4"].output, "paper/generated/stable4_evidence_axis_audit.tex"
+        )
+        self.assertEqual(
+            by_id["S5"].output, "paper/generated/stable5_analysis_frame_inventory.tex"
+        )
+        self.assertEqual(
+            by_id["S6"].sources,
+            ("paper/figure_data/fig9_stability_contrasts.csv",),
+        )
+        self.assertEqual(
+            by_id["S7"].sources, ("models/pfi_endpoint_concordance.csv",)
         )
 
     def test_evidence_axis_table_requires_complete_source_linked_grid(self):

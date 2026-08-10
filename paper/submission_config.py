@@ -123,6 +123,20 @@ SUPPLEMENT_FIGURES = (
         "paper/figures/sfig4_evidence_axis_matrix.pdf",
         "paper/sections/supplementary_information.tex", DOUBLE_COLUMN_MM,
     ),
+    FigureSpec(
+        "SF5", "fig:supp-stability-distributions",
+        ("paper/figure_data/fig9_stability_contrasts.csv",),
+        "paper/figures/sfig5_stability_distributions.py",
+        "paper/figures/sfig5_stability_distributions.pdf",
+        "paper/sections/supplementary_information.tex", DOUBLE_COLUMN_MM,
+    ),
+    FigureSpec(
+        "SF6", "fig:supp-endpoint-concordance",
+        ("models/pfi_endpoint_concordance.csv",),
+        "paper/figures/sfig6_endpoint_concordance.py",
+        "paper/figures/sfig6_endpoint_concordance.pdf",
+        "paper/sections/supplementary_information.tex", DOUBLE_COLUMN_MM,
+    ),
 )
 
 TABLES = (
@@ -161,6 +175,34 @@ TABLES = (
         ),
         "paper/generate_submission_tables.py",
         "paper/generated/stable4_evidence_axis_audit.tex",
+        "paper/sections/supplementary_information.tex",
+    ),
+    TableSpec(
+        "S5", "tab:supp-analysis-frame-inventory",
+        (
+            "paper/figure_data/fig2_transportable_signals.csv",
+            "paper/figure_data/fig3_molecular_qualification.csv",
+            "paper/figure_data/fig4_confounder_site_audit.csv",
+            "paper/figure_data/fig5_marker7_transfer.csv",
+            "paper/figure_data/fig9_stability_grid.csv",
+            "paper/figure_data/fig9_stability_contrasts.csv",
+        ),
+        "paper/generate_submission_tables.py",
+        "paper/generated/stable5_analysis_frame_inventory.tex",
+        "paper/sections/supplementary_information.tex",
+    ),
+    TableSpec(
+        "S6", "tab:supp-stability-contrast-summary",
+        ("paper/figure_data/fig9_stability_contrasts.csv",),
+        "paper/generate_submission_tables.py",
+        "paper/generated/stable6_stability_contrast_summary.tex",
+        "paper/sections/supplementary_information.tex",
+    ),
+    TableSpec(
+        "S7", "tab:supp-endpoint-concordance",
+        ("models/pfi_endpoint_concordance.csv",),
+        "paper/generate_submission_tables.py",
+        "paper/generated/stable7_endpoint_concordance.tex",
         "paper/sections/supplementary_information.tex",
     ),
 )
