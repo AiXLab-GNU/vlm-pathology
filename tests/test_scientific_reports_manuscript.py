@@ -275,7 +275,6 @@ class SubmissionDraftContractTests(unittest.TestCase):
             ("figures/sfig1_detailed_roc.pdf", "fig:supp-discrimination-details"),
             ("figures/sfig2_marker7_survival.pdf", "fig:supp-marker7-survival"),
             ("figures/sfig3_stability_heatmaps.pdf", "fig:supp-stability-heatmaps"),
-            ("figures/sfig4_evidence_axis_matrix.pdf", "fig:supp-evidence-axis-matrix"),
             ("figures/sfig5_stability_distributions.pdf", "fig:supp-stability-distributions"),
             ("figures/sfig6_endpoint_concordance.pdf", "fig:supp-endpoint-concordance"),
         )
@@ -321,7 +320,7 @@ class SubmissionDraftContractTests(unittest.TestCase):
         for phrase in guidance:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, normalized_supplement)
-        self.assertEqual(supplement.count(r"\label{fig:supp-"), 6)
+        self.assertEqual(supplement.count(r"\label{fig:supp-"), 5)
         self.assertEqual(generated.count(r"\label{tab:supp-"), 7)
         for phrase in (
             "hierarchy levels are not interchangeable",
@@ -404,6 +403,7 @@ class SubmissionDraftContractTests(unittest.TestCase):
         commands = (
             "figQualificationLegend", "figTransportLegend", "figMolecularLegend",
             "figConfounderLegend", "figMarkerSevenLegend", "figStabilityLegend",
+            "figEvidenceAxisLegend",
         )
         for command in commands:
             self.assertEqual(legends.count(rf"\newcommand{{\{command}}}"), 1)
@@ -445,6 +445,10 @@ class SubmissionDraftContractTests(unittest.TestCase):
                 "12 encoder--scale--tile configurations", "65 seed-matched",
                 "population uncertainty estimates",
             ),
+            "figEvidenceAxisLegend": (
+                "six distinct qualification axes", "Not evaluated and not applicable",
+                "supplementary evidence-axis audit table",
+            ),
         }
         self.assertEqual(set(blocks), set(required_by_legend))
         for command, phrases in required_by_legend.items():
@@ -468,7 +472,6 @@ class SubmissionDraftContractTests(unittest.TestCase):
             "connecting lines are visual guides across quintiles",
             "shared 1.76~$\\mu$m-per-pixel minus native scale (180)",
             "The abscissa is metric $B-A$",
-            "Cell labels are S (supported), C (conditional)",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, supplement)
@@ -514,7 +517,6 @@ class SubmissionDraftContractTests(unittest.TestCase):
             "fig:supp-discrimination-details",
             "fig:supp-marker7-survival",
             "fig:supp-stability-heatmaps",
-            "fig:supp-evidence-axis-matrix",
             "fig:supp-stability-distributions",
             "fig:supp-endpoint-concordance",
         )
@@ -529,9 +531,17 @@ class SubmissionDraftContractTests(unittest.TestCase):
             + _read("paper/generated/stable7_endpoint_concordance.tex")
         )
         stable4 = _read("paper/generated/stable4_evidence_axis_audit.tex")
-        self.assertIn(r"\begin{landscape}", stable4)
+        self.assertNotIn(r"\begin{landscape}", stable4)
         self.assertIn(r"\fontsize{9.5pt}{11pt}\selectfont", stable4)
-        self.assertEqual(supplement.count(r"\caption{"), 6)
+        evidence_section = supplement[
+            supplement.index("\\begin{landscape}\n\\subsection*{Target-by-axis"):
+            supplement.index("\\clearpage\n\n\\begin{landscape}", supplement.index(
+                r"\subsection*{Target-by-axis"
+            ))
+        ]
+        self.assertIn(r"\input{generated/stable4_evidence_axis_audit.tex}", evidence_section)
+        self.assertIn(r"\end{landscape}", evidence_section)
+        self.assertEqual(supplement.count(r"\caption{"), 5)
         self.assertEqual(
             generated_tables.count(r"\caption{")
             + generated_tables.count(r"\captionof{table}"),
@@ -577,7 +587,7 @@ class SubmissionDraftContractTests(unittest.TestCase):
         self.assertNotIn(r"\section*{References}", main)
         self.assertEqual(bibliography.count(r"\begin{thebibliography}"), 1)
 
-    def test_six_complete_figure_legends_render_with_their_figures(self) -> None:
+    def test_seven_complete_figure_legends_render_with_their_figures(self) -> None:
         main = _read("paper/main.tex")
         results = _read("paper/sections/results.tex")
         legends = _read("paper/sections/figure_legends.tex")
@@ -587,18 +597,19 @@ class SubmissionDraftContractTests(unittest.TestCase):
         commands = (
             "figQualificationLegend", "figTransportLegend", "figMolecularLegend",
             "figConfounderLegend", "figMarkerSevenLegend", "figStabilityLegend",
+            "figEvidenceAxisLegend",
         )
-        self.assertEqual(results.count(r"\caption{"), 6)
+        self.assertEqual(results.count(r"\caption{"), 7)
         self.assertNotIn(r"\refstepcounter{figure}", results)
         for command in commands:
             self.assertEqual(results.count(rf"\caption{{\{command}}}"), 1)
-        self.assertEqual(legends.count(r"\newcommand{"), 6)
+        self.assertEqual(legends.count(r"\newcommand{"), 7)
 
     def test_compiled_main_has_inline_legends_and_no_legend_appendix(self) -> None:
         text = _pdf_text("paper/main.pdf")
         self.assertEqual(len(re.findall(r"(?m)^References\s*$", text)), 1)
         self.assertNotIn("Figure legends", text)
-        for number in range(1, 7):
+        for number in range(1, 8):
             self.assertEqual(len(re.findall(rf"Figure {number}:", text)), 1)
 
     def test_compiled_supplement_exposes_s1_s2_s3_and_legacy_endpoint(self) -> None:
@@ -755,7 +766,7 @@ class SubmissionDraftContractTests(unittest.TestCase):
         self.assertRegex(methods, r"(?is)PCA.*exploratory sensitivity")
         self.assertRegex(methods, r"(?is)not.*nested.*unbiased.*selection")
 
-    def test_all_six_main_figures_are_referenced(self) -> None:
+    def test_all_seven_main_figures_are_referenced(self) -> None:
         results = _read("paper/sections/results.tex")
         expected = (
             ("figures/fig1_qualification_map.pdf", "fig:qualification-framework"),
@@ -764,6 +775,7 @@ class SubmissionDraftContractTests(unittest.TestCase):
             ("figures/fig4_confounder_site_audit.pdf", "fig:confounder-site-audit"),
             ("figures/fig5_marker7_transfer.pdf", "fig:marker7-transfer"),
             ("figures/fig6_stability_overview.pdf", "fig:stability-overview"),
+            ("figures/fig7_evidence_axis_matrix.pdf", "fig:evidence-axis-matrix"),
         )
         for output, label in expected:
             with self.subTest(label=label):
@@ -942,6 +954,27 @@ class SubmissionDraftContractTests(unittest.TestCase):
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, introduction)
+
+    def test_main_text_exposes_study_frames_and_integrated_evidence_axes(self) -> None:
+        introduction = " ".join(_read("paper/sections/introduction.tex").split())
+        results = " ".join(_read("paper/sections/results.tex").split())
+        for phrase in (
+            "Study resources, analysis frames, and roles in signal qualification",
+            "NADT-Prostate \\cite{nadt2021} & Grade and phenotype; 39 patients",
+            "565 Karolinska and 572 Radboud case images",
+            "Molecular analyses: 273 patients; recurrence transfer: 270 patients",
+            "72 configurations, 360 seed cells, and 390 paired contrasts",
+            "must not be summed because patients, slides, folds, and settings can overlap",
+        ):
+            with self.subTest(frame_phrase=phrase):
+                self.assertIn(phrase, introduction)
+        for phrase in (
+            r"Figure~\ref{fig:evidence-axis-matrix} summarizes the complete study architecture",
+            "Unevaluated or unresolved cells identify open evidence gaps",
+            r"\label{fig:evidence-axis-matrix}",
+        ):
+            with self.subTest(matrix_phrase=phrase):
+                self.assertIn(phrase, results)
 
     def test_cross_disciplinary_terms_are_defined_at_point_of_use(self) -> None:
         introduction = " ".join(_read("paper/sections/introduction.tex").split())

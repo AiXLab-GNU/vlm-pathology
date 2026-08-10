@@ -82,6 +82,16 @@ MAIN_FIGURES = (
         "paper/figures/fig6_stability_overview.py",
         "paper/figures/fig6_stability_overview.pdf", "paper/sections/results.tex", DOUBLE_COLUMN_MM,
     ),
+    FigureSpec(
+        "F7", "fig:evidence-axis-matrix",
+        (
+            "paper/figure_data/evidence_axis_matrix.csv",
+            "paper/claim_evidence_matrix.csv",
+        ),
+        "paper/figures/sfig4_evidence_axis_matrix.py",
+        "paper/figures/fig7_evidence_axis_matrix.pdf",
+        "paper/sections/results.tex", DOUBLE_COLUMN_MM,
+    ),
 )
 
 SUPPLEMENT_FIGURES = (
@@ -114,24 +124,14 @@ SUPPLEMENT_FIGURES = (
         "paper/sections/supplementary_information.tex", DOUBLE_COLUMN_MM,
     ),
     FigureSpec(
-        "SF4", "fig:supp-evidence-axis-matrix",
-        (
-            "paper/figure_data/evidence_axis_matrix.csv",
-            "paper/claim_evidence_matrix.csv",
-        ),
-        "paper/figures/sfig4_evidence_axis_matrix.py",
-        "paper/figures/sfig4_evidence_axis_matrix.pdf",
-        "paper/sections/supplementary_information.tex", DOUBLE_COLUMN_MM,
-    ),
-    FigureSpec(
-        "SF5", "fig:supp-stability-distributions",
+        "SF4", "fig:supp-stability-distributions",
         ("paper/figure_data/fig9_stability_contrasts.csv",),
         "paper/figures/sfig5_stability_distributions.py",
         "paper/figures/sfig5_stability_distributions.pdf",
         "paper/sections/supplementary_information.tex", DOUBLE_COLUMN_MM,
     ),
     FigureSpec(
-        "SF6", "fig:supp-endpoint-concordance",
+        "SF5", "fig:supp-endpoint-concordance",
         ("models/pfi_endpoint_concordance.csv",),
         "paper/figures/sfig6_endpoint_concordance.py",
         "paper/figures/sfig6_endpoint_concordance.pdf",

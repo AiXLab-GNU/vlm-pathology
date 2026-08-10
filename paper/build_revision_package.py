@@ -120,7 +120,7 @@ def _manuscript_link(spec: object, stage_root: Path) -> tuple[Path, str]:
 
 
 def build_figure_manifest(stage_root: Path, output_csv: Path | None = None) -> pd.DataFrame:
-    """Write complete lineage for the six main and three supplementary figures."""
+    """Write complete lineage for every configured main and supplementary figure."""
     stage_root = Path(stage_root)
     rows = []
     for spec in (*MAIN_FIGURES, *SUPPLEMENT_FIGURES):
@@ -756,6 +756,14 @@ TECHNICAL_NUMERIC_OCCURRENCES = (
         ),
     },
     {
+        "occurrence_id": "TECH_FIG7_PATH",
+        "expected_token": "7",
+        "context_anchor": (
+            r"\includegraphics[width=\textwidth]"
+            r"{figures/fig{token}_evidence_axis_matrix.pdf}"
+        ),
+    },
+    {
         "occurrence_id": "TECH_MARKER7_REF_RECURRENCE",
         "expected_token": "7",
         "context_anchor": (
@@ -971,7 +979,8 @@ def _write_reports(
         "# Submission compliance report\n\n"
         f"- Package status: {status}\n"
         f"- Open blocking author actions: {blocker_count}\n"
-        "- Active figures: 6 main and 3 supplementary\n"
+        f"- Active figures: {len(MAIN_FIGURES)} main and "
+        f"{len(SUPPLEMENT_FIGURES)} supplementary\n"
         f"- PDFs built twice: {'yes' if build_pdf else 'skipped by request'}\n"
         "- Author-controlled actions remain explicit and are not treated as build failures.\n",
         encoding="utf-8", newline="\n",

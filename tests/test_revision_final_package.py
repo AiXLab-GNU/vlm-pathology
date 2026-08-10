@@ -126,8 +126,8 @@ class RevisionFinalPackageTests(unittest.TestCase):
             figures = pd.read_csv(report.figure_manifest)
             tables = pd.read_csv(report.table_manifest)
             self.assertEqual(set(figures["figure_id"]), {
-                "F1", "F2", "F3", "F4", "F5", "F6",
-                "SF1", "SF2", "SF3", "SF4", "SF5", "SF6",
+                "F1", "F2", "F3", "F4", "F5", "F6", "F7",
+                "SF1", "SF2", "SF3", "SF4", "SF5",
             })
             self.assertEqual(
                 set(tables["table_id"]),
@@ -449,19 +449,19 @@ class RevisionFinalPackageTests(unittest.TestCase):
             "TECH_INPUT_TABLE1", "TECH_FIG1_PATH", "TECH_FIG2_PATH",
             "TECH_FIG3_PATH", "TECH_FIG4_PATH", "TECH_MARKER7_REF_STABILITY",
             "TECH_FIG5_PATH", "TECH_FIG5_MARKER7_PATH", "TECH_MARKER7_LABEL",
-            "TECH_FIG6_PATH", "TECH_MARKER7_REF_RECURRENCE",
+            "TECH_FIG6_PATH", "TECH_FIG7_PATH", "TECH_MARKER7_REF_RECURRENCE",
         }
         self.assertTrue(hasattr(builder, "TECHNICAL_NUMERIC_OCCURRENCES"))
         technical = builder.TECHNICAL_NUMERIC_OCCURRENCES
         self.assertEqual({item["occurrence_id"] for item in technical}, expected_ids)
-        self.assertEqual(len(technical), 11)
-        self.assertEqual(len({item["context_anchor"] for item in technical}), 11)
+        self.assertEqual(len(technical), 12)
+        self.assertEqual(len({item["context_anchor"] for item in technical}), 12)
         text = (ROOT / "paper/sections/results.tex").read_text(encoding="utf-8")
         technical_spans = builder._technical_numeric_spans(text)
         structural_spans = builder._structural_numeric_spans(text)
         parsed = set(builder._numeric_occurrences(text))
-        self.assertEqual(len(parsed), 105)
-        self.assertEqual(len(technical_spans), 11)
+        self.assertEqual(len(parsed), 106)
+        self.assertEqual(len(technical_spans), 12)
         self.assertEqual(len(structural_spans), 4)
         self.assertFalse(technical_spans & structural_spans)
         self.assertEqual(len(parsed - technical_spans - structural_spans), 90)
@@ -534,7 +534,7 @@ class RevisionFinalPackageTests(unittest.TestCase):
             results = self._numeric_stage(stage)
             builder.run_numeric_qa(stage)
             text = results.read_text(encoding="utf-8")
-            self.assertEqual(len(builder._numeric_occurrences(text)), 105)
+            self.assertEqual(len(builder._numeric_occurrences(text)), 106)
             with results.open("a", encoding="utf-8") as handle:
                 handle.write("\nThis score is called ``marker 7'' only in legacy analysis artifacts.\n")
             with self.assertRaisesRegex(

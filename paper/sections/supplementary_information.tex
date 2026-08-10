@@ -242,44 +242,21 @@ folds, not independent validations or population-confidence intervals.}
 \vspace*{\fill}
 \clearpage
 
+\begin{landscape}
 \subsection*{Target-by-axis evidence coverage}
 
-This subsection makes the synthesis explicit by showing which evidence axis supports,
-restricts, or remains unavailable for each target.
-
-The qualification framework deliberately preserves both positive evidence and evidentiary
-gaps. Supplementary Figure~\ref{fig:supp-evidence-axis-matrix} shows the complete matrix of
-frozen-primary support, cross-cohort transport, clinical increment, site behavior, setting
-stability and endpoint fidelity for each target group. A supported cell refers only to the
-scope stated for that axis; it does not fill an unevaluated cell elsewhere. Supplementary
-Table~\ref{tab:supp-evidence-axis-audit} links every cell to the audited claim source,
-states the current interpretation and identifies the evidence required to change that
-state.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{figures/sfig4_evidence_axis_matrix.pdf}
-\caption{\textbf{Target-by-axis evidence coverage.} Each cell records the evidence state
-supported by the frozen analyses for one target row and one evidentiary-axis column. Columns
-separate frozen-primary support, cross-cohort transport, clinical increment, site behavior,
-setting stability, and endpoint fidelity. Cell labels are S (supported), C (conditional),
-U (unsupported in the frozen primary design), ? (evaluated but unresolved), -- (not
-evaluated), and N/A (not applicable). A supported or conditional cell is bounded to its
-named axis and cannot fill another cell; not-evaluated and not-applicable cells are not
-negative evidence. The source-linked audit table below provides the claim basis and evidence
-needed to change every cell.}
-\label{fig:supp-evidence-axis-matrix}
-\end{figure}
-
-Read together, Figure S4 and Table S4 show that evidence completeness is target-specific.
-Grade and phenotype have the broadest support, including cross-cohort direction; PTEN and
-AR have supported within-cohort axes but unresolved or unevaluated clinical and site axes;
-SPOP remains unsupported or context-sensitive in the frozen design; and recurrence remains
-conditional on representation and endpoint. The matrix is therefore a map of qualified
-claims and open gaps, not a scorecard in which supported cells can compensate for missing
-ones.
+This subsection makes the synthesis explicit by mapping each target to the evidence
+axes that were supported, unresolved, not evaluated, or not applicable; evidence
+completeness is target-specific. Supplementary
+Table~\ref{tab:supp-evidence-axis-audit} is the row-level audit behind main-text Figure 7:
+it links every target--axis state to its claim source, current interpretation, and the
+evidence required to change that state. A supported state applies only to its named axis;
+not evaluated and not applicable are not negative results. The table is therefore a map of
+qualified claims and open gaps, not a scorecard in which one supported axis compensates for
+missing evidence elsewhere.
 
 \input{generated/stable4_evidence_axis_audit.tex}
+\end{landscape}
 
 \clearpage
 
@@ -328,7 +305,7 @@ setting sensitivity rather than independent validation evidence.}
 
 \input{generated/stable6_stability_contrast_summary.tex}
 
-Figure S5 and Table S6 make the heterogeneity behind the condensed stability decision
+Figure S4 and Table S6 make the heterogeneity behind the condensed stability decision
 visible. Grade, phenotype, PTEN, and AR have no null-crossing pairs in the saved contrast
 families, whereas SPOP contains crossings for scale, encoder, and tile-budget comparisons.
 The recurrence-risk signal has one scale crossing and a consistently negative
@@ -360,7 +337,7 @@ remain part of the interpretation.}
 
 \input{generated/stable7_endpoint_concordance.tex}
 
-Figure S6 and Table S7 show why raw agreement alone is insufficient. The exact Official-PFI
+Figure S5 and Table S7 show why raw agreement alone is insufficient. The exact Official-PFI
 and TCGA-CDR-PFS row reflects identical saved source fields in this analysis, while the
 reconstructed and strict-recurrence rows combine high raw agreement with only moderate
 chance-corrected agreement. Recurrence conclusions are therefore reported by endpoint

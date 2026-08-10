@@ -368,11 +368,11 @@ def render_evidence_axis_audit(
             f"{_escape(row.interpretation)} & {_escape(row.next_evidence)} \\\\"
         )
     tex = "\n".join((
-        r"\begin{landscape}", r"\begingroup",
+        r"\begingroup",
         r"\fontsize{9.5pt}{11pt}\selectfont",
         r"\setlength{\tabcolsep}{3pt}",
         r"\begin{longtable}{@{}p{0.11\linewidth}p{0.12\linewidth}p{0.12\linewidth}p{0.07\linewidth}p{0.26\linewidth}p{0.26\linewidth}@{}}",
-        r"\caption{Target-by-axis qualification audit corresponding to Supplementary Figure S4. Each row links a target-specific evidence state to the audited claim source, states the current evidence, and specifies what evidence would be required to change that state. Not evaluated and not applicable are not negative results.}",
+        r"\caption{Target-by-axis qualification audit corresponding to main-text Figure 7. Each row links a target-specific evidence state to the audited claim source, states the current evidence, and specifies what evidence would be required to change that state. Not evaluated and not applicable are not negative results.}",
         r"\label{tab:supp-evidence-axis-audit}\\",
         r"\toprule",
         "Target & Evidence axis & State & Claim & Current evidence & Next evidence needed \\\\",
@@ -380,8 +380,7 @@ def render_evidence_axis_audit(
         r"\toprule",
         "Target & Evidence axis & State & Claim & Current evidence & Next evidence needed \\\\",
         r"\midrule", r"\endhead",
-        *rows, r"\bottomrule", r"\end{longtable}", r"\endgroup",
-        r"\end{landscape}", "",
+        *rows, r"\bottomrule", r"\end{longtable}", r"\endgroup", "",
     ))
     _atomic_write(Path(output_path), tex)
     return Path(output_path)
@@ -523,7 +522,7 @@ def render_stability_contrast_summary(frame: pd.DataFrame, output_path: Path) ->
     tex = "\n".join((
         r"\begingroup", r"\small", r"\setlength{\tabcolsep}{3pt}",
         r"\begin{longtable}{@{}p{0.29\textwidth}p{0.16\textwidth}rrrr@{}}",
-        r"\caption{Descriptive summary corresponding to Supplementary Figure S5. All 390 seed-matched setting contrasts are partitioned by comparison family and target. Differences are B minus A; medians, interquartile ranges, and null-crossing counts summarize correlated sensitivity comparisons rather than independent replicates or hypothesis tests.}",
+        r"\caption{Descriptive summary corresponding to Supplementary Figure S4. All 390 seed-matched setting contrasts are partitioned by comparison family and target. Differences are B minus A; medians, interquartile ranges, and null-crossing counts summarize correlated sensitivity comparisons rather than independent replicates or hypothesis tests.}",
         r"\label{tab:supp-stability-contrast-summary}\\", r"\toprule",
         "Comparison & Target & Pairs & Median & Interquartile range & Null crossings \\\\",
         r"\midrule", r"\endfirsthead", r"\toprule",
@@ -567,7 +566,7 @@ def render_endpoint_concordance(frame: pd.DataFrame, output_path: Path) -> Path:
         )
     tex = "\n".join((
         r"\begin{table}[htbp]", r"\centering", r"\small",
-        r"\caption{Saved endpoint concordance corresponding to Supplementary Figure S6, with Official TCGA Pan-Cancer Clinical Data Resource progression-free interval (PFI) as the reference. Common N is the shared evaluable frame; event counts are Official PFI/comparison; agreement is raw event agreement, kappa is chance-corrected event agreement, and time rho is Spearman follow-up-time correlation.}",
+        r"\caption{Saved endpoint concordance corresponding to Supplementary Figure S5, with Official TCGA Pan-Cancer Clinical Data Resource progression-free interval (PFI) as the reference. Common N is the shared evaluable frame; event counts are Official PFI/comparison; agreement is raw event agreement, kappa is chance-corrected event agreement, and time rho is Spearman follow-up-time correlation.}",
         r"\label{tab:supp-endpoint-concordance}",
         r"\begin{tabular}{@{}lrrrrr@{}}", r"\toprule",
         "Comparison endpoint & Common N & Events & Agreement & Kappa & Time rho \\\\",

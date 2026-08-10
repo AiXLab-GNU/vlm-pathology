@@ -61,22 +61,27 @@ LEOPARD prostatectomy-slide challenge. Their roles are summarized below.
 \small
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.15}
-\caption*{\textbf{Study data resources and their roles in signal qualification.} Each
-resource supplied a distinct evidence component; no resource alone covered every
-qualification dimension.}
-\begin{tabular}{@{}p{0.21\textwidth}p{0.40\textwidth}p{0.30\textwidth}@{}}
+\caption*{\textbf{Study resources, analysis frames, and roles in signal qualification.}
+The displayed counts identify the unit used by each evidence component. They are
+row-specific and must not be summed because patients, slides, folds, and settings can
+overlap; no resource alone covered every qualification dimension.}
+\begin{tabular}{@{}p{0.20\textwidth}p{0.43\textwidth}p{0.28\textwidth}@{}}
 \toprule
-Resource & Evidence supplied & Role in the qualification design \\
+Resource or component & Target and saved analysis frame & Role in the qualification design \\
 \midrule
-NADT-Prostate \cite{nadt2021} & Source-cohort images, grade and phenotype labels &
-Source-cohort grade and phenotype evaluation \\
-PANDA \cite{panda2022} & Karolinska and Radboud case images & Cross-cohort transfer
-without refitting \\
-PRECISE \cite{precise2026} & Session-level pathologist-assigned grade & Additional
-grade evaluation \\
-TCGA-PRAD \cite{tcgaprad2015,tcgacdr2018} & Molecular labels, source-site structure
-and distinguished recurrence endpoints & Molecular, site and endpoint audits \\
-LEOPARD \cite{leopard2026} & Post-hoc recurrence signal & Transfer to TCGA-PRAD \\
+NADT-Prostate \cite{nadt2021} & Grade and phenotype; 39 patients & Source-cohort probe
+fitting and patient-level evaluation \\
+PANDA \cite{panda2022} & Grade: 565 Karolinska and 572 Radboud case images; phenotype:
+469 and 483 tumor cases & Cross-cohort transfer without target-cohort refitting \\
+PRECISE \cite{precise2026} & Grade; 17 evaluable imaging sessions & Additional resource
+with a session-level analysis unit \\
+TCGA-PRAD \cite{tcgaprad2015,tcgacdr2018} & Molecular analyses: 273 patients; recurrence
+transfer: 270 patients; paired recurrence increment: 153 complete cases & Molecular,
+clinical-increment, site, and endpoint audits \\
+LEOPARD \cite{leopard2026} & Post-hoc recurrence risk score fitted in the source cohort &
+Transfer without refitting to the TCGA-PRAD target frames \\
+Correlated setting audit & Six targets; 72 configurations, 360 seed cells, and 390 paired
+contrasts & Encoder--scale--tile--seed sensitivity, not independent validation \\
 \bottomrule
 \end{tabular}
 \end{table}
