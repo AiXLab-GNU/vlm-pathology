@@ -150,6 +150,11 @@ The current full catalog is an audit product, not a hand-maintained source of tr
 auditor must classify every managed document/code file and report zero unclassified files
 and zero unregistered naming violations.
 
+Catalog checksums are point-in-time migration inventory values. Exact baseline checksum
+enforcement applies to non-generated files. A file with lifecycle `generated` may contain
+protocol-declared volatile fields, so its reproducibility and integrity are enforced by the
+owning project's output manifest and tests rather than by the repository migration catalog.
+
 Filename syntax and rename procedure are governed by `FILE_NAMING_CODEX.md`. This document
 defines ownership, class, lifecycle, and placement; the naming Codex is the authoritative
 basename contract.
