@@ -1,22 +1,47 @@
-# Pathology datasets and local mirrors
-opendataset
-song-datasets
-
-# Python environments and caches
+# Root environments and tool state
 .venv/
-models/.venv-*/
+.agents/
+.claude/
+.codex/
+.superpowers/
+.gstack/
+.worktrees/*
+!.worktrees/README.md
+!.worktrees/registry.csv
+
+# Canonical local datasets and resource workspaces
+resources/data/shared/opendataset
+resources/data/shared/song-datasets/
+resources/data/*/local-data/
+resources/projects/*/*
+!resources/projects/README.md
+!resources/projects/precise_pni_candidate_triage/
+!resources/projects/precise_pni_candidate_triage/README.md
+!resources/projects/quantitative_foundation_model_validation/
+!resources/projects/quantitative_foundation_model_validation/README.md
+!resources/projects/prostate_biomarker_validation/
+!resources/projects/prostate_biomarker_validation/model_workspace/
+resources/projects/prostate_biomarker_validation/model_workspace/**
+!resources/projects/prostate_biomarker_validation/model_workspace/README.md
+
+# Canonical generated artifacts: track policy files only
+resources/artifacts/*
+resources/artifacts/*/**
+!resources/artifacts/README.md
+!resources/artifacts/precise_pni_candidate_triage/
+!resources/artifacts/precise_pni_candidate_triage/README.md
+!resources/artifacts/quantitative_foundation_model_validation/
+!resources/artifacts/quantitative_foundation_model_validation/README.md
+!resources/artifacts/prostate_biomarker_validation/
+!resources/artifacts/prostate_biomarker_validation/README.md
+
+# Python and development caches
 **/__pycache__/
 *.py[cod]
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .ipynb_checkpoints/
-
-# Local agent and tool state
-.codex/
-.agents/
-.claude/
-.gstack/
 **/.cache/
 
 # Whole-slide images, arrays, stores, and model weights
@@ -36,12 +61,26 @@ models/.venv-*/
 *.safetensors
 *.bin
 
-# Generated reports and build artifacts
-paper/*.aux
-paper/*.log
-paper/*.out
-paper/*.pdf
-paper_backup_pre_restructure_*/
+# Publication PDFs intentionally versioned under the biomarker paper
+projects/prostate_biomarker_validation/paper/*.aux
+projects/prostate_biomarker_validation/paper/*.log
+projects/prostate_biomarker_validation/paper/*.out
+projects/prostate_biomarker_validation/paper/*.pdf
+projects/prostate_biomarker_validation/paper/figures/*.pdf
+!projects/prostate_biomarker_validation/paper/main.pdf
+!projects/prostate_biomarker_validation/paper/main_argument_preview.pdf
+!projects/prostate_biomarker_validation/paper/supplement_main.pdf
+!projects/prostate_biomarker_validation/paper/supplement_argument_preview.pdf
+!projects/prostate_biomarker_validation/paper/figures/*.pdf
+
+# Quantitative-study generated outputs
+projects/quantitative_foundation_model_validation/preexperiment/*
+!projects/quantitative_foundation_model_validation/preexperiment/PROTOCOL.md
+!projects/quantitative_foundation_model_validation/preexperiment/run_preexperiment.py
+projects/quantitative_foundation_model_validation/milestones/*/outputs/*
+
+# Biomarker generated analysis outputs
+projects/prostate_biomarker_validation/outputs/*
 
 # Editor, operating-system, and temporary files
 .DS_Store

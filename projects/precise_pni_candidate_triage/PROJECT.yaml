@@ -1,0 +1,6 @@
+project_id: precise_pni_candidate_triage
+scientific_question: rank spatially distinct PNI candidate regions for pathologist review
+validated_role: candidate_triage
+prohibited_role: whole_slide_pni_diagnosis
+immutable_input: resources/data/shared/opendataset/PRECISE/precise_pni_review (1).csv
+status: active_method_validation

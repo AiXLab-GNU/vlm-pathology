@@ -1,0 +1,28 @@
+file_class,canonical_location,naming_rule,required_control,default_lifecycle,new_files_allowed
+repository_policy,infrastructure/docs/repository,UPPER_SNAKE_CASE or registered policy name,owner and version in body,active,yes
+project_policy,projects/<project_id> root,fixed contract names,project ownership,active,yes
+readme,owning directory,README.md,scope and routing index,active,yes
+design,projects/<project_id>/docs/designs or infrastructure/docs/superpowers/specs,dated kebab ending design.md,metadata header,active,yes
+plan,projects/<project_id>/docs/plans or infrastructure/docs/superpowers/plans,dated kebab ending plan.md,metadata header,active,yes
+protocol,projects/<project_id>/docs/protocols or approved clinician protocol directory,lowercase kebab or stable protocol ID,protocol ID and status,active,yes
+research_plan,projects/<project_id>/docs/research_plan,ordered lowercase kebab with language suffix,document ID and milestone log,active,yes
+survey,projects/<project_id>/docs/surveys,lowercase kebab with language suffix,scope and source policy,active,yes
+legacy_document,projects/<project_id>/docs/legacy,preserved historical name,registered exception,legacy,no
+report,projects/<project_id>/reports or approved milestone output,milestone-topic-report,source artifact links,generated,yes
+governance_record,project governance records,protocol-defined stable name,append-only or hash-locked,frozen,yes
+manuscript_source,projects/<project_id>/paper,configuration-owned name,submission configuration,active,yes
+generated_manuscript,projects/<project_id>/paper/generated,configuration-owned name,source table and generator,generated,yes
+figure_renderer,projects/<project_id>/paper/figures,lower_snake_case.py,saved source table contract,active,yes
+analysis_entrypoint,projects/<project_id>/code/entrypoints or approved audit unit,verb_lower_snake_case.py,run config and focused test,active,yes
+library_module,projects/<project_id>/code/lib or package src,lower_snake_case.py,import contract and test,active,yes
+adapter,projects/<project_id>/code/adapters,lower_snake_case.py,input schema and failure contract,active,yes
+legacy_code,projects/<project_id>/code/legacy,preserved historical name,registered exception and no new development,legacy,no
+test,projects/<project_id>/tests or infrastructure/tests,test_lower_snake_case.py,owning source contract,active,yes
+repository_operation,infrastructure/scripts,verb_lower_snake_case.py,repository integration test,active,yes
+package_source,infrastructure/packages/<package>/src,lower_snake_case.py,package test suite,active,yes
+web_asset,owning web directory,lowercase kebab or fixed web entry name,local asset dependency,active,yes
+configuration,owning code/project directory,lower snake or fixed project contract,schema or loader contract,active,yes
+manifest_record,projects/<project_id>/manifests or protocol-owned output,protocol-defined stable name,input/output hashes and schema,frozen,yes
+source_table,project paper figure_data or approved source-table root,lower snake with semantic figure/table ID,generator and source-field lineage,frozen,yes
+evidence_table,approved milestone/output/governance bundle,protocol-defined stable name,run config and manifest,generated,yes
+migration_record,infrastructure/migrations/<date-topic>,preserved audit name,closed migration scope,frozen,no

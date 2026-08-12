@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vlm-pathology-metrics"
+version = "0.3.0"
+description = "Tiered medical quantitative metrics and separate analysis measures for pathology AI validation"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = [
+  "numpy>=1.24",
+  "scipy>=1.10",
+  "scikit-learn>=1.2",
+]
+
+[project.scripts]
+vlm-pathology-metrics = "vlm_pathology_metrics.__main__:main"
+
+[tool.setuptools.package-data]
+vlm_pathology_metrics = [
+  "data/medical/*.tsv",
+  "data/analysis/*.tsv",
+  "data/legacy/*.tsv",
+  "data/survey/*.tsv",
+]

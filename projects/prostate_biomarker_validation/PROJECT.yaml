@@ -1,0 +1,6 @@
+project_id: prostate_biomarker_validation
+scientific_question: qualification and transport of prostate pathology representation biomarkers
+cohorts: [TCGA-PRAD, NADT-Prostate, PANDA, LEOPARD]
+markers: [ERG, PTEN, SPOP, AR]
+owns_current_manuscript: true
+status: manuscript_revision

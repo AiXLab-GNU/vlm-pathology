@@ -1,0 +1,187 @@
+\section*{Supplementary material}
+\addcontentsline{toc}{section}{Supplementary material}
+
+\subsection*{S1. Full BH-FDR hypothesis family (17 tests)}
+
+Table~\ref{tab:supp-bhfdr} lists, in full, the Benjamini--Hochberg false-discovery-rate (BH-FDR)
+family described in Section~\ref{sec:gates}: 13 marker hypotheses against real ground truth
+plus four nested/refit incremental-value tests from the confounder audit. The marker rows are
+each a genuinely different clinical or molecular
+target tested with CONCH embeddings under one fixed protocol (patient-disjoint 5-fold grouped
+cross-validation; standardized-and-ridge-regularized regression for continuous targets;
+standardized, balanced-class logistic regression for binary targets -- full specification in
+Methods). The six initial frozen-pool markers (rows 1--6) appear in the main text
+(Table~\ref{tab:pool}) with their patient-level effect size and $q$-value only; here we also
+report the uncorrected patient-level $p$-value alongside $q$, and include the seven additional
+TCGA-PRAD molecular candidates (rows 7--13) that were tested but not promoted to the marker
+pool. ETV4 is no longer below 0.05 after expanding the frozen family ($q=0.056$) and was in any
+case pre-designated as excluded from both pools. Rows 14--17 are the nested audits.
+
+\textbf{Family membership.} All 17 rows below share one BH-FDR family (Benjamini--Hochberg
+applied jointly). \textbf{Excluded} from this family, as
+already noted in Section~\ref{sec:gates}: external-cohort re-tests of an already-tested
+hypothesis (PANDA zero-shot transfer of markers 1--2, PRECISE real-Gleason validation of marker
+1, marker 7's TCGA-PRAD and PFS/DFS transfer tests) and cross-encoder (Virchow) replications of
+any of the 13 rows below. These are confirmatory re-evaluations of a hypothesis already counted
+once in the family, not new comparisons that inflate the family-wise false-discovery risk the
+way testing 13 distinct candidate markers does; correcting across both the original tests and
+their confirmatory replications would double-count the same hypothesis and over-penalize the
+family.
+
+\begingroup
+\footnotesize
+\begin{longtable}{@{}clrp{3.6cm}rr@{}}
+\toprule
+\# & Test & $n$ & Patient-level effect [95\% CI] & Uncorr.\ $p$ & $q$ \\
+\midrule
+\endhead
+1 & NADT H\&E$\to$Gleason ($\rho$) & 39 & $+0.478$ $[+0.170,+0.712]$ & $2.1\times10^{-3}$ & $7.0\times10^{-3}$ \\
+2 & NADT H\&E$\to$Phenotype ($\rho$) & 39 & $+0.800$ $[+0.625,+0.909]$ & $9.6\times10^{-10}$ & $1.6\times10^{-8}$ \\
+3 & NADT ERG$\to$Gleason ($\rho$) & 39 & $+0.524$ $[+0.216,+0.749]$ & $6.1\times10^{-4}$ & $3.5\times10^{-3}$ \\
+4 & TCGA-PRAD H\&E$\to$PTEN loss (AUROC) & 273 & $0.632$ $[0.560,0.706]$ & $5.6\times10^{-4}$ & $3.5\times10^{-3}$ \\
+5 & TCGA-PRAD H\&E$\to$SPOP mut.\ (AUROC) & 273 & $0.519$ $[0.408,0.627]$ & $0.742$ & $0.788$ \\
+6 & TCGA-PRAD H\&E$\to$AR score ($\rho$) & 273 & $+0.195$ $[+0.074,+0.310]$ & $1.2\times10^{-3}$ & $5.2\times10^{-3}$ \\
+7 & TCGA-PRAD H\&E$\to$TP53 mut.\ (AUROC) & 273 & $0.485$ $[0.354,0.614]$ & $0.835$ & $0.835$ \\
+8 & TCGA-PRAD H\&E$\to$TP53 CNA loss (AUROC) & 273 & $0.562$ $[0.492,0.632]$ & $0.098$ & $0.208$ \\
+9 & TCGA-PRAD H\&E$\to$RB1 CNA loss (AUROC) & 273 & $0.536$ $[0.453,0.615]$ & $0.363$ & $0.441$ \\
+10 & TCGA-PRAD H\&E$\to$SPINK1 high (AUROC) & 273 & $0.618$ $[0.470,0.762]$ & $0.152$ & $0.288$ \\
+11 & TCGA-PRAD H\&E$\to$ETV1 altered (AUROC) & 273 & $0.429$ $[0.307,0.547]$ & $0.245$ & $0.347$ \\
+12 & TCGA-PRAD H\&E$\to$ETV4 altered (AUROC) & 273 & $0.687$ $[0.517,0.843]$ & $0.023$ & $0.056$ \\
+13 & TCGA-PRAD H\&E$\to$ERG fusion (AUROC) & 273 & $0.526$ $[0.456,0.592]$ & $0.458$ & $0.519$ \\
+14 & Nested PTEN increment ($\Delta$AUROC) & 273 & $+0.019$ $[-0.025,+0.068]$ & $0.203$ & $0.314$ \\
+15 & Nested AR increment ($\Delta R^2$) & 273 & $+0.004$ $[-0.036,+0.042]$ & $0.176$ & $0.299$ \\
+16 & Nested marker 7, grade-only ($\Delta C$) & 270 & $+0.062$ $[+0.008,+0.119]$ & $0.0100$ & $0.028$ \\
+17 & Nested marker 7, fully adjusted ($\Delta C$) & 153 & $+0.002$ $[-0.012,+0.015]$ & $0.305$ & $0.399$ \\
+\bottomrule
+\caption{All 17 tests in the BH-FDR family, patient-level, with uncorrected $p$ and
+BH-FDR $q$ shown side by side. Rows 1--6 are the initially frozen pool markers (numbered as in
+the main text); rows 7--13 are additional TCGA-PRAD molecular candidates tested but not
+promoted to the pool; rows 14--17 are held-out increments. Effect size is Spearman $\rho$ for
+continuous targets, AUROC for binary targets, and the named paired increment for audit rows;
+95\% CIs are patient-ID bootstrap (2{,}000 resamples).}
+\label{tab:supp-bhfdr}
+\end{longtable}
+\endgroup
+
+\subsection*{S2. Fully-adjusted clinical covariate model for marker 7 (recurrence)}
+
+Table~\ref{tab:supp-marker7-clinical} extends the marker-7 confounder audit
+(Section~\ref{sec:res-marker7-clinical}, Table~\ref{tab:confounder-7}) beyond Gleason grade
+alone, addressing a reviewer question about whether additional TCGA clinical covariates (PSA,
+T-stage, age, surgical margin status) change the conclusion. See Section~\ref{sec:res-marker7-clinical}
+for the discussion of this result.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{p{7.2cm}ccc}
+\toprule
+Model & $n$ & Held-out C-index & Refit permutation $p$ \\
+\midrule
+Clinical-only (grade only) & 270 & 0.645 & -- \\
+Combined (grade + marker7) & 270 & 0.707 & 0.0100 \\
+Fully-adjusted clinical-only (grade + age + T-stage + PSA + margin) & 153 & 0.839 & -- \\
+Fully-adjusted combined (fully-adjusted clinical + marker7) & 153 & 0.840 & 0.305 \\
+M4 clinical + site (regularized sensitivity) & 153 & 0.881 & -- \\
+M5 M4 + marker7 (regularized sensitivity) & 153 & 0.879 & -- \\
+\bottomrule
+\end{tabular}
+\caption{Nested marker 7 audit, grade-only vs.\ fully-adjusted clinical baseline. Rows 1--2 and
+3--4 correspond to the grade-only and fully-adjusted $\Delta$ values in
+Table~\ref{tab:confounder-7}, shown here as clinical/combined pairs rather than as increments.
+The fully-adjusted rows use a
+complete-case subset ($n=153$ of the 270-patient marker-7 cohort; PSA is the limiting
+covariate, populated for only 167/270 patients in cBioPortal \texttt{prad\_tcga\_pub}) and add
+age, ordinal T-stage (major stage 1--4 only), PSA, and binary surgical margin status
+(positive = R1/R2). Surgical margin status alone is a very strong predictor in this cohort
+(recurrence-event rate 67\% among margin-positive vs.\ 7\% among margin-negative patients,
+hazard ratio $\approx 13$). These historical conditional point estimates are superseded for
+comparative interpretation by the completed same-patient/same-draw R4 analysis on the same
+153-patient complete-case cohort; it does not establish robust independent or incremental
+prognostic value.}
+\label{tab:supp-marker7-clinical}
+\end{table}
+
+\subsection*{S3. Completed Gate A stability grid and quality control}
+
+The completed frozen audit contains 360 correlated seed-level cells spanning six markers,
+CONCH and Virchow, 16/32/64 tiles per slide, five tile-sampling seeds, and native versus shared
+$1.76\,\mu$m/px scales. The saved 72-row configuration summary and 390-row paired-contrast
+table are the sole numeric sources for Figure~\ref{fig:scale-heatmap} and the table below.
+Configuration Student-$t$ intervals use five sampling seeds (df=4) on the same frozen cohorts
+and folds; they are explicitly not patient or population confidence intervals. Contrast rows
+preserve pair identity and report descriptive null crossings without independence-based
+$p$-values.
+
+\input{generated/stability_grid_marker_summary.tex}
+
+The aggregation reconciled 360 cell rows, 1{,}800 fold rows, and 60 coordinate shards before
+publishing derived files. Overall, 26/360 cells were chance-or-worse, 20/180 native-scale pairs
+crossed the marker-specific null, 4/90 shared-scale encoder pairs crossed it, and 9/72
+configuration seed ranges straddled the null. Marker-7 source retention varied from 498 to 502
+patients; the common intersection was 498. R2 refit and rescored all 60 marker-7 cells with
+that fixed 498-patient/85-event source and the unchanged 270-patient/57-event target. The
+saved 60-row cell table, 65-row paired-delta table, and 10{,}040-row membership manifest record
+zero raw-to-common null crossings, preserved directions for all 30 scale, 20 tile-budget, and
+15 shared-scale encoder contrasts, and common-minus-raw shifts from $-0.0023$ to $+0.0229$.
+This source-constant result is still a correlated sensitivity analysis, not a causal scale
+effect, universal encoder comparison, or independent replication. Historical append/resume
+logs lack complete per-run command/config manifests; that limitation is retained rather than
+reconstructed retrospectively.
+
+The NADT input inventory underwent a complete 463/463 TIFF header scan. Two slides emitted an
+invalid-page-offset header warning; both remained represented in all expected coordinate
+shards. This is a header-level QC observation only and does not establish whether pixels were
+or were not affected.
+
+R5 saves all 22 AR site descriptors, all 300 page-0 metadata rows, all 22 SPOP site rows, two
+power rows, and 433 reconstructed SPOP leave-one-site-out predictions. The AR forest-eligible
+frame is 224 slides/209 patients across CH, EJ, G9, HC, KK, and YL. Its site descriptors are
+patient-level, but forest correlations are slide-level with patient-cluster bootstrap
+intervals; all six intervals include zero. ScanScope raw IDs are present for 280/300 slides,
+whereas explicit stain fields are present for 0/300. SPOP CH is single-class undefined; the
+other five site intervals include or touch 0.5, and undefined bootstrap draws are retained.
+The 80\%/90\% MDE values 0.661/0.685 are fixed-score normal approximations and not
+effect-exclusion bounds.
+
+\textbf{Historical scale-control bug context.} Before the frozen grid, an obsolete diagnostic
+excluded the finest tiled pyramid level, causing distinct target scales to resolve to the same
+page. The corrected frozen runners retain the finest level as a candidate and use windowed
+physical-size reads. The abandoned 90-slide, three-marker, single-seed output is not used in
+the current figure, table, or claim matrix.
+
+\subsection*{S4. TCGA-PRAD recurrence-label provenance and the strict-endpoint sensitivity check}
+
+The GDC-\texttt{follow\_ups}-derived recurrence label used throughout this paper (event =
+\texttt{disease\_response} recorded as ``wt-with tumor'' at any follow-up visit) is generated by
+a script that also exports a 500-case, patient-level provenance table: every raw follow-up
+record considered, the specific field value that drove the event/censoring decision, and the
+final label. The label-generating script and its output were re-verified against a
+previously-cached copy by hash comparison and found identical (493 valid labels, 111 events),
+confirming the label itself did not silently change between the original construction and this
+paper's later analyses (Section~\ref{sec:res-label-benchmark}).
+
+The strict, persistent-disease-excluding sensitivity endpoint discussed in
+Section~\ref{sec:res-label-benchmark} applies one additional rule to this same provenance
+table: an event only counts if the patient has a \emph{documented tumor-free} follow-up visit
+strictly before a later with-tumor observation. Of 493 labeled cases (111 events under the
+original, more permissive definition), only 11 satisfy this stricter rule; the other 100
+with-tumor observations are a patient's first or only recorded assessment (or occur on the same
+day as an earlier one), which this stricter rule treats as persistent/indeterminate disease
+rather than as recurrence, and excludes rather than recodes as censored. Within the 270-patient
+embedded cohort this leaves $n=220$ and only 7 events -- far too few for the C-index and
+td-AUROC reported in Section~\ref{sec:res-label-benchmark} to be read as more than directionally
+suggestive; we report the numbers because the direction is consistent with the primary result,
+not because the sample size supports a standalone claim.
+
+\subsection*{S5. Other scope-bounding decisions}
+
+Two further deliberate scope reductions, noted here rather than in the main text since they
+affect \emph{how much} evidence a check provides rather than \emph{what} it found: (1) the
+Virchow cross-check of the nested confounder audit (Section~\ref{sec:confounder-audits}) was
+run only for PTEN and AR, not marker 7. Gate A now treats marker 7 as encoder-by-scale
+conditioned. Its common-498 R2, official-PFI R3, and paired common-cohort R4 analyses are
+complete and retain an endpoint-specific exploratory interpretation. (2) The M0--M5 clinical
+hierarchy (Section~\ref{sec:res-marker7-clinical}) uses complete-case handling throughout;
+multiple imputation was not performed because correctly combining it with nested cross-fitting
+would require a separate approved analysis.

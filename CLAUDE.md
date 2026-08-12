@@ -1,59 +1,42 @@
 # CLAUDE.md
 
-Read `AGENTS.md` completely before work. It is the shared project policy and
-the authoritative repository-level instruction file.
+Read `AGENTS.md`, `infrastructure/docs/repository/PROJECT_STRUCTURE_CODEX.md`, and
+`infrastructure/docs/repository/FILE_GOVERNANCE_CODEX.md`, and
+`infrastructure/docs/repository/FILE_NAMING_CODEX.md` completely before work.
+Then read the `AGENTS.md` inside the project that owns the task. These files are the
+authoritative scientific, safety, and file-placement policies.
+Use that project's `00-project-sequence/README.md` as the ordered navigation surface for
+the current stage and next gate.
 
-## Critical project rules
+## File creation and workflow control
 
-- This is a pathology research repository. The current frozen CONCH system is
-  a PNI candidate-triage tool, not a validated whole-slide diagnostic system.
-- Read the applicable approved design in `docs/superpowers/specs/` before
-  implementing or changing an analysis.
-- Never edit the immutable clinician source
-  `opendataset/PRECISE/precise_pni_review (1).csv`. Verify its SHA256 before and
-  after analyses.
-- Do not change frozen model scores, prompts, exemplars, score weights,
-  coordinates, windows, or spatial NMS semantics during the frozen audit.
-- Missing, blank, uncertain, and not-evaluable fields remain missing or
-  explicitly non-evaluable; never infer `no`.
-- Unreviewed top-k candidates are not negatives, and precision requires 100%
-  evaluable-label coverage for the relevant budget.
-- Keep and count bootstrap failures rather than dropping single-class
-  replicates.
+- Assign every new file to one project or an approved infrastructure/shared/repository root before
+  creating it. Do not create unregistered top-level, generic result, backup, or duplicate
+  documentation trees.
+- Superpowers project designs and plans belong in the owning project's `docs/designs/` and
+  `docs/plans/`; `infrastructure/docs/superpowers/` is repository-wide only. Use the required metadata
+  header template in `infrastructure/docs/repository/templates/`.
+- Auxiliary worktrees belong under `.worktrees/<project_id>/<slug>/`, require a registry
+  row and project-scoped branch, and must be removed with Git rather than filesystem
+  deletion.
+- Removed root paths such as `models`, `paper`, and the old quantitative `studies/...`
+  tree must not be recreated as aliases or destinations.
 
-## Blinded morphology review
+## Scientific and data safety
 
-- The morphology pilot includes all 14 previously nerve-positive PRECISE
-  candidates.
-- Hide previous labels, confidence, model scores, ranks, strata, and
-  provisional nerve circles during the primary review.
-- Lock structured morphology labels before drawing or approving nerve
-  contours.
-- Do not infer population morphology distributions, prognosis, or AI
-  morphology-classification accuracy from these 14 selected foci.
+- Never edit immutable clinical sources or silently change frozen labels, scores, prompts,
+  weights, coordinates, windows, folds, or endpoint definitions.
+- Preserve missing, uncertain, and not-evaluable states; never infer a negative label.
+- Do not describe PNI candidate triage as whole-slide diagnosis or clinical validation.
+- Do not interpret quantitative concept recoverability as disease prediction, functional
+  utilization, encoder superiority, or external robustness.
+- Keep datasets, WSI, patient-level data, arrays, weights, environments, caches, and
+  generated local outputs out of Git.
 
-## Reproducibility and verification
+## Verification and Git
 
-- Use `.venv/bin/python`.
-- Use fixed seeds, input/output hashes, environment versions, integrity
-  reports, and timestamp-excepted clean-rerun comparisons.
-- Generate figures from saved CSVs.
-- Run the relevant test suite and syntax checks fresh before completion.
-- Stop on candidate, manifest, coordinate, score, or NMS reconciliation
-  failures instead of guessing.
-
-Focused test command:
-
-```bash
-.venv/bin/python -m unittest tests.test_precise_pni_frozen_score_audit -v
-```
-
-## Git safety
-
-- `opendataset/`, `song-datasets/`, WSI, model weights, arrays, virtual
-  environments, caches, and generated results are intentionally Git-ignored.
-- Never use broad staging in this approximately 79 GB workspace. Stage only
-  explicit source and documentation paths, inspect the staged diff, and scan
-  for credential-like content before committing.
-- Do not configure a remote, push, publish, or initialize Git LFS unless the
-  user explicitly requests it.
+Use `.venv/bin/python`, fixed seeds, hashes, saved source tables, and the owning project's
+tests. Before completion run the repository boundary validator, file-governance auditor,
+and `git diff --check`.
+Never use broad staging. Do not create a remote, push, publish, or configure Git LFS
+without explicit user authorization.

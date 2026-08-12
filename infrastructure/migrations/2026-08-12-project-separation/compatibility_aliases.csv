@@ -1,0 +1,5 @@
+legacy_path,canonical_target,purpose,status
+models,model-weights,large local model assets and legacy command namespace,active
+paper,projects/prostate_biomarker_validation/paper,legacy manuscript commands,active
+studies/quantitative_foundation_model_validation,projects/quantitative_foundation_model_validation,legacy quantitative-study commands,active
+resources/projects/prostate_biomarker_validation/model_workspace/<legacy top-level file>,projects/<owner>/code-or-output/<file>,frozen scripts and records that retain models paths,active_pattern

@@ -1,95 +1,73 @@
 # AGENTS.md
 
-## Project purpose
+## Repository purpose
 
-This repository develops reproducible pathology-VLM workflows, currently
-focused on PRECISE prostate cancer perineural invasion (PNI). The validated AI
-role is candidate triage: rank spatially distinct regions for pathologist
-review. Do not describe the current system as a whole-slide PNI diagnostic
-classifier or as clinically validated.
+This repository is a portfolio of independent pathology-VLM studies. Work must
+be attributed to exactly one project unless it is genuinely reusable
+infrastructure. Sharing a cohort does not merge scientific questions, labels,
+governance records, or claims.
 
-## Instruction and design precedence
+## Mandatory structure policy
 
-1. Follow the user's current request and this file.
-2. Read the applicable approved design under `docs/superpowers/specs/`
-   completely before implementation.
-3. For the frozen-score audit, the controlling design is
-   `docs/superpowers/specs/2026-08-05-precise-pni-frozen-score-audit-design.md`.
-4. For morphology re-review, the controlling design is
-   `docs/superpowers/specs/2026-08-06-precise-pni-morphology-rereview-design.md`.
-5. Do not redesign an approved study unless the user explicitly requests a
-   design change.
+Before creating, moving, renaming, or generating any file, read
+`infrastructure/docs/repository/PROJECT_STRUCTURE_CODEX.md` and
+`infrastructure/docs/repository/FILE_GOVERNANCE_CODEX.md` and
+`infrastructure/docs/repository/FILE_NAMING_CODEX.md` completely. Route the file to one owning
+project, assign its file class and lifecycle, or use an explicitly permitted shared root. Do not create a new top-level directory,
+generic `results`/`output`/`misc` tree, or compatibility-path file unless that Codex is
+first amended.
 
-## Immutable inputs and scientific boundaries
+Superpowers workflows do not own a directory. Route their project designs and plans to the
+owning project's `docs/designs/` and `docs/plans/`; reserve `infrastructure/docs/superpowers/` for
+repository-wide designs and plans. Use the required metadata header template. Auxiliary
+Git worktrees must follow the `.worktrees/<project_id>/<slug>/` registry policy in the
+Codex.
 
-- Treat `opendataset/PRECISE/precise_pni_review (1).csv` as the immutable final
-  clinician source. Never edit it. Its expected SHA256 is
-  `c1dd522b4ff4f233b3a23630bf9074da881bb7b9145996fc47c3383a0448d2a3`.
-- Populate a missing reviewer ID such as `Song` only in explicitly derived
-  normalized outputs.
-- Never convert a missing, blank, uncertain, or not-evaluable outcome to `no`.
-- Do not retrain, recalibrate, optimize, or relabel frozen scores, prompts,
-  exemplars, weights, coordinates, or windows during a frozen audit.
-- Reproduce the original spatial NMS logic exactly. Stop and report if the
-  reconstructed candidate universe or manifest does not reconcile.
-- Unreviewed candidates are not negatives. Calculate top-k precision only when
-  every candidate in that budget has an evaluable label.
-- Candidate-level ROC-AUC and average precision apply only to the selected,
-  stratified reviewed sample.
-- Keep undefined bootstrap replicates and report their count and fraction.
-- Use no population-prevalence, whole-slide-sensitivity, prognostic, or
-  external-validation claim unless a separately approved study supports it.
+## Project routing
 
-## Morphology re-review boundaries
+- PNI candidate triage: `projects/precise_pni_candidate_triage/AGENTS.md`
+- Quantitative foundation-model validation:
+  `projects/quantitative_foundation_model_validation/AGENTS.md`
+- Prostate biomarker validation:
+  `projects/prostate_biomarker_validation/AGENTS.md`
 
-- The fixed morphology pilot contains all 14 previously nerve-positive
-  PRECISE candidates.
-- The primary re-review is blinded to previous labels, confidence, model
-  scores, strata, ranks, and provisional nerve circles.
-- Record `uncertain` and `not_evaluable` explicitly.
-- Morphology labels are completed and locked before pathologist-drawn contours.
-- The 14 selected foci cannot estimate the distribution of PNI morphologies in
-  PRECISE patients.
+Read the applicable project instructions and approved design completely before
+changing a study. Repository engineering designs remain under
+`infrastructure/docs/superpowers/`. Do not redesign approved science unless the user explicitly
+requests it.
 
-## Reproducibility requirements
+At project entry, read `projects/<project_id>/00-project-sequence/README.md` to identify the
+current stage and next gate. Update that ordered index when a stage is added, completed, or
+reopened; do not renumber canonical executable directories.
 
-- Prefer one auditable entry-point script per analysis.
-- Use fixed random seeds and record them in run configuration files.
-- Record input hashes, source pre/post hashes, software versions, execution
-  time, and non-self-referential output hashes.
-- Generate figures from saved CSV source tables, not transient in-memory-only
-  results.
-- A clean rerun must be identical except for explicitly documented timestamp
-  fields.
-- Preserve missing values and report integrity issues instead of silently
-  repairing meaning-changing discrepancies.
+## Cross-project boundaries
 
-## Python and verification
+- A project may depend on `infrastructure/packages/`, `infrastructure/shared/`, and registered local assets.
+- A project must not read another project's generated `outputs/` as an implicit
+  input. Promote a genuinely shared immutable asset into a hash-locked shared
+  manifest first.
+- Keep protocol, approvals, results, paper, tests and claim-evidence records
+  inside the owning project.
+- Do not describe PNI candidate triage as whole-slide diagnosis or clinical
+  validation.
+- Do not interpret quantitative concept recoverability as disease prediction
+  or functional utilization.
 
-Use the existing workspace environment:
+## Reproducibility
 
-```bash
-.venv/bin/python
-```
+- Prefer one auditable entry point per analysis.
+- Use fixed seeds and save input/output hashes, versions and execution time.
+- Generate figures from saved source tables.
+- Preserve missing/uncertain/not-evaluable values and report integrity errors.
+- A clean rerun may differ only in explicitly documented volatile fields.
+- After file creation or movement, run
+  `.venv/bin/python infrastructure/scripts/audit_file_governance.py` in addition to the
+  repository boundary validator.
 
-Focused frozen-audit tests:
+## Python and data policy
 
-```bash
-.venv/bin/python -m unittest tests.test_precise_pni_frozen_score_audit -v
-```
-
-Syntax check modified Python files with `.venv/bin/python -m py_compile`.
-Before claiming completion, run fresh tests, validate expected output files and
-counts, and confirm immutable source hashes.
-
-## Git and data policy
-
-- `opendataset/`, `song-datasets/`, WSI, arrays, model weights, virtual
-  environments, caches, and generated audit outputs are local and must not be
-  committed.
-- Do not use broad staging commands such as `git add .` or `git add -A` in this
-  large mixed workspace. Stage an explicit path allowlist and inspect the
-  staged names, sizes, and diff before committing.
-- Never commit tokens, credentials, private keys, or machine-specific secrets.
-- Do not create remotes, push, publish, or configure Git LFS without explicit
-  user authorization.
+Use `.venv/bin/python`. Before completion, run focused tests, syntax checks and
+immutable-source hash checks. `resources/data/shared/opendataset/`, `resources/data/shared/song-datasets/`, `resources/data/prostate_biomarker_validation/local-data/`,
+`resources/projects/prostate_biomarker_validation/model_workspace/`, `resources/artifacts/`, WSI, arrays, weights, caches and generated
+outputs are local and must not be committed. Never use broad Git staging, and
+never publish or configure remotes/LFS without explicit authorization.

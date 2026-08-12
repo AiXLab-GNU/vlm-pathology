@@ -1,0 +1,74 @@
+\noindent\textbf{Draft status---author confirmation required.}
+The availability statements below describe current sources and local artifacts. Final
+author contributions, competing interests, funder-role and acknowledgement completeness,
+institutional ethics and consent wording, release accessions and submission metadata remain
+author-controlled blocking items; this draft does not represent them as finalized declarations.
+
+\section*{Data Availability}
+
+The public cohorts used in this study retain their source-specific access and reuse terms.
+Digital Object Identifiers (DOIs) provide the persistent repository links below.
+NADT-Prostate is available from The Cancer Imaging Archive at
+\url{https://doi.org/10.7937/TCIA.JHQD-FR46} \cite{nadt2021}; PANDA data are distributed through the
+PANDA challenge under its platform terms \cite{panda2022}; TCGA-PRAD histology and
+molecular data are available through the Genomic Data Commons, with the referenced
+TCGA clinical endpoint fields available through cBioPortal; and PRECISE is available from
+Zenodo at \url{https://doi.org/10.5281/zenodo.20721779} \cite{precise2026}. LEOPARD is an
+access-governed challenge resource: its training data and outcome labels remain subject to
+the LEOPARD challenge and dataset terms, and its public challenge report is cited here
+\cite{leopard2026}. Publication-facing aggregate numerical figure-source tables are supplied
+with the public code repository. Patient-level derived analysis artifacts and local provenance
+manifests are not redistributed. No separate derived-data archive DOI has yet been assigned;
+the final deposition and accession statement must be confirmed before submission.
+
+\section*{Code Availability}
+
+Source code for the audited analyses and manuscript generation is publicly available in
+the manuscript development branch at
+\url{https://github.com/AiXLab-GNU/vlm-pathology/tree/feat/precise-pni-morphology-rereview}.
+Principal auditable analysis entry points are
+\begin{itemize}
+\item \path{resources/projects/prostate_biomarker_validation/model_workspace/build_revision_p0_artifacts.py};
+\item \path{resources/projects/prostate_biomarker_validation/model_workspace/aggregate_stability_grid.py};
+\item \path{resources/projects/prostate_biomarker_validation/model_workspace/build_tcga_cdr_pfi_evidence.py};
+\item \path{resources/projects/prostate_biomarker_validation/model_workspace/build_marker7_survival_paired_analysis.py};
+\item \path{resources/projects/prostate_biomarker_validation/model_workspace/run_marker7_common_source_sensitivity.py}; and
+\item \path{resources/projects/prostate_biomarker_validation/model_workspace/build_ar_spop_evidence_closure.py}.
+\end{itemize}
+The repository also versions the stability runners, manuscript builder, figure renderers,
+table generators, validation tests and environment specifications. Manuscript figures are
+regenerated from saved CSV source tables by the scripts in \path{paper/figures/}.
+Repository-authored software and documentation are released under the MIT License.
+Dataset copies, whole-slide images, cached embeddings, pretrained model weights,
+access-governed LEOPARD artifacts and patient-level derived outputs are not redistributed;
+they must be obtained or reconstructed from their original sources under the applicable
+access terms and are not covered by the repository's software license. No versioned archival
+DOI was available at the time of manuscript preparation.
+
+\section*{Funding}
+
+This work was supported by a National Research Foundation of Korea (NRF) grant funded by
+the Korean government (Ministry of Education and Science Technology;
+NRF-2023R1A2C1006639) and in part by the Research Sabbatical Grant
+for Research Professors from Gyeongsang National University in 2026, GNU-SGRP-2026.
+
+\section*{Author Contributions}
+
+No contribution roles were inferred from repository contents. A contribution statement
+using the final author list and author-approved roles must replace this factual draft note
+before submission.
+
+\section*{Competing Interests}
+
+No competing-interest status was inferred. Each named author's explicit declaration of
+interests, including an explicit no-interest statement where applicable, must be confirmed
+before submission.
+
+\section*{Ethics and consent statement}
+
+This work was a secondary analysis of deidentified data and involved no new participant
+recruitment, intervention or specimen collection. The original participant approvals,
+consent procedures and data-use conditions remain those reported by the source publications
+and repositories. The corresponding author must confirm the applicable institutional
+determination for this secondary analysis and the final approval, waiver and consent wording
+before submission; no institutional decision was inferred in this draft.

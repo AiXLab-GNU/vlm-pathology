@@ -1,0 +1,90 @@
+\label{sec:cohorts}
+
+\subsection{Cohorts}
+
+\textbf{NADT-Prostate} (TCIA, DOI:10.7937/TCIA.JHQD-FR46): 39 patients, H\&E and ERG-stained
+serial sections plus a PIN-4 cocktail, with real per-core Gleason score and phenotype
+(benign/tumor) labels. Used to fit markers 1--3.
+\textbf{PANDA} (Kaggle): 10{,}616 biopsy slides from two institutions (Karolinska, Radboud)
+with official ISUP grade 0--5 labels; a stratified 1{,}200-slide subsample (1{,}137 after
+tissue filtering) is used for external validation of markers 1--2.
+\textbf{TCGA-PRAD} (GDC + cBioPortal \texttt{prad\_tcga\_pub}): 300 H\&E slides / 273 patients
+with real Gleason score, PTEN copy-number, SPOP mutation, AR-activity score, and ERG fusion
+status; also used, via a from-scratch relabeling of the GDC clinical API
+(Section~\ref{sec:recurrence-transfer}), for recurrence-style outcome labels.
+\textbf{SICAPv2}: used for diagnostic sanity checks (zero-shot text-prompt vs.\ linear-probe
+comparison) reported in Section~\ref{sec:core-results}.
+\textbf{LEOPARD} (\texttt{leopard.grand-challenge.org}): 508 patients, single institution
+(Radboudumc), real biochemical-recurrence event and follow-up-time labels
+(\texttt{case\_id}/\texttt{event}/\texttt{follow\_up\_years}; no clinical covariates in the
+public release). Obtained from the dataset's public S3 bucket; subject to a publication
+embargo pending the official challenge and baseline papers, which will be re-confirmed with
+organizers before submission (see the Ethics and data-use statement).
+\textbf{PRECISE} (Zenodo, DOI:10.5281/zenodo.20721779): 25 patients, one core-needle biopsy
+session each except one patient with three sessions (27 imaging sessions total, confirmed
+against the dataset's own participant manifest and README, which also confirms these are
+core-needle biopsies, not resections -- the manifest's age field is explicitly documented as
+``age at biopsy''), paired H\&E and CKAPM+racemase IHC whole-slide images with 24{,}387
+pixel-level expert annotations across seven classes (background, tumor, benign gland, artifact,
+HGPIN, intraductal carcinoma, atypical intraductal proliferation, stroma) and, separately, real
+per-image pathologist Gleason score.
+
+\subsection{Frozen encoders}
+
+CONCH (\texttt{hf\_hub:MahmoodLab/conch}, ViT-B/16, 512-dim, \texttt{proj\_contrast=False})
+and Virchow (\texttt{hf\_hub:paige-ai/Virchow}, ViT-H/14, 2560-dim = concatenated CLS token
+and mean of patch tokens, requiring \texttt{mlp\_layer=SwiGLUPacked, act\_layer=SiLU}) are used
+as frozen encoders; no weights are fine-tuned anywhere in this study. Tiles are 448$\times$448
+(CONCH) or 224$\times$224 (Virchow). Whole-slide images without a usable multi-resolution
+pyramid (LEOPARD, PRECISE) are tiled via windowed \texttt{zarr} reads against the
+baseline-resolution page rather than full in-memory decoding.
+
+For the completed Gate A grid, the frozen NADT representation contains all 463 H\&E slides
+for phenotype and the prespecified 334-slide evaluable subset for Gleason; these are distinct
+analysis frames and are not interchanged. TCGA-PRAD contributes the fixed PTEN, SPOP, and AR
+frames. Marker 7 uses a fixed 270-patient TCGA-PRAD target, while the retained LEOPARD source
+membership varies from 498 to 502 patients across the already-frozen configurations; their
+common intersection is 498. The completed common-498 R2 analysis restricted all 60 cells to
+those same 498 source patients (85 events) and retained the fixed 270-patient TCGA-PRAD target
+(57 events). This closes the source-membership imbalance check without treating the correlated
+encoder/scale settings as independent cohorts.
+
+Tile selection is \emph{not} uniform across cohorts; each cohort's actual method, with its
+tissue-fraction threshold and per-slide tile count, is as follows. \textbf{NADT-Prostate and
+PANDA} (markers 1--3 fitting and PANDA zero-shot transfer): random-uniform rejection sampling
+-- a random $(y_0,x_0)$ tile origin is drawn repeatedly (up to 200 attempts per slide) at a
+fixed pyramid level ($\approx 0.88\,\mu$m/px, chosen to match SICAPv2's native
+$\approx 1\,\mu$m/px scale) and kept if the fraction of non-white pixels (mean grayscale
+intensity $<205$) is $\geq 0.35$, until 16 tiles/slide are collected (PANDA deliberately reuses
+NADT's exact tile count for a fair zero-shot comparison). \textbf{TCGA-PRAD} (markers 4--7,
+ERG-fusion status, and all additional molecular candidates): the same random-uniform
+rejection method and $0.35$ tissue-fraction threshold, but at a target $\approx 0.88\,\mu$m/px
+($\approx 0.97\,\mu$m/px for the Virchow scale-matched re-embedding used in the marker-7 cross-
+encoder check) derived \emph{dynamically per slide} from each file's AppMag tag rather than a
+fixed pyramid-level index (Supplementary S3 records why this matters); 16 tiles/slide (64 for
+the Virchow scale-matched re-embedding, matching LEOPARD Virchow's tile count for that specific
+comparison). \textbf{LEOPARD}: non-overlapping grid sampling (not random) restricted to each
+slide's own provided tissue-segmentation mask, kept if the mask-fraction within a tile is
+$\geq 0.5$ (a real segmentation mask, not a non-white-pixel heuristic), randomly subsampled to
+64 tiles/slide when the grid yields more candidates. \textbf{PRECISE}: non-overlapping grid
+sampling against the dataset's pixel-level expert annotation mask, at a $150\,\mu$m physical
+window (native $\approx 0.243\,\mu$m/px, resized to 448$\times$448) chosen specifically because
+the standard $\approx 0.88\,\mu$m/px scale produced windows too coarse to find any qualifying
+single-class region in this cohort's small annotated areas; a grid cell is kept if one
+non-background class occupies $\geq 70\%$ of it, capped at 20 tiles per class per image (not
+per slide overall, since the goal is balanced representation across tissue classes rather than
+a fixed total). Per-slide embeddings are the mean of the tiles collected under each cohort's own
+method above; per-patient values, where used, are the mean over a patient's slide-level
+embeddings (or, for PRECISE, session-level embeddings, Section~\ref{sec:core-results}).
+Gate A shows marker-specific, mixed associations between physical scale and observed transfer
+across correlated configurations. It does not isolate scale from sampling or encoder, and it
+does not establish scale as an independent or causal source of degradation
+(Section~\ref{sec:failure-modes}). Common-498 restriction did not explain or reverse marker
+7's observed directions, but it remains a correlated sensitivity analysis rather than a
+causal scale experiment or independent replication.
+
+The Gate A sensitivity grid uses 16, 32, and 64 tiles per slide under five sampling seeds.
+CONCH is evaluated at native $0.88$ and shared $1.76\,\mu$m/px; Virchow at native $0.44$ and
+shared $1.76\,\mu$m/px. These are frozen correlated configurations, not independently sampled
+patient cohorts. The older $0.97\,\mu$m/px marker-7 diagnostic described above is retained as
+historical context only and is not the source of the completed Gate A summaries.

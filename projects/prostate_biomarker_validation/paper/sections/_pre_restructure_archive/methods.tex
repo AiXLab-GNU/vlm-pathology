@@ -1,0 +1,208 @@
+\subsection{Datasets}
+
+\textbf{NADT-Prostate} (TCIA, DOI:10.7937/TCIA.JHQD-FR46): 39 patients, H\&E and ERG-stained
+serial sections plus a PIN-4 cocktail, with real per-core Gleason score and phenotype
+(benign/tumor) labels. Used to fit markers 1--3.
+\textbf{PANDA} (Kaggle): 10{,}616 biopsy slides from two institutions (Karolinska, Radboud)
+with official ISUP grade 0--5 labels; a stratified 1{,}200-slide subsample (1{,}137 after
+tissue filtering) is used for external validation of markers 1--2.
+\textbf{TCGA-PRAD} (GDC + cBioPortal \texttt{prad\_tcga\_pub}): 300 H\&E slides / 273 patients
+with real Gleason score, PTEN copy-number, SPOP mutation, AR-activity score, and ERG fusion
+status; also used, via a from-scratch relabeling of the GDC clinical API described below, for
+recurrence-style outcome labels.
+\textbf{SICAPv2}: used for diagnostic sanity checks (zero-shot text-prompt vs.\ linear-probe
+comparison) reported in Section~\ref{sec:results}.
+\textbf{LEOPARD} (\texttt{leopard.grand-challenge.org}): 508 patients, single institution
+(Radboudumc), real biochemical-recurrence event and follow-up-time labels
+(\texttt{case\_id}/\texttt{event}/\texttt{follow\_up\_years}; no clinical covariates in the
+public release). Obtained from the dataset's public S3 bucket; subject to a publication
+embargo pending the official challenge and baseline papers, which will be re-confirmed with
+organizers before submission.
+\textbf{PRECISE} (Zenodo, DOI:10.5281/zenodo.20721779): 25 patients, one core-needle biopsy
+session each except one patient with three sessions (27 imaging sessions total, confirmed
+against the dataset's own participant manifest and README, which also confirms these are
+core-needle biopsies, not resections -- the manifest's age field is explicitly documented as
+``age at biopsy''), paired H\&E and CKAPM+racemase IHC whole-slide images with 24{,}387
+pixel-level expert annotations across seven classes (background, tumor, benign gland, artifact,
+HGPIN, intraductal carcinoma, atypical intraductal proliferation, stroma) and, separately, real
+per-image pathologist Gleason score.
+
+\subsection{Foundation models and embedding extraction}
+
+CONCH (\texttt{hf\_hub:MahmoodLab/conch}, ViT-B/16, 512-dim, \texttt{proj\_contrast=False})
+and Virchow (\texttt{hf\_hub:paige-ai/Virchow}, ViT-H/14, 2560-dim = concatenated CLS token
+and mean of patch tokens, requiring \texttt{mlp\_layer=SwiGLUPacked, act\_layer=SiLU}) are used
+as frozen encoders; no weights are fine-tuned anywhere in this study. Tiles are 448$\times$448
+(CONCH) or 224$\times$224 (Virchow). Whole-slide images without a usable multi-resolution
+pyramid (LEOPARD, PRECISE) are tiled via windowed \texttt{zarr} reads against the
+baseline-resolution page rather than full in-memory decoding.
+
+Tile selection is \emph{not} uniform across cohorts; each cohort's actual method, with its
+tissue-fraction threshold and per-slide tile count, is as follows. \textbf{NADT-Prostate and
+PANDA} (markers 1--3 fitting and PANDA zero-shot transfer): random-uniform rejection sampling
+-- a random $(y_0,x_0)$ tile origin is drawn repeatedly (up to 200 attempts per slide) at a
+fixed pyramid level ($\approx 0.88\,\mu$m/px, chosen to match SICAPv2's native
+$\approx 1\,\mu$m/px scale) and kept if the fraction of non-white pixels (mean grayscale
+intensity $<205$) is $\geq 0.35$, until 16 tiles/slide are collected (PANDA deliberately reuses
+NADT's exact tile count for a fair zero-shot comparison). \textbf{TCGA-PRAD} (markers 4--7,
+ERG-fusion status, and all additional molecular candidates): the same random-uniform
+rejection method and $0.35$ tissue-fraction threshold, but at a target $\approx 0.88\,\mu$m/px
+($\approx 0.97\,\mu$m/px for the Virchow scale-matched re-embedding used in the marker-7 cross-
+encoder check) derived \emph{dynamically per slide} from each file's AppMag tag rather than a
+fixed pyramid-level index, after finding that a fixed-index fallback silently degraded every
+TCGA-PRAD embedding to a non-tiled $\approx 17\,\mu$m/px thumbnail page whenever a slide's
+resolution tag was unparseable (true for every slide in this cohort); 16 tiles/slide (64 for
+the Virchow scale-matched re-embedding, matching LEOPARD Virchow's tile count for that specific
+comparison). \textbf{LEOPARD}: non-overlapping grid sampling (not random) restricted to each
+slide's own provided tissue-segmentation mask, kept if the mask-fraction within a tile is
+$\geq 0.5$ (a real segmentation mask, not a non-white-pixel heuristic), randomly subsampled to
+64 tiles/slide when the grid yields more candidates. \textbf{PRECISE}: non-overlapping grid
+sampling against the dataset's pixel-level expert annotation mask, at a $150\,\mu$m physical
+window (native $\approx 0.243\,\mu$m/px, resized to 448$\times$448) chosen specifically because
+the standard $\approx 0.88\,\mu$m/px scale produced windows too coarse to find any qualifying
+single-class region in this cohort's small annotated areas; a grid cell is kept if one
+non-background class occupies $\geq 70\%$ of it, capped at 20 tiles per class per image (not
+per slide overall, since the goal is balanced representation across tissue classes rather than
+a fixed total). Per-slide embeddings are the mean of the tiles collected under each cohort's own
+method above; per-patient values, where used, are the mean over a patient's slide-level
+embeddings (or, for PRECISE, session-level embeddings -- see the PRECISE-specific note below).
+Physical scale mismatch between training and application cohorts independently degrades
+transfer regardless of sampling method (Section~\ref{sec:results}).
+
+\subsection{Candidate markers}
+
+Seven candidate markers are defined, each as a target and a training cohort: (1) H\&E
+$\rightarrow$ Gleason score (NADT, RidgeCV); (2) H\&E $\rightarrow$ phenotype, tumor vs.\
+benign (NADT, logistic regression); (3) ERG-stained image $\rightarrow$ Gleason score (NADT,
+RidgeCV); (4) H\&E $\rightarrow$ PTEN copy-number loss (TCGA-PRAD, logistic regression); (5)
+H\&E $\rightarrow$ SPOP mutation (TCGA-PRAD, logistic regression); (6) H\&E $\rightarrow$
+AR-activity score (TCGA-PRAD, RidgeCV); (7) H\&E $\rightarrow$ biochemical-recurrence risk, a
+\emph{post-hoc} marker discovered in the course of the LEOPARD experiment (Section
+\ref{sec:leopard-methods}), fit directly against recurrence rather than against any of markers
+1--6's targets. All continuous probes use
+\texttt{StandardScaler + RidgeCV(alphas=logspace(-2,6,25))}; all binary probes use
+\texttt{StandardScaler + LogisticRegression(C=1.0, class\_weight="balanced", max\_iter=2000)}
+-- one fixed protocol across every marker and cohort, adopted after finding that per-test
+hyperparameter search could flip a borderline result (marker 3's TCGA-PRAD ERG-fusion-status
+replication moved from nominally significant to null once standardized).
+
+\subsection{Cross-validation and statistical protocol}
+
+All within-cohort evaluation uses patient-disjoint \texttt{GroupKFold(n\_splits=5)} (a
+patient's slides never split across train/test), motivated by an early finding that our own
+rule-based algorithm's apparent slide-level signal on NADT-Prostate was pseudo-replication that
+disappeared at the patient level. Primary metrics are patient-level (mean prediction vs.\ mean
+or majority true label per patient); slide-level metrics are reported as secondary. Across the
+13 distinct marker-hypothesis tests conducted on real ground truth in this project (the 6
+initial frozen-pool markers plus 7 additional TCGA-PRAD molecular candidates that were not
+promoted to the pool) and the four nested/refit incremental-value tests introduced by the
+confounder audit, Benjamini--Hochberg FDR correction is applied as one 17-test family;
+external-cohort re-tests and cross-encoder replications of an already-tested hypothesis are
+excluded from this family, since they confirm rather than newly test a hypothesis. Confidence
+intervals are patient-ID-cluster bootstrap (2{,}000 resamples).
+
+\subsection{Confounder audit}
+
+For markers whose target is plausibly confounded by grade (4, 6, and -- retrospectively -- 7),
+three models are compared: clinical-only, image-only, and combined. For markers 4/6, each
+outer patient-disjoint fold constructs the meta-model's training image feature from inner-fold
+OOF predictions, refits the image probe on the complete outer-training fold, and applies both
+probe and meta-model to untouched outer-test patients. Marker 7's image score is fixed because
+it was trained externally on LEOPARD; only clinical and combined Cox coefficients are fit in
+each TCGA-PRAD outer fold. Primary statistics are held-out patient-level $\Delta$AUROC,
+$\Delta R^2$, or $\Delta$C-index with 2{,}000 patient-bootstrap confidence intervals. The
+earlier full-cohort likelihood-ratio analyses are retained as auxiliary, explicitly
+in-sample results.
+
+The nonparametric check permutes patient labels within rounded patient-mean Gleason strata and
+reruns the complete nested pipeline, including image-probe refitting for markers 4/6, for
+2{,}000 repetitions. For marker 7, paired event/time outcomes are permuted within grade
+strata; its externally trained image score remains fixed while all outer-fold Cox models are
+refit. Markers 1 and 3 are
+excluded from this audit because their target is grade itself, making a ``does the image add
+information beyond grade'' test circular.
+
+For marker 7 specifically, the grade-only audit above is repeated against a richer,
+fully-adjusted clinical baseline: grade, age, ordinal T-stage, PSA, and binary surgical margin
+status, since grade alone leaves other well-known recurrence covariates unadjusted. Age and
+T-stage (simplified to major stage 1--4, discarding substage letters) come from the GDC
+\texttt{cases} endpoint. PSA and margin status (collapsed to positive = R1/R2 vs.\ negative =
+R0, with RX treated as missing) come from cBioPortal's \texttt{prad\_tcga\_pub} patient-level
+clinical data. Both sources were confirmed directly to carry these fields at the patient level
+(they are absent from the sample-level clinical JSON used elsewhere in this project). Any
+patient missing a covariate is excluded from this specific analysis (complete-case), and the
+resulting cohort size is reported alongside the result
+(Section~\ref{sec:res-marker7-clinical}) rather than imputed.
+
+We additionally fit a sequential clinical hierarchy with held-out predictions: M0 = grade;
+M1 = grade+age; M2 = grade+PSA+pT stage; M3 = M2+surgical margin; M4 = M3+tissue-source
+site; and M5 = M4+marker7 risk. Numerical variables are standardized inside each training
+fold, site is one-hot encoded with unseen test sites ignored, and a regularized Cox model
+($\alpha=1$) is fit in five patient-disjoint outer folds. Each model reports its own
+complete-case $n$, event count, and bootstrap C-index interval; M4 and M5 are compared on the
+same 153 patients with a paired patient bootstrap.
+
+\subsection{Reliability tiers}
+
+Each initial marker is assigned one of five prospectively frozen tiers, from strongest to weakest evidence:
+\emph{externally transportable} (a fixed, source-cohort-fitted probe applied with no retraining
+reproduces the association in an independent cohort); \emph{cross-cohort replicable} (the
+association reproduces after refitting in an independent cohort or a within-cohort held-out
+site, but no zero-shot transport test exists); \emph{internally supported, externally
+untested} (internally consistent across encoders and/or molecular assays, but no independent
+cohort with the required label exists, confirmed by an exhaustive dataset search);
+\emph{context-sensitive} (direction or magnitude is unstable across site, scale, encoder, or
+assay); \emph{unsupported/null} (fails multiple-comparison correction or is null across
+independent encoders).
+
+\subsection{LEOPARD 3-pool design and domain-shift diagnostic}
+\label{sec:leopard-methods}
+
+Following the protocol-freeze discipline above, three evidence pools were prospectively fixed \emph{before}
+running the LEOPARD experiment: a \emph{naive} pool (markers selected by within-cohort
+significance alone, without cross-encoder or confounder gating: 1, 2, 4, 6), a
+\emph{qualified} pool (markers passing every qualification gate: 1, 2, 4 -- marker 3 is
+inapplicable to LEOPARD, which has no ERG-stained images), and an \emph{all-candidate} pool
+that additionally includes the null and context-sensitive markers (5, 6). Each pool's markers
+are scored zero-shot (source-cohort-fitted probes, no LEOPARD data used in fitting) and
+combined via a 5-fold cross-validated Cox proportional-hazards model; pools are compared by
+Harrell's C-index, time-dependent AUROC, integrated Brier score, calibration slope, and a
+likelihood-ratio test against a covariate-free null model (LEOPARD's public labels carry no
+clinical covariates, so an ``incremental value over clinical baseline'' claim is not testable
+with this cohort and is not attempted).
+
+When this zero-shot comparison returned uniformly sub-chance concordance for every pool, we
+ran a separate, explicitly exploratory \emph{domain-shift diagnostic}: rather than transfer an
+existing probe, a fresh model (PCA to 4--64 components, then a lightly regularized Cox model,
+5-fold cross-validated) is fit directly on LEOPARD's own embeddings against LEOPARD's own
+recurrence labels, to distinguish ``no recoverable recurrence signal in these embeddings'' from
+``the specific zero-shot probes fail to transfer.'' The same diagnostic, and the same landmark
+and grade-stratified confounder checks described in Section~\ref{sec:results}, are repeated
+with a second, independently trained encoder (Virchow) and, separately, applied zero-shot to
+TCGA-PRAD (after reconstructing recurrence-style labels from GDC's \texttt{follow\_ups}
+records, since a pre-existing label file in the repository could not be traced to a
+generating script and failed a spot check against the GDC API) as a genuine external-cohort
+test of the resulting post-hoc marker (marker 7).
+
+This reconstructed label is itself benchmarked against TCGA's standardized TCGA-CDR endpoints
+(Liu et al.\ 2018), carried by cBioPortal study \texttt{prad\_tcga\_pan\_can\_atlas\_2018}:
+event-status agreement (Cohen's $\kappa$) against \texttt{PFS\_STATUS} and \texttt{DFS\_STATUS},
+time correlation (Spearman $\rho$) against \texttt{PFS\_MONTHS} and \texttt{DFS\_MONTHS}, and a
+direct re-scoring of marker 7's zero-shot transfer using PFS and DFS themselves as the outcome,
+in place of our reconstructed label, for the same 270-patient embedded cohort.
+The generating script also exports a 500-case provenance table containing every raw follow-up
+record, record-level exclusion reason, endpoint decision rule, and final label. A stricter
+sensitivity endpoint requires a documented tumor-free follow-up before a later
+\texttt{wt-with tumor} event; first/only with-tumor observations are excluded as
+persistent/indeterminate disease rather than treated as recurrence or censoring. We report
+3- and 5-year landmark AUROC, 1--5-year time-dependent AUROC, and correlation between risk and
+censoring time for each available endpoint.
+
+\subsection{QWK conversion}
+
+To compare marker 1 against literature figures reported as F1 or quadratic weighted kappa
+(QWK) rather than Spearman correlation, continuous predictions are converted to ordinal
+categories via quantile binning matched to the number of true grade categories present in each
+cohort (a transparent conversion that does not use true-label thresholds beyond the category
+count), and QWK is computed against the true ordinal grade. This is applied uniformly across
+all five evaluated cohorts.

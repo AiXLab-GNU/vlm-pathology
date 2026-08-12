@@ -1,0 +1,4 @@
+dataset_id: PANDA
+data_class: external_pathology
+projects: [prostate_biomarker_validation]
+rule: raw data and derived arrays are not committed

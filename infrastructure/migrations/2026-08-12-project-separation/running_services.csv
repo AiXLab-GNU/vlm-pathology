@@ -1,0 +1,2 @@
+service,bind,supervisor,session,watchdog_pid,server_pid,canonical_entrypoint,verified_at
+quantitative_governance_portal,127.0.0.1:8011,tmux,qfmv-governance,3900124,3900132,projects/quantitative_foundation_model_validation/governance_portal/run_portal_forever.sh,2026-08-12

@@ -1,0 +1,96 @@
+\label{sec:gates}
+
+This section specifies how a candidate marker earns a reliability tier -- the machinery applied
+uniformly to all seven markers (six prespecified, one post hoc; Section~\ref{sec:prespecified}).
+
+\subsection{Fixed evaluation protocol}
+
+All continuous probes use \texttt{StandardScaler + RidgeCV(alphas=logspace(-2,6,25))}; all
+binary probes use \texttt{StandardScaler + LogisticRegression(C=1.0, class\_weight="balanced",
+max\_iter=2000)} -- one fixed protocol across every marker and cohort, adopted after finding
+that per-test hyperparameter search could flip a borderline result (marker 3's TCGA-PRAD
+ERG-fusion-status replication moved from nominally significant to null once standardized;
+Section~\ref{sec:failure-modes}).
+
+\subsection{Cross-validation and statistical protocol}
+
+All within-cohort evaluation uses patient-disjoint \texttt{GroupKFold(n\_splits=5)} (a
+patient's slides never split across train/test), motivated by an early finding that our own
+rule-based algorithm's apparent slide-level signal on NADT-Prostate was pseudo-replication that
+disappeared at the patient level. Primary metrics are patient-level (mean prediction vs.\ mean
+or majority true label per patient); slide-level metrics are reported as secondary. Across the
+13 distinct marker-hypothesis tests conducted on real ground truth in this project (the 6
+initial frozen-pool markers plus 7 additional TCGA-PRAD molecular candidates that were not
+promoted to the pool) and the four nested/refit incremental-value tests introduced by the
+confounder audit, Benjamini--Hochberg FDR correction is applied as one 17-test family;
+external-cohort re-tests and cross-encoder replications of an already-tested hypothesis are
+excluded from this family, since they confirm rather than newly test a hypothesis. Confidence
+intervals are patient-ID-cluster bootstrap (2{,}000 resamples).
+
+\subsection{Confounder audit (Gate 4)}
+\label{sec:gate4-methods}
+
+For markers whose target is plausibly confounded by grade (4, 6, and -- retrospectively -- 7),
+three models are compared: clinical-only, image-only, and combined. For markers 4/6, each
+outer patient-disjoint fold constructs the meta-model's training image feature from inner-fold
+OOF predictions, refits the image probe on the complete outer-training fold, and applies both
+probe and meta-model to untouched outer-test patients. Marker 7's image score is fixed because
+it was trained externally on LEOPARD; only clinical and combined Cox coefficients are fit in
+each TCGA-PRAD outer fold. Primary statistics are held-out patient-level $\Delta$AUROC,
+$\Delta R^2$, or $\Delta$C-index with 2{,}000 patient-bootstrap confidence intervals. The
+earlier full-cohort likelihood-ratio analyses are retained as auxiliary, explicitly
+in-sample results (Section~\ref{sec:prespecified} discusses why this stricter nested design
+was adopted after the original results).
+
+The nonparametric check permutes patient labels within rounded patient-mean Gleason strata and
+reruns the complete nested pipeline, including image-probe refitting for markers 4/6, for
+2{,}000 repetitions. For marker 7, paired event/time outcomes are permuted within grade
+strata; its externally trained image score remains fixed while all outer-fold Cox models are
+refit. Markers 1 and 3 are excluded from this audit because their target is grade itself,
+making a ``does the image add information beyond grade'' test circular.
+
+\subsection{Reliability tiers}
+
+Each initial marker is assigned one of five prospectively frozen tiers, from strongest to
+weakest evidence: \emph{externally transportable} (a fixed, source-cohort-fitted probe applied
+with no retraining reproduces the association in an independent cohort); \emph{cross-cohort
+replicable} (the association reproduces after refitting in an independent cohort or a
+within-cohort held-out site, but no zero-shot transport test exists); \emph{internally
+supported, externally untested} (internally consistent across encoders and/or molecular
+assays, but no independent cohort with the required label exists, confirmed by an exhaustive
+dataset search); \emph{context-sensitive} (direction or magnitude is unstable across site,
+scale, encoder, or assay); \emph{unsupported} (does not meet the specified statistical support
+criteria under the tested design). The historical protocol label was \emph{unsupported/null};
+here, ``unsupported'' means statistical non-support under the tested design, not proof of a
+biological null. Marker 7, discovered post hoc, is described using this same vocabulary in
+Section~\ref{sec:recurrence-transfer} without being assigned a prospective tier.
+
+\subsection{Gate A sensitivity-grid summaries}
+
+The completed frozen grid contains 360 correlated seed-level cells: six markers, two encoders,
+tile budgets 16/32/64, five tile-sampling seeds, and encoder-specific native versus shared
+$1.76\,\mu$m/px scales. AUROC and C-index cells are chance-or-worse at $\leq0.5$; Spearman
+$\rho$ cells at $\leq0$. The 72 configuration rows report the five-seed mean, sample SD,
+range, chance-or-worse count, and a df=4 Student-$t$ interval across sampling seeds. These
+intervals describe repeated tile sampling on the same frozen patients/folds, not patient-level
+or population uncertainty. The 390 paired contrasts preserve each seed-level pairing and
+report null crossings for native versus $1.76\,\mu$m/px, Virchow versus CONCH at shared scale,
+and 64 versus 16 tiles; no independence-based $p$-values are computed. Because settings share
+cohorts and folds, this is a descriptive correlated sensitivity audit rather than 360
+confirmatory tests, external validation, or independent replication. Reliability tiers are
+not elevated by the grid alone. The Gate B-approved framing treats the grid as a bound on
+generalizability, not as evidence that prior directional observations were overturned; open
+questions remain unresolved rather than contrary evidence. R5 evidence closure for C04/C05 is
+complete, while their scientific questions remain unresolved. C06 has completed the
+common-498 R2 and official-PFI R3 endpoint sensitivities. C07 is closed narrowly by the
+same-patient/same-draw R4 analysis: the endpoint-conditioned results do not establish robust
+independent or incremental prognostic value.
+
+\subsection{QWK conversion}
+
+To compare marker 1 against literature figures reported as F1 or quadratic weighted kappa
+(QWK) rather than Spearman correlation, continuous predictions are converted to ordinal
+categories via quantile binning matched to the number of true grade categories present in each
+cohort (a transparent conversion that does not use true-label thresholds beyond the category
+count), and QWK is computed against the true ordinal grade. This is applied uniformly across
+all five evaluated cohorts.

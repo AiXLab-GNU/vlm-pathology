@@ -1,0 +1,18 @@
+root_entry,kind,owner,git_policy,lifecycle,reason
+projects,directory,scientific_projects,tracked,permanent,canonical scientific ownership root
+resources,directory,project_or_shared_resources,mixed_ignore_by_default,permanent,canonical local resource root
+infrastructure,directory,repository,tracked,permanent,canonical shared operations and governance root
+.worktrees,directory,repository,registry_tracked_checkouts_ignored,managed,Git worktrees require fixed root location
+.git,directory,git,internal,permanent,Git requires repository metadata at root
+.venv,directory,repository_environment,ignored,managed,existing execution contract uses .venv/bin/python
+.agents,directory,agent_runtime,ignored,tool_owned,agent runtime mount
+.claude,directory,claude_runtime,ignored,tool_owned,Claude runtime state
+.codex,directory,codex_runtime,ignored,tool_owned,Codex runtime state
+.superpowers,directory,superpowers_runtime,ignored,ephemeral,runtime only; final documents are routed elsewhere
+AGENTS.md,file,repository,tracked,permanent,primary agent policy
+CLAUDE.md,file,repository,tracked,permanent,secondary agent policy
+README.md,file,repository,tracked,permanent,portfolio entry point
+LICENSE,file,repository,tracked,permanent,software license
+environment.yml,file,repository,tracked,managed,environment specification
+requirements-lock.txt,file,repository,tracked,managed,locked dependencies
+.gitignore,file,repository,tracked,permanent,local data and artifact exclusion policy

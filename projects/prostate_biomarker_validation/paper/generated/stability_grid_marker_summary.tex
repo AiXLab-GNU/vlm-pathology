@@ -1,0 +1,20 @@
+\begin{table}[htbp]
+\centering
+\scriptsize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llccccc}
+\toprule
+Marker & Metric & Observed cell range & Chance-or-worse & Seed-null straddle & Native-scale crossing & Shared-scale encoder crossing \\
+\midrule
+Gleason & Spearman $\rho$ & 0.271--0.646 & 0/60 & 0/12 & 0/30 & 0/15 \\
+Phenotype & AUROC & 0.845--0.965 & 0/60 & 0/12 & 0/30 & 0/15 \\
+PTEN & AUROC & 0.519--0.717 & 0/60 & 0/12 & 0/30 & 0/15 \\
+SPOP & AUROC & 0.348--0.679 & 25/60 & 8/12 & 19/30 & 4/15 \\
+AR & Spearman $\rho$ & 0.136--0.297 & 0/60 & 0/12 & 0/30 & 0/15 \\
+Marker 7 & C-index & 0.481--0.755 & 1/60 & 1/12 & 1/30 & 0/15 \\
+\bottomrule
+\end{tabular}%
+}
+\caption{Frozen Gate A stability-grid summary derived from the saved 72-configuration and 390-contrast CSVs. Observed ranges span the 60 seed-level cells per marker. Seed-null straddles summarize 12 five-seed configurations; sampling seeds reuse the same frozen cohorts and folds and are not patient-level confidence intervals.}
+\label{tab:supp-stability-grid}
+\end{table}

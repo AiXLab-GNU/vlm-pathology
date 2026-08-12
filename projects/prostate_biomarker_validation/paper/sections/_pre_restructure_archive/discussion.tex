@@ -1,0 +1,119 @@
+\subsection{What this audit shows, and what it does not}
+
+Two markers (grade, phenotype) survive the strongest test we apply -- zero-shot transfer to a
+different institution and scanner with no retraining -- and, for grade, further survive
+transfer to a completely different cohort against real pathologist ground truth (PRECISE,
+$\rho=0.87$). PTEN loss is associated with its target and stable across TCGA-PRAD sites, but
+its nested held-out increment over grade is small and its bootstrap interval includes zero --
+a pattern that holds for CONCH and, independently, for Virchow, so it is not an artifact of one
+encoder's embedding space. One (SPOP) is a clean, cross-encoder-confirmed null, consistent with
+our own direct test and refutation of the two most likely alternative explanations (random-tile
+dilution, resolution artifacts) for its disagreement with a prior single-institution report. AR
+activity is associated in pooled internal CV but site-unstable, and its nested grade-adjusted
+increment is likewise uncertain and likewise encoder-convergent. We regard this combination --
+positive, negative, and unstable results, each supported by the same battery of checks -- as
+more informative than a marker pool curated to show only positive findings would be.
+
+What the audit does \emph{not} show is that qualification for one target implies clinical
+utility for a different one. The LEOPARD pool comparison was prospectively frozen to test
+exactly this: whether markers qualified against grade, phenotype, PTEN, or AR predict a real,
+independent, downstream clinical outcome (biochemical recurrence) better than an unqualified
+or null-inclusive pool. They do not -- every pool scored at or below chance. We consider this
+a genuine, informative negative result rather than a failure to report: it directly
+distinguishes ``this marker measures its stated target reliably'' from ``this marker is ready
+to inform a clinical outcome model,'' a distinction that is easy to blur when validation
+studies stop at the first (grade-, phenotype-, or molecular-status-level) demonstration.
+
+\subsection{Reusable pitfalls}
+
+Across this audit and its immediate predecessor experiments, we encountered the same handful
+of failure modes repeatedly enough to consider them general properties of frozen pathology
+foundation-model embeddings rather than one-off mistakes:
+
+\begin{itemize}
+\item \textbf{Tile-scale mismatch silently collapses transfer.} A probe trained at one
+physical tile scale, applied to tiles at a substantially different scale, can fail completely
+even when the underlying embedding space is not degenerate -- confirmed independently in two
+unrelated transfers (an early NADT$\to$PANDA Virchow experiment, and this study's marker-7
+Virchow transfer, where re-matching scale did \emph{not} recover performance, ruling scale
+back \emph{out} as the explanation there and pointing instead to encoder-direction mismatch).
+CONCH tolerated a comparable mismatch that broke Virchow, i.e.\ scale sensitivity itself is
+encoder-dependent and not knowable in advance without testing.
+\item \textbf{Different encoders can transfer in different directions even when both contain
+real signal.} Marker 7 is the clearest example: CONCH transfers zero-shot from LEOPARD to
+TCGA-PRAD; Virchow does not, despite an independently strong Virchow fit on \emph{each} cohort
+alone and strong cross-encoder agreement on the LEOPARD in-cohort signal itself. A
+single-encoder cross-cohort validation cannot distinguish ``the marker is real'' from ``this
+particular encoder's fitted direction happens to transfer.''
+\item \textbf{Qualification against one target does not certify transfer to a different
+downstream outcome}, even when the outcome's signal is demonstrably present in the same
+embedding space (Section~\ref{sec:leopard-results}). This is, to our knowledge, not
+previously demonstrated directly in the literature we compare against.
+\item \textbf{Hyperparameter choices can flip borderline results.} Standardizing a single
+protocol across all 13 tested hypotheses changed one candidate (TCGA-PRAD H\&E$\to$ERG fusion
+status) from nominally significant to null; we adopt the standardized number as authoritative
+throughout and flag this as a reason to distrust single-protocol borderline claims in general.
+\item \textbf{Label and outcome definitions are not interchangeable across cohorts even under
+the same name.} TCGA-PRAD's GDC-harmonized clinical data has no populated
+\texttt{days\_to\_recurrence} field for this cohort; a recurrence-style label reconstructed
+from \texttt{follow\_ups.disease\_response} is a coarser, clinical-assessment-based construct
+than LEOPARD's explicit PSA-based biochemical-recurrence definition, and marker 7's TCGA-PRAD
+transfer should be read with that caveat rather than as a strict replication of the same
+outcome.
+\end{itemize}
+
+\subsection{Relationship to prior confounder-audit and benchmarking work}
+
+Dawood et al.\ perform a similarly motivated, larger-scale confounder audit but do not include
+prostate cancer, do not cross-validate across independently trained encoders, and do not test
+whether qualification changes a marker's value for a downstream clinical outcome -- the
+comparison we make directly in Section~\ref{sec:leopard-results}. Gevaert/Bareja et al.\ and
+Neidlinger et al.\ benchmark many encoders across many tasks, including several of the exact
+targets we study (TCGA-PRAD ERG status, SICAPv2 grading), but their reported methodology does
+not appear to enforce patient-disjoint evaluation, which our own early results show is
+necessary to avoid a specific, previously undetected pseudo-replication failure mode. Our
+contribution is narrower than either in absolute scope (prostate-specific, seven markers) but
+adds three things neither provides together: mandatory patient-disjoint discipline throughout,
+cross-encoder replication of the entire marker pool rather than a subset, and a direct
+same-outcome test of whether qualification is consequential rather than merely descriptive.
+
+\subsection{Limitations}
+
+We did not acquire an independent molecular-validation cohort (new IHC or sequencing);
+PTEN and AR-activity's molecular concordance rests on already-public TCGA-PRAD multi-assay
+data, and ERG's biological mechanism (why residual signal predicts grade at all) remains an
+open, unverified hypothesis. LEOPARD's public labels carry no clinical covariates, so an
+incremental-value-over-clinical-baseline claim is untestable with this cohort; the pool
+comparison in Section~\ref{sec:leopard-results} is accordingly scoped to outcome association,
+not incremental clinical value. Marker 7 is a post-hoc discovery, not a protocol-frozen
+candidate, and its TCGA-PRAD outcome definition differs in granularity from LEOPARD's; among
+censored TCGA-PRAD patients, marker 7's risk score correlates with follow-up duration more
+than the corresponding LEOPARD check did ($\rho=-0.28$, $p=3\times10^{-5}$ vs.\ $p=0.07$ on
+LEOPARD), a residual concern we could not fully resolve given TCGA-PRAD's multi-institution
+heterogeneity and coarser outcome definition, though the landmark analysis argues against a
+pure observation-time artifact. Two further limitations emerged from expanding this audit in
+response to external review (Section~\ref{sec:res-marker7-clinical},
+\ref{sec:res-label-benchmark}): marker 7's added value over grade does not survive once a
+fuller clinical covariate set (age, T-stage, PSA, surgical margin) is included, on a smaller
+complete-case subset where margin status is itself a very strong predictor -- so ``grade-
+independent'' should not be read as ``independent of standard clinical covariates generally'';
+and re-scoring marker 7 directly against TCGA's standardized PFS/DFS endpoints, rather than our
+reconstructed label, gives a visibly attenuated (though still above-chance) transfer, indicating
+the original headline C-index is partly specific to our label's construction. What specific
+morphological content the shared CONCH/Virchow
+recurrence-predictive direction reflects remains unresolved: a preliminary, qualitative
+tile-level review ($n=6$ patients, 18 tiles, no pathologist review) suggested loss of organized
+benign stromal architecture as a plausible pattern, but one high-scoring tile showed an
+atypical color cast raising the possibility of a staining or scanning artifact, and we present
+this only as hypothesis-generating.
+
+\subsection{Conclusion}
+
+A statistically significant association between a pathology foundation-model embedding and a
+clinical or molecular label is a starting point, not an endpoint. Applied with prospectively
+frozen criteria to six initial candidates and transparently extended to one post-hoc marker,
+this audit separates genuinely transportable signal (grade and phenotype) from provisional
+or context-dependent findings (PTEN, the direct recurrence score, and AR) and a null result
+(SPOP). In its most consequential test, qualification for one target is not evidence of
+qualification for another. The frozen protocol and the pitfalls it
+surfaced are offered as reusable tools for the next study asked to make the same distinction.

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="의료 정량지표 Tier 1–4와 별도 모델평가·통계·QC 레지스트리 시각화">
+  <title>Medical Metric Atlas · VLM Pathology</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Medical Metric Atlas 홈">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span><strong>Medical Metric Atlas</strong><small>VLM PATHOLOGY</small></span>
+    </a>
+    <nav aria-label="주요 섹션">
+      <a href="#hierarchy">Tier map</a>
+      <a href="#network">Lineage graph</a>
+      <a href="#explorer">Metric explorer</a>
+      <a href="#analysis">Analysis registry</a>
+    </nav>
+    <span class="version">ONTOLOGY · 0.3</span>
+  </header>
+
+  <main id="top">
+    <section class="hero section-shell">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> Clinician-native → model-derived</p>
+        <h1>임상 기준지표와<br><em>모델 파생량의 계보</em></h1>
+        <p class="hero-lede">
+          임상의가 직접 기록하는 기준 변수(T1)를 출발점으로, 전문의 annotation 기반
+          파생계측(T2), 연구용 영상 특징(T3), 모델 산출량(T4)의 계보를 체계적으로 제시합니다.
+          성능평가·통계·QC는 별도의 분석 레지스트리로 관리합니다.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#hierarchy">계층 살펴보기 <span>↘</span></a>
+          <a class="button ghost" href="#explorer">전체 지표 검색</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="Tier 1에서 Tier 4로 흐르는 지표 계층">
+        <div class="orbit orbit-outer"></div>
+        <div class="orbit orbit-inner"></div>
+        <div class="core-label"><strong>T1</strong><span>clinical truth</span></div>
+        <div class="orbit-node node-t2"><b>T2</b><small>derived</small></div>
+        <div class="orbit-node node-t3"><b>T3</b><small>proxy</small></div>
+        <div class="orbit-node node-t4"><b>T4</b><small>model</small></div>
+        <div class="truth-line"><span>truth</span><i></i><span>inference</span></div>
+      </div>
+      <div class="hero-stats" aria-label="카탈로그 요약">
+        <article><span>Medical & derived</span><strong id="medical-total">—</strong><small>Tier 1–4</small></article>
+        <article><span>Clinician native</span><strong id="tier1-total">—</strong><small>Tier 1 anchors</small></article>
+        <article><span>Analysis measures</span><strong id="analysis-total">—</strong><small>별도 registry</small></article>
+        <article><span>Legacy provenance</span><strong id="legacy-total">—</strong><small>기존 계산량</small></article>
+      </div>
+    </section>
+
+    <section class="principle-strip" aria-label="분류 원칙">
+      <div><span>01</span><p><strong>의료 기준축 우선</strong>T1은 의료진·검사실이 직접 기록합니다.</p></div>
+      <div><span>02</span><p><strong>부모 지표 추적</strong>모든 하위 Tier는 상위 parent를 가집니다.</p></div>
+      <div><span>03</span><p><strong>평가량 분리</strong>AUROC·R²·bootstrap은 의료 지표가 아닙니다.</p></div>
+    </section>
+
+    <section id="hierarchy" class="content-section section-shell">
+      <div class="section-heading">
+        <div><p class="eyebrow"><span></span> Metric hierarchy</p><h2>파생 거리를 보여주는 네 개의 층</h2></div>
+        <p>Tier는 성능이나 증거의 우열이 아닙니다. 환자의 의료 기준축에서 얼마나 멀리 파생됐는지를 나타냅니다.</p>
+      </div>
+      <div id="tier-map" class="tier-map" aria-label="Tier 계층도"></div>
+    </section>
+
+    <section id="network" class="network-section">
+      <div class="section-shell">
+        <div class="section-heading network-heading">
+          <div><p class="eyebrow light"><span></span> Full lineage graph</p><h2 id="network-title">58개 지표의 실제 연결 구조</h2></div>
+          <p id="network-description">점은 지표, 선은 TSV의 parent 관계입니다. 노드를 가리키면 직접 연결이 강조되고 클릭하면 상세 계보로 이동합니다.</p>
+        </div>
+        <div class="network-panel">
+          <div class="network-toolbar">
+            <div class="network-stat"><strong id="network-node-count">—</strong><span>nodes</span><i></i><strong id="network-edge-count">—</strong><span>links</span></div>
+            <label class="network-select">
+              <span>임상 기준축으로 좁히기</span>
+              <select id="network-anchor-filter" aria-label="임상 기준축으로 그래프 필터링"></select>
+            </label>
+            <div id="network-legend" class="network-legend" aria-label="Tier 색상 범례"></div>
+          </div>
+          <div class="network-scroll" tabindex="0" aria-label="가로로 스크롤 가능한 전체 지표 계보 그래프">
+            <svg id="metric-network" role="img" aria-labelledby="network-svg-title network-svg-description"></svg>
+          </div>
+          <div class="network-note"><span>Hover</span> 연결 강조 <span>Click</span> 상세 보기 <span>선이 없는 점</span> 등록됐지만 현재 직접 parent 연결이 없는 지표</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lineage-section section-shell">
+      <div class="lineage-header">
+        <div><p class="eyebrow"><span></span> Lineage inspector</p><h2>한 지표의 위·아래 관계</h2></div>
+        <p>카드를 선택하면 임상 parent와 직접 파생 child를 함께 표시합니다.</p>
+      </div>
+      <div class="lineage-layout">
+        <div id="lineage-graph" class="lineage-graph" aria-live="polite"></div>
+        <aside id="metric-detail" class="metric-detail" aria-live="polite"></aside>
+      </div>
+    </section>
+
+    <section id="explorer" class="content-section section-shell">
+      <div class="section-heading explorer-heading">
+        <div><p class="eyebrow"><span></span> Metric explorer</p><h2>의료·파생 지표 찾아보기</h2></div>
+        <div class="result-count"><strong id="result-count">0</strong><span>metrics shown</span></div>
+      </div>
+      <div class="filter-bar">
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="metric-search" type="search" placeholder="지표명, ID, domain 검색" autocomplete="off">
+        </label>
+        <div id="tier-filters" class="segmented" aria-label="Tier 필터"></div>
+        <label class="select-wrap">
+          <span>상태</span>
+          <select id="status-filter">
+            <option value="ALL">전체</option>
+            <option value="active">Active</option>
+            <option value="exploratory">Exploratory</option>
+            <option value="deferred">Deferred</option>
+          </select>
+        </label>
+      </div>
+      <div id="metric-grid" class="metric-grid"></div>
+      <p id="empty-state" class="empty-state" hidden>조건에 맞는 지표가 없습니다.</p>
+    </section>
+
+    <section id="analysis" class="analysis-section">
+      <div class="section-shell analysis-inner">
+        <div class="analysis-copy">
+          <p class="eyebrow light"><span></span> Separate by design</p>
+          <h2>모델평가·통계·QC는<br>별도 레지스트리입니다.</h2>
+          <p>이 값들은 의료 지표의 성능과 불확실성을 설명하지만 환자 상태를 나타내는 Tier에는 포함되지 않습니다.</p>
+          <div class="analysis-total"><strong id="analysis-big-total">—</strong><span>analysis measures</span></div>
+        </div>
+        <div class="analysis-chart-wrap">
+          <div id="analysis-bars" class="analysis-bars" aria-label="분석량 영역별 분포"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="source-section section-shell">
+      <div><p class="eyebrow"><span></span> Single source of truth</p><h2>화면과 Python이 같은 TSV를 읽습니다.</h2></div>
+      <div class="source-paths" id="source-paths"></div>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <span>VLM Pathology · Medical Metric Governance</span>
+    <span>연구용 분류체계 · 임상 검증 또는 진단기 아님</span>
+  </footer>
+
+  <script src="data/catalog-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

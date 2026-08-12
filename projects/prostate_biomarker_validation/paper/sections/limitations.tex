@@ -1,0 +1,86 @@
+\label{sec:limitations}
+
+\subsection{Relationship to prior confounder-audit and benchmarking work}
+
+Dawood et al.\ perform a similarly motivated, larger-scale confounder audit but do not include
+prostate cancer, do not cross-validate across independently trained encoders, and do not test
+whether qualification changes a marker's value for a downstream clinical outcome -- the
+comparison we make directly in Section~\ref{sec:leopard-results}. Gevaert/Bareja et al.\ and
+Neidlinger et al.\ benchmark many encoders across many tasks, including several of the exact
+targets we study (TCGA-PRAD ERG status, SICAPv2 grading), but their reported methodology does
+not appear to enforce patient-disjoint evaluation, which our own early results show is
+necessary to avoid a specific, previously undetected pseudo-replication failure mode. Our
+contribution is narrower than either in absolute scope (prostate-specific, seven markers) but
+adds three things neither provides together: mandatory patient-disjoint discipline throughout,
+cross-encoder replication of the entire marker pool rather than a subset, and a direct
+same-outcome test of whether qualification is consequential rather than merely descriptive.
+
+\subsection{Limitations}
+
+We did not acquire an independent molecular-validation cohort (new IHC or sequencing);
+PTEN and AR-activity's molecular concordance rests on already-public TCGA-PRAD multi-assay
+data, and ERG's biological mechanism (why residual signal predicts grade at all) remains an
+open, unverified hypothesis. LEOPARD's public labels carry no clinical covariates, so an
+incremental-value-over-clinical-baseline claim is untestable with this cohort; the pool
+comparison in Section~\ref{sec:leopard-results} is accordingly scoped to outcome association,
+not incremental clinical value. Marker 7 is a post-hoc discovery, not a protocol-frozen
+candidate, and its TCGA-PRAD outcome definition differs in granularity from LEOPARD's; among
+censored TCGA-PRAD patients, marker 7's risk score correlates with follow-up duration more
+than the corresponding LEOPARD check did ($\rho=-0.28$, $p=3\times10^{-5}$ vs.\ $p=0.07$ on
+LEOPARD), a residual concern we could not fully resolve given TCGA-PRAD's multi-institution
+heterogeneity and coarser outcome definition, though the landmark analysis argues against a
+pure observation-time artifact. Two further limitations emerged from expanding this audit in
+response to external review (Sections~\ref{sec:res-marker7-clinical}
+and~\ref{sec:res-label-benchmark}). The completed R4 comparison uses the same 153-patient
+complete-case cohort and shared patient-bootstrap draws for both endpoints. Multiple imputation
+was not performed. The reconstructed grade-level delta C-index interval excludes zero, but its
+paired IBS interval includes zero, the fuller-baseline and hierarchy intervals include zero,
+and all official-PFI paired C-index and IBS intervals include zero. Thus ``grade-independent''
+should not be read as ``independent of standard clinical covariates generally,'' and the result
+does not establish robust independent or incremental prognostic value. Re-scoring marker 7
+directly against TCGA's standardized PFS/DFS endpoints, rather than our
+reconstructed label, gives a visibly attenuated (though still above-chance) transfer, indicating
+the original headline C-index is partly specific to our label's construction. Official
+TCGA-CDR PFI was evaluated directly (270 patients, 42 events; C-index 0.586, 95\% CI
+0.482--0.689); PFS, DFS, and reconstructed recurrence are not treated as PFI substitutes.
+What specific
+morphological content the shared CONCH/Virchow recurrence-predictive direction reflects remains
+unresolved: a preliminary, qualitative tile-level review ($n=6$ patients, 18 tiles, no
+pathologist review) suggested loss of organized benign stromal architecture as a plausible
+pattern, but one high-scoring tile showed an atypical color cast raising the possibility of a
+staining or scanning artifact, and we present this only as hypothesis-generating. The
+completed Gate A grid (Section~\ref{sec:failure-modes}) contains 360 correlated cells, not 360
+independent tests or replications. Its five-seed Student-$t$ intervals quantify repeated tile
+sampling on the same frozen patients/folds rather than patient or population uncertainty.
+Marker-7 source retention varies from 498 to 502 patients; source-constant sensitivity requires
+the completed common-498 R2 analysis. It preserved every audited contrast direction and had no
+raw-to-common null crossing, but individual C-indices moved by up to 0.023. Because this is a
+correlated post-hoc sensitivity on the same source and target cohorts, it neither identifies a
+causal scale mechanism nor establishes universal encoder superiority or independent
+replication. The official-PFI interval includes 0.5 and provides directionally
+non-contradictory but not strong support. Gate A also records 60 coordinate shards and a historical
+limitation: per-run command/config manifests were unavailable. A complete 463/463 NADT TIFF
+header scan produced invalid-page-offset warnings for two slides. Those header findings do not
+establish pixel-level impact. R5 closes the planned C04/C05 site, metadata, and power tables,
+but not their scientific uncertainty: all six AR LOO intervals include zero; ScanScope is a raw
+identifier available for 280/300 slides, not a scanner model; explicit stain metadata are
+unavailable for all 300; and the SPOP MDE values are fixed-score planning approximations, not
+effect-exclusion bounds. The completed R3/R4 analyses close the planned dependencies while
+retaining endpoint-conditioned uncertainty.
+
+\subsection{Conclusion}
+
+A statistically significant association between a pathology foundation-model embedding and a
+clinical or molecular label is a starting point, not an endpoint. Applied exhaustively and with
+a prespecified protocol to six frozen candidates, and with the same audit tools applied
+transparently to a seventh, post-hoc candidate, this kind of audit separates genuinely
+transportable signal (grade, phenotype) from markers whose apparent strength did not survive a
+stricter, nested re-analysis (PTEN, AR) and from configuration-sensitive evidence (SPOP).
+The SPOP characterization establishes neither a robust positive nor a robust null: it is not a
+biological-null or mechanism claim, and a modest effect and tumor dilution remain unresolved.
+Its most consequential test shows that qualification for one target is not evidence of
+qualification for another: a post-hoc marker fit directly against recurrence transferred
+zero-shot to an independent cohort, while every prospectively qualified marker, combined,
+failed to. The prespecified protocol, the discipline of re-testing a result under a stricter
+design when a legitimate concern is raised, and the pitfalls this audit surfaced are offered as
+reusable tools for the next study asked to make the same distinction.

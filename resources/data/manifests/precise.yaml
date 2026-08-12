@@ -1,0 +1,10 @@
+dataset_id: PRECISE
+local_path: opendataset/PRECISE
+data_class: restricted_local_pathology
+projects:
+  - precise_pni_candidate_triage
+  - quantitative_foundation_model_validation
+separation_rule: shared images do not imply shared labels or endpoints
+immutable_clinician_source:
+  path: opendataset/PRECISE/precise_pni_review (1).csv
+  sha256: c1dd522b4ff4f233b3a23630bf9074da881bb7b9145996fc47c3383a0448d2a3

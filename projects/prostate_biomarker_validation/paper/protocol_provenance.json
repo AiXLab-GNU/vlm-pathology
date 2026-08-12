@@ -1,0 +1,612 @@
+{
+  "snapshot_type": "retrospective_repository_snapshot",
+  "generated_at": "2026-08-07T01:47:19.751041-04:00",
+  "warning": "This snapshot does not establish historical prespecification and does not replace a missing protocol-freeze commit.",
+  "git": {
+    "available": true,
+    "top_level": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology",
+    "commit": "006f075f9e4dab90d9ae2142979f669add0fa019"
+  },
+  "files": [
+    {
+      "path": "paper/MajorRevision-v1.md",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/paper/MajorRevision-v1.md",
+      "outside_workspace": false,
+      "sha256": "9f94795bd86918fc80e474899af954ea4eda1844abf8c331d67d1c18d3f3643e",
+      "size_bytes": 7899,
+      "mtime": "2026-08-02T19:18:10.421734-04:00"
+    },
+    {
+      "path": "paper/MajorRevision-v1-completion-plan.md",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/paper/MajorRevision-v1-completion-plan.md",
+      "outside_workspace": false,
+      "sha256": "4a92b46acee94efe675e2be1e911445f20e8309ff8cacb8508d640f830f09f7a",
+      "size_bytes": 6042,
+      "mtime": "2026-08-03T20:10:56.536923-04:00"
+    },
+    {
+      "path": "paper/revision_analysis_plan.md",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/paper/revision_analysis_plan.md",
+      "outside_workspace": false,
+      "sha256": "f865e685d5fead968618253ac776090e4454fd524d997a5f63d420c77811e944",
+      "size_bytes": 22386,
+      "mtime": "2026-08-03T18:16:40.879383-04:00"
+    },
+    {
+      "path": "docs/10_protocol_freeze.md",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/docs/10_protocol_freeze.md",
+      "outside_workspace": false,
+      "sha256": "1bbf07efdeb4003daa213a8913cace94ca8c4c0755849c06c2c34f010caaed30",
+      "size_bytes": 12922,
+      "mtime": "2026-08-03T14:39:15.921024-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/pilot_confounder_audit_nested.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/pilot_confounder_audit_nested.py",
+      "outside_workspace": false,
+      "sha256": "f2b647d4e0eca40afb7ab450363944463f6369c632a3cef551f8f102f38f35d7",
+      "size_bytes": 13055,
+      "mtime": "2026-08-03T13:25:19.929494-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/pilot_confounder_refit_permutation.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/pilot_confounder_refit_permutation.py",
+      "outside_workspace": false,
+      "sha256": "e0f4df5a9d8d2078a02e13d86cc5cc302875216bf901c8da0ab5deaf1f475105",
+      "size_bytes": 9113,
+      "mtime": "2026-08-03T13:27:10.755296-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/pilot_marker7_clinical_hierarchy.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/pilot_marker7_clinical_hierarchy.py",
+      "outside_workspace": false,
+      "sha256": "b5c3f7c1371cda854e3856ba5eda10c8b6c252c27ef3cf371afe5e0fd5592d69",
+      "size_bytes": 6586,
+      "mtime": "2026-08-03T13:39:58.939258-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/pilot_tcga_prad_label_benchmark.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/pilot_tcga_prad_label_benchmark.py",
+      "outside_workspace": false,
+      "sha256": "0e767b404ebbe739837d0ead71b3283d58b281fd4406a540e7e069c6795b8876",
+      "size_bytes": 11047,
+      "mtime": "2026-08-03T13:42:24.261548-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/pilot_tcga_prad_scale_tile_sensitivity.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/pilot_tcga_prad_scale_tile_sensitivity.py",
+      "outside_workspace": false,
+      "sha256": "1034f94a1ef33d7b2634aec33c9458400724dee1558dffea4c18e7d8745fd1b2",
+      "size_bytes": 14086,
+      "mtime": "2026-08-03T13:45:15.728265-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/build_revision_p0_artifacts.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/build_revision_p0_artifacts.py",
+      "outside_workspace": false,
+      "sha256": "b9cade68e14eb5ab36f44a949bca6d0aa4ccb442193715ce7d8189d8ebeb30ee",
+      "size_bytes": 122594,
+      "mtime": "2026-08-07T01:46:45.119101-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/build_stability_grid_spec.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/build_stability_grid_spec.py",
+      "outside_workspace": false,
+      "sha256": "1a5dd3142d2ea93f9c2b6b6b35db0aa7ffddd917369081dbd12879ef3799158a",
+      "size_bytes": 4647,
+      "mtime": "2026-08-03T18:19:28.010055-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/run_stability_tcga.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/run_stability_tcga.py",
+      "outside_workspace": false,
+      "sha256": "551bd99c0652df249f9ff2581fcd42c510cfcd1ece4d254719092da0ccb3d24c",
+      "size_bytes": 13930,
+      "mtime": "2026-08-03T22:35:52.900149-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/run_stability_nadt.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/run_stability_nadt.py",
+      "outside_workspace": false,
+      "sha256": "b97519460e72f01ae972e905fae138698cdd37792f1af070fda07693411c48a9",
+      "size_bytes": 8065,
+      "mtime": "2026-08-03T22:35:52.904149-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/run_stability_marker7.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/run_stability_marker7.py",
+      "outside_workspace": false,
+      "sha256": "2920e2306c516e4519b6c056a740c13d0d76ac583fb6b82743c2bb2009ed616e",
+      "size_bytes": 8043,
+      "mtime": "2026-08-03T22:35:52.904149-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/aggregate_stability_grid.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/aggregate_stability_grid.py",
+      "outside_workspace": false,
+      "sha256": "bbfca13bd8e19088f049fe16a2fb8fe282afd7052dd433b68a1840ea3d92a5d9",
+      "size_bytes": 120176,
+      "mtime": "2026-08-06T13:54:01.518280-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/stability_grid_spec.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/stability_grid_spec.csv",
+      "outside_workspace": false,
+      "sha256": "9399e711080006cc851041a357030c27e5de3bea116983a837f7182f8098855d",
+      "size_bytes": 50706,
+      "mtime": "2026-08-03T18:19:36.542191-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/stability_fold_assignments.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/stability_fold_assignments.csv",
+      "outside_workspace": false,
+      "sha256": "18a307ad2f9482d876b4237ce37a52163f7917be1e18d9f6f163eb33e4a62f97",
+      "size_bytes": 38281,
+      "mtime": "2026-08-03T18:19:36.546191-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/stability_cell_results.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/stability_cell_results.csv",
+      "outside_workspace": false,
+      "sha256": "a6fec3fdff8c3abe9368277059932b8e7358f79daf8ae74c62054f318860e706",
+      "size_bytes": 119958,
+      "mtime": "2026-08-06T15:52:01.320374-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/stability_fold_results.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/stability_fold_results.csv",
+      "outside_workspace": false,
+      "sha256": "c96f46064014b26cc6e9252b109c8afc765a91bd8f3eb552ac288faae1895f8c",
+      "size_bytes": 572394,
+      "mtime": "2026-08-06T15:52:01.336375-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/stability_summary.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/stability_summary.csv",
+      "outside_workspace": false,
+      "sha256": "23d3c46a2215982a79ec7293102318f88422e58b1d2ce3a2d0bbfd9ea5f0bed1",
+      "size_bytes": 14126,
+      "mtime": "2026-08-06T15:52:01.336375-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/stability_contrast_summary.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/stability_contrast_summary.csv",
+      "outside_workspace": false,
+      "sha256": "085db95c1a2f149222459a5211c4cad655d76fe4f303546d5be669e9e896d88b",
+      "size_bytes": 115258,
+      "mtime": "2026-08-06T15:52:01.340374-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/stability_tile_coordinate_manifest.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/stability_tile_coordinate_manifest.csv",
+      "outside_workspace": false,
+      "sha256": "43d64694e052d4594215070674e69b857286599f5487101b165460b63ebcaea0",
+      "size_bytes": 23171,
+      "mtime": "2026-08-06T15:52:01.344375-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/stability_run_manifest.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/stability_run_manifest.csv",
+      "outside_workspace": false,
+      "sha256": "10e5574bea12f3b8375ec12e5e9879e0d93aa6f79043e02797a9b4c09717ca4c",
+      "size_bytes": 203646,
+      "mtime": "2026-08-06T15:52:01.424376-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/stability_qc_report.json",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/stability_qc_report.json",
+      "outside_workspace": false,
+      "sha256": "fd7ed61181dbf51be0bb9c085fd9b019fde511bc87425469229f8bbd2a6d6ed1",
+      "size_bytes": 85844,
+      "mtime": "2026-08-06T15:52:01.348375-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/run_marker7_common_source_sensitivity.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/run_marker7_common_source_sensitivity.py",
+      "outside_workspace": false,
+      "sha256": "b9363546e1a0aca267bbc581956536c062d9e965393786d24556caf66332de2d",
+      "size_bytes": 83793,
+      "mtime": "2026-08-06T21:17:44.098325-04:00"
+    },
+    {
+      "path": "tests/test_marker7_common_source_sensitivity.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/tests/test_marker7_common_source_sensitivity.py",
+      "outside_workspace": false,
+      "sha256": "9c6ac5881018c22ee4947ca193be3c3a38b4dffa5a0b33a06f9d6f6d8304ae4e",
+      "size_bytes": 33828,
+      "mtime": "2026-08-06T21:17:24.429982-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/marker7_common_source_sensitivity_cells.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/marker7_common_source_sensitivity_cells.csv",
+      "outside_workspace": false,
+      "sha256": "2c11bb1ae5cd3ebd690fc47d9277be01ff534cfd3b36107f24d955f711bda1fc",
+      "size_bytes": 18976,
+      "mtime": "2026-08-06T21:18:31.315146-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/marker7_common_source_sensitivity_paired_deltas.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/marker7_common_source_sensitivity_paired_deltas.csv",
+      "outside_workspace": false,
+      "sha256": "153fcc284432490ce683e0df54720680fa53aa9f3dabdf234f7001e28bbb0be8",
+      "size_bytes": 23373,
+      "mtime": "2026-08-06T21:18:31.319146-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/marker7_common_source_membership_manifest.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/marker7_common_source_membership_manifest.csv",
+      "outside_workspace": false,
+      "sha256": "b669d9a93152a1be03c33e2e279f4a8b2e7b7426bef85bb0800ae97666ee7d98",
+      "size_bytes": 1043855,
+      "mtime": "2026-08-06T21:18:31.359147-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/marker7_common_source_sensitivity_run_config.json",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/marker7_common_source_sensitivity_run_config.json",
+      "outside_workspace": false,
+      "sha256": "e2d105fb6db25f97f1b793a0ac3455efefa8ad74c26155b633d43ade41bac05d",
+      "size_bytes": 2876,
+      "mtime": "2026-08-06T21:18:31.359147-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/marker7_common_source_sensitivity_run_manifest.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/marker7_common_source_sensitivity_run_manifest.csv",
+      "outside_workspace": false,
+      "sha256": "869c973c378b0b68ef0cc457388e0a9049a21c58812197d701667e9c633a59b6",
+      "size_bytes": 49030,
+      "mtime": "2026-08-06T21:18:38.011262-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/build_ar_spop_evidence_closure.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/build_ar_spop_evidence_closure.py",
+      "outside_workspace": false,
+      "sha256": "242547b89a0121b2c8c8977e8cc73b6d7722c7d77dbf05decf8d270a69741fac",
+      "size_bytes": 40418,
+      "mtime": "2026-08-06T21:11:29.647629-04:00"
+    },
+    {
+      "path": "tests/test_ar_spop_evidence_closure.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/tests/test_ar_spop_evidence_closure.py",
+      "outside_workspace": false,
+      "sha256": "b01cd97f3629b629a37d6b1a571180dca949a3dd5290a561584e8fcc615a3c79",
+      "size_bytes": 13787,
+      "mtime": "2026-08-06T21:08:37.520615-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/ar_site_characteristics.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/ar_site_characteristics.csv",
+      "outside_workspace": false,
+      "sha256": "d8f1501b07e0d6fff229dc08584397926aab594ced709cfe7aa8a1baa1cc70fa",
+      "size_bytes": 4570,
+      "mtime": "2026-08-06T21:13:03.833352-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/ar_slide_metadata_availability.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/ar_slide_metadata_availability.csv",
+      "outside_workspace": false,
+      "sha256": "bfb8c32a440f72db743e41e95b057754f6ecb39276f1dc7c27b1abac4753bb4b",
+      "size_bytes": 101465,
+      "mtime": "2026-08-06T21:13:03.837352-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/spop_site_summary.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/spop_site_summary.csv",
+      "outside_workspace": false,
+      "sha256": "c9284a515a3d84470e147d15a3398c664d0de463ce56b62fa5c1c300be5c6375",
+      "size_bytes": 4830,
+      "mtime": "2026-08-06T21:13:03.837352-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/spop_power_summary.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/spop_power_summary.csv",
+      "outside_workspace": false,
+      "sha256": "365ba2712a507a094993baafd1f6e8803b693f5494cbfa066d59dd580d1a28a7",
+      "size_bytes": 1003,
+      "mtime": "2026-08-06T21:13:03.837352-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/spop_site_predictions.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/spop_site_predictions.csv",
+      "outside_workspace": false,
+      "sha256": "2aff608ea9250df8ac01bb4021a9bd5438d3be9e383e85ae44e12103749850df",
+      "size_bytes": 88520,
+      "mtime": "2026-08-06T21:13:03.853352-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/ar_spop_evidence_run_config.json",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/ar_spop_evidence_run_config.json",
+      "outside_workspace": false,
+      "sha256": "4721692ffa5dc84c631fab76e5a1466aec67eebcffbf2c2e01c7dc1884cfc05a",
+      "size_bytes": 3865,
+      "mtime": "2026-08-06T21:13:03.853352-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/ar_spop_evidence_manifest.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/ar_spop_evidence_manifest.csv",
+      "outside_workspace": false,
+      "sha256": "adb403c22d5d8c5a51fb953a7787d02cd73fdc648988c30f2365f740444b453e",
+      "size_bytes": 96815,
+      "mtime": "2026-08-06T21:13:03.865352-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/build_tcga_cdr_pfi_evidence.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/build_tcga_cdr_pfi_evidence.py",
+      "outside_workspace": false,
+      "sha256": "dbd402ecd06561fe91208fb2bcefe8e50a1ab930dd630c99237042f6870aa597",
+      "size_bytes": 51793,
+      "mtime": "2026-08-06T23:38:37.169849-04:00"
+    },
+    {
+      "path": "tests/test_tcga_cdr_pfi_evidence.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/tests/test_tcga_cdr_pfi_evidence.py",
+      "outside_workspace": false,
+      "sha256": "2eba40564ae49a990ba522619f743bbdf3d93b8bcde31127d8afb1e8d3663354",
+      "size_bytes": 18167,
+      "mtime": "2026-08-06T23:36:42.499953-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/tcga_cdr_pfi_mapping.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/tcga_cdr_pfi_mapping.csv",
+      "outside_workspace": false,
+      "sha256": "a240bbdb09b6154e516f6adc035522584435ef1637db65f0529220b4dce6a564",
+      "size_bytes": 37268,
+      "mtime": "2026-08-06T23:39:31.570748-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/pfi_endpoint_concordance.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/pfi_endpoint_concordance.csv",
+      "outside_workspace": false,
+      "sha256": "73e0205dacd8139b95f6603a6fd3a666789ea657becc3e1607812aba4e7858fe",
+      "size_bytes": 972,
+      "mtime": "2026-08-06T23:39:31.570748-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/pfi_performance_summary.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/pfi_performance_summary.csv",
+      "outside_workspace": false,
+      "sha256": "de45c76b2387151ee6d64faf3306c5429c7b859790d294fd0cec0582de91cbbc",
+      "size_bytes": 1806,
+      "mtime": "2026-08-06T23:39:31.570748-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/tcga_cdr_pfi_patient_predictions.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/tcga_cdr_pfi_patient_predictions.csv",
+      "outside_workspace": false,
+      "sha256": "a22e4d28614bf2cae893242ef5f772db216e6d460c410c3081236dd0225ff996",
+      "size_bytes": 281837,
+      "mtime": "2026-08-06T23:39:31.578748-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/tcga_cdr_pfi_run_config.json",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/tcga_cdr_pfi_run_config.json",
+      "outside_workspace": false,
+      "sha256": "2573421f56a405979978c63d852ef24c6d078816d62e1204aa8ce6ba0aaa6d66",
+      "size_bytes": 4254,
+      "mtime": "2026-08-06T23:39:31.582748-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/tcga_cdr_pfi_run_manifest.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/tcga_cdr_pfi_run_manifest.csv",
+      "outside_workspace": false,
+      "sha256": "ddbc22726cc555f127ebdbac0e0e304997ad1f64bf9f0db8c14abca3f9da4eaa",
+      "size_bytes": 3535,
+      "mtime": "2026-08-06T23:39:31.582748-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/build_marker7_survival_paired_analysis.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/build_marker7_survival_paired_analysis.py",
+      "outside_workspace": false,
+      "sha256": "5cf576949be1135df063927eaa5e713ea8c2b242c8797f438c46374b59a99deb",
+      "size_bytes": 57489,
+      "mtime": "2026-08-06T23:34:24.841677-04:00"
+    },
+    {
+      "path": "tests/test_marker7_survival_paired_analysis.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/tests/test_marker7_survival_paired_analysis.py",
+      "outside_workspace": false,
+      "sha256": "a37835808f3dde64d3bda0375dc7caf4707f5bef99b1c62aa38da47252845d90",
+      "size_bytes": 26251,
+      "mtime": "2026-08-06T23:33:48.173070-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_common_cohort_summary.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_common_cohort_summary.csv",
+      "outside_workspace": false,
+      "sha256": "61d27352412d1975cfcdcebb133c9b24a6fb565c7deadc576aac93e46b6005a7",
+      "size_bytes": 8327,
+      "mtime": "2026-08-06T23:43:14.718437-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_paired_deltas.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_paired_deltas.csv",
+      "outside_workspace": false,
+      "sha256": "949eabbec11fb98ae83afa493ccc14112ff654a8ddb91491ac0fba60956a084a",
+      "size_bytes": 5221,
+      "mtime": "2026-08-06T23:43:14.718437-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_bootstrap_replicates.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_bootstrap_replicates.csv",
+      "outside_workspace": false,
+      "sha256": "836aa9197b8dbb8d82b9def011fd01d14c38a59b698418e55a360843643350e4",
+      "size_bytes": 23391727,
+      "mtime": "2026-08-06T23:43:15.414448-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_oof_survival_predictions.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_oof_survival_predictions.csv",
+      "outside_workspace": false,
+      "sha256": "6ccf28bb7d541c8a8e6459bb6acc09059c36c0f1251010607283de1e109514bd",
+      "size_bytes": 29098805,
+      "mtime": "2026-08-06T23:43:16.566467-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_fold_diagnostics.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_fold_diagnostics.csv",
+      "outside_workspace": false,
+      "sha256": "691dfc3a6bf93e3742d8ac022c052f6ffcd2c29b99353af812f6df8ad4f4eb3f",
+      "size_bytes": 23219,
+      "mtime": "2026-08-06T23:43:16.566467-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_paired_run_config.json",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_paired_run_config.json",
+      "outside_workspace": false,
+      "sha256": "c36e4e1ce2f562fac787b417600832fc1913c73c3391b376974c3b19377eca32",
+      "size_bytes": 5094,
+      "mtime": "2026-08-06T23:43:17.606484-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_paired_run_manifest.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/marker7_survival_paired_run_manifest.csv",
+      "outside_workspace": false,
+      "sha256": "37d31ae571a22ed367bd9f5e173c53266be073cd5ea18775fe96935d7dfc6ba2",
+      "size_bytes": 8120,
+      "mtime": "2026-08-06T23:43:17.702486-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/spop_classweight_ablation_summary.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/spop_classweight_ablation_summary.csv",
+      "outside_workspace": false,
+      "sha256": "7d0abea86bb03c635db512417cc76af13ef3eb6c76024be2320eb6829444a040",
+      "size_bytes": 454,
+      "mtime": "2026-08-03T13:43:32.406626-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/pilot_spop_classweight_ablation.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/pilot_spop_classweight_ablation.py",
+      "outside_workspace": false,
+      "sha256": "fccddf776e9664a2b010a2b6ec7d8de69823e5e677ad19ad999a31e70e4d302f",
+      "size_bytes": 4816,
+      "mtime": "2026-08-03T13:43:19.494421-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/ar_site_forest_summary.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/ar_site_forest_summary.csv",
+      "outside_workspace": false,
+      "sha256": "f21d06d6bb2106e3a8fa0a9d896173e675f446e9b0932fcbbf9356ac0154089a",
+      "size_bytes": 681,
+      "mtime": "2026-08-03T09:23:49.098055-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/pilot_ar_site_forest.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/pilot_ar_site_forest.py",
+      "outside_workspace": false,
+      "sha256": "2043dfcea577fe3999572edd3956394a462dceb641614f5e008777c02d698aee",
+      "size_bytes": 5148,
+      "mtime": "2026-08-03T09:23:36.597856-04:00"
+    },
+    {
+      "path": "resources/projects/prostate_biomarker_validation/model_workspace/confounder_nested_summary.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/resources/projects/prostate_biomarker_validation/model_workspace/confounder_nested_summary.csv",
+      "outside_workspace": false,
+      "sha256": "3a7f149b8ba9c594774c1cb5e362179c706084b2fc721f3437c74bf053782573",
+      "size_bytes": 1005,
+      "mtime": "2026-08-03T13:25:49.705978-04:00"
+    },
+    {
+      "path": "paper/figure_data/fig3_primary_snapshot.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/paper/figure_data/fig3_primary_snapshot.csv",
+      "outside_workspace": false,
+      "sha256": "6ab7c143f7b481aefe7fd8ab39d9f68a6b2b0ee994ad770c679242bd7fea12e5",
+      "size_bytes": 2427,
+      "mtime": "2026-08-07T00:25:23.015371-04:00"
+    },
+    {
+      "path": "paper/figures/fig3_conch_vs_virchow.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/paper/figures/fig3_conch_vs_virchow.py",
+      "outside_workspace": false,
+      "sha256": "1a41dd3e8589cbd9464384dfdf884690c2b2b6b610db0bcaa40f28d7ed56ba49",
+      "size_bytes": 7447,
+      "mtime": "2026-08-07T00:39:08.429402-04:00"
+    },
+    {
+      "path": "paper/figures/fig3_conch_vs_virchow.pdf",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/paper/figures/fig3_conch_vs_virchow.pdf",
+      "outside_workspace": false,
+      "sha256": "1a42e1ba6537be3b5c7bdfd8ddfb555a0319452d7ac65aba246796e50be06355",
+      "size_bytes": 47940,
+      "mtime": "2026-08-07T00:45:33.375799-04:00"
+    },
+    {
+      "path": "paper/figures/fig3_conch_vs_virchow.png",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/paper/figures/fig3_conch_vs_virchow.png",
+      "outside_workspace": false,
+      "sha256": "80cce4fac575b812f188040a0a408a20fbce2cf493d7645d5ce5d45999e54139",
+      "size_bytes": 160059,
+      "mtime": "2026-08-07T00:45:33.815807-04:00"
+    },
+    {
+      "path": "paper/figure_data/fig9_stability_grid.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/paper/figure_data/fig9_stability_grid.csv",
+      "outside_workspace": false,
+      "sha256": "23d3c46a2215982a79ec7293102318f88422e58b1d2ce3a2d0bbfd9ea5f0bed1",
+      "size_bytes": 14126,
+      "mtime": "2026-08-06T15:52:01.344375-04:00"
+    },
+    {
+      "path": "paper/figure_data/fig9_stability_contrasts.csv",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/paper/figure_data/fig9_stability_contrasts.csv",
+      "outside_workspace": false,
+      "sha256": "085db95c1a2f149222459a5211c4cad655d76fe4f303546d5be669e9e896d88b",
+      "size_bytes": 115258,
+      "mtime": "2026-08-06T15:52:01.344375-04:00"
+    },
+    {
+      "path": "paper/figures/fig9_scale_tile_heatmap.py",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/paper/figures/fig9_scale_tile_heatmap.py",
+      "outside_workspace": false,
+      "sha256": "a166f2727c7c4a4d073d97faf4a84d49eebcb4b6a42cd8576b04fd81962db32e",
+      "size_bytes": 24197,
+      "mtime": "2026-08-06T17:31:27.346268-04:00"
+    },
+    {
+      "path": "paper/figures/fig9_scale_tile_heatmap.pdf",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/paper/figures/fig9_scale_tile_heatmap.pdf",
+      "outside_workspace": false,
+      "sha256": "ff214b9a8cbfb0619f1abec881d28c7144a09c29bc922f2f75dfd32ef4865323",
+      "size_bytes": 65355,
+      "mtime": "2026-08-07T00:45:39.415901-04:00"
+    },
+    {
+      "path": "paper/figures/fig9_scale_tile_heatmap.png",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/paper/figures/fig9_scale_tile_heatmap.png",
+      "outside_workspace": false,
+      "sha256": "9ae923e6b263733231ced35c852132188f2c36d7c4aef8a8963ca2e2744f7860",
+      "size_bytes": 467777,
+      "mtime": "2026-08-07T00:45:40.459918-04:00"
+    },
+    {
+      "path": "paper/generated/stability_grid_marker_summary.tex",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/paper/generated/stability_grid_marker_summary.tex",
+      "outside_workspace": false,
+      "sha256": "2cacc4c693c4868217974065dafde59256c1d6d7d5652106c5f480580ea86047",
+      "size_bytes": 1040,
+      "mtime": "2026-08-07T01:47:19.679705-04:00"
+    },
+    {
+      "path": "environment.yml",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/environment.yml",
+      "outside_workspace": false,
+      "sha256": "6b9bc7fd8820efa998461054865430e4e6e60c7eb5a3cec2a1beec26428e32b4",
+      "size_bytes": 430,
+      "mtime": "2026-08-07T00:37:17.879595-04:00"
+    },
+    {
+      "path": "requirements-lock.txt",
+      "resolved_path": "/home/jinhyun/prj_ws/prj_jin/vlm-pathology/requirements-lock.txt",
+      "outside_workspace": false,
+      "sha256": "8ef1954d0fdc3b2e3a755656268d3e76b8c868c09b122f21d7cbf8607cbf90e5",
+      "size_bytes": 450,
+      "mtime": "2026-08-07T00:37:18.163600-04:00"
+    },
+    {
+      "path": "resources/data/shared/opendataset/TCGA-PRAD-BCR/build_bcr_labels.py",
+      "resolved_path": "/srv/rhome/common-data/microsoft-prostate-cancer-data/TCGA-PRAD-BCR/build_bcr_labels.py",
+      "outside_workspace": true,
+      "sha256": "e5a8790d352507921f87ce378669f0bfea12a2854d5c83192dd40b8a4a55df0c",
+      "size_bytes": 9443,
+      "mtime": "2026-08-03T13:55:18.325890-04:00"
+    }
+  ]
+}

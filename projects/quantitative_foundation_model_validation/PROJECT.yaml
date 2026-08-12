@@ -1,0 +1,8 @@
+project_id: quantitative_foundation_model_validation
+scientific_question: recoverability and functional use of medical quantitative metrics in foundation-model representations
+current_milestone: FM4_entry_gate
+current_claim_ceiling: internal_descriptive_recoverability
+allowed_target: tumor_fraction
+allowed_models: [CONCH, Virchow]
+allowed_fov_um: 394.24
+prohibited_dependency: PNI_review_labels_as_quantitative_endpoint
