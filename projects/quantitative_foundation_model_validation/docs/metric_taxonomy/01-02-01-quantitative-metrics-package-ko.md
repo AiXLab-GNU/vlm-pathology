@@ -9,7 +9,7 @@
 - 의료 정량지표: `infrastructure/packages/vlm_pathology_metrics/src/vlm_pathology_metrics/data/medical/tier*.tsv`
 - 분석량: `infrastructure/packages/vlm_pathology_metrics/src/vlm_pathology_metrics/data/analysis/analysis_measure_catalog.tsv`
 - 레거시 113개 계산량: `infrastructure/packages/vlm_pathology_metrics/src/vlm_pathology_metrics/data/legacy/metric_catalog_113.tsv`
-- 분류 설계: `docs/17_MEDICAL_QUANTITATIVE_METRIC_TIER_TAXONOMY_KO.md`
+- 분류 설계: `docs/metric_taxonomy/01-02-medical-quantitative-metric-tier-taxonomy-ko.md`
 
 기본 `catalog()`에는 AUROC, R², bootstrap, permutation, FDR와 hash가 들어가지 않는다.
 이들은 별도 `analysis_catalog()`에서 관리한다.

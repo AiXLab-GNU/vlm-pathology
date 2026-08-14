@@ -6,7 +6,7 @@
 | 순서 | 단계 | 현재 상태 | 주 폴더·문서 | 완료/진입 기준 |
 |---:|---|---|---|---|
 | 00 | 목적·claim boundary 확인 | 상시 | [`../README.md`](../README.md), [`../CLAIM_BOUNDARIES.md`](../CLAIM_BOUNDARIES.md) | qualification과 임상검증 구분 |
-| 01 | 연구 설계·protocol freeze | 완료 | [`../docs/designs/`](../docs/designs/), [`../docs/plans/`](../docs/plans/), [`../docs/study_design/`](../docs/study_design/) | endpoint·analysis family 동결 |
+| 01 | 연구 설계·protocol freeze | 완료 | [`01` 연구계획](../docs/research_plan/01-prostate-biomarker-validation-plan.md), [`01-01` 마일스톤](../docs/research_plan/01-01-prostate-biomarker-validation-milestones.md), [`01-01-01` tracker](../docs/research_plan/01-01-01-prostate-biomarker-validation-execution-tracker.md), [`survey index`](../docs/surveys/README.md), [`../docs/designs/`](../docs/designs/), [`../docs/plans/`](../docs/plans/) | endpoint·analysis family 동결 |
 | 02 | 대상별 분석 실행 | 완료/동결 | [`../code/legacy/`](../code/legacy/), [`../outputs/legacy/`](../outputs/legacy/) | 저장된 source·fold·hash reconciliation |
 | 03 | confounder·site·stability 감사 | 완료 | [`../outputs/`](../outputs/), [`../tests/`](../tests/) | saved evidence와 claim scope 일치 |
 | 04 | claim–evidence 통합 | 완료/유지 | [`../paper/claim_evidence_matrix.csv`](../paper/claim_evidence_matrix.csv), [`../paper/endpoint_hierarchy.csv`](../paper/endpoint_hierarchy.csv) | 모든 주장에 source row 연결 |

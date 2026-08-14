@@ -1,10 +1,18 @@
 # PRECISE PNI 연구 목적·목표·마일스톤 및 현재 진행 현황
 
-- 문서 기준일: 2026-08-11
+- 문서 ID: `pni-project-plan`
+- 소유 프로젝트: `precise_pni_candidate_triage`
+- 문서 유형: canonical research plan
+- 상태: active
+- Canonical path: `projects/precise_pni_candidate_triage/docs/project_plan/01-precise-pni-project-plan-ko.md`
+- 문서 기준일: 2026-08-13
 - 문서 성격: 연구 전체 로드맵 및 실행 현황을 관리하는 living document
-- 현재 단계: M5 완료, M6 contour protocol·standalone HTML package 구축 완료, one-case dry run 및 전문의 contour 대기
+- 현재 단계: M5 완료, M6 contour protocol·standalone HTML package 구축 및 synthetic one-case round-trip 완료, 실제 브라우저/QuPath one-case dry run과 전문의 contour 대기
 - 연구 책임 범위: 병리의사 참여형 PNI 후보선별·형태표현형·정량화 연구
 - 현재 AI의 검증된 역할: 확정 진단이 아니라 공간적으로 중복되지 않는 검토 후보의 우선순위 제시
+- Canonical milestones: [01-02-pni-project-milestones-ko.md](01-02-pni-project-milestones-ko.md)
+- Current execution tracker: [01-02-01-pni-project-execution-tracker-ko.md](01-02-01-pni-project-execution-tracker-ko.md)
+- 관련연구 입력: [survey index](../surveys/README.md); 현재 `CURRENT` survey 없음
 
 ## 1. 한 문장으로 표현한 연구의 최종 목표
 
@@ -162,7 +170,7 @@ PNI는 WSI 전체에서 크기가 작고 산재할 수 있으므로, 모든 슬�
 | M3 | 14건 블라인드 형태 재판독 도구 구축 | 완료 | 전문의 재판독 수령 |
 | M4 | 14건 재판독 수령·보완·무결성 검증 | 완료 | 공식 잠금 실행 |
 | **M5** | **공식 잠금, 이전 라벨 연결, 형태 결과 및 contour 대상 확정** | **완료** | 잠금 산출물·clean rerun·원본 불변성 검증 완료 |
-| **M6** | **전문의 신경·암–신경 interface contour** | **HTML package 구축 완료·전문의 작업 대기** | one-case export dry run 후 전문의 contour·QC |
+| **M6** | **전문의 신경·암–신경 interface contour** | **현재 단계 — package·자동 synthetic dry run 완료** | 실제 브라우저/QuPath one-case export dry run 후 전문의 contour·QC |
 | M7 | PRECISE 형태계측·공간 분석 확정 파이프라인 | 대기 | 측정 재현성 및 등록 QC |
 | M8 | 확장 코호트 후보선별 및 전문의 판독 운영 검증 | 계획 | coverage·workload 기준 충족 |
 | M9 | PNI burden의 임상·분자·예후 분석 | 장기 계획 | 충분한 사건 수와 독립 검증 |
@@ -441,6 +449,9 @@ PNI는 WSI 전체에서 크기가 작고 산재할 수 있으므로, 모든 슬�
 - [x] 객체별 unique ID 규칙 고정
 - [x] self-intersection, 빈 polygon, WSI 범위 이탈 및 parent reference validator 구현
 - [x] pixel 좌표를 µm 단위로 변환하는 WSI별 MPP 확인
+- [x] 대표 eligible `MORPH-001` synthetic nerve/tumor/contact/encasement 객체의 case·combined GeoJSON 및 status CSV validator round-trip
+- [x] level-0 좌표의 JSON 왕복과 WSI별 MPP pixel–µm–pixel 왕복 보존 확인
+- [x] standalone HTML JavaScript 문법 검사 및 combined GeoJSON 좌표계 metadata 확인
 - [ ] contour 면적과 둘레의 sanity check
 - [ ] 전문의 승인 상태와 수정 이력 저장
 - [x] package source hash, 10개 WSI hash 및 output hash 기록
@@ -648,7 +659,7 @@ TCGA 분석의 필수 표현:
 | R6 | 확장 코호트 일부 contour 또는 중증도 판독 | 향후 | 정량 연구에 필수 |
 | R7 | 최종 오류 사례 및 외부검증 adjudication | 향후 | 논문화 전 권장 |
 
-R2와 M5 공식 잠금, M6 protocol 승인 및 contour package 준비까지 완료되었다. 바로 필요한 작업은 실제 전문의 QuPath 환경의 한-case round-trip dry run이며, 통과 후 R3 contour를 시작한다. 자유 형식 contour는 사용하지 않는다.
+R2와 M5 공식 잠금, M6 protocol 승인, contour package 준비 및 synthetic one-case round-trip 검증까지 완료되었다. 실제 브라우저 상호작용과 QuPath 실행은 현재 자동검증 환경에서 수행할 수 없었으므로 성공 처리하지 않았다. 바로 필요한 작업은 실제 전문의 브라우저/QuPath 환경의 한-case round-trip dry run이며, 통과 후 R3 contour를 시작한다. 자유 형식 contour는 사용하지 않는다.
 
 ## 11. 즉시 실행할 다음 단계
 
@@ -660,9 +671,10 @@ R2와 M5 공식 잠금, M6 protocol 승인 및 contour package 준비까지 완�
 4. [x] 형태 primary endpoint를 세 가지 완료도 정의와 함께 명시한다.
 5. [x] 이전 라벨과 달라진 후보를 자동 오류로 간주하지 않고 raw transition으로 보고한다.
 6. [x] M5 disposition에서 definite와 absent nerve control 13건을 contour eligible로, probable 1건을 adjudication 대상으로 구분한다.
-7. [x] `docs/PRECISE_PNI_CONTOUR_PROTOCOL_KO.md`를 protocol v1.0으로 승인한다.
+7. [x] `docs/pathologist_protocol/PRECISE_PNI_CONTOUR_PROTOCOL_KO.md`를 protocol v1.0으로 승인한다.
 8. [x] 승인 protocol에 맞는 전문의용 contour package와 구조적 geometry QC validator를 구현한다.
 9. [ ] 실제 전문의 브라우저 환경에서 한 case의 HTML GeoJSON export/validator level-0 round-trip dry run을 수행한다.
+10. [x] 실제 package의 대표 eligible `MORPH-001`로 synthetic case/combined GeoJSON, status CSV, schema/validator, WSI bounds, parent reference, polygon/line geometry, 1.0 µm interface tolerance 및 MPP 왕복을 검증한다.
 
 ### 11.2 다음 전문의 요청 전 승인할 사항
 
@@ -675,7 +687,7 @@ R2와 M5 공식 잠금, M6 protocol 승인 및 contour package 준비까지 완�
 - 최소 contour 품질 기준과 재판독 기준
 - annotation 파일 형식과 좌표 기준
 
-이 항목들은 `docs/PRECISE_PNI_CONTOUR_PROTOCOL_KO.md`의 protocol v1.0으로 승인되었다. 검증된 contour package를 준비한 뒤 전문의 contour 수집을 시작하며, 승인 contour 전에는 확정 계측을 수행하지 않는다.
+이 항목들은 `docs/pathologist_protocol/PRECISE_PNI_CONTOUR_PROTOCOL_KO.md`의 protocol v1.0으로 승인되었다. 자동 synthetic round-trip을 통과한 contour package를 준비했으며, 실제 브라우저/QuPath one-case dry run 뒤 전문의 contour 수집을 시작한다. 승인 contour 전에는 확정 계측을 수행하지 않는다.
 
 ### 11.3 다음 게이트의 예상 산출물
 
@@ -725,10 +737,13 @@ R2와 M5 공식 잠금, M6 protocol 승인 및 contour package 준비까지 완�
 - 임상 원본과 생성 대용량 산출물을 Git 추적에서 제외
 - Git 저장소 및 GitHub 원격 저장소 설정
 - M5 공식 잠금 산출물, 입력·출력 hash 및 clean-rerun 결정성 검증 완료
+- M6 standalone contour package clean rebuild와 10개 H&E WSI/input/output hash 재검증 완료
+- 대표 eligible `MORPH-001` synthetic case/combined GeoJSON 및 status CSV의 validator round-trip 완료
+- level-0 좌표·MPP 왕복, WSI bounds, 객체 유형·parent, polygon/line 및 1.0 µm interface tolerance 자동검증 완료
 
 ### 12.5 아직 완료되지 않은 핵심 작업
 
-- 전문의 브라우저 환경의 한-case HTML GeoJSON export/validator round-trip dry run
+- 실제 전문의 브라우저/QuPath 환경의 한-case HTML GeoJSON export/validator round-trip dry run
 - 전문의 contour 획득
 - 승인 contour 기반 형태계측과 spatial 분석 재실행
 - SPROB20/TCGA 등 확장 코호트 신규 전문의 판독
@@ -773,7 +788,8 @@ R2와 M5 공식 잠금, M6 protocol 승인 및 contour package 준비까지 완�
 - 대상 disposition 고정: contour eligible 13, adjudication 1
 - contour protocol v1.0 승인
 - contour package와 geometry QC validator 구현·결정성 검증 완료
-- 전문의 브라우저 환경에서 한-case HTML export/validator round-trip dry run 필요
+- 대표 eligible case의 synthetic HTML-export 형식/validator/MPP round-trip 검증 완료
+- 실제 전문의 브라우저/QuPath 환경에서 한-case HTML export/validator round-trip dry run 필요
 - 병리전문의 승인 contour 확보
 - 좌표·geometry QC 통과
 
@@ -839,7 +855,7 @@ R2와 M5 공식 잠금, M6 protocol 승인 및 contour package 준비까지 완�
 
 ### Contour 준비
 
-- `docs/PRECISE_PNI_CONTOUR_PROTOCOL_KO.md`
+- `projects/precise_pni_candidate_triage/docs/pathologist_protocol/PRECISE_PNI_CONTOUR_PROTOCOL_KO.md`
 - `projects/precise_pni_candidate_triage/code/contour_review/build_precise_pni_contour_review.py`
 - `tests/test_precise_pni_contour_review.py`
 - `resources/data/shared/opendataset/PRECISE/pni_contour_review/private_contour_case_manifest.csv`
@@ -860,4 +876,4 @@ R2와 M5 공식 잠금, M6 protocol 승인 및 contour package 준비까지 완�
 
 후보선별기의 기술 감사, 14건 형태 재판독 수집 및 M5 공식 잠금·전이 분석은 완료되었다. 현재 결과는 AI가 PNI를 진단한다고 결론내리는 근거가 아니라, 선택된 PRECISE 표본에서 관찰된 PNI가 높은 후보 순위에 집중되었고 구조화된 형태 재판독과 후속 contour 대상 구분이 수행 가능했음을 보여주는 방법개발 근거이다.
 
-Contour protocol v1.0 승인과 13건 primary/1건 adjudication standalone HTML package 구축은 완료되었다. 즉시 다음 작업은 실제 전문의 브라우저 환경에서 한 case의 GeoJSON export/validator round-trip dry run을 수행한 뒤, 병리전문의가 실제 신경 및 암–신경 interface contour를 작성·승인하는 것이다. 승인 contour가 확보된 뒤에야 신경 직경, 포위율, 접촉 길이 및 PNI 주변 공간 gradient를 확정적으로 계산할 수 있다.
+Contour protocol v1.0 승인, 13건 primary/1건 adjudication standalone HTML package 구축, 대표 eligible `MORPH-001`의 synthetic GeoJSON/status/validator/MPP round-trip은 완료되었다. 실제 브라우저 클릭·다운로드와 QuPath 재반입은 자동검증 환경에서 수행할 수 없어 완료로 간주하지 않았다. 즉시 다음 작업은 실제 전문의 브라우저/QuPath 환경에서 한 case의 GeoJSON export/validator level-0 round-trip을 확인한 뒤, 병리전문의가 실제 신경 및 암–신경 interface contour를 작성·승인하는 것이다. 승인 contour가 확보된 뒤에야 신경 직경, 포위율, 접촉 길이 및 PNI 주변 공간 gradient를 확정적으로 계산할 수 있다.

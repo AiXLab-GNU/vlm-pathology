@@ -6,3 +6,9 @@ allowed_target: tumor_fraction
 allowed_models: [CONCH, Virchow]
 allowed_fov_um: 394.24
 prohibited_dependency: PNI_review_labels_as_quantitative_endpoint
+canonical_research_plan: docs/research_plan/01-quantitative-ai-validation-disease-diagnosis-plan-ko.md
+canonical_milestones: docs/research_plan/01-01-foundation-model-validation-milestones-ko.md
+canonical_execution_tracker: docs/research_plan/01-01-01-foundation-model-validation-execution-tracker-ko.md
+survey_index: docs/surveys/README.md
+results_index: reports/README.md
+paper_entrypoint: paper/README.md

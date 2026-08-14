@@ -18,7 +18,7 @@ OUT = Path(__file__).resolve().parent / "outputs"
 OUT.mkdir(parents=True, exist_ok=True)
 MEDICAL_FILES = tuple(sorted((PACKAGE_DATA / "medical").glob("tier*.tsv")))
 ANALYSIS_FILE = PACKAGE_DATA / "analysis/analysis_measure_catalog.tsv"
-PLAN = ROOT / "projects/quantitative_foundation_model_validation/docs/research_plan/14_FOUNDATION_MODEL_QUANTITATIVE_METRIC_VALIDATION_PLAN_KO.md"
+PLAN = ROOT / "projects/quantitative_foundation_model_validation/docs/research_plan/01-01-foundation-model-validation-milestones-ko.md"
 PROTOCOL = ROOT / "projects/quantitative_foundation_model_validation/preexperiment/PROTOCOL.md"
 SEED = 20260811
 

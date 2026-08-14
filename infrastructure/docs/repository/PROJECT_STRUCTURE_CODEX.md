@@ -1,7 +1,7 @@
 # Project Structure Codex
 
-Version: 2.1
-Effective date: 2026-08-12
+Version: 2.3
+Effective date: 2026-08-13
 Owner: Jin Hyun Kim (PM)
 Status: active repository policy
 
@@ -64,6 +64,33 @@ AGENTS.md  PROJECT.yaml  CLAIM_BOUNDARIES.md  MILESTONES.md  README.md
 scientific stages, reports current status, and links each stage to its canonical folder.
 Canonical executable folders are not numbered retroactively because their paths are part of
 commands, imports, tests, manifests, and frozen provenance.
+
+Active project and research programme documents under `docs/project_plan/`,
+`docs/research_plan/`, and registered subordinate document directories use the ancestry
+numbering contract in `FILE_NAMING_CODEX.md`. The level-1 plan governs level-2
+milestone/workstream documents and level-3 task/support documents. Root `MILESTONES.md`
+remains a fixed summary index and is not a second canonical plan.
+
+Each registered research project declares exactly one canonical document-control chain in
+`PROJECT.yaml`:
+
+```text
+canonical_research_plan       hierarchy level 1; scientific authority
+canonical_milestones          hierarchy level 2; evidence-gate refinement
+canonical_execution_tracker   hierarchy level 3; current operational state
+survey_index                  docs/surveys/README.md
+results_index                 project report/result entry point
+```
+
+The plan, milestones, and tracker link one another reciprocally. Scope and success-criterion
+changes flow from plan to milestones to tracker. Root `README.md`, `MILESTONES.md`,
+`00-project-sequence/README.md`, and `docs/README.md` must link the declared chain. A project
+may retain other subordinate programme documents, but none may compete for one of these
+three canonical roles.
+
+Every project has `docs/surveys/README.md`, even when no maintainable survey exists. In that
+case the index records the gap as `PLANNED`; it never fabricates a literature review. A
+`CURRENT` survey is a formal research-plan input and must be linked from the governing plan.
 
 Project-specific milestone or governance directories may be added only when registered in
 the boundary validator. The three current project IDs are:
@@ -163,5 +190,8 @@ After creating or moving files:
 4. `.venv/bin/python -m unittest discover -s infrastructure/tests -p 'test_*.py' -v`
 5. owning-project tests and Python syntax checks
 6. broken-link audit, post-migration inventory, and `git diff --check`
+
+The file-governance auditor enforces the declared document-control chain, survey index,
+reciprocal links, canonical entry links, and active-reference cleanup after renames.
 
 Structural PASS does not authorize a scientific claim or expand a project's claim ceiling.

@@ -1,7 +1,7 @@
 # File Governance Codex
 
-Version: 1.0
-Effective date: 2026-08-12
+Version: 1.2
+Effective date: 2026-08-13
 Owner: Jin Hyun Kim (PM)
 Status: active repository policy
 
@@ -41,8 +41,8 @@ projects/<project_id>/docs/
 ├── plans/             executable implementation plans
 ├── protocols/         machine-facing study protocols
 ├── pathologist_protocol/ clinician-facing fixed protocols, when applicable
-├── research_plan/     milestone-level research programme
-├── project_plan/      project purpose and roadmap
+├── research_plan/     numbered research-programme hierarchy
+├── project_plan/      numbered project-plan hierarchy
 ├── metric_taxonomy/   controlled metric definitions
 ├── surveys/           literature/landscape synthesis
 ├── references/        local reference notes, not evidence outputs
@@ -53,10 +53,31 @@ Only relevant directories are created. Reports belong in `reports/`, manifests i
 `manifests/`, manuscript material in `paper/`, and generated evidence in an approved
 milestone/output or resource artifact root.
 
+### 3.1.1 Canonical control set and related-work authority
+
+Every registered research project declares exactly one governing research plan, one
+milestone refinement, one execution tracker, and one survey index through `PROJECT.yaml`.
+The three control documents form a real ancestry chain; root `MILESTONES.md` is only a fixed
+summary/navigation contract. The research plan owns questions, hypotheses, scope, claim
+boundaries, evaluation units, baseline direction, and success/narrow/stop/pivot criteria.
+Milestones own work packages, prerequisites, evidence gates, status, outputs, and completion
+criteria. The tracker owns the current milestone, blocker, single next action, completion
+checklist, recent decision, and next transition condition.
+
+`docs/surveys/README.md` registers all maintainable surveys and notes using only
+`PLANNED`, `CURRENT`, `SUPPORTING`, `HISTORICAL`, or `SUPERSEDED`. `SUPERSEDED` links its
+replacement. A `CURRENT` survey is linked from the governing research plan and records, in
+the document or a sidecar, the plan, survey date, databases, scope, inclusion/exclusion
+criteria, supported questions, supported baseline/method decisions, and downstream
+documents. Unknown fields remain `unrecorded` or explicit TODOs. Manuscript related-work
+prose is a summary output, not a competing authority.
+
 ### 3.2 Document names
 
 - General active Markdown: `lowercase-kebab-case.md`.
-- Ordered programme document: `NN-lowercase-kebab-case-ko.md`.
+- Governing programme plan: `NN-<topic>-plan[-ko].md`.
+- Child milestone/workstream: `NN-NN-<topic>[-ko].md`.
+- Child task/support document: `NN-NN-NN-<topic>[-ko].md`.
 - Design: `YYYY-MM-DD-<project-id>-<topic>-design.md`.
 - Plan: `YYYY-MM-DD-<project-id>-<topic>-plan.md`.
 - Report: `<milestone-id>-<topic>-report.md` or a protocol-defined stable identifier.
@@ -64,6 +85,10 @@ milestone/output or resource artifact root.
   distinguished.
 - `README.md`, `AGENTS.md`, `CLAIM_BOUNDARIES.md`, `MILESTONES.md`, `PROJECT.yaml`, and
   approved clinician-facing identifiers are fixed contract names.
+
+The numeric segments are ancestry identifiers, not flat sequence numbers. A child inherits
+the complete parent prefix, and every parent must exist. The File Naming Codex is
+authoritative for hierarchy depth, plan precedence, exclusions, and rename stability.
 
 Do not encode editorial state with `new`, `latest`, `final`, `final2`, `copy`, or version
 suffixes. Use front matter fields `status`, `supersedes`, and a dated change log.
@@ -76,6 +101,10 @@ research plans, and formal reports must declare, either in YAML front matter or 
 sidecar manifest: `document_id`, `owner_project`, `document_type`, `status`, `created`, and
 `canonical_path`. Existing frozen contracts may use the repository file catalog as their
 sidecar metadata.
+
+Canonical research plans, milestones, and execution trackers additionally declare their
+document ID, owner project, document type, status, canonical path, hierarchy ID, and parent
+document (`null` for the level-1 plan).
 
 ## 4. Code contract
 
@@ -154,6 +183,12 @@ Catalog checksums are point-in-time migration inventory values. Exact baseline c
 enforcement applies to non-generated files. A file with lifecycle `generated` may contain
 protocol-declared volatile fields, so its reproducibility and integrity are enforced by the
 owning project's output manifest and tests rather than by the repository migration catalog.
+
+An active rename is atomic: classify the source, record old/new paths and hashes in a dated
+migration map, move once, update active code/configuration/tests/indexes/metadata, and verify
+links and stale paths in the same change. Frozen, generated, legacy, archive, third-party,
+external-template, and closed-migration records keep historical path strings when required
+for provenance.
 
 Filename syntax and rename procedure are governed by `FILE_NAMING_CODEX.md`. This document
 defines ownership, class, lifecycle, and placement; the naming Codex is the authoritative

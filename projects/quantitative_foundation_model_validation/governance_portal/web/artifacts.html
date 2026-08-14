@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="VLM Pathology 정량지표 맵과 프로젝트 산출물 갤러리"><title>Outputs · VLM Pathology</title><link rel="stylesheet" href="portal.css?v=20260813-1"></head>
+<body data-page="artifacts">
+  <header class="site-header"><a class="wordmark" href="/"><span class="wordmark-glyph" aria-hidden="true"><i></i><i></i><i></i></span><span><b>VLM Pathology</b><small>Research portfolio</small></span></a><nav class="primary-nav" aria-label="주요 메뉴"><a href="/">Overview</a><a href="/#projects">Projects</a><a class="active" href="/artifacts.html">Outputs</a><a href="/admin-review.html">Admin review</a><a href="/clinician-review.html">Clinical review</a></nav><span class="secure-state"><i></i> Local evidence server</span></header>
+  <main>
+    <section class="output-hero shell"><div><p class="kicker">OUTPUTS · MAPS · FIGURES</p><h1>숫자의 계보와<br><em>근거의 모양</em>을 봅니다.</h1><p>공유 정량지표 체계와 프로젝트 소유 figure를 한 화면에 제시합니다. 모든 산출물은 원래 소유 프로젝트와 해석 한계를 유지합니다.</p></div><div class="output-index"><span>Registered display surface</span><strong id="artifact-total">—</strong><small>명시적으로 등록된 산출물</small></div></section>
+    <section class="atlas-section">
+      <div class="shell atlas-heading"><div><p class="kicker light">INTERACTIVE QUANTITATIVE MAP</p><h2>Medical Metric Atlas</h2><p>임상의가 기록하는 T1 기준에서 전문의 파생계측 T2, 연구용 영상 특징 T3, 모델 산출량 T4까지의 연결을 탐색합니다.</p></div><a class="button inverted" href="/assets/metric-atlas/index.html" target="_blank" rel="noopener">전체 화면으로 열기 ↗</a></div>
+      <div class="atlas-frame-wrap"><iframe title="Medical Metric Atlas 정량지표 계보 맵" src="/assets/metric-atlas/index.html" loading="lazy"></iframe></div>
+    </section>
+    <section class="section shell"><div class="section-heading split-heading"><div><p class="kicker">PROJECT-OWNED FIGURES</p><h2>저장된 source에서 생성된 결과</h2></div><p>포털은 그림을 표시만 하며 다른 프로젝트의 분석 입력으로 사용하지 않습니다.</p></div><div id="artifact-grid" class="artifact-grid"><div class="loading-panel">산출물을 불러오는 중입니다.</div></div></section>
+    <section class="output-note shell"><b>해석 시 주의</b><p>Metric Atlas의 Tier는 성능 우열이 아니라 의료 기준축으로부터의 파생 거리를 뜻합니다. 논문 figure는 각 프로젝트의 protocol, cohort, endpoint와 claim boundary 안에서만 해석해야 합니다.</p></section>
+  </main><footer class="site-footer"><span>Registered, owner-preserving artifacts</span><span>표시용 · 프로젝트 간 암묵적 입력 사용 없음</span></footer><div id="toast" role="status" aria-live="polite"></div><script src="portal.js?v=20260813-1"></script>
+</body></html>

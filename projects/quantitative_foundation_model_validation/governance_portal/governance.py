@@ -660,7 +660,7 @@ def finalize_g9(
 def fm4_scope_snapshot() -> dict[str, Any]:
     """Hash the exact FM1-FM4 evidence reviewed for the FM4 entry decision."""
     required: list[Path] = [
-        ROOT / "projects/quantitative_foundation_model_validation/docs/research_plan/14_FOUNDATION_MODEL_QUANTITATIVE_METRIC_VALIDATION_PLAN_KO.md",
+        ROOT / "projects/quantitative_foundation_model_validation/docs/research_plan/01-01-foundation-model-validation-milestones-ko.md",
         RECORDS_DIR / "g9_handoff_manifest.json",
         RECORDS_DIR / "main_study_unlock_matrix_final.csv",
     ]

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="프로젝트 운영, 근거 추적성과 governance 완결성 관리자 설문"><title>Admin Review · VLM Pathology</title><link rel="stylesheet" href="portal.css?v=20260813-1"></head>
+<body data-page="review" data-survey="admin">
+  <header class="site-header"><a class="wordmark" href="/"><span class="wordmark-glyph" aria-hidden="true"><i></i><i></i><i></i></span><span><b>VLM Pathology</b><small>Research portfolio</small></span></a><nav class="primary-nav" aria-label="주요 메뉴"><a href="/">Overview</a><a href="/#projects">Projects</a><a href="/artifacts.html">Outputs</a><a class="active" href="/admin-review.html">Admin review</a><a href="/clinician-review.html">Clinical review</a></nav><span class="secure-state"><i></i> Local evidence server</span></header>
+  <main>
+    <section class="review-hero"><div class="shell narrow"><p class="kicker light">OPERATIONS · EVIDENCE · GOVERNANCE</p><h1>관리자 검토</h1><p>프로젝트 범위, 근거 추적성, governance 문서와 데이터 무결성을 확인하고 다음 gate의 운영 판정을 기록합니다.</p></div></section>
+    <section class="section shell review-layout">
+      <aside class="review-guide"><p class="kicker">BEFORE YOU SIGN</p><h2>이 설문이 확인하는 것</h2><ol><li><span>01</span><p><b>Scope</b> 선택한 프로젝트의 목표와 claim boundary가 일치하는가</p></li><li><span>02</span><p><b>Lineage</b> 제시된 산출물이 source와 hash로 추적되는가</p></li><li><span>03</span><p><b>Gate</b> 다음 단계에 필요한 승인과 책임이 명확한가</p></li></ol><div id="review-project-context" class="context-card">프로젝트를 선택하면 현재 gate를 표시합니다.</div><a class="governance-link" href="/qfm-governance.html"><span>QFM 전용 상세 콘솔</span><b>P0 / FM4 승인 및 clean rerun →</b></a></aside>
+      <form id="review-form" class="review-form">
+        <div class="form-head"><span>ADMIN SURVEY · v1.0</span><b>운영 판정 기록</b></div>
+        <label>검토 프로젝트<select name="project_id" id="project-select" required><option value="">프로젝트 선택</option></select></label>
+        <div class="form-row"><label>검토자 이름<input name="reviewer_name" autocomplete="name" maxlength="120" required></label><label>직책 / 역할<input name="reviewer_title" maxlength="120" placeholder="예: 연구관리 책임자" required></label></div>
+        <fieldset><legend>필수 확인</legend><label class="check-line"><input type="checkbox" name="scope_confirmed" required><span><b>범위 정합성</b> 목표·계획과 현재 claim boundary를 확인했습니다.</span></label><label class="check-line"><input type="checkbox" name="evidence_traceable" required><span><b>근거 추적성</b> 주요 표·그림·판정의 source 위치를 확인했습니다.</span></label><label class="check-line"><input type="checkbox" name="governance_complete" required><span><b>Governance</b> 필요한 protocol·approval·gate 문서 상태를 확인했습니다.</span></label><label class="check-line"><input type="checkbox" name="data_integrity_confirmed" required><span><b>데이터 무결성</b> 누락·불확실·평가 불가 값이 은폐되지 않았음을 확인했습니다.</span></label></fieldset>
+        <fieldset><legend>판정</legend><div class="decision-options"><label><input type="radio" name="decision" value="ready" required><span><b>Ready</b><small>다음 gate 진행 가능</small></span></label><label><input type="radio" name="decision" value="revise"><span><b>Revise</b><small>수정 후 재검토</small></span></label><label><input type="radio" name="decision" value="hold"><span><b>Hold</b><small>근거 보완 전 보류</small></span></label></div></fieldset>
+        <label>검토 의견<textarea name="comment" rows="5" maxlength="4000" placeholder="수정 또는 보류 판정에는 구체적인 사유를 작성하십시오."></textarea></label>
+        <label>전자서명<input name="signature" maxlength="120" placeholder="위 검토자 이름과 동일하게 입력" required><small>SSH 접근 통제 환경의 내부 attestation이며 규제 전자서명이 아닙니다.</small></label>
+        <div id="review-result" class="form-result" hidden></div><button class="button primary submit-button" type="submit">관리자 검토 제출 <span>→</span></button>
+      </form>
+    </section>
+  </main><footer class="site-footer"><span>Append-only project review ledger</span><span>환자 식별정보 입력 금지</span></footer><div id="toast" role="status" aria-live="polite"></div><script src="portal.js?v=20260813-1"></script>
+</body></html>

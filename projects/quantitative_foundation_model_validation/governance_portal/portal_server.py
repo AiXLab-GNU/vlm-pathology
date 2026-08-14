@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Loopback-only web portal for P0 evidence review and approval."""
+"""Loopback-only research portfolio and governance-review portal."""
 
 from __future__ import annotations
 
 import argparse
 import json
+import mimetypes
 import secrets
 import subprocess
 import sys
@@ -44,8 +45,26 @@ except ImportError:  # Direct script execution.
         portal_data,
     )
 
+try:
+    from .portfolio import (
+        REPOSITORY_ROOT,
+        PortfolioError,
+        append_review_survey,
+        artifact_path,
+        portfolio_data,
+    )
+except ImportError:  # Direct script execution.
+    from portfolio import (
+        REPOSITORY_ROOT,
+        PortfolioError,
+        append_review_survey,
+        artifact_path,
+        portfolio_data,
+    )
+
 
 WEB_ROOT = Path(__file__).resolve().parent / "web"
+METRIC_ATLAS_ROOT = REPOSITORY_ROOT / "infrastructure" / "packages" / "vlm_pathology_metrics" / "web"
 ALLOWED_HOSTS = {"127.0.0.1", "localhost", "::1"}
 
 
@@ -101,8 +120,53 @@ class PortalHandler(SimpleHTTPRequestHandler):
         if not secrets.compare_digest(self.headers.get("X-CSRF-Token", ""), self.server.csrf_token):
             raise GovernanceError("세션 검증 토큰이 없거나 만료되었습니다. 페이지를 새로고침하십시오.")
 
+    def _send_file(self, path: Path, *, inline_name: str | None = None) -> None:
+        body = path.read_bytes()
+        content_type, _ = mimetypes.guess_type(path.name)
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", content_type or "application/octet-stream")
+        self.send_header("Content-Length", str(len(body)))
+        if inline_name:
+            self.send_header("Content-Disposition", f'inline; filename="{inline_name}"')
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.end_headers()
+        self.wfile.write(body)
+
     def do_GET(self) -> None:
         route = urlparse(self.path).path
+        if route == "/api/portfolio":
+            try:
+                payload = portfolio_data()
+                payload["csrf_token"] = self.server.csrf_token
+                self._json(payload)
+            except (PortfolioError, OSError, ValueError, KeyError) as exc:
+                self._json({"error": str(exc)}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+        artifact_prefix = "/api/artifact/"
+        if route.startswith(artifact_prefix):
+            try:
+                artifact_id = unquote(route[len(artifact_prefix):])
+                path = artifact_path(artifact_id)
+                self._send_file(path, inline_name=path.name)
+            except (PortfolioError, OSError):
+                self.send_error(HTTPStatus.NOT_FOUND)
+            return
+        atlas_prefix = "/assets/metric-atlas/"
+        if route.startswith(atlas_prefix):
+            relative = unquote(route[len(atlas_prefix):]) or "index.html"
+            atlas_root = METRIC_ATLAS_ROOT.resolve()
+            path = (atlas_root / relative).resolve()
+            try:
+                path.relative_to(atlas_root)
+            except ValueError:
+                self.send_error(HTTPStatus.NOT_FOUND)
+                return
+            if not path.is_file():
+                self.send_error(HTTPStatus.NOT_FOUND)
+                return
+            self._send_file(path)
+            return
         if route == "/api/status":
             try:
                 payload = portal_data()
@@ -178,6 +242,14 @@ class PortalHandler(SimpleHTTPRequestHandler):
             self._require_csrf()
             route = urlparse(self.path).path
             payload = self._body_json()
+            if route == "/api/survey/admin":
+                record = append_review_survey("admin", payload)
+                self._json({"ok": True, "record": record}, HTTPStatus.CREATED)
+                return
+            if route == "/api/survey/clinician":
+                record = append_review_survey("clinician", payload)
+                self._json({"ok": True, "record": record}, HTTPStatus.CREATED)
+                return
             if route == "/api/approval":
                 record = append_approval(payload)
                 self._json({"ok": True, "record": record}, HTTPStatus.CREATED)
@@ -216,14 +288,14 @@ class PortalHandler(SimpleHTTPRequestHandler):
                 self._json({"ok": True, "pid": self.server.m9_process.pid}, HTTPStatus.ACCEPTED)
                 return
             self._json({"error": "알 수 없는 API 경로입니다."}, HTTPStatus.NOT_FOUND)
-        except GovernanceError as exc:
+        except (GovernanceError, PortfolioError) as exc:
             self._json({"error": str(exc)}, HTTPStatus.CONFLICT)
         except (OSError, ValueError, KeyError) as exc:
             self._json({"error": str(exc)}, HTTPStatus.INTERNAL_SERVER_ERROR)
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="P0 governance portal (SSH tunnel only)")
+    parser = argparse.ArgumentParser(description="VLM Pathology research portal (SSH tunnel only)")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8011)
     return parser.parse_args()
@@ -234,7 +306,7 @@ def main() -> None:
     if args.host not in ALLOWED_HOSTS:
         raise SystemExit("보안을 위해 127.0.0.1/localhost/::1 binding만 허용합니다.")
     server = PortalServer((args.host, args.port), PortalHandler)
-    print(f"P0 governance portal: http://{args.host}:{args.port}", flush=True)
+    print(f"VLM Pathology research portal: http://{args.host}:{args.port}", flush=True)
     print("Remote access requires an SSH local-forward; no firewall change is needed.", flush=True)
     try:
         server.serve_forever()

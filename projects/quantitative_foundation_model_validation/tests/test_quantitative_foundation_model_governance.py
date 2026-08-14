@@ -71,12 +71,15 @@ class QuantitativeFoundationModelGovernanceTests(unittest.TestCase):
     def test_portal_is_loopback_only_and_static_assets_are_self_contained(self):
         portal = governance.PORTAL_ROOT
         server_source = (portal / "portal_server.py").read_text(encoding="utf-8")
-        html = (portal / "web/index.html").read_text(encoding="utf-8")
+        html = (portal / "web/qfm-governance.html").read_text(encoding="utf-8")
         self.assertIn('default="127.0.0.1"', server_source)
         self.assertNotIn("0.0.0.0", server_source)
         self.assertIn('id="approval-form"', html)
         self.assertIn('id="run-m9"', html)
         self.assertNotIn("https://", html)
+        portfolio_html = (portal / "web/index.html").read_text(encoding="utf-8")
+        self.assertIn('data-page="home"', portfolio_html)
+        self.assertIn("/clinician-review.html", portfolio_html)
         javascript = (portal / "web/app.js").read_text(encoding="utf-8")
         self.assertIn("const formElement = event.currentTarget", javascript)
         self.assertNotIn("event.currentTarget.reset()", javascript)

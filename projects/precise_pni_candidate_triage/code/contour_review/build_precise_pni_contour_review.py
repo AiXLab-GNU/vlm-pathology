@@ -16,10 +16,10 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import PIL
 import tifffile
-import zarr
 
 from projects.precise_pni_candidate_triage.code.morphology_rereview.build_precise_pni_morphology_review import (
     centered_crop_origins,
@@ -42,6 +42,7 @@ DEFAULT_OUTPUT = PRECISE / "pni_contour_review"
 EXPECTED_IMMUTABLE_REVIEW_SHA256 = "c1dd522b4ff4f233b3a23630bf9074da881bb7b9145996fc47c3383a0448d2a3"
 PROTOCOL_VERSION = "1.0"
 CONTACT_TOLERANCE_UM = 1.0
+COORDINATE_SYSTEM = "H&E_WSI_level0_pixels_origin_top_left"
 
 MANIFEST_REQUIRED = [
     "temporary_id", "candidate_id", "subject_id", "image_id", "x0", "y0",
@@ -123,6 +124,57 @@ def read_wsi_metadata(path: Path) -> tuple[int, int, float, float]:
         return int(page.imagewidth), int(page.imagelength), mpp_x, mpp_y
 
 
+class TiledTiffSource:
+    """Read level-0 RGB regions without the zarr synchronous compatibility layer."""
+
+    def __init__(self, page: tifffile.TiffPage):
+        if not page.is_tiled or len(page.shape) != 3 or page.samplesperpixel != page.shape[2]:
+            raise ValueError("contour H&E source must be a tiled interleaved image")
+        self.page = page
+        self.shape = page.shape
+
+    def __getitem__(self, key):
+        if (not isinstance(key, tuple) or len(key) < 2 or
+                not all(isinstance(value, slice) for value in key[:2])):
+            raise TypeError("TiledTiffSource requires y/x slice access")
+        y_slice, x_slice = key[:2]
+        if y_slice.step not in (None, 1) or x_slice.step not in (None, 1):
+            raise ValueError("TiledTiffSource does not support strided access")
+        height, width = self.shape[:2]
+        y0, y1, _ = y_slice.indices(height)
+        x0, x1, _ = x_slice.indices(width)
+        output = np.zeros((y1 - y0, x1 - x0, self.shape[2]), dtype=self.page.dtype)
+        if y1 <= y0 or x1 <= x0:
+            return output
+
+        tile_width = int(self.page.tilewidth)
+        tile_height = int(self.page.tilelength)
+        tiles_across = math.ceil(width / tile_width)
+        handle = self.page.parent.filehandle
+        for tile_y in range(y0 // tile_height, math.ceil(y1 / tile_height)):
+            for tile_x in range(x0 // tile_width, math.ceil(x1 / tile_width)):
+                tile_index = tile_y * tiles_across + tile_x
+                handle.seek(self.page.dataoffsets[tile_index])
+                encoded = handle.read(self.page.databytecounts[tile_index])
+                decoded = self.page.decode(encoded, tile_index)[0]
+                if decoded is None:
+                    raise ValueError(f"failed to decode TIFF tile {tile_index}")
+                tile = decoded[0] if decoded.ndim == 4 else decoded
+                global_x0, global_y0 = tile_x * tile_width, tile_y * tile_height
+                global_x1 = min(global_x0 + tile_width, width)
+                global_y1 = min(global_y0 + tile_height, height)
+                intersection_x0, intersection_x1 = max(x0, global_x0), min(x1, global_x1)
+                intersection_y0, intersection_y1 = max(y0, global_y0), min(y1, global_y1)
+                output[
+                    intersection_y0 - y0:intersection_y1 - y0,
+                    intersection_x0 - x0:intersection_x1 - x0,
+                ] = tile[
+                    intersection_y0 - global_y0:intersection_y1 - global_y0,
+                    intersection_x0 - global_x0:intersection_x1 - global_x0,
+                ]
+        return output
+
+
 def collect_wsi_records(mapping: pd.DataFrame) -> pd.DataFrame:
     records = []
     for image_id in sorted(mapping.image_id.astype(str).unique()):
@@ -188,7 +240,7 @@ def build_case_manifest(mapping: pd.DataFrame, locked: pd.DataFrame,
     manifest["locator_center_y"] = (
         pd.to_numeric(manifest.y0) + pd.to_numeric(manifest.window_px) / 2
     )
-    manifest["coordinate_system"] = "H&E_WSI_level0_pixels_origin_top_left"
+    manifest["coordinate_system"] = COORDINATE_SYSTEM
     manifest["contact_qc_tolerance_um"] = CONTACT_TOLERANCE_UM
     manifest["contour_task"] = [
         ("adjudicate_then_contour" if disposition == "adjudication_required"
@@ -215,7 +267,7 @@ def locator_feature_collection(row: pd.Series) -> dict:
                 "locator_only": True,
                 "approved_contour": False,
                 "review_stream": str(row.review_stream),
-                "coordinate_system": "H&E_WSI_level0_pixels_origin_top_left",
+                "coordinate_system": COORDINATE_SYSTEM,
                 "classification": {"name": "LOCATOR_ONLY_NOT_CONTOUR", "color": [255, 165, 0]},
             },
         }],
@@ -258,7 +310,7 @@ def embed_contour_cases(manifest: pd.DataFrame) -> list[dict]:
     for image_id, group in manifest.groupby("image_id", sort=True):
         path = wsi_path(str(image_id))
         with tifffile.TiffFile(path) as tiff:
-            source = zarr.open(tiff.pages[0].aszarr(), mode="r")
+            source = TiledTiffSource(tiff.pages[0])
             for _, row in group.iterrows():
                 base = int(float(row.window_px))
                 sizes = [base, 2 * base, 4 * base]
@@ -334,7 +386,7 @@ function warnings(){let c=C(),s=S(),types=s.annotations.map(a=>a.object_type),w=
 function feature(a,c){let s=state.cases[c.temporary_id],st=s.status;return{type:"Feature",geometry:a.geometry,properties:{annotation_id:a.annotation_id,temporary_id:c.temporary_id,object_type:a.object_type,object_role:a.object_role,parent_annotation_id:a.parent_annotation_id||"",reviewer_id:state.reviewer_id||"",review_stage:c.review_stream, evidence_mode:st.evidence_mode,source:"pathologist_drawn",approval_status:st.approval_status,contour_completeness:st.contour_status==="complete"?"complete":st.contour_status,revision_number:st.revision_number||"",reviewer_notes:st.reviewer_notes||""}}}
 function collection(c){let s=state.cases[c.temporary_id]||{annotations:[],status:{}};return{type:"FeatureCollection",name:`${c.temporary_id} specialist contours`,protocol_version:"1.0",coordinate_system:"H&E_WSI_level0_pixels_origin_top_left",features:s.annotations.map(a=>feature(a,c))}}
 function esc(x){x=String(x??"");return /[",\n]/.test(x)?`"${x.replaceAll('"','""')}"`:x}function dl(name,type,text){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function downloadCurrent(){dl(`${C().temporary_id}_contours.geojson`,"application/geo+json",JSON.stringify(collection(C()),null,2))}function downloadAll(){dl("precise_pni_contours_combined.geojson","application/geo+json",JSON.stringify({type:"FeatureCollection",name:"PRECISE PNI specialist contours",protocol_version:"1.0",features:CASES.flatMap(c=>collection(c).features)},null,2))}
+function downloadCurrent(){dl(`${C().temporary_id}_contours.geojson`,"application/geo+json",JSON.stringify(collection(C()),null,2))}function downloadAll(){dl("precise_pni_contours_combined.geojson","application/geo+json",JSON.stringify({type:"FeatureCollection",name:"PRECISE PNI specialist contours",protocol_version:"1.0",coordinate_system:"H&E_WSI_level0_pixels_origin_top_left",features:CASES.flatMap(c=>collection(c).features)},null,2))}
 function statusRows(){return CASES.map(c=>{let s=(state.cases[c.temporary_id]||{status:{}}).status||{};return{temporary_id:c.temporary_id,candidate_id:"",image_id:"",review_stream:c.review_stream,locked_pni_status:c.locked_pni_status,locked_overall_relation:c.locked_overall_relation,m5_contour_disposition:c.review_stream==="adjudication"?"adjudication_required":"eligible_for_contouring",index_nerve_annotation_id:s.index_nerve_annotation_id||"",required_object_completeness:s.required_object_completeness||"pending",contour_status:s.contour_status||"pending",approval_status:s.approval_status||"pending",adjudication_required:c.review_stream==="adjudication"?"yes":"no",adjudication_result:s.adjudication_result||"",evidence_mode:s.evidence_mode||"H&E_only",ihc_used:s.ihc_used||"no",registration_qc:s.registration_qc||"not_applicable",partial_or_not_evaluable_reason:s.partial_or_not_evaluable_reason||"",index_nerve_uncertain:s.index_nerve_uncertain||"no",reviewer_id:state.reviewer_id||"",revision_number:s.revision_number||"",review_timestamp_utc:s.review_timestamp_utc||"",reviewer_notes:s.reviewer_notes||""}})}
 const STATUS_HEADERS=["temporary_id","candidate_id","image_id","review_stream","locked_pni_status","locked_overall_relation","m5_contour_disposition","index_nerve_annotation_id","required_object_completeness","contour_status","approval_status","adjudication_required","adjudication_result","evidence_mode","ihc_used","registration_qc","partial_or_not_evaluable_reason","index_nerve_uncertain","reviewer_id","revision_number","review_timestamp_utc","reviewer_notes"];
 function downloadStatus(){let rows=statusRows();dl("precise_pni_contour_review_status.csv","text/csv;charset=utf-8","\ufeff"+[STATUS_HEADERS.join(","),...rows.map(r=>STATUS_HEADERS.map(h=>esc(r[h])).join(","))].join("\n"))}
@@ -399,13 +451,34 @@ def _point_segment_distance(point, start, end) -> float:
     return math.hypot(px - nearest_x, py - nearest_y)
 
 
-def _line_follows_polygon_boundary(line: list, polygon: dict, tolerance_px: float) -> bool:
+def _line_follows_polygon_boundary(line: list, polygon: dict, mpp_x: float,
+                                   mpp_y: float, tolerance_um: float) -> bool:
     rings = polygon.get("coordinates", []) if polygon.get("type") == "Polygon" else []
-    segments = [(start, end) for ring in rings for start, end in zip(ring[:-1], ring[1:])]
+    segments = [
+        ([start[0] * mpp_x, start[1] * mpp_y], [end[0] * mpp_x, end[1] * mpp_y])
+        for ring in rings for start, end in zip(ring[:-1], ring[1:])
+    ]
     if not segments:
         return False
-    return all(min(_point_segment_distance(point, start, end) for start, end in segments)
-               <= tolerance_px for point in line)
+    sampled_points = []
+    for start, end in zip(line[:-1], line[1:]):
+        start_um = [start[0] * mpp_x, start[1] * mpp_y]
+        end_um = [end[0] * mpp_x, end[1] * mpp_y]
+        length_um = math.hypot(end_um[0] - start_um[0], end_um[1] - start_um[1])
+        sample_count = max(1, math.ceil(length_um / tolerance_um))
+        sampled_points.extend([
+            [
+                start_um[0] + (end_um[0] - start_um[0]) * index / sample_count,
+                start_um[1] + (end_um[1] - start_um[1]) * index / sample_count,
+            ]
+            for index in range(sample_count)
+        ])
+    sampled_points.append([line[-1][0] * mpp_x, line[-1][1] * mpp_y])
+    return all(
+        min(_point_segment_distance(point, start, end) for start, end in segments)
+        <= tolerance_um
+        for point in sampled_points
+    )
 
 
 def _all_points(geometry: dict) -> list[list[float]]:
@@ -438,7 +511,7 @@ def _geometry_issues(temporary_id: str, geometry: dict, width: int, height: int)
         x, y = point[:2]
         if not isinstance(x, (int, float)) or not isinstance(y, (int, float)) or not math.isfinite(x) or not math.isfinite(y):
             issues.append(_issue(temporary_id, "invalid_coordinate", "Coordinate must be finite numeric x/y"))
-        elif x < 0 or y < 0 or x > width or y > height:
+        elif x < 0 or y < 0 or x >= width or y >= height:
             issues.append(_issue(temporary_id, "coordinate_out_of_bounds",
                                  f"Coordinate ({x}, {y}) outside {width}x{height}"))
     if geometry_type == "LineString" and len({tuple(point[:2]) for point in points}) < 2:
@@ -500,6 +573,9 @@ def validate_case_annotations(collection: dict, manifest_row: pd.Series,
     id_set = set(annotation_ids)
     for annotation_id, properties in props_by_id.items():
         parent = properties.get("parent_annotation_id")
+        if properties.get("object_type") in {"contact_segment", "encasement_arc"} and not parent:
+            issues.append(_issue(temporary_id, "missing_interface_parent",
+                                 f"{annotation_id} must reference a nerve boundary"))
         if parent and parent not in id_set:
             issues.append(_issue(temporary_id, "unknown_parent_annotation",
                                  f"{annotation_id} references {parent}"))
@@ -510,9 +586,10 @@ def validate_case_annotations(collection: dict, manifest_row: pd.Series,
                 issues.append(_issue(temporary_id, "contact_parent_not_nerve",
                                      f"{annotation_id} parent is not a nerve boundary"))
             else:
-                tolerance_px = CONTACT_TOLERANCE_UM / float(manifest_row.mpp_x)
                 line = geometry_by_id[annotation_id].get("coordinates", [])
-                if not _line_follows_polygon_boundary(line, geometry_by_id[parent], tolerance_px):
+                if not _line_follows_polygon_boundary(
+                        line, geometry_by_id[parent], float(manifest_row.mpp_x),
+                        float(manifest_row.mpp_y), CONTACT_TOLERANCE_UM):
                     issues.append(_issue(temporary_id, "contact_not_on_nerve_boundary",
                                          f"{annotation_id} exceeds {CONTACT_TOLERANCE_UM} um tolerance"))
     if any(value in {"contact_segment", "encasement_arc"} for value in types) and "tumor_boundary" not in types:
@@ -612,6 +689,12 @@ def review_readme() -> str:
 6. MORPH-003은 H&E adjudication을 먼저 수행하고, 필요한 경우에만 IHC 사용과 registration QC를 기록합니다.
 7. 제출 전 validate 명령으로 오류를 확인합니다. Validator는 오류를 자동 수정하지 않습니다.
 
+```bash
+.venv/bin/python -m projects.precise_pni_candidate_triage.code.contour_review.build_precise_pni_contour_review validate \
+  --annotation-dir precise_pni_contours_combined.geojson \
+  --status precise_pni_contour_review_status.csv
+```
+
 QuPath 실제 버전과 level-0 GeoJSON round-trip은 첫 WSI dry run에서 기록해야 합니다. 승인 contour 전에는 직경, 포위율, 접촉 길이 또는 공간 gradient를 확정 계산하지 않습니다.
 """
 
@@ -689,7 +772,7 @@ def build_package(mapping_path: Path, locked_review_path: Path, eligibility_path
         "type": "FeatureCollection", "features": [],
         "name": "PRECISE PNI empty contour export template",
         "protocol_version": PROTOCOL_VERSION,
-        "coordinate_system": "H&E_WSI_level0_pixels_origin_top_left",
+        "coordinate_system": COORDINATE_SYSTEM,
     }, template_path)
     write_json(annotation_schema(), schema_path)
     readme_path.write_text(review_readme(), encoding="utf-8")
@@ -728,7 +811,7 @@ def build_package(mapping_path: Path, locked_review_path: Path, eligibility_path
         "primary_case_count": int(manifest.review_stream.eq("primary_contour").sum()),
         "adjudication_case_count": int(manifest.review_stream.eq("adjudication").sum()),
         "wsi_count": int(manifest.image_id.nunique()),
-        "coordinate_system": "H&E_WSI_level0_pixels_origin_top_left",
+        "coordinate_system": COORDINATE_SYSTEM,
         "contact_qc_tolerance_um": CONTACT_TOLERANCE_UM,
         "qupath_roundtrip_status": "pending_external_dry_run",
         "immutable_source_sha256_before": immutable_before,
@@ -746,9 +829,9 @@ def build_package(mapping_path: Path, locked_review_path: Path, eligibility_path
         },
         "software": {"python": platform.python_version(), "platform": platform.platform(),
                      "pandas": pd.__version__, "pillow": PIL.__version__,
-                     "tifffile": tifffile.__version__, "zarr": zarr.__version__,
+                     "tifffile": tifffile.__version__, "numpy": np.__version__,
                      "qupath": "not_available_in_build_environment"},
-        "command": ".venv/bin/python projects/precise_pni_candidate_triage/code/contour_review/build_precise_pni_contour_review.py build",
+        "command": ".venv/bin/python -m projects.precise_pni_candidate_triage.code.contour_review.build_precise_pni_contour_review build",
         "outputs": {str(path.relative_to(output_dir)): sha256_file(path)
                     for path in sorted(output_paths)},
     }

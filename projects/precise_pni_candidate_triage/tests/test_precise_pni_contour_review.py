@@ -1,4 +1,6 @@
 import json
+import shutil
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -130,10 +132,26 @@ class ManifestTests(unittest.TestCase):
         }]
         html = build_contour_html(cases)
         for required in ["프로젝트의 최종 목표", "현재 위치", "M6", "nerve_outer_boundary",
-                         "GeoJSON", "JSON 백업", "상태 CSV", "localStorage"]:
+                         "GeoJSON", "JSON 백업", "상태 CSV", "localStorage",
+                         'coordinate_system:"H&E_WSI_level0_pixels_origin_top_left"']:
             self.assertIn(required, html)
         for private in ["C-1", "sub-1_ses-1", "combined_score", "selection_stratum"]:
             self.assertNotIn(private, html)
+
+    @unittest.skipUnless(shutil.which("node"), "Node.js is required for JavaScript syntax check")
+    def test_html_javascript_is_syntactically_valid(self):
+        html = build_contour_html([])
+        script = html.split("<script>", 1)[1].split("</script>", 1)[0]
+        with tempfile.TemporaryDirectory() as directory:
+            script_path = Path(directory) / "contour-review.js"
+            script_path.write_text(script, encoding="utf-8")
+            result = subprocess.run(
+                [shutil.which("node"), "--check", str(script_path)],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+        self.assertEqual(result.returncode, 0, result.stderr)
 
 
 class GeometryValidationTests(unittest.TestCase):
@@ -211,10 +229,37 @@ class GeometryValidationTests(unittest.TestCase):
                  validate_case_annotations(collection, self.row, self.status)}
         self.assertIn("contact_parent_not_nerve", codes)
 
+        collection = self.valid_collection()
+        collection["features"][2]["properties"]["parent_annotation_id"] = ""
+        codes = {issue["issue_code"] for issue in
+                 validate_case_annotations(collection, self.row, self.status)}
+        self.assertIn("missing_interface_parent", codes)
+
+    def test_interface_line_is_checked_between_vertices_in_micrometers(self):
+        collection = self.valid_collection()
+        collection["features"][2]["geometry"]["coordinates"] = [[100, 100], [150, 150]]
+        codes = {issue["issue_code"] for issue in
+                 validate_case_annotations(collection, self.row, self.status)}
+        self.assertIn("contact_not_on_nerve_boundary", codes)
+
+    def test_wsi_bounds_use_half_open_level_zero_pixel_extent(self):
+        collection = self.valid_collection()
+        collection["features"][1]["geometry"]["coordinates"][0][1][0] = 1000
+        codes = {issue["issue_code"] for issue in
+                 validate_case_annotations(collection, self.row, self.status)}
+        self.assertIn("coordinate_out_of_bounds", codes)
+
     def test_combined_html_geojson_export_is_accepted(self):
         mapping, locked, eligibility, wsi = fixture_inputs()
         manifest = build_case_manifest(mapping, locked, eligibility, wsi, expected_count=2)
         status = build_status_template(manifest)
+        status.loc[status.temporary_id.eq("MORPH-001"), [
+            "index_nerve_annotation_id", "required_object_completeness", "contour_status",
+            "approval_status", "reviewer_id", "revision_number", "review_timestamp_utc",
+        ]] = [
+            "MORPH-001-nerve_outer_boundary-001", "complete", "complete", "approved",
+            "Song", "1", "2026-08-11T12:00:00+00:00",
+        ]
         collection = self.valid_collection()
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -225,7 +270,18 @@ class GeometryValidationTests(unittest.TestCase):
             manifest.to_csv(manifest_path, index=False)
             status.to_csv(status_path, index=False)
             issues = validate_submission(geojson, status_path, manifest_path)
-            self.assertNotIn("annotation_file_count", issues.issue_code.tolist())
+            self.assertTrue(issues.empty, issues.to_string(index=False))
+            loaded = json.loads(geojson.read_text(encoding="utf-8"))
+            self.assertEqual(loaded, collection)
+            mpp_x = float(manifest.iloc[0].mpp_x)
+            mpp_y = float(manifest.iloc[0].mpp_y)
+            for feature_item in loaded["features"]:
+                geometry = feature_item["geometry"]
+                points = (geometry["coordinates"][0] if geometry["type"] == "Polygon"
+                          else geometry["coordinates"])
+                for x, y in points:
+                    self.assertAlmostEqual((x * mpp_x) / mpp_x, x)
+                    self.assertAlmostEqual((y * mpp_y) / mpp_y, y)
 
 
 if __name__ == "__main__":

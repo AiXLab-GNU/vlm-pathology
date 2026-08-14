@@ -1,12 +1,14 @@
-# 정량지표를 통한 기반 모델 검증 실행계획
+# 정량지표를 통한 기반 모델 검증 마일스톤
 
 - 문서 버전: 0.2
 - 기준일: 2026-08-12
-- 문서 성격: 연구 목적·목표·마일스톤·태스크·To-do를 포함한 실행계획
+- 문서 성격: 상위 연구계획을 work package, evidence gate, 완료 조건으로 분해한 canonical 마일스톤 문서
 - 1차 비교 모델: frozen CONCH와 frozen Virchow
 - 1차 질병영역: 전립선암 grade, phenotype, 분자표현형, 재발 및 PNI 형태·공간 특성
-- 상위 연구계획: `QUANTITATIVE_AI_VALIDATION_DISEASE_DIAGNOSIS_RESEARCH_PLAN_KO.md`
-- 필수 사전실험: `docs/15_FOUNDATION_MODEL_QUANTITATIVE_VALIDATION_PREEXPERIMENT_PLAN_KO.md`
+- 상위 연구계획: `01-quantitative-ai-validation-disease-diagnosis-plan-ko.md`
+- 현재 실행 추적표: `01-01-01-foundation-model-validation-execution-tracker-ko.md`
+- 관련연구 인덱스: `../surveys/README.md`
+- 필수 사전실험: `docs/preexperiment_plan/15_FOUNDATION_MODEL_QUANTITATIVE_VALIDATION_PREEXPERIMENT_PLAN_KO.md`
 
 버전 0.2는 정량지표의 `복원 가능성`과 질병예측에서의 `기능적 활용`을 분리하고,
 후자를 본 연구의 최종 과학적 outcome 중 하나로 추가했다. 기존 P0 결과와 frozen PNI
@@ -143,7 +145,7 @@ representational similarity를 사용한다.
 ### 4.1 필수 역할 분류
 
 기존 113개 계산량을 모두 의료 정량지표로 간주하지 않는다. 먼저
-`docs/17_MEDICAL_QUANTITATIVE_METRIC_TIER_TAXONOMY_KO.md`에 따라 T1–T4 의료·파생
+`docs/metric_taxonomy/01-02-medical-quantitative-metric-tier-taxonomy-ko.md`에 따라 T1–T4 의료·파생
 지표와 별도 모델평가·통계·QC analysis measure로 분리한다. 의료 tier 각각에는 다음
 필드를 추가하거나 연구 manifest에서 관리한다.
 

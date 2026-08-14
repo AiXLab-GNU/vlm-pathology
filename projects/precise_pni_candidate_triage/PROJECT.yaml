@@ -4,3 +4,9 @@ validated_role: candidate_triage
 prohibited_role: whole_slide_pni_diagnosis
 immutable_input: resources/data/shared/opendataset/PRECISE/precise_pni_review (1).csv
 status: active_method_validation
+canonical_research_plan: docs/project_plan/01-precise-pni-project-plan-ko.md
+canonical_milestones: docs/project_plan/01-02-pni-project-milestones-ko.md
+canonical_execution_tracker: docs/project_plan/01-02-01-pni-project-execution-tracker-ko.md
+survey_index: docs/surveys/README.md
+results_index: reports/README.md
+paper_entrypoint: paper/README.md

@@ -93,6 +93,60 @@ class FileGovernanceTest(unittest.TestCase):
         )
         self.assertEqual(status, "pass")
 
+    def test_document_hierarchy_prefixes_encode_ancestry(self) -> None:
+        auditor = load_auditor()
+        cases = {
+            "01-research-plan-ko.md": "01",
+            "01-02-fm2-paired-manifest-ko.md": "01-02",
+            "01-02-03-paired-manifest-schema-ko.md": "01-02-03",
+        }
+        for name, hierarchy_id in cases.items():
+            match = auditor.HIERARCHY_DOC_NAME.fullmatch(name)
+            self.assertIsNotNone(match, name)
+            self.assertEqual(match.group("hierarchy_id"), hierarchy_id)
+            self.assertIsNotNone(auditor.GENERAL_DOC_NAME.fullmatch(name), name)
+        self.assertIsNone(
+            auditor.HIERARCHY_DOC_NAME.fullmatch("14_FLAT_SEQUENCE_PLAN_KO.md")
+        )
+        self.assertIsNone(
+            auditor.HIERARCHY_DOC_NAME.fullmatch("00-reserved-plan-ko.md")
+        )
+
+    def test_control_role_names_and_versions_fail_closed(self) -> None:
+        auditor = load_auditor()
+        for name in (
+            "01-project-milestones-final.md",
+            "01-01-project-execution-tracker-v1.md",
+            "latest-survey.md",
+        ):
+            status, _ = auditor.naming_status(
+                Path(f"projects/example/docs/research_plan/{name}"),
+                "research_plan",
+                None,
+                set(),
+            )
+            self.assertEqual(status, "fail", name)
+        status, _ = auditor.naming_status(
+            Path("projects/example/docs/research_plan/01-01-project-milestones-v01.md"),
+            "research_plan",
+            None,
+            set(),
+        )
+        self.assertEqual(status, "pass")
+
+    def test_registered_projects_have_one_canonical_control_chain(self) -> None:
+        auditor = load_auditor()
+        for project_id in auditor.PROJECT_IDS:
+            project = ROOT / "projects" / project_id
+            metadata = auditor.read_simple_yaml(project / "PROJECT.yaml")
+            paths = [project / metadata[key] for key in auditor.CONTROL_KEYS]
+            self.assertTrue(all(path.is_file() for path in paths), project_id)
+            identifiers = [auditor.hierarchy_id(path) for path in paths]
+            self.assertEqual([len(value.split("-")) for value in identifiers], [1, 2, 3])
+            self.assertIn("milestones", paths[1].name)
+            self.assertIn("execution-tracker", paths[2].name)
+            self.assertTrue((project / metadata["survey_index"]).is_file())
+
 
 if __name__ == "__main__":
     unittest.main()

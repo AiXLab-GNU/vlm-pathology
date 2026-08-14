@@ -1,11 +1,19 @@
 # 정량화 기반 AI 검증 및 질병 진단 기술 연구계획서
 
+- 문서 ID: `quantitative-ai-validation-plan`
+- 소유 프로젝트: `quantitative_foundation_model_validation`
+- 문서 유형: canonical research plan
+- 상태: active
+- Canonical path: `projects/quantitative_foundation_model_validation/docs/research_plan/01-quantitative-ai-validation-disease-diagnosis-plan-ko.md`
 - 문서 버전: 0.1
 - 기준일: 2026-08-11
 - 문서 성격: 연구 프로그램 개념계획서 및 단계별 사전 연구 로드맵
 - 우선 적용 분야: 전립선암 병리, Gleason/ISUP, 분자표현형, 신경주위침윤(PNI)
 - 확장 분야: 다암종 디지털 병리 진단 보조, 예후·치료반응 예측, 외부 코호트 AI 감시
 - 현재 PRECISE AI의 검증된 역할: whole-slide 진단이 아니라 공간적으로 구별된 병리 검토 후보의 우선순위 제시
+- Canonical milestones: [01-01-foundation-model-validation-milestones-ko.md](01-01-foundation-model-validation-milestones-ko.md)
+- Current execution tracker: [01-01-01-foundation-model-validation-execution-tracker-ko.md](01-01-01-foundation-model-validation-execution-tracker-ko.md)
+- 관련연구 입력: [survey index](../surveys/README.md); 현재 `CURRENT` survey 없음
 
 ## 1. 연구 제목
 
@@ -548,10 +556,10 @@ G1–G3은 audit trigger이며 진단 정확도의 대체물이 아니다. G4가
 
 ## 20. 내부 문서 연결
 
-- 정량지표 패키지 설명: `docs/12_QUANTITATIVE_METRICS_PACKAGE_KO.md`
+- 정량지표 패키지 설명: `docs/metric_taxonomy/01-02-01-quantitative-metrics-package-ko.md`
 - 지표·질병 서베이: `infrastructure/packages/vlm_pathology_metrics/SURVEY_KO.md`
-- 두 기반 모델 세부 실행계획: `projects/quantitative_foundation_model_validation/docs/research_plan/14_FOUNDATION_MODEL_QUANTITATIVE_METRIC_VALIDATION_PLAN_KO.md`
+- 두 기반 모델 canonical 마일스톤: `projects/quantitative_foundation_model_validation/docs/research_plan/01-01-foundation-model-validation-milestones-ko.md`
 - 기반 모델 정량검증 사전실험: `docs/15_FOUNDATION_MODEL_QUANTITATIVE_VALIDATION_PREEXPERIMENT_PLAN_KO.md`
-- PRECISE 전체 로드맵: `docs/11_PRECISE_PNI_PROJECT_PURPOSE_GOALS_MILESTONES_KO.md`
+- PRECISE 전체 로드맵: `projects/precise_pni_candidate_triage/docs/project_plan/01-precise-pni-project-plan-ko.md`
 - Frozen-score 승인 설계: `projects/precise_pni_candidate_triage/docs/designs/2026-08-05-precise-pni-frozen-score-audit-design.md`
 - Morphology 승인 설계: `projects/precise_pni_candidate_triage/docs/designs/2026-08-06-precise-pni-morphology-rereview-design.md`

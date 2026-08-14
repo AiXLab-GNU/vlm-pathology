@@ -9,3 +9,10 @@ re-review, 병리의 contour review와 candidate visualization이다.
 
 프로젝트 진행 순서는 [`00-project-sequence/`](00-project-sequence/)에서 번호순으로
 확인한다.
+
+- 현재 상태: [실행 추적표](docs/project_plan/01-02-01-pni-project-execution-tracker-ko.md)
+- 연구계획: [canonical plan](docs/project_plan/01-precise-pni-project-plan-ko.md)
+- 마일스톤: [canonical milestones](docs/project_plan/01-02-pni-project-milestones-ko.md)
+- 관련연구: [survey index](docs/surveys/README.md)
+- 결과: [report index](reports/README.md)
+- 논문: [paper entry point](paper/README.md)

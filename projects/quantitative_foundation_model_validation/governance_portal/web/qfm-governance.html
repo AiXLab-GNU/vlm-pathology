@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>P0 정량 기반모델 검증 · Evidence & Governance</title>
+  <link rel="stylesheet" href="styles.css?v=20260812-3">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" title="포트폴리오 홈으로"><span class="brand-mark">Q</span><span>Quantitative Foundation Model Validation · 포트폴리오로 돌아가기</span></a>
+    <div class="connection"><span class="dot"></span>local evidence server</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">P0 PRE-EXPERIMENT · GOVERNANCE CONSOLE</p>
+        <h1>의학적 정량 기준에 기반한<br>병리 기반모델의 표현 타당성 검증</h1>
+        <p class="lede">동일한 근거 snapshot을 검토하고, 허용 범위와 과학적 한계를 확인한 뒤, 역할별 판정과 clean rerun 인계를 기록합니다.</p>
+      </div>
+      <div class="decision-panel">
+        <span class="label">CURRENT DRAFT DECISION</span>
+        <strong id="draft-decision">불러오는 중</strong>
+        <span id="protocol-id" class="mono"></span>
+      </div>
+    </section>
+
+    <section class="metrics" aria-label="핵심 현황">
+      <article><span>T1 의료 기준 지표</span><strong id="t1-count">—</strong><small>의사가 직접 해석하는 상위 지표</small></article>
+      <article><span>T2 benchmark 표적</span><strong>1</strong><small>tumor fraction · descriptive only</small></article>
+      <article><span>승인 후보 조합</span><strong id="combination-count">—</strong><small>CONCH / Virchow · shared FOV</small></article>
+      <article><span>분석 측정량</span><strong id="analysis-count">—</strong><small>성능·QC·감사 지표, 의료 지표 아님</small></article>
+    </section>
+
+    <nav class="section-nav" aria-label="페이지 섹션">
+      <a href="#scope">판정 범위</a><a href="#questions">P0 질문</a><a href="#fm1">FM1–FM3</a><a href="#fm4-decision">FM4 진입</a><a href="#boundaries">잠금 해소</a><a href="#evidence">근거</a><a href="#approval">G8 기록</a><a href="#rerun">Clean rerun</a>
+    </nav>
+
+    <section id="scope" class="section">
+      <div class="section-heading"><p>01 · DECISION SCOPE</p><h2>승인되는 것과 승인되지 않는 것</h2></div>
+      <div class="two-column">
+        <article class="card allowed">
+          <div class="card-title"><span class="status-icon">✓</span><h3>G8 Conditional Go 후보</h3></div>
+          <ul id="approved-list"></ul>
+          <p class="callout">G8은 이 두 조합의 <b>P0-M9 clean rerun 진입</b>만 승인합니다.</p>
+        </article>
+        <article class="card locked">
+          <div class="card-title"><span class="status-icon">!</span><h3>승인 후에도 계속 금지</h3></div>
+          <ul id="prohibited-list"></ul>
+        </article>
+      </div>
+      <div id="combination-table" class="table-wrap"></div>
+    </section>
+
+    <section id="questions" class="section soft">
+      <div class="section-heading"><p>02 · INTEGRATED ANSWERS</p><h2>P0의 여섯 질문에 대한 현재 답</h2></div>
+      <div id="question-list" class="question-list"></div>
+    </section>
+
+    <section id="fm1" class="section soft">
+      <div class="section-heading"><p>03 · MAIN-STUDY OUTPUTS</p><h2>FM1–FM3 범위 제한 본 연구 산출물</h2></div>
+      <p id="fm1-status" class="section-note">FM1 결과를 불러오는 중입니다.</p>
+      <div class="metrics fm1-metrics">
+        <article><span>의료 정량지표</span><strong id="fm1-medical">—</strong><small>T1–T4 전수 판정</small></article>
+        <article><span>분리된 분석량</span><strong id="fm1-analysis">—</strong><small>환자 feature 사용 금지</small></article>
+        <article><span>즉시 가능한 H1</span><strong id="fm1-h1">—</strong><small>descriptive paired truth</small></article>
+        <article><span>현재 가능한 H2</span><strong id="fm1-h2">—</strong><small>독립 endpoint·외부 검증 필요</small></article>
+      </div>
+      <div id="fm1-links" class="evidence-list"></div>
+      <div class="milestone-grid">
+        <article><span>FM2</span><strong id="fm2-status">불러오는 중</strong><small>1,218-tile paired manifest</small><div id="fm2-links"></div></article>
+        <article><span>FM3</span><strong id="fm3-status">불러오는 중</strong><small>CONCH/Virchow clean embedding bundle</small><div id="fm3-links"></div></article>
+        <article class="next-gate"><span>NEXT · FM4</span><strong id="fm4-status">준비 패킷 확인 중</strong><small>실제 concept benchmark 전 연구책임자 확인 지점</small><div id="fm4-links"></div></article>
+      </div>
+      <p class="callout">우선 H2 계획 후보는 ISUP grade group–biochemical recurrence입니다. 현재는 subject linkage, 사건 수, 치료 공변량과 외부 cohort가 없어 실행하지 않습니다.</p>
+    </section>
+
+    <section id="fm4-decision" class="section approval-section">
+      <div class="section-heading"><p>04 · FM4 ENTRY DECISION</p><h2>탐색적 concept benchmark 범위 승인</h2></div>
+      <p class="section-note">승인안은 tumor_fraction × CONCH/Virchow × shared 394.24 µm의 내부 descriptive H1에 한정됩니다.</p>
+      <div class="metrics fm1-metrics">
+        <article><span>Subjects</span><strong>25</strong><small>5-fold grouped OOF</small></article>
+        <article><span>Paired tiles</span><strong>1,218</strong><small>membership mismatch 0</small></article>
+        <article><span>80% power MDE</span><strong id="fm4-mde">—</strong><small>conservative |rho|</small></article>
+        <article><span>Claim ceiling</span><strong class="claim-ceiling">H1</strong><small>internal descriptive only</small></article>
+      </div>
+      <div class="approval-layout fm4-approval-layout">
+        <form id="fm4-approval-form" class="approval-form">
+          <h3>FM4 연구책임자 판정</h3>
+          <p>분석 family와 검정력 한계를 검토한 뒤 현재 snapshot에 대한 판정을 기록합니다.</p>
+          <label>연구책임자 실명<input name="reviewer_name" maxlength="120" autocomplete="name" required></label>
+          <label>판정<select name="decision" required><option value="approve">Approve limited FM4</option><option value="revise">Revise</option><option value="stop">Stop</option></select></label>
+          <fieldset>
+            <legend>필수 확인</legend>
+            <label class="check"><input type="checkbox" name="reviewed_fm4_packet">FM4 entry report, analysis family, power plan과 checklist를 검토했습니다.</label>
+            <label class="check"><input type="checkbox" name="accept_exploratory_scope">단일 T2 표적의 exploratory/descriptive H1 범위만 승인합니다.</label>
+            <label class="check"><input type="checkbox" name="accept_power_limit">25명 표본은 큰 효과의 feasibility 분석이며 confirmatory 표본이 아님을 확인합니다.</label>
+            <label class="check"><input type="checkbox" name="accept_fm4_prohibitions">H2·질병예측·임상/PNI·우월성·robustness·외부일반화는 계속 금지됨을 확인합니다.</label>
+            <label class="check"><input type="checkbox" name="fm4_identity_attested">본인이 연구책임자임을 확인합니다.</label>
+          </fieldset>
+          <label>전자서명 <small>실명과 정확히 동일하게 입력</small><input name="signature" maxlength="120" required></label>
+          <label>검토 메모<textarea name="notes" rows="3" maxlength="2000"></textarea></label>
+          <button type="submit" class="primary">FM4 판정 기록</button>
+        </form>
+        <aside class="finalize-panel">
+          <span class="label">FM4 SCOPE GATE</span>
+          <strong id="fm4-approval-state">PENDING</strong>
+          <p id="fm4-approval-message">현재 evidence snapshot에 대한 연구책임자 판정이 필요합니다.</p>
+          <code id="fm4-snapshot-hash">—</code>
+          <label>확정 문구<input id="fm4-confirmation" placeholder="APPROVE FM4"></label>
+          <button id="finalize-fm4" class="secondary" disabled>FM4 범위 최종 승인</button>
+          <small>확정 뒤에만 locked benchmark를 실행합니다. 이 승인은 과학적 제한을 제거하지 않습니다.</small>
+        </aside>
+      </div>
+    </section>
+
+    <section id="boundaries" class="section">
+      <div class="section-heading"><p>05 · UNLOCK LOGIC</p><h2>승인으로 해결되는 문제와 데이터가 필요한 문제</h2></div>
+      <p class="section-note">행정적 잠금은 전자 승인으로 해소할 수 있습니다. 근거 부족은 서명으로 대체할 수 없습니다.</p>
+      <div id="boundary-grid" class="boundary-grid"></div>
+      <div class="flow" aria-label="게이트 흐름">
+        <div><span>P0-M8</span><strong>근거 묶음</strong><small>완료</small></div><i>→</i>
+        <div><span>P0-G8</span><strong>책임자 판정</strong><small>독립 연구</small></div><i>→</i>
+        <div><span>P0-M9</span><strong>GPU clean rerun</strong><small>hash 비교</small></div><i>→</i>
+        <div><span>P0-G9</span><strong>범위 제한 인계</strong><small>FM1/FM2/FM3</small></div>
+      </div>
+    </section>
+
+    <section id="evidence" class="section soft">
+      <div class="section-heading"><p>06 · EVIDENCE SNAPSHOT</p><h2>검토 대상 근거와 감사 추적</h2></div>
+      <div class="snapshot"><span>Evidence snapshot SHA-256</span><code id="snapshot-hash">—</code></div>
+      <div id="evidence-list" class="evidence-list"></div>
+      <details class="risk-panel"><summary>미해결 위험 등록부 보기 <span id="risk-count"></span></summary><div id="risk-table" class="table-wrap"></div></details>
+    </section>
+
+    <section id="approval" class="section approval-section">
+      <div class="section-heading"><p>07 · P0 APPROVAL RECORD</p><h2>검토 · 결과 확인 · 책임자 승인</h2></div>
+      <div id="role-grid" class="role-grid"></div>
+      <div class="approval-layout">
+        <form id="approval-form" class="approval-form">
+          <h3>역할별 판정 기록</h3>
+          <p>서명 시 현재 표시된 evidence snapshot과 허용·금지 범위에 동의한 기록이 append-only ledger에 추가됩니다.</p>
+          <label>검토 역할<select name="reviewer_role" required><option value="">선택</option><option value="research_lead">연구책임자</option><option value="pathology">병리</option><option value="statistics">통계</option><option value="ml_data">ML/데이터</option></select></label>
+          <label>검토자 실명<input name="reviewer_name" maxlength="120" autocomplete="name" required></label>
+          <label>판정<select name="decision" required><option value="conditional_go">Conditional Go</option><option value="revise">Revise</option><option value="stop">Stop</option></select></label>
+          <fieldset>
+            <legend>필수 확인</legend>
+            <label class="check"><input type="checkbox" name="reviewed_evidence">근거 보고서와 P0 질문별 답을 검토했습니다.</label>
+            <label class="check"><input type="checkbox" name="accept_scope">승인 대상이 두 descriptive 조합으로 제한됨을 확인했습니다.</label>
+            <label class="check"><input type="checkbox" name="accept_risks">미해결 위험과 추가 증거 요구사항을 확인했습니다.</label>
+            <label class="check"><input type="checkbox" name="accept_prohibitions">confirmatory·H2·임상·우월성 주장이 계속 금지됨을 확인했습니다.</label>
+            <label class="check"><input type="checkbox" name="identity_attested">본인이 선택한 역할의 권한 있는 검토자임을 확인합니다.</label>
+          </fieldset>
+          <label>전자서명 <small>실명과 정확히 동일하게 입력</small><input name="signature" maxlength="120" required></label>
+          <label>검토 메모<textarea name="notes" rows="3" maxlength="2000"></textarea></label>
+          <button type="submit" class="primary">판정 기록 제출</button>
+          <p class="signature-note">이 서명은 접근 통제된 서버에서의 실명 attestation입니다. 인증서 기반 규제 전자서명이 필요한 연구라면 기관 SSO/PKI 절차를 별도로 적용해야 합니다.</p>
+        </form>
+        <aside class="finalize-panel">
+          <span class="label">G8 READINESS</span>
+          <strong id="approval-progress">0 / 1</strong>
+          <div class="progress"><span id="progress-bar"></span></div>
+          <p id="g8-message">연구책임자의 최신 판정이 필요합니다.</p>
+          <label>확정 문구<input id="g8-confirmation" placeholder="FINALIZE G8"></label>
+          <button id="finalize-g8" class="secondary" disabled>G8 최종 확정</button>
+          <small>확정 후 승인 근거가 변경되면 재승인이 필요합니다.</small>
+        </aside>
+      </div>
+    </section>
+
+    <section id="rerun" class="section rerun-section">
+      <div class="section-heading"><p>08 · REPRODUCIBILITY HANDOFF</p><h2>P0-M9 full-GPU clean rerun</h2></div>
+      <div class="rerun-grid">
+        <div>
+          <span class="label">CURRENT STATUS</span><strong id="m9-status">NOT STARTED</strong>
+          <p id="m9-detail">G8 확정 후 별도 출력 디렉터리에서 전체 GPU 단계와 source/output hash 감사를 실행합니다.</p>
+        </div>
+        <div class="rerun-action">
+          <label>실행 문구<input id="m9-confirmation" placeholder="RUN FULL CLEAN RERUN"></label>
+          <button id="run-m9" class="primary" disabled>Clean rerun 시작</button>
+          <small>작업은 서버에서 백그라운드 실행됩니다. 포털을 닫아도 프로세스는 계속됩니다.</small>
+        </div>
+      </div>
+      <div id="handoff-result" class="handoff-result"></div>
+    </section>
+  </main>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <footer><span>Local-only governance interface · no firewall exposure</span><span id="last-updated"></span></footer>
+  <script src="app.js?v=20260812-3"></script>
+</body>
+</html>

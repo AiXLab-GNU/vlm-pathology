@@ -5,8 +5,8 @@ readme,owning directory,README.md,scope and routing index,active,yes
 design,projects/<project_id>/docs/designs or infrastructure/docs/superpowers/specs,dated kebab ending design.md,metadata header,active,yes
 plan,projects/<project_id>/docs/plans or infrastructure/docs/superpowers/plans,dated kebab ending plan.md,metadata header,active,yes
 protocol,projects/<project_id>/docs/protocols or approved clinician protocol directory,lowercase kebab or stable protocol ID,protocol ID and status,active,yes
-research_plan,projects/<project_id>/docs/research_plan,ordered lowercase kebab with language suffix,document ID and milestone log,active,yes
-survey,projects/<project_id>/docs/surveys,lowercase kebab with language suffix,scope and source policy,active,yes
+research_plan,projects/<project_id>/docs/research_plan or docs/project_plan,ancestry-numbered lowercase kebab with plan above milestones above execution tracker,document ID hierarchy ID parent document and PROJECT.yaml canonical pointer,active,yes
+survey,projects/<project_id>/docs/surveys,lowercase kebab with language suffix,scope source policy authority status and survey index registration,active,yes
 legacy_document,projects/<project_id>/docs/legacy,preserved historical name,registered exception,legacy,no
 report,projects/<project_id>/reports or approved milestone output,milestone-topic-report,source artifact links,generated,yes
 governance_record,project governance records,protocol-defined stable name,append-only or hash-locked,frozen,yes
