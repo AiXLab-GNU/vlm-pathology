@@ -23,16 +23,16 @@ not by a pending scientific experiment or code release.
 |---|---|
 | Title | 15 words; within the journal's 20-word recommendation |
 | Abstract | 198 words by `detex`; unstructured; no citations; within the 200-word limit |
-| Main | 22 pages; 6,601 Introduction--Conclusion words; 1,708 Methods words; 7 figures + 1 table |
+| Main | 22 pages; 6,772 Introduction--Conclusion words; 1,708 Methods words; 7 figures + 1 table |
 | Supplementary Information | 12 pages; 3,137 words including generated tables; 1 figure + 14 tables; one separate PDF |
 | References | 19 numbered references; all citation keys resolved |
-| `main.pdf` | SHA-256 `372d24ebdde22a1f18e111b96e0b7000e2fbfaed7f01eee737ef3653f9cdb910` |
+| `main.pdf` | SHA-256 `8b9677625d5f8e9bac9115e27b4a9891978f3dd39d6808605c882dffc4d43a17` |
 | `supplement.pdf` | SHA-256 `e423f2661938b32fb916517d2285430f6b09e524c5deb7af120b782ac8bc228d` |
-| `cover_letter.pdf` | 1 page; SHA-256 `c28db8a65ff71206b749f103f55022d47206e6782b90018fc2c24514c2c1f1d2` |
+| `cover_letter.pdf` | 1 page; SHA-256 `c8c560fdd99c74ba2ddb52fad694ffa14c34e8b69443dfb355ae7e4941af692a` |
 | Source manifest | 19/19 verified; manifest SHA-256 `c1129408a803a4bc0841e4b6adc097070d7f8995f3f6d7ee793e58ce4f9ef5d0` |
 | Numeric QA mapping | 33/33 verified; SHA-256 `c707818dd79ccec4ee04f8481ce980d1ac671bdfe10a3f6161884d654e77134c` |
 | Public release repository | `https://github.com/AiXLab-GNU/evidence-qualified-alignment-prostate-cancer` |
-| Submission release | tag `v1.0.3-submission`; commit `5c859a27467e7aecc8d9c624e5da06fff8d08c1a` |
+| Submission release | tag `v1.0.4-submission`; commit `9dc1e137ab92e369cd2d29382602be41c198d2d5` |
 | Public manuscript boundary | `main.pdf` and `supplement.pdf` only; editable TeX source excluded |
 | Reviewer reproduction | 12/12 aggregate sources, 33/33 numeric mappings, 8/8 byte-identical figures, 10/10 analysis-code snapshots, 6/6 release tests |
 
@@ -68,7 +68,7 @@ table overflow, empty page, unresolved citation/reference, or overfull box. QFM 
 File governance and worktree audits and `git diff --check` passed. The boundary validator's sole
 failure is the pre-existing unregistered root file `webportal-refactoring.md`.
 
-The public `v1.0.3-submission` tag was independently cloned and passed all six reviewer release
+The public `v1.0.4-submission` tag was independently cloned and passed all six reviewer release
 tests. That package verifies 12 aggregate inputs and 33 mapped values, regenerates eight figure
 PDFs with exact committed hashes, verifies both reference-PDF hashes, and preserves hash-locked
 snapshots of 10 source-analysis entry points for code audit. End-to-end source experiments still

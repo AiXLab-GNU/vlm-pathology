@@ -608,6 +608,24 @@ release tag와 reference PDF hashes가 원고·handoff·public manifest에서 �
 Introduction에서 일치한다. 이 연구는 새 바이오마커를 발견했다고 주장하지 않으며,
 functional use의 직접 검증 범위를 ISUP internal locked-head sensitivity 이상으로 확장하지 않는다.
 
+## Task 29. 2026-08-18 Introduction/Conclusion motivation and discovery-space clarification
+
+- [x] Introduction 앞부분에 prostate-cancer AI가 어떤 정량 축을 표현하는지, cohort·technical
+  variation에도 유지되는지, downstream decision이 사용하는지를 지표별로 묻는 연구 동기를
+  독립 문단으로 명시했다.
+- [x] Conclusion에서 같은 세 질문을 다시 제시하고, 첫 두 질문은 여섯 축 비교로 다루되
+  functional-use 질문은 internal ISUP example에만 한정됨을 명시했다.
+- [x] 알려진 임상 좌표와 technical confounder를 분리한 뒤 남는 reproducible,
+  decision-linked signal을 검증하는 것이 잠재적 새 바이오마커 탐색의 출발점임을 설명했다.
+- [x] 새 바이오마커 발견은 현재 결과가 아니며 external replication, locked-head contribution,
+  human-measurable feature와 biological/clinical validation이 필요한 후속 연구로 유지했다.
+- [x] 198-word Abstract, 1,173-word Introduction, 747-word Conclusion과 manuscript contract
+  tests 15/15를 확인하고 public tag `v1.0.4-submission`, commit
+  `9dc1e137ab92e369cd2d29382602be41c198d2d5`에 새 `main.pdf`를 게시했다.
+
+**Gate 29:** Abstract, Introduction과 Conclusion이 동일한 motivation, evidence-stage boundary,
+clinical-audit significance와 bounded discovery-space claim을 사용한다.
+
 ## 완료 판정
 
 본 plan은 main만 문장 수정하거나 Supplementary를 제목만 바꾼 상태에서는 완료가 아니다.
