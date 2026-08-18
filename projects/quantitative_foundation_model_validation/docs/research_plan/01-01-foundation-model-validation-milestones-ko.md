@@ -1,7 +1,7 @@
 # 정량지표를 통한 기반 모델 검증 마일스톤
 
-- 문서 버전: 0.2
-- 기준일: 2026-08-12
+- 문서 버전: 0.6
+- 기준일: 2026-08-15
 - 문서 성격: 상위 연구계획을 work package, evidence gate, 완료 조건으로 분해한 canonical 마일스톤 문서
 - 1차 비교 모델: frozen CONCH와 frozen Virchow
 - 1차 질병영역: 전립선암 grade, phenotype, 분자표현형, 재발 및 PNI 형태·공간 특성
@@ -10,9 +10,12 @@
 - 관련연구 인덱스: `../surveys/README.md`
 - 필수 사전실험: `docs/preexperiment_plan/15_FOUNDATION_MODEL_QUANTITATIVE_VALIDATION_PREEXPERIMENT_PLAN_KO.md`
 
-버전 0.2는 정량지표의 `복원 가능성`과 질병예측에서의 `기능적 활용`을 분리하고,
-후자를 본 연구의 최종 과학적 outcome 중 하나로 추가했다. 기존 P0 결과와 frozen PNI
-audit의 score·좌표·NMS·주장 경계는 변경하지 않는다.
+버전 0.6은 상위 연구계획 버전 0.5의 핵심 목표와 TCGA-PRAD 개발 WSI acquisition·기술
+QC·환자 집계 gate를 실행 수준으로 동기화한다. 단일 지표의
+복원 가능성을 넘어 복수 지표의 조건부 고유정보·포함관계·joint completeness,
+질병예측에서의 기능적 활용, 표현·판단 residual의 구분과 신규 정량 마커 전환을 하나의
+증거 사슬로 연결한다. 이는 장기 프로그램의 방향을 명확히 하는 문서 개정이며, 기존 P0와
+FM1–FM5 결과, frozen PNI audit의 score·좌표·NMS 및 현재 claim ceiling은 변경하지 않는다.
 
 ## 0. 본 연구 진입 전 필수 P0 gate
 
@@ -37,10 +40,28 @@ audit의 score·좌표·NMS·주장 경계는 변경하지 않는다.
 
 ## 1. 실행계획의 한 문장 목표
 
-동일 환자, 동일 ROI 좌표, 동일 물리적 시야와 동일 reference에서 CONCH와 Virchow가
-기존 정량 병리개념을 얼마나 복원하는지 평가하고, 복원 가능한 정량지표와 관련된 표현
-성분이 독립적인 질병 endpoint 예측에 실제로 기능적 기여를 하는지 짝지어 검증하며,
-모델 간 공통 신호·모델특이 신호·외부 cohort shortcut을 분리한다.
+동일 환자·동일 조직에서 독립적으로 측정한 복수의 임상·병리 정량지표가 CONCH와
+Virchow의 frozen representation과 locked 질병예측 판단을 얼마나 완전하게 설명하는지
+규명하고, 알려진 지표와 기술적 교란을 제거한 뒤에도 두 모델과 독립 외부 코호트에서
+반복되는 residual morphology를 명시적 정량지표로 전환하여 독립 assay·omics·임상
+outcome으로 신규 마커 후보의 타당성을 검증한다.
+
+실행 증거 사슬은 다음 순서를 따른다.
+
+1. **개별 복원성:** 각 사람 지표가 frozen embedding에서 환자분리 방식으로 복원되는가?
+2. **포함관계·완전성:** 다른 지표를 조건화한 고유정보와 복수 지표 패널의 joint
+   completeness는 어느 정도인가?
+3. **기능적 활용:** 지표 관련 표현을 제거할 때 locked disease head가 matched control보다
+   선택적으로 저하되는가?
+4. **Residual 분리:** 알려진 지표·임상변수·기술적 교란으로 설명되지 않는 표현 residual과
+   판단 residual이 두 모델 및 외부 코호트에서 반복되는가?
+5. **신규 지표 전환:** 반복 residual을 blinded 병리 검토와 명시적 계측식으로 바꾸고,
+   repeatability·독립 assay·omics·outcome·외부 코호트로 검증할 수 있는가?
+
+CONCH와 Virchow는 순위를 매길 대상이 아니라 서로 다른 학습 원천과 inductive bias에서
+같은 신호가 반복되는지 확인하는 두 개의 독립적 측정 도구다. 한 모델에만 나타나는
+residual은 곧바로 신규 생물학으로 해석하지 않고 encoder-specific 신호 또는 shortcut
+가능성을 먼저 감사한다.
 
 ## 2. 연구 목적
 
@@ -97,13 +118,18 @@ H2를 통과시키지 않는다. H2에는 표적화된 표현 제거, matched ne
 ### 2.4 2차 목적
 
 1. 두 모델이 같은 정량지표를 같은 방향으로 표현하는지 평가한다.
-2. 기존 정량지표 조합이 각 모델의 score를 어느 정도 설명하는지 평가한다.
-3. 기존 지표와 AI 표현이 질병 endpoint에 중복 또는 상보적 정보를 주는지 검증한다.
-4. 정량지표 관련 표현의 기능적 의존성이 모델·endpoint·site에 따라 달라지는지 평가한다.
-5. stain, scanner, scale, tile sampling과 site가 모델 간 차이를 설명하는지 감사한다.
-6. 두 모델과 기존 지표 사이의 discordance에서 신규 형태 후보와 실패모드를 찾는다.
-7. 외부 코호트에서 semantic concordance와 기능적 의존성이 실제 성능 저하를 예측하는지
+2. 각 지표의 개별 복원성뿐 아니라 다른 지표 조건부 고유정보와 metric-family 포함관계를
    평가한다.
+3. 복수 기존 지표 패널이 각 모델의 표현과 locked disease score를 얼마나 완전하게
+   설명하는지 OOF와 외부 표본에서 평가한다.
+4. 기존 지표와 AI 표현이 질병 endpoint에 중복 또는 상보적 정보를 주는지 검증한다.
+5. 정량지표 관련 표현의 기능적 의존성이 모델·endpoint·site에 따라 달라지는지 평가한다.
+6. stain, scanner, scale, tile sampling, grade, 치료와 site가 모델 간 차이 또는 residual을
+   설명하는지 감사한다.
+7. 표현 residual과 판단 residual을 분리하고, 두 모델·외부 코호트에서 반복되는 형태를
+   신규 정량지표 후보로 전환한다.
+8. 외부 코호트에서 semantic concordance, 기능적 의존성과 residual shift가 실제 성능
+   저하를 예측하는지 평가한다.
 
 ### 2.5 비목적
 
@@ -168,6 +194,13 @@ threshold, 합산점수 또는 직접 파생식으로 정의됐거나, 판독자
 sensitivity analysis로만 보고한다.
 
 ### 4.2 1차 포함 지표
+
+최종 프로그램에서는 최소 세 개의 사전 정의 metric family를 포함한다. 우선 family는
+`gland architecture`, `nuclear morphology`, `tumor microenvironment/spatial context`이며,
+독립 molecular·clinical 결과는 biological anchor 또는 endpoint로 별도 관리한다. 현재
+실행된 `tumor_fraction` 단일 T2 분석은 이 다중 지표 패널의 완료가 아니라 H1
+proof-of-concept다. 추가 family는 독립성·측정 반복성·표본 적격성 gate를 통과한 뒤에만
+개방한다.
 
 - 실제 Gleason/ISUP와 benign/tumor phenotype
 - PTEN, ERG, SPOP 및 AR의 독립 assay/분자 결과
@@ -237,19 +270,34 @@ endpoint가 연결되지 않았으므로 그 결과만으로 H2를 수행하거�
 - 동일 환자에서 모델 A–B score difference와 clinicopathologic factor의 관계
 - concordant high, concordant low, A-only, B-only의 네 discordance stratum
 
-### Q3. 기존 지표가 AI 판단을 얼마나 설명하는가?
+### Q3. 복수 기존 지표가 AI 표현과 판단을 얼마나 완전하게 설명하는가?
 
-AI score \(S_k\), 정량지표 \(M\), 임상·품질 변수 \(C,Q\)에 대해 모델별로 계산한다.
+AI score \(S_k\), 복수 정량지표 벡터 \(M\), 임상·품질 변수 \(C,Q\)에 대해 모델별로
+환자분리 OOF 설명력을 계산한다.
 
 \[
-S_k = g_k(M,C,Q) + R_k, \qquad k\in\{CONCH, Virchow\}
+S_k = g_k(M,C,Q) + R^{score}_k, \qquad k\in\{CONCH, Virchow\}
 \]
 
-- 개별 partial association
-- 전체 out-of-sample \(R^2\)와 MAE
-- 지표군별 incremental \(R^2\)
-- source-fitted \(g_k\)의 target calibration
-- \(R_{CONCH}\), \(R_{Virchow}\)의 공통성과 차이
+- 지표별 개별 복원성과 partial association
+- \(M_j\mid M_{-j},C,Q\)의 조건부 고유정보와 포함관계
+- gland, nuclear, microenvironment/spatial 등 지표군별 incremental \(R^2\)
+- 전체 지표 패널의 out-of-sample \(R^2\), MAE와 joint completeness
+- source-fitted \(g_k\)의 target calibration 및 completeness transport
+- \(R^{score}_{CONCH}\), \(R^{score}_{Virchow}\)의 공통성·차이와 기술적 교란
+
+판단 residual \(R^{score}_k\)은 알려진 지표·임상·품질 변수로 설명되지 않은 locked
+disease score의 부분이다. 이와 별도로 metric-family subspace를 embedding에서 제거한
+표현 residual은 다음과 같이 정의한다.
+
+\[
+R^{repr}_k=Z^{-M}_k=(I-P_M)Z_k
+\]
+
+두 residual은 용도와 단위가 다르므로 합치지 않는다. \(R^{score}_k\)는 “판단에서 남은
+오차·신호”, \(R^{repr}_k\)는 “표현 공간에 남은 정보”를 뜻한다. 어느 residual도 그
+자체로 신규 마커가 아니며, Q6과 FM8–FM9의 반복·교란 감사·명시적 계측·독립 검증을
+통과해야 한다.
 
 ### Q4A. 복원 가능한 정량지표가 질병 예측에 기능적으로 사용되는가?
 
@@ -349,6 +397,22 @@ negative control로 둔다. gradient/attention attribution은 보조 설명자�
 semantic concordance 또는 기능적 활용성은 독립 site에서 \(\Delta Perf\)를 추가로
 예측하고 방향이 재현될 때만 향후 acceptance criterion 후보가 된다.
 
+### Q6. 반복 residual을 어떻게 신규 정량 마커 후보로 전환하는가?
+
+1. Source training fold에서 \(R^{repr}_k\), \(R^{score}_k\), 극단 표본의 threshold와
+   sampling rule을 outcome 검토 전에 고정한다.
+2. 두 모델에서 같은 방향으로 나타나는 residual, encoder-specific residual과 양·음
+   대조 표본을 분리한다.
+3. Site, stain, scanner, MPP, scale, tissue area, grade, tumor purity, 치료와 동반 변이를
+   감사해 기술적·임상적 설명을 먼저 제거한다.
+4. 모델, score, outcome과 site를 가린 병리 검토에서 반복 morphology를 명명한다.
+5. 반복 형태를 핵·샘·세포·신경·공간 graph의 명시적 공식과 물리 단위로 정의한다.
+6. 측정 repeatability, inter/intraobserver agreement와 segmentation 의존성을 검증한다.
+7. Source에서 잠근 측정식을 독립 외부 코호트에 적용하고 기존 grade·stage·clinical
+   factor 이상의 증분 가치와 IHC·유전체·spatial omics 연관을 평가한다.
+
+두 모델과 외부 코호트의 반복은 후보 선별 조건이지 바이오마커 확정 조건이 아니다.
+
 ## 7. 실험군
 
 ### E0. 프로토콜·데이터 잠금
@@ -371,13 +435,15 @@ semantic concordance 또는 기능적 활용성은 독립 site에서 \(\Delta Pe
 - encoder는 frozen 상태로 유지한다.
 - 두 encoder에 동일 probe family와 nested patient-grouped CV를 적용한다.
 - dimension 차이로 인한 capacity 차이를 정규화 또는 규제해 sensitivity analysis한다.
+- 복수 지표 확장에서는 개별 probe, 다른 지표 조건부 probe와 metric-family probe를
+  분리하고, 최소 세 개의 사전 정의 family에서 joint completeness를 계산한다.
 - probe output, fold membership, prediction과 residual을 저장한다.
 
 ### E3. 직접 표현 및 모델 간 일치 분석
 
-- CKA/representation similarity
+- 원본 CKA/representation similarity와 human-metric-conditioned CKA
 - 동일 metric prediction agreement
-- 모델 간 rank 및 calibration 차이
+- 전체 지표 패널 설명 전후의 모델 간 rank, calibration과 residual agreement 차이
 - discordant sample의 임상·기술 특성
 
 ### E4. 질병 endpoint 성능 비교
@@ -420,6 +486,7 @@ semantic concordance 또는 기능적 활용성은 독립 site에서 \(\Delta Pe
 
 ### E7. Discordance와 residual 분석
 
+- 판단 residual \(R^{score}\)과 표현 residual \(R^{repr}\)을 별도 manifest로 관리
 - A와 B가 동의하지만 truth와 불일치
 - A만 truth/metric과 일치
 - B만 truth/metric과 일치
@@ -427,14 +494,16 @@ semantic concordance 또는 기능적 활용성은 독립 site에서 \(\Delta Pe
 - 두 모델 모두 불일치
 
 각 stratum에서 site, stain, scanner, tissue fraction, grade, subtype, tumor purity와
-artifact를 blinded review한다.
+치료, 동반 변이와 artifact를 blinded review한다. Source에서 고정한 residual 정의와
+sampling rule은 외부 cohort에 재학습 없이 적용해 recurrence를 판정한다.
 
 ### E8. 신규 정량지표 후보화
 
-- 두 모델의 공통 residual과 모델특이 residual을 분리한다.
+- 두 모델 및 외부 cohort에서 반복되는 공통 residual과 모델특이 residual을 분리한다.
 - 반복 가능한 morphology를 전문의가 blinded 상태로 명명한다.
 - 사람이 이해 가능한 공식과 물리/안정 계산 단위로 환원한다.
-- 기술적 repeatability, interobserver agreement, independent assay와 outcome을 검증한다.
+- 기술적 repeatability, inter/intraobserver agreement, independent assay·omics·outcome과
+  외부 cohort를 순차적으로 검증한다.
 
 ## 8. 데이터 구조와 필수 산출 열
 
@@ -596,17 +665,17 @@ disease head, preprocessing과 제거 규칙을 독립 cohort에 재학습 없�
 
 | ID | 마일스톤 | 진입 조건 | 상태 | 완료 기준 |
 |---|---|---|---|---|
-| FM0 | 연구질문·모델·endpoint 동결 | P0-G0; P0-G8 결과로 최종 잠금 | 신규 | 승인 protocol ID와 hash manifest |
-| FM1 | 의료 tier·analysis registry 역할·적격성 분류 | P0-G1 분류체계 승인 | 신규 | 모든 의료 지표와 분석량에 role/단위/독립성/상태 부여 |
-| FM2 | paired sample·좌표 manifest | P0-G2·G4; 새 cohort 동일 gate | 신규 | 두 모델의 동일 sample membership 100% 대조 또는 사유 기록 |
-| FM3 | CONCH–Virchow paired extraction | P0-G5·G8·G9 | 부분 기반 있음 | embedding/score/QC와 실패 로그 생성 |
-| FM4 | concept probe benchmark | P0-G6·G8·G9; power/family 승인 | 부분 기반 있음 | nested-CV 결과와 patient-level predictions |
-| FM5 | 모델 간 표현·성능 비교 | P0-G7·G8·G9; FM4 완료 | 기존 결과 확장 | paired effect·CKA·discordance table |
-| FM6 | 정량지표 기능적 활용·AI 상보성 평가 | FM4–FM5; 독립 metric–endpoint 쌍과 충분한 subject/event | 신규 | targeted/matched-control ablation과 C/C+M/C+AI/C+M+AI 비교 |
-| FM7 | external semantic·functional transport test | P0-G9; 복수 site metadata와 sentinel truth | 신규 | source-locked 관계·제거효과·실제 성능의 target 재현 |
-| FM8 | residual/discordance 전문의 검토 | FM5/7 안정 residual; blinded review 승인 | 신규 | blinded review와 후보 concept 정의 |
-| FM9 | 신규 지표 독립 검증 | FM8 반복 후보; 독립 assay/outcome/cohort | 장기 | repeatability, assay/outcome, external replication |
-| FM10 | 패키지·보고서·논문 | 관련 단계 gate와 clean rerun 완료 | 장기 | clean rerun, source tables, claim-evidence audit |
+| FM0 | 연구질문·모델·endpoint 동결 | P0-G0; P0-G8 결과로 최종 잠금 | P0 범위 완료 | 승인 protocol ID와 hash manifest |
+| FM1 | 의료 tier·analysis registry 역할·적격성 분류 | P0-G1 분류체계 승인 | 완료 | 모든 의료 지표와 분석량에 role/단위/독립성/상태 부여 |
+| FM2 | paired sample·좌표 manifest | P0-G2·G4; 새 cohort 동일 gate | 완료 | 두 모델의 동일 sample membership 100% 대조 또는 사유 기록 |
+| FM3 | CONCH–Virchow paired extraction | P0-G5·G8·G9 | 완료 | embedding/score/QC와 실패 로그 생성 |
+| FM4 | concept probe benchmark | P0-G6·G8·G9; power/family 승인 | 단일 T2 H1 범위 완료 | nested-CV 결과와 patient-level predictions |
+| FM5 | 모델 간 표현·성능 비교 | P0-G7·G8·G9; FM4 완료 | 단일 T2 descriptive 범위 완료 | paired effect·CKA·discordance table |
+| FM6 | 복수지표 완전성·기능적 활용·AI 상보성 평가 | FM4–FM5; 적격 복수 지표와 독립 metric–endpoint 쌍, 충분한 subject/event | 개발·외부 source와 TCGA WSI/기술 QC/환자 fold 등록; endpoint/tumor-region/disease-head validity/power/embargo 잠금 | 조건부·joint completeness, targeted/matched-control ablation과 C/C+M/C+AI/C+M+AI 비교 |
+| FM7 | external semantic·functional transport test | P0-G9; 복수 site metadata와 sentinel truth | 잠금 | source-locked 관계·제거효과·residual·실제 성능의 target 재현 |
+| FM8 | residual/discordance 전문의 검토 | FM5/7 안정 residual; blinded review 승인 | 잠금 | 두 residual의 blinded review와 명시적 후보 concept 정의 |
+| FM9 | 신규 지표 독립 검증 | FM8 반복 후보; 독립 assay/omics/outcome/cohort | 잠금·장기 | repeatability, assay/omics/outcome, external replication |
+| FM10 | 패키지·보고서·논문 | 관련 단계 gate와 clean rerun 완료 | 잠금·장기 | clean rerun, source tables, claim-evidence audit |
 
 ## 12. 상세 태스크 및 To-do list
 
@@ -712,8 +781,10 @@ disease head, preprocessing과 제거 규칙을 독립 cohort에 재학습 없�
 
 - 공통 concept, 모델특이 concept, 불안정 concept가 근거표와 함께 분류된다.
 
-### FM6. 정량지표의 기능적 활용과 AI 상보성
+### FM6. 복수지표 완전성, 기능적 활용과 AI 상보성
 
+- [ ] 최소 세 개의 사전 정의 metric family에서 개별·조건부 복원성과 포함관계를 계산한다.
+- [ ] 복수 지표 패널의 표현·판단 joint completeness를 OOF와 외부 표본에서 계산한다.
 - [ ] clinical-only baseline을 고정한다.
 - [ ] metric-only/clinical+metric 모델을 구성한다.
 - [ ] CONCH/clinical+CONCH 모델을 구성한다.
@@ -734,9 +805,10 @@ disease head, preprocessing과 제거 규칙을 독립 cohort에 재학습 없�
 
 완료 판정:
 
-- 기능적 활용은 Section 9.6의 내부 판정 규칙으로 분류되고, 상보성은 별도 결과로
-  분리된다. `C+M+AI` 향상만으로 활용을 주장하지 않으며 외부 재현 전에는 H2 최종
-  outcome으로 승격하지 않는다.
+- 개별·조건부 정보, metric-family 포함관계와 joint completeness가 환자분리 source
+  table에서 재생성된다. 기능적 활용은 Section 9.6의 내부 판정 규칙으로 분류되고,
+  상보성은 별도 결과로 분리된다. `C+M+AI` 향상만으로 활용을 주장하지 않으며 외부
+  재현 전에는 H2 최종 outcome으로 승격하지 않는다.
 
 ### FM7. 외부 이식성 및 감시
 
@@ -748,6 +820,7 @@ disease head, preprocessing과 제거 규칙을 독립 cohort에 재학습 없�
 - [ ] source에서 잠근 concept probe, subspace와 disease head를 target에 재학습 없이 적용한다.
 - [ ] target의 metric-targeted 제거효과와 matched-control null을 동일 규칙으로 계산한다.
 - [ ] semantic residual shift와 relation interaction을 계산한다.
+- [ ] source-locked \(R^{repr}\)·\(R^{score}\) 정의와 sampling rule의 외부 recurrence를 계산한다.
 - [ ] sentinel label subset에서 실제 성능을 계산한다.
 - [ ] QC-only/OOD-only/semantic/combined monitoring을 비교한다.
 - [ ] site-held-out 방식으로 성능 저하 예측을 검증한다.
@@ -761,8 +834,9 @@ disease head, preprocessing과 제거 규칙을 독립 cohort에 재학습 없�
 
 ### FM8. Residual·discordance 검토
 
-- [ ] residual 정의와 추출 threshold를 source에서 고정한다.
+- [ ] \(R^{repr}\)과 \(R^{score}\)의 정의와 추출 threshold를 source에서 각각 고정한다.
 - [ ] 높은 양·음 residual과 A/B discordant patch를 균형 있게 선정한다.
+- [ ] 두 모델 공통·모델특이·외부 반복 residual을 별도 stratum으로 관리한다.
 - [ ] 모델, score, endpoint와 site를 숨긴 blinded interface를 만든다.
 - [ ] 병리전문의가 morphology, artifact, adequacy와 uncertainty를 기록한다.
 - [ ] 반복 concept를 명명하고 명시적 계산 정의를 작성한다.
@@ -781,7 +855,7 @@ disease head, preprocessing과 제거 규칙을 독립 cohort에 재학습 없�
 - [ ] 자동계측 repeatability와 segmentation 의존성을 평가한다.
 - [ ] 다른 scanner, stain, MPP에서 robustness를 평가한다.
 - [ ] 기존 grade/stage/clinical factor 이상의 증분 가치를 평가한다.
-- [ ] IHC, genomic 또는 spatial-omics 연관을 평가한다.
+- [ ] IHC, genomic 또는 spatial-omics의 독립 biological anchor와 연관을 평가한다.
 - [ ] 독립 기관에서 locked validation을 수행한다.
 - [ ] 임상 cutoff가 필요하면 별도 개발·검증 protocol을 수립한다.
 - [ ] 부정적·불확실 결과를 catalog에 반영한다.
@@ -847,6 +921,8 @@ projects/quantitative_foundation_model_validation/
 ├── paired_model_manifest.csv
 ├── patient_predictions.csv
 ├── metric_concept_results.csv
+├── metric_conditional_information.csv
+├── joint_completeness_results.csv
 ├── representation_similarity.csv
 ├── concept_use_patient_predictions.csv
 ├── concept_use_ablation_results.csv
@@ -855,6 +931,9 @@ projects/quantitative_foundation_model_validation/
 ├── complementarity_results.csv
 ├── transportability_results.csv
 ├── discordance_manifest.csv
+├── representation_residual_manifest.csv
+├── decision_residual_manifest.csv
+├── residual_candidate_metrics.csv
 ├── bootstrap_replicates.csv
 ├── data_integrity_report.csv
 ├── claim_evidence_matrix.csv
@@ -869,12 +948,12 @@ projects/quantitative_foundation_model_validation/
 1. 연구 개념도: known metric, AI-common, AI-specific, shortcut 분해
 2. cohort–endpoint–model–ground-truth matrix
 3. CONCH 대 Virchow metric recoverability paired forest plot
-4. 정량지표–AI 설명력 heatmap
+4. 지표별 조건부 고유정보·포함관계와 joint completeness heatmap
 5. 정량지표별 full 대 targeted/matched-control ablation paired forest plot
 6. `decodable → associated → functionally used → externally transported` outcome cascade
 7. `C`, `C+M`, `C+AI`, `C+M+AI` 외부 성능·calibration 비교
 8. QC/embedding/semantic/functional drift와 실제 performance drop 관계
-9. discordant/residual pathology atlas
+9. 표현 residual·판단 residual을 구분한 외부 반복 pathology atlas
 10. 신규 지표 validation cascade와 negative-result table
 
 ## 16. 허용되는 결론 수준
@@ -1400,3 +1479,748 @@ packet의 descriptive-only 범위 검토 후 진행한다.
 새 연구 단계를 만들 때 먼저 해당 프로젝트의 순서표에 번호·상태·진입 기준을
 정의하고, 산출물은 기존 canonical 폴더에 배치한다. 정량 검증의 다음 과학적 단계는
 순서표의 06번 FM4 concept benchmark이며, descriptive-only 범위 승인이 필요하다.
+
+### 21.11 FM4 승인 범위 concept benchmark 완료 — 2026-08-14
+
+**수행·결과**
+
+- 연구책임자 Jin Hyun Kim이 evidence snapshot
+  `6616e0b18c44c8f4a34746b952e1ea36acd656b264dc6e82d4bc8e9aa3d91ca6`에 대해
+  `tumor_fraction × CONCH/Virchow × shared 394.24 µm`의 exploratory/descriptive
+  H1 범위를 승인·확정했다.
+- FM2/FM3의 1,218개 paired tile, 25 subjects, 다섯 개 subject-grouped fold와 두
+  embedding hash를 변경하지 않고 동일 ridge family와 inner tuning budget으로 분석했다.
+- 1차 subject-mean OOF Spearman은 CONCH 0.9491 (95% subject-bootstrap CI
+  0.8536–0.9777), Virchow 0.9460 (0.8289–0.9857)이었다. 두 값 모두 각 grouped-null
+  p95를 넘었고 2개 encoder family의 BH q는 각각 0.0004998이었다.
+- subject-mean Spearman의 paired Δ(CONCH−Virchow)는 0.0031 (95% CI
+  -0.0790–0.0753)이었다. 이는 기술적 paired contrast이며 encoder 우월성 검정으로
+  사용하지 않는다.
+- 보조 fixed rank-64 PCA sensitivity의 subject-mean Spearman은 CONCH 0.9429,
+  Virchow 0.9112로 양의 방향을 유지했다. 이 sensitivity는 1차 gate를 변경하지 않는다.
+- canonical 실행과 독립 임시 디렉터리 clean rerun에서 11개 결정적 산출물이 11/11
+  byte hash 일치했다.
+
+**배운 점과 제한**
+
+- 두 frozen representation 모두 이 내부 코호트에서 `tumor_fraction` 정보를 복원할
+  수 있지만, 이는 정보의 decodability에 대한 H1 근거일 뿐 질병예측에서의 기능적
+  사용을 뜻하지 않는다.
+- 독립 반복 측정·ICC가 없고 표본이 25 subjects뿐이므로 measurement-validity 또는
+  confirmatory target 주장은 불가능하다. 두 encoder의 1차 paired 차이 CI도 0을 포함한다.
+- 질병예측/H2, 임상·whole-slide PNI, scanner/stain robustness, 외부 transport 및
+  encoder 우월성은 계속 금지한다.
+
+**산출물**
+
+- `projects/quantitative_foundation_model_validation/milestones/fm4_concept_benchmark/run_fm4_benchmark.py`
+- `.../outputs/fm4-concept-benchmark-report.md`
+- `.../outputs/fm4_oof_predictions.csv`
+- `.../outputs/fm4_subject_predictions.csv`
+- `.../outputs/fm4_summary.csv`
+- `.../outputs/fm4_paired_deltas.csv`
+- `.../outputs/fm4_permutation_null.csv`
+- `.../outputs/fm4_bootstrap_replicates.csv`
+- `.../outputs/fm4_fold_diagnostics.csv`
+- `.../outputs/fm4_capacity_oof_predictions.csv`
+- `.../outputs/fm4_capacity_sensitivity.csv`
+- `.../outputs/fm4_claim_evidence.csv`
+- `.../outputs/fm4_clean_rerun_comparison.csv`
+- `.../outputs/benchmark_run_config.json`
+
+**다음 진입 조건**
+
+FM5는 P0-G7의 `Amber` 범위 안에서만 진입한다. paired representation similarity,
+prediction agreement와 discordance를 기술할 수 있으나, scanner/stain metadata가 없고
+단일 descriptive target뿐이므로 robustness 또는 encoder 우월성을 주장하지 않는다.
+FM5 분석 family와 paired uncertainty, source table 및 금지 해석을 결과 실행 전에
+고정한다. 추가 의료지표와 H2는 각각 반복성 있는 독립 truth와 독립 metric–endpoint,
+충분한 subjects/events 및 외부 검증이 확보될 때까지 잠근다.
+
+### 21.12 FM5 Amber 범위 entry packet 고정 — 2026-08-14
+
+**수행·결과**
+
+- FM4 승인 manifest, FM2/FM3 source hash, FM4 등록 output hash와 11/11 clean-rerun
+  일치를 다시 검증했다.
+- P0-G7 `Amber`, 연구책임자 P0-G8 `Conditional Go`, P0-G9 clean-rerun handoff와
+  FM4의 동일 model–target–FOV 승인을 대조했다. FM5의 추가 진입 조건은 paired premise와
+  결과 전 analysis family 고정이며 별도 재승인 문구는 없음을 확인했다.
+- 동일 1,218 paired tiles, 25 subjects, 다섯 subject-grouped folds와 shared
+  394.24 µm `tumor_fraction`만 대상으로 하는 FM5 entry packet을 고정했다.
+- primary descriptive family는 subject OOF prediction agreement, residual agreement,
+  paired absolute-error effect와 subject-mean linear CKA다. 2,000회 paired subject
+  bootstrap을 사용하고 undefined replicate를 보존한다.
+- multiplicity는 `descriptive_only_no_p_or_q_values`로 잠갔다. discordance는 각
+  encoder의 subject prediction median을 사용한 `concordant_high`, `concordant_low`,
+  `conch_only`, `virchow_only` 기술적 rank stratum으로 정의했다.
+- 분석 entry point가 기존 G8/G9와 FM4 승인 manifest, entry source/output hash를 모두
+  검증한 뒤에만 계산을 시작하도록 했다. 포털에는 이 기존 승인 근거와 FM5 결과 링크를
+  표시한다.
+
+**배운 점과 제한**
+
+- FM4에서 두 encoder가 H1 gate를 통과했다는 사실만으로 범위를 넓힐 수는 없지만,
+  기존 G8/G9와 FM4 승인은 entry packet에 고정된 동일 조합의 Amber descriptive FM5를
+  포함한다. 추가 승인 기록을 임의로 요구하거나 생성하지 않는다.
+- paired CI는 정밀도 기술이지 우월성 검정이 아니다. 단일 descriptive target의
+  discordance는 모델특이 생물학 또는 보편적 encoder 차이로 일반화할 수 없다.
+- scanner/stain metadata, 외부 cohort, 독립 metric–endpoint와 추가 반복측정 근거가
+  없으므로 robustness, external transport, H2/질병예측과 추가 의료지표는 잠금 상태다.
+
+**산출물**
+
+- `projects/quantitative_foundation_model_validation/milestones/fm5_cross_model_comparison/run_fm5_preparation.py`
+- `projects/quantitative_foundation_model_validation/milestones/fm5_cross_model_comparison/run_fm5_comparison.py`
+- `projects/quantitative_foundation_model_validation/milestones/fm5_cross_model_comparison/outputs/fm5-entry-packet.md`
+- `.../fm5_analysis_family.csv`
+- `.../fm5_source_manifest.csv`
+- `.../fm5_discordance_definition.csv`
+- `.../fm5_entry_checklist.csv`
+- `.../fm5_entry_run_config.json`
+
+**다음 진입 조건**
+
+기존 G8/G9·FM4 승인 manifest가 current source hash와 일치하고 FM5 entry packet의
+estimand, paired uncertainty, multiplicity, discordance와 중단 기준이 고정되면 실행한다.
+
+### 21.13 FM5 Amber 범위 cross-model comparison 완료 — 2026-08-14
+
+**수행·결과**
+
+- 동일 FM2/FM3의 1,218 paired tiles, 25 subjects, shared 394.24 µm FOV와 FM4 OOF
+  prediction만 사용했다.
+- subject-mean OOF prediction agreement Spearman은 0.9423 (95% paired
+  subject-bootstrap CI 0.8265–0.9798)이었다.
+- subject residual agreement Spearman은 0.5200 (0.1842–0.7453)이었다.
+- subject mean absolute-error paired delta(CONCH−Virchow)는 0.002257
+  (-0.010018–0.017356)로 CI가 0을 포함했다.
+- centered linear CKA는 subject mean 0.7647 (0.6861–0.9084), tile point estimate
+  0.5563이었다. P0-M7 source 값과 재계산 값의 절대차는 두 단위 모두
+  `2.22e-16`으로 사전 tolerance `1e-12` 안이었다.
+- 기술적 rank stratum은 concordant-high 12, concordant-low 11, CONCH-only 1,
+  Virchow-only 1 subject였다. 이는 모델특이 생물학 또는 correctness 분류가 아니다.
+- 모든 primary/secondary bootstrap은 2,000/2,000 valid, undefined 0이었다.
+- 첫 실행은 P0-M7 source table의 기존 열 이름을 잘못 참조해 결과 파일 쓰기 전에
+  중단됐다. 실제 schema로 audit lookup을 수정하고 entry code hash를 다시 고정한 뒤
+  처음부터 재실행했다.
+- canonical 실행과 별도 프로세스·임시 출력 디렉터리 clean rerun에서 결정적 산출물
+  9/9가 byte hash 일치했다.
+
+**배운 점과 제한**
+
+- 두 encoder의 subject-level tumor-fraction OOF prediction은 높은 순위 일치를 보였지만
+  residual agreement는 더 낮아 공통 신호와 모델별 오차 성분이 함께 존재한다.
+- paired absolute-error delta CI가 0을 포함하고 분석 자체가 descriptive-only이므로
+  encoder 우월성 근거가 아니다.
+- 단일 T2 descriptive target과 25 subjects만으로 일반적 모델특이 concept,
+  scanner/stain robustness, external transport 또는 질병예측/H2를 주장할 수 없다.
+
+**산출물**
+
+- `projects/quantitative_foundation_model_validation/milestones/fm5_cross_model_comparison/outputs/fm5-cross-model-comparison-report.md`
+- `.../fm5_subject_comparison.csv`
+- `.../fm5_tile_comparison.csv`
+- `.../fm5_agreement_summary.csv`
+- `.../fm5_representation_similarity.csv`
+- `.../fm5_bootstrap_replicates.csv`
+- `.../fm5_discordance_manifest.csv`
+- `.../fm5_reproducibility_audit.csv`
+- `.../fm5_claim_evidence.csv`
+- `.../fm5_clean_rerun_comparison.csv`
+- `.../fm5_run_config.json`
+
+**다음 진입 조건**
+
+FM6는 현재 실행 가능한 독립 metric–endpoint pair가 없으므로 잠금 상태다. 단일 다음
+작업은 우선 후보인 ISUP grade group–biochemical recurrence의 subject linkage, 사건 수,
+치료 공변량과 외부 recurrence cohort 가용성을 source manifest 수준에서 감사하는 것이다.
+
+### 21.14 핵심 목표와 하위 실행 문서 동기화 — 2026-08-14
+
+**수행·결과**
+
+- 상위 연구계획 버전 0.2의 최상위 질문을 본 마일스톤 버전 0.3과 하위 실행 추적표에
+  동기화했다.
+- 실행 증거 사슬을 `개별 복원성 → 조건부 고유정보·포함관계 → joint completeness →
+  기능적 활용 → 표현·판단 residual → 명시적 지표화 → 외부·생물학적 검증`으로 고정했다.
+- 판단 residual \(R^{score}\)과 표현 residual \(R^{repr}\)을 구분하고 FM6–FM9의 진입조건,
+  산출물과 완료기준에 각각 연결했다.
+
+**범위와 제한**
+
+- 이 개정은 연구 방향과 향후 gate를 명료화한 문서화 작업이다. 이미 완료된 FM4–FM5를
+  복수지표 완전성, H2 또는 residual marker discovery 완료로 소급 해석하지 않는다.
+- 현재 허용 범위는 25 subjects, 1,218 paired tiles, shared 394.24 µm
+  `tumor_fraction`의 내부 descriptive H1과 승인된 FM5 비교에 한정된다.
+- 추가 의료지표, 질병예측/H2, 외부 transport와 신규 마커 주장은 해당 단계의 독립성,
+  측정 반복성, 표본·사건 수, 외부 cohort 및 blinded/orthogonal validation gate 전까지
+  잠금 상태다.
+
+**다음 진입 조건**
+
+단일 다음 작업은 변경하지 않는다. ISUP grade group–biochemical recurrence 후보의
+subject linkage, 사건 수, endpoint 독립성, 치료 공변량과 외부 recurrence cohort를 source
+manifest 수준에서 감사한 뒤 FM6 protocol 진입 가능성을 판정한다.
+
+### 21.15 FM6 ISUP–BCR 진입 적격성 감사 완료 — 2026-08-14
+
+**수행·결과**
+
+- `QFMV-FM6-ENTRY-AUDIT-2026-08-14-001`로 FM1의 H2-001 후보인 ISUP grade
+  group–biochemical recurrence 조합을 감사했다. 이 조합의 정의상 독립성은
+  `independent/noncircular`로 유지했다.
+- LEOPARD 공식·로컬 training label은 508명/87 BCR events와 508 WSI를 제공하지만,
+  같은 환자의 ISUP/Gleason 및 치료 공변량이 없어 외부 semantic validation set으로는
+  불완전하다.
+- 현재 GDC clinical field를 다시 조회한 결과 TCGA-PRAD 500명 모두에서 보고 ISUP 또는
+  Gleason pattern/score 기반 고정식 ISUP 도출이 가능했다. 명시적 biochemical recurrence
+  status/time, WSI와 ISUP가 연결되는 감사용 개발 후보는 392명/80 events였고, 이 중
+  방사선·약물치료가 모두 documented인 부분집합은 308명/64 events였다.
+- 기존 로컬 TCGA `disease_response=WT-With Tumor` endpoint 493명/111 events와
+  `tumor-free → with-tumor` sensitivity endpoint 393명/11 events는 true BCR과 구분했다.
+  두 endpoint를 이번 FM6 BCR estimand에 사용하거나 섞지 않았다.
+- 다른 프로젝트의 생성 산출물은 입력으로 사용하지 않았다. QFM 소유 FM1 registry,
+  repository dataset manifest, 공유 원천자료와 이번 공식 GDC snapshot만 감사했으며 모든
+  source path·byte size·SHA-256을 저장했다.
+
+**판정과 제한**
+
+- 판정은 `BLOCKED_NO_COMPLETE_DEVELOPMENT_AND_EXTERNAL_PAIR`이다. TCGA-PRAD는
+  개발 후보가 되었지만 현재 dataset manifest는 QFM 사용을 허가하지 않으며, endpoint
+  inclusion/exclusion과 최소 사건 수·power 기준도 사전 고정되지 않았다.
+- 동일 ISUP/Gleason metric truth, PSA 기반 true-BCR status/time 및 치료 공변량을 함께
+  제공하는 독립 외부 cohort가 없다. LEOPARD는 true-BCR outcome 외부셋 후보일 뿐 현재
+  상태로는 metric의 semantic transport를 검증할 수 없다.
+- 이번 작업은 source-level eligibility audit이다. disease head 학습, targeted erasure,
+  기능적 활용(H2), 외부 transport 또는 신규 residual marker 분석을 수행하지 않았다.
+- claim ceiling은 shared 394.24 µm `tumor_fraction`의 내부 descriptive H1 및 승인된 FM5
+  비교로 유지한다. 감사 표본 수를 질병예측 성능이나 임상 타당성 근거로 해석하지 않는다.
+
+**산출물**
+
+- `projects/quantitative_foundation_model_validation/milestones/fm6_entry_audit/run_fm6_entry_audit.py`
+- `.../outputs/fm6-entry-audit-report.md`
+- `.../outputs/fm6_cohort_eligibility.csv`
+- `.../outputs/fm6_gdc_field_completeness.csv`
+- `.../outputs/fm6_source_manifest.csv`
+- `.../outputs/fm6_run_config.json`
+
+**다음 단일 작업**
+
+TCGA-PRAD current-GDC biochemical recurrence snapshot을 QFM용 hash-locked development
+source package로 고정하고, endpoint inclusion/exclusion 및 최소 사건/power 기준을 결과 확인
+전에 등록한다. 이 개발 subprotocol이 준비되더라도 강한 H2와 targeted erasure는 동일 metric
+truth·치료 공변량을 가진 독립 외부 cohort가 등록되기 전까지 잠근다. 복수지표 completeness
+축도 추가 독립 지표의 측정 반복성 gate 전까지 별도로 잠근다.
+
+### 21.16 CHIMERA Task 1 외부 source 확보·semantic QC 등록 — 2026-08-15
+
+**수행·결과**
+
+- CHIMERA Task 1 `v2/task1`에서 임상 JSON 95개, prostatectomy H&E WSI 190장과
+  foreground/background tissue mask 190장을 QFM local-data root에 확보했다. 영상·mask
+  payload는 404,568,807,346 bytes다.
+- 475개 source object, 총 404,568,845,344 bytes를 acquisition inventory의 SHA-256과
+  전수 재대조해 불일치 0건을 확인했다. WSI/mask 380개 TIFF header와 최하위 pyramid
+  decode도 전수 통과했고 빈 mask는 0개였다.
+- 임상–WSI subject set은 95/95로 동일하고 WSI–mask는 190/190 pair다. 환자당 WSI는
+  1–12장으로 가변적이므로 patient-level aggregation을 결과 전에 고정하도록 잠갔다.
+- 공식 BCR reference-standard 시간 단위가 months임을 확인해 잘못된 `_years` 열을
+  `_months`로 정정했다. 수술 후 PSA `>=0.1 ug/L` 정의를 명시적으로 등록했다.
+- reported ISUP와 primary/secondary Gleason 표준 Grade Group 매핑은 92/95 concordant,
+  3/95 source-discordant였다. 원본을 수정하지 않고 primary semantic universe 92명/27
+  events와 all-subject sensitivity를 사전 고정했다.
+- 연령, PSA, pT, margin, lymph-node, capsular, seminal-vesicle, lymphovascular와 earlier
+  therapy를 정규화표에 보존하고 `x`, `unknown`, `missing_key`, `blank`, `null`을 음성으로
+  바꾸지 않도록 수정했다.
+- 실제 WSI TIFF tag는 190장 모두 0.485069 micrometre/pixel이었다. 명목 0.5를
+  hard-code하지 않고 shared 394.24 micrometre FOV의 resampling/crop hash를 추출 전에
+  고정하도록 protocol에 기록했다.
+
+**판정과 제한**
+
+- 외부 cohort는 `independent_external_isup_bcr_candidate_qc_hold`로 등록했다. source가
+  확보됐다는 사실은 external transport, H2 또는 residual marker 분석을 해제하지 않는다.
+- CHIMERA mask는 tumor mask가 아니므로 독립 tumor-region 규칙 없이는 ISUP H1/H2를
+  실행하지 않는다. 수술 후 adjuvant/salvage 치료도 완전하지 않다.
+- CHIMERA 27 events는 현재 feasibility/exploratory 규모다. development-only effect와
+  censoring·matched-control 구조를 반영한 사전 simulation이 80% power gate를 통과하지
+  않으면 strong external H2를 금지한다.
+- 공식 publication embargo가 유지되므로 raw/patient-level 자료와 outcome-derived summary,
+  향후 모델 결과는 포털에서 `never_serve`다. acquisition 보고서만 `project_internal`로
+  분류한다. draft repository portal의 legacy allowlist에는 추가하지 않았다.
+- 이번 단계에서는 CONCH/Virchow embedding, disease head, targeted erasure, 외부 outcome
+  모델 또는 residual marker 분석을 수행하지 않았다. claim ceiling은 변하지 않는다.
+
+**산출물**
+
+- `resources/data/manifests/chimera_task1.yaml`
+- `projects/quantitative_foundation_model_validation/docs/protocols/fm6-isup-bcr-source-and-power-protocol-ko.md`
+- `projects/quantitative_foundation_model_validation/milestones/fm6_external_cohort_acquisition/run_fm6_external_cohort_acquisition.py`
+- `.../outputs/fm6-external-cohort-acquisition-report.md`
+- `.../outputs/fm6_external_cohort_eligibility.csv`
+- `.../outputs/fm6_chimera_clinical_qc_summary.csv`
+- `.../outputs/fm6_chimera_slide_count_summary.csv`
+- `.../outputs/fm6_external_source_manifest.csv`
+- `.../outputs/fm6_external_cohort_run_config.json`
+
+**다음 단일 작업**
+
+TCGA-PRAD current-GDC biochemical recurrence snapshot을 QFM 소유 hash-locked development
+source package로 고정하고, CHIMERA와의 endpoint harmonization, disease-head 최소 유효성과
+power simulation 입력을 확정한다. 이 작업이 끝나도 tumor-region·semantic·embargo와
+power gate가 남으면 H2 실행은 계속 잠근다.
+
+### 21.17 TCGA-PRAD current-GDC 개발 source package 고정 — 2026-08-15
+
+**수행·결과**
+
+- `QFMV-FM6-DEVELOPMENT-SOURCE-2026-08-15-001`로 current-GDC clinical snapshot,
+  diagnostic WSI file UUID/size manifest, endpoint normalizer와 QFM patient-level 정규화표를
+  하나의 source hash chain으로 고정했다.
+- WSI·ISUP·명시적 biochemical recurrence status/time을 연결한 개발 universe는
+  392명/80 events이며, 방사선·약물치료가 모두 documented인 부분집합은
+  308명/64 events다.
+- 이 universe의 remote-locked WSI는 437장, 환자당 1–9장이다. 현재 모든 해당 slide가
+  local인 환자는 268명/45 events이고, local slide는 294/437장이다. 남은 143장은
+  165,961,228,291 bytes다.
+- TCGA dataset manifest를 공유 immutable asset으로 명시해 QFM 사용 프로젝트를 등록했다.
+  환자별 임상·slide 표는 ignored QFM local-data에 두고 `never_serve`로 고정했다.
+- TCGA event는 GDC에 biochemical recurrence type과 recurrence day가 명시된 경우이고,
+  CHIMERA event는 수술 후 PSA `>=0.1 ug/L`다. days/months 단위 변환은 가능하지만 PSA
+  threshold와 censoring 관찰과정의 동등성은 입증되지 않아 patient-level pooling을 금지했다.
+- CHIMERA primary semantic universe 92명/27 events와 TCGA 392명/80 events를 power
+  simulation 입력표에 등록했지만, locked disease-head 최소 유효성과 `delta_use` effect
+  distribution이 없으므로 simulation은 `NOT_RUN_EFFECT_INPUT_UNAVAILABLE`로 보존했다.
+
+**판정과 제한**
+
+- 판정은 `DEVELOPMENT_SOURCE_HASH_LOCKED_ACQUISITION_AND_HARMONIZATION_HOLD_H2_LOCKED`다.
+  source package 고정은 완료됐지만 development analysis-ready 또는 H2 unlock은 아니다.
+- 미확보 WSI, tumor-region, patient aggregation, scanner/stain metadata와 TCGA–CHIMERA
+  endpoint equivalence가 남았다. 이를 무시하고 268명 local subset만 선택하면 기존
+  ERG-label 가용성에 따른 selection bias가 생길 수 있으므로 primary development cohort로
+  사용하지 않는다.
+- 이 단계에서는 embedding, probe, disease head, targeted erasure, outcome 성능 또는
+  residual marker 분석을 수행하지 않았고 claim ceiling은 변하지 않는다.
+
+**산출물**
+
+- `resources/data/manifests/tcga_prad.yaml`
+- `projects/quantitative_foundation_model_validation/milestones/fm6_development_source_package/run_fm6_development_source_package.py`
+- `.../outputs/fm6-development-source-package-report.md`
+- `.../outputs/fm6_tcga_development_eligibility.csv`
+- `.../outputs/fm6_tcga_development_source_manifest.csv`
+- `.../outputs/fm6_tcga_chimera_endpoint_harmonization.csv`
+- `.../outputs/fm6_power_simulation_input_status.csv`
+- `.../outputs/fm6_development_source_run_config.json`
+
+**다음 단일 작업**
+
+TCGA 개발 universe에 필요한 미확보 WSI 143장(165,961,228,291 bytes)을 file UUID·size와
+대조해 확보한다. 이어지는 embedding 전 gate에서 outcome을 보지 않고 tumor-region,
+환자당 가변 slide aggregation, 물리 FOV와 scanner/stain missingness 규칙을 고정한다.
+그 전에는 현재 local 268명 subset으로 disease head를 학습하지 않는다.
+
+### 21.18 TCGA-PRAD WSI acquisition·기술 QC·환자 집계 gate 완료 — 2026-08-15
+
+**수행·결과**
+
+- 개발 universe에 누락됐던 143장/165,961,228,291 bytes를 GDC file UUID로 재개 가능한
+  방식으로 확보했다. 최종 437장/422,597,608,423 bytes의 local size가 remote lock과
+  일치하며, GDC MD5를 두 번의 독립 실행에서 437/437 PASS로 확인했다.
+- `QFMV-FM6-TCGA-WSI-QC-2026-08-15-001`로 outcome을 읽지 않고 TIFF/SVS header,
+  lowest-pyramid thumbnail과 MPP를 검사했다. 세 항목 모두 437/437 PASS이고 AppMag는
+  437장 모두 40이다. 12개 실측 MPP 값, 3개 압축 형식, 3/4 pyramid level과 scanner-ID
+  missing 23장을 기술적 교란층으로 보존했다.
+- `QFMV-FM6-TCGA-FOLDS-2026-08-15-001`로 같은 환자의 모든 slide를 한 fold에 둔 5-fold
+  manifest를 고정했다. fold 크기는 79/79/78/78/78명, event는 각 16건, 치료 documented
+  수는 62/62/62/61/61명이며 exact ISUP 분포의 fold 간 최대 차이는 2명이다.
+- 394.24 micrometre source FOV를 slide별 MPP로 변환하고, outcome-blind tissue 후보에서
+  slide 내 tile equal mean → 환자 내 slide equal mean → 환자 한 행의 primary 집계를
+  사전 고정했다. 가변 slide 수가 환자 가중치가 되지 않도록 환자 총 가중치를 1로 둔다.
+- TCGA에는 독립 tumor mask가 없고 CHIMERA mask도 tissue mask이므로, weak-attention 또는
+  ISUP/BCR로 선택한 tile을 독립 tumor truth로 재사용하지 않는 경계를 유지했다.
+
+**판정과 제한**
+
+- 판정은 `DEVELOPMENT_SOURCE_PAYLOAD_VERIFIED_PREPROCESSING_GATE_H2_LOCKED`다. WSI
+  acquisition, file integrity, 기술 QC, 환자 split, 물리 FOV와 primary aggregation gate는
+  닫혔지만 development analysis-ready 또는 H2 unlock은 아니다.
+- TCGA–CHIMERA BCR threshold/censoring equivalence, 독립 tumor-region 처리의 검증,
+  locked disease-head 최소 유효성, development-only effect 기반 power와 CHIMERA embargo
+  gate가 남는다. 따라서 disease head, targeted erasure, external outcome, residual marker
+  탐색은 계속 잠근다.
+- 이 단계는 본 프로젝트 목적에 직접 부합한다. 두 encoder에 동일 환자·동일 물리 FOV와
+  동일 집계를 강제해 사람이 사용하는 ISUP와 모델 판단의 관계를 공정하게 시험할 기반을
+  만들되, 아직 모델이 ISUP를 기능적으로 사용한다고 주장하지 않는다.
+
+**산출물**
+
+- `projects/quantitative_foundation_model_validation/docs/protocols/fm6-tcga-wsi-preprocessing-and-aggregation-protocol-ko.md`
+- `projects/quantitative_foundation_model_validation/milestones/fm6_development_source_package/audit_fm6_tcga_wsi_headers.py`
+- `.../prepare_fm6_tcga_subject_folds.py`
+- `.../outputs/fm6-tcga-wsi-qc-report.md`
+- `.../outputs/fm6_tcga_wsi_header_qc_summary.csv`
+- `.../outputs/fm6_tcga_wsi_technical_distribution.csv`
+- `.../outputs/fm6_tcga_outer_fold_balance.csv`
+- `.../outputs/fm6_tcga_wsi_qc_run_config.json`
+- `.../outputs/fm6_tcga_outer_fold_run_config.json`
+
+**다음 단일 작업**
+
+독립 tumor-region 처리 후보를 source label과 결과변수 없이 사전 지정하고, annotation 또는
+검증된 고정 detector에서 sensitivity/specificity·실패율·scanner별 성능을 감사한다. 동시에
+whole-tissue BCR disease-head를 최소 유효성·power 효과량 산출용으로 허용할지 별도 protocol과
+승인 snapshot으로 판정한다. 이 gate 전에는 ISUP H1/subspace/targeted erasure를 실행하지 않는다.
+
+### 21.19 Evidence-qualified alignment 원고 1차 전면 재편집 — 2026-08-15
+
+**수행·결과**
+
+- 연구책임자가 `임상 지표의 복원 정확성·외부 재현성을 통한 사람–AI 공통
+  해석 좌표의 가능성과 한계` 규명을 원고 핵심 기조로 승인했다.
+- PBV가 소유한 claim, endpoint, numeric QA, morphology·molecular·outcome·stability source
+  15개를 path·bytes·SHA-256로 고정했다. patient-level 자료, embedding, 기존 PDF·PNG·TeX
+  table은 복사하지 않았다.
+- Main을 `recoverability/functional-use 분리 → morphology transport → molecular conditionality
+  → endpoint-conditioned outcome → representation sensitivity → 최종 alignment map`으로 재작성했다.
+- Supplementary를 cohort/unit, encoder/fold, estimand/null, primary estimate, external transport,
+  conditional/site, full grid, endpoint, multiplicity, claim/numeric lineage, reproducibility의 12개 블록으로
+  재작성했다.
+- 신규 builder가 source hash 15/15, headline numeric mapping 20/20을 검증하고 main figure 4개,
+  Supplementary full-grid figure 1개, main table 1개와 Supplementary table 6개를 새로 생성한다.
+
+**판정과 제한**
+
+- 현재 원고가 직접 보여 주는 것은 임상적으로 해석 가능한 target이 frozen
+  representation에서 복원·재현되는지이다. disease-prediction head가 해당 target을
+  기능적으로 사용하는지는 실험하지 않았다.
+- grade/phenotype은 가장 넓은 transport 근거, PTEN/AR은 조건부 근거, SPOP은 frozen
+  primary design에서 부적합, recurrence는 endpoint·reference·representation 조건부로 배치했다.
+- 이 editorial workstream은 FM6 진입 gate나 현재 `internal descriptive recoverability` claim
+  ceiling을 높이지 않는다.
+
+**산출물**
+
+- `projects/quantitative_foundation_model_validation/paper/evidence-qualified-alignment-prostate-cancer/main.tex`
+- `.../supplement.tex`
+- `.../provenance/source_evidence_manifest.csv`
+- `.../provenance/alignment_target_registry.csv`
+- `.../provenance/claim_evidence_matrix.csv`
+- `.../provenance/endpoint_hierarchy.csv`
+- `.../provenance/numeric_qa_mapping.csv`
+- `.../build_alignment_manuscript.py`
+
+**다음 원고 작업**
+
+전 페이지 시각 QA, repository/PBV/QFM 통합 검증과 저자·funding·ethics·journal metadata
+확인 후 submission-ready 상태를 판정한다. 기능적 사용 검증은 원고 문장 수정이 아니라
+FM6 이후 locked-head/targeted-erasure 실험으로만 진행한다.
+
+### 21.20 FM6 TCGA whole-tissue 내부 개발 pilot 완료 — 2026-08-16
+
+**수행·기술 감사**
+
+- 연구책임자의 실행 승인에 따라 별도
+  `fm6-tcga-whole-tissue-internal-development-pilot-protocol-ko.md`를 고정하고,
+  독립 tumor-region truth가 없는 상태의 증거 상한을 `internal whole-tissue development`
+  로 제한했다.
+- TCGA-PRAD 392명/80 BCR events, WSI 437장의 outcome-blind thumbnail tissue 후보에서
+  slide당 64개, 총 27,968개의 394.24 µm boundary를 고정했다. ISUP/BCR/치료값은 좌표
+  생성에 사용하지 않았다.
+- 각 boundary를 448×448 canonical RGB cache로 한 번만 만들고 두 encoder가 공유했다.
+  공식 CONCH/Virchow transform과 vectorized transform은 실제 crop에서 bitwise 동일했고,
+  64-tile GPU 반복도 bitwise 동일했다.
+- 최종 embedding은 CONCH 27,968×512, Virchow 27,968×2,560 float32다. 두 encoder 모두
+  nonfinite와 zero-norm 행은 0이고, level-0 crop-hash array SHA-256은 동일하다.
+- 분석단위는 환자이며 tile mean → slide equal mean → patient equal mean을 적용했다.
+  모든 preprocessing, ridge/PCA-Cox, outer 5-fold, bootstrap과 control 규칙은 결과 전에
+  고정했다.
+
+**복원성·질병 head·기능 민감도 결과**
+
+- Whole-tissue ISUP OOF recoverability는 CONCH rho 0.615, MAE 0.876, QWK 0.519;
+  Virchow rho 0.658, MAE 0.813, QWK 0.561이었다. Fold-preserving 200 permutation의
+  one-sided p는 두 모델 모두 0.005였다.
+- Locked-rule 내부 BCR head OOF C-index는 CONCH 0.627 (patient bootstrap 95% CI
+  0.553–0.694), Virchow 0.632 (0.564–0.691)로 사전 최소 유효성 하한 0.50을 통과했다.
+- Training-fold SVD 고유축 혼합으로 rank 1과 제거분산을 정확히 맞춘 100개 random
+  control을 구성했다. 제거분산 비율은 모든 fold/control에서 1.0이고 concept cosine
+  중앙값/최대값은 CONCH 0.069/0.307, Virchow 0.044/0.190이었다.
+- ISUP-correlated fixed-head C-index 감소는 CONCH 0.041 (paired bootstrap 95% CI
+  0.011–0.073), Virchow 0.023 (0.007–0.040)이었다. matched-random p95는 0.009/0.003,
+  one-sided p는 두 모델 모두 0.0099였다.
+- Refit-after-erasure 감소는 0.014 (CI -0.006–0.035)와 0.010 (-0.003–0.022)로 CI가
+  0을 포함했다. 즉 original head가 ISUP-correlated 방향에 민감하지만 제거 후 다른
+  표현 정보가 상당 부분 대체 가능하다는 해석이 적절하다.
+
+**다중지표·상보성·교란 감사**
+
+- ISUP 단독 BCR C-index는 0.696이었다. ISUP+AI의 paired 증분은 CONCH -0.000
+  (CI -0.039–0.039), Virchow -0.032 (-0.088–0.025)로 0을 포함했다. 따라서 이번
+  pilot은 AI의 ISUP 기능 민감도를 지지하지만 이 제한된 비교에서 임상적 증분가치를
+  확립하지 못했다. 이는 임상 증분 부재를 충분히 검증한 결과가 아니다.
+- 보조 human-understood covariate로 hash-lock된 AGE와 pathologic T stage만 사용했다.
+  OOF rho는 age 0.138/0.084, path-T 0.397/0.409였다. ISUP만으로 AI risk OOF R²의
+  0.205/0.163을 설명했고 AGE+path-T를 더하면 0.218/0.167로 0.014/0.005만 증가했다.
+  이 세 축은 세 개의 독립 병리 metric family가 아니라 탐색적 임상 패널이다.
+- 두 encoder의 full risk rho는 0.750, ISUP probe prediction rho는 0.843, erasure
+  score-change rho는 0.820이었다. 이는 내부 paired 공통성을 보이지만 external T가 아니다.
+- AI risk와 thumbnail tissue fraction의 rho는 0.324/0.341이었다. MPP rho는
+  -0.104/-0.119, slide 수 rho는 -0.038/0.050이다. 특히 tissue composition 상관은
+  독립 tumor-region 감사 전 residual 신규성 주장을 금지하는 근거다.
+
+**Power·재현성·판정**
+
+- TCGA delta와 bootstrap SD를 27 external events로 event-scale한 계획 근사 power는
+  CONCH 0.887, Virchow 0.924로 80%를 넘었다. 이는 CHIMERA model/outcome을 읽지 않은
+  planning input이며 endpoint equivalence·embargo를 해제하지 않는다.
+- 분석 CSV와 scope-capped report는 clean rerun에서 모두 SHA-256가 일치했다. PDF의
+  CreationDate metadata를 제거한 뒤 3개 figure family의 PNG/PDF와 figure manifest도
+  clean rerun hash가 모두 일치했다.
+- R=`PASS_WHOLE_TISSUE_DEVELOPMENT`, A=`PASS_INTERNAL`,
+  U=`PASS_EXPLORATORY_WHOLE_TISSUE`, T=`NOT_TESTED_LOCKED`로 두 encoder를 판정한다.
+  독립 tumor-region truth와 external T가 없으므로 strong H2는 `PROHIBITED`다.
+
+**산출물**
+
+- `projects/quantitative_foundation_model_validation/docs/protocols/fm6-tcga-whole-tissue-internal-development-pilot-protocol-ko.md`
+- `projects/quantitative_foundation_model_validation/milestones/fm6_internal_development_pilot/run_fm6_tcga_internal_pilot.py`
+- `.../analyze_fm6_tcga_internal_pilot.py`
+- `.../render_fm6_internal_pilot_figures.py`
+- `.../outputs/fm6-tcga-internal-development-pilot-report.md`
+- `.../outputs/fm6_tcga_internal_pilot_summary.csv`
+- `.../outputs/fm6_tcga_within_encoder_contrasts.csv`
+- `.../outputs/fm6_tcga_internal_evidence_chain.csv`
+- `.../outputs/fm6_tcga_patient_oof_predictions.csv`
+- `.../outputs/fm6_tcga_outer_fold_model_settings.csv`
+- `.../outputs/fm6_external_power_planning_approximation.csv`
+- `.../outputs/figures/`
+
+**다음 단일 작업**
+
+Outcome·ISUP와 독립인 tumor-region annotation 또는 고정 detector를 선정하고,
+sensitivity/specificity·실패율·scanner별 성능을 감사한다. 그 gate를 통과한 뒤에만 같은
+27,968 boundary universe와 locked folds/head/control 규칙으로 tumor-restricted R/A/U를
+재평가한다. CHIMERA T는 endpoint equivalence, 정식 power, 치료 결손 해석과 publication
+embargo가 모두 해제되기 전까지 실행하지 않는다.
+
+### 21.21 FM6 독립 tumor-region detector gate 실행 — 2026-08-16
+
+**선고정 설계와 자료**
+
+- TCGA outcome·ISUP와 CONCH/Virchow 표현을 전혀 사용하지 않는 ImageNet ResNet18
+  detector를 선택하고, 결과 확인 전에 SICAPv2 test AUROC 0.90, sensitivity 0.85,
+  specificity 0.80, failure 1% 이하를 내부 gate로 고정했다.
+- SICAPv2 18,783 image–pixel-mask 쌍을 감사했다. 공식 train 9,959 tiles/124 slides와
+  test 2,122/31 사이 slide ID 중복은 0이었다. 394.24 µm 중앙 crop의 tumor fraction
+  0.10 이상을 binary target으로, 연속 tumor fraction을 보조 target으로 학습했다.
+- 공식 train 안에서만 slide-group development/validation을 나누고 8 epoch 중 validation
+  AUROC가 가장 높은 epoch 3과 threshold 0.344998을 고정했다.
+
+**독립 시험 결과와 판정**
+
+- SICAPv2 공식 test에서 AUROC 0.920 (slide bootstrap 95% CI 0.870–0.951), AUPRC 0.898,
+  sensitivity 0.928 (0.895–0.957), specificity 0.751 (0.614–0.842), balanced accuracy
+  0.840이었다. Fraction Spearman은 0.819, MAE는 0.119, 실패율은 0이었다.
+- AUROC와 sensitivity는 통과했으나 specificity가 선고정 0.80에 미달해
+  `FAIL_INTERNAL`로 판정했다. Test를 본 뒤 threshold를 바꾸지 않았다.
+- PANDA의 provider × benign/cancer 각 10 slides, 총 40 slides에서 394.24 µm patch를
+  고정 추출했다. Karolinska는 n=637, AUROC 0.831, sensitivity 0.756, specificity
+  0.765로 scanner-proxy gate를 통과했다. Radboud는 n=640, AUROC 0.798,
+  sensitivity 0.299, specificity 0.984로 실패했다.
+- 결합 판정은 `NARROW_OR_FAIL`이다. Protocol의 중단 규칙에 따라 TCGA tile scoring,
+  tumor-restricted 재집계와 H2 분석은 실행하지 않았다. Whole-tissue pilot의 내부 결과는
+  유지되지만 tumor-specific claim으로 승격되지 않는다.
+
+**산출물과 다음 진입 조건**
+
+- `docs/protocols/fm6-independent-tumor-region-detector-audit-protocol-ko.md`
+- `milestones/fm6_tumor_region_detector_audit/run_fm6_tumor_region_detector_audit.py`
+- `milestones/fm6_tumor_region_detector_audit/outputs/fm6-tumor-region-detector-audit-report.md`
+- `.../fm6_sicap_detector_test_summary.csv`
+- `.../fm6_sicap_detector_test_intervals.csv`
+- `.../fm6_panda_detector_scanner_proxy_summary.csv`
+- `.../fm6_tumor_region_detector_evidence_gate.csv`
+
+다음 단일 작업은 이번 test에 맞춘 threshold 조정이 아니라, train-only multi-domain
+stain/scale augmentation 또는 pixel segmentation detector를 새로 선고정하고 이미 열어 본
+SICAP/PANDA와 구별되는 독립 holdout을 확보하는 것이다. 새 detector가 내부와 두
+acquisition domain gate를 모두 통과하기 전 TCGA filtering은 계속 잠근다.
+
+### 21.22 FM6 detector train-only 재튜닝과 새 holdout — 2026-08-16
+
+**과적합 방지와 후보 선택**
+
+- 1차 SICAP test와 PANDA 40 slides는 opened development evidence로 격하하고 후보·threshold
+  선택에서 제외했다. 기존 40 slides와 겹치지 않는 PANDA provider × benign/cancer 각
+  25 slides, 총 100 slides를 pixel/score 열람 전에 잠갔다.
+- SICAP 공식 train 9,959 tiles/124 slides의 동일 3-fold StratifiedGroupKFold에서만
+  baseline, strong RGB color, HED color, HED+scale 네 후보를 비교했다.
+- HED+scale 후보가 pooled OOF AUROC 0.949, sensitivity 0.887, specificity 0.887로 선택됐다.
+  OOF threshold 0.417947을 잠근 뒤 전체 SICAP train에서 5 epoch 학습했고 holdout을 보기
+  전 checkpoint hash를 저장했다.
+
+**재평가와 독립 holdout 결과**
+
+- 이미 열었던 SICAP test의 비선택적 참고 재평가에서는 AUROC 0.919, sensitivity 0.875,
+  specificity 0.810, balanced accuracy 0.842였다. 따라서 사용자가 지적한 specificity는
+  0.751에서 0.810으로 개선됐지만 이는 새 독립 test가 아니므로 확증 근거로 승격하지 않는다.
+- 새 PANDA holdout은 Karolinska n=1,584에서 AUROC 0.825, sensitivity 0.563,
+  specificity 0.943이었다. Radboud n=1,600에서는 AUROC 0.888, sensitivity 0.679,
+  specificity 0.913이었다.
+- Radboud의 discrimination은 1차 표본보다 좋아졌으나 새 표본이므로 paired 개선으로
+  해석하지 않는다. 두 provider 모두 sensitivity 0.75 gate에 미달해
+  `FAIL_REMEDIATION_EXTERNAL_HOLDOUT`이다.
+- Holdout을 본 뒤 threshold를 낮추지 않았다. TCGA scoring·filtering·tumor-restricted
+  R/A/U는 계속 `NOT_RUN`, strong H2는 `PROHIBITED`다.
+
+**산출물과 다음 조건**
+
+- `docs/protocols/fm6-tumor-region-detector-remediation-protocol-ko.md`
+- `milestones/fm6_tumor_region_detector_audit/tune_fm6_tumor_region_detector.py`
+- `.../outputs/fm6_detector_remediation_cv_summary.csv`
+- `.../outputs/fm6_sicap_remediation_opened_test_summary.csv`
+- `.../outputs/fm6_panda_remediation_holdout_summary.csv`
+- `.../outputs/fm6-tumor-region-detector-remediation-report.md`
+
+다음 진입에는 SICAP-only 학습을 반복하는 대신 최소 두 acquisition domain의 label을
+train/calibration에 포함하거나 pixel segmentation·stain normalization을 선고정하고,
+PANDA-PLUS/TMAZ 같은 아직 열지 않은 제3 독립 pixel-annotation 자료가 필요하다.
+
+### 21.23 Alignment 원고 FM6 근거 승계·scope lock — 2026-08-16
+
+**연구책임자 결정**
+
+- Remediated detector의 opened SICAP secondary specificity 0.810은 내부 기술 근거로
+  수용한다. 다만 새 PANDA holdout의 Karolinska/Radboud sensitivity 0.563/0.679 실패는
+  해결되지 않은 independent-domain sensitivity로 main과 Supplement에 명시한다.
+- 현재 논문은 known clinical/pathology target의 recoverability·transport·qualification과,
+  ISUP에 대한 두 internal BCR head의 scoped functional sensitivity까지만 담는다.
+- ISUP-correlated fixed-head erasure effect가 CONCH와 Virchow에서 matched-random control을
+  넘은 결과는 `internal exploratory functional sensitivity`로 허용한다. Refit 후 CI가
+  zero를 포함하므로 indispensable use, human-equivalent mechanism, tumor-specific 또는
+  external functional transport로 승격하지 않는다.
+- ISUP+AI 대 ISUP-only 비교는 이 제한된 내부 분석에서 increment를 확립하지 못했을 뿐,
+  임상 증분이 없음을 충분히 평가한 연구가 아니다. 원고는 `clinical increment absent`
+  대신 `not established in this scoped comparison; comprehensive evaluation not performed`
+  로 고정한다.
+- Known target 제거 뒤 남는 residual/unknown AI feature의 신규 정량 marker화는 잠재적으로
+  중요한 별도 발견이므로 현재 원고에서 제외하고 후속 논문으로 분리한다.
+
+**현재 논문의 최종 claim ceiling**
+
+1. 알려진 임상·병리 축 중 grade/phenotype은 가장 넓은 transport 근거를 제공한다.
+2. PTEN·AR·SPOP·recurrence는 target별 conditional/unsupported boundary를 갖는다.
+3. ISUP는 두 frozen representation의 internal BCR head에서 반복되는 functional
+   sensitivity를 보였으나, 필수적·외부적·종양특이적·임상증분적 사용은 확립되지 않았다.
+4. 이 결과는 사람과 AI가 공유하는 정량 좌표가 AI 판단을 감사하는 공통 설명 언어가 될
+   가능성을 지지하지만, AI 판단 전체를 설명하거나 clinician outcome을 개선함을 뜻하지 않는다.
+
+**다음 단일 작업**
+
+FM6 네 개 source table을 hash-locked provenance에 승계하고 main·Supplementary·Figure 1,
+claim matrix와 numeric QA를 함께 재빌드한다. 이어 수치·의미·시각·governance 회귀검사를
+통과시킨 뒤 author-controlled metadata 확인 단계로 넘긴다. Multi-domain detector 개발과
+residual marker discovery는 현재 원고를 지연시키지 않는 후속 workstream이다.
+
+### 21.24 FM6 alignment 원고 종결용 locked clean rerun — 2026-08-17
+
+**목적과 범위**
+
+- FM6 whole-tissue ISUP functional-sensitivity 결과가 원고 종결 시점에도 고정 protocol과
+  저장된 입력에서 동일하게 재생성되는지 확인한다.
+- 이는 새로운 가설·cohort·endpoint·hyperparameter·threshold를 추가하는 실험이 아니다.
+  기존 392명/80 BCR events, 437 WSI, 27,968 shared boundaries, 고정 5-fold, 저장된 CONCH와
+  Virchow embeddings, 2,000 patient bootstraps, 100 matched-random controls와 20
+  label-permuted controls를 그대로 사용한다.
+- 영상 재선정이나 encoder 재학습 없이 고정 embedding에서 분석·그림·원고 provenance를
+  clean rerun한다. 결과를 보고 설정을 변경하지 않는다.
+
+**태스크와 통과 기준**
+
+- [x] 실행 전 analysis run-config의 nonvolatile output hash 집합을 기준선으로 고정한다.
+- [x] `analyze_fm6_tcga_internal_pilot.py`를 고정 환경에서 재실행한다.
+- [x] `render_fm6_internal_pilot_figures.py`와 alignment manuscript builder를 재실행한다.
+- [x] ISUP recoverability, BCR-head C-index, fixed-head erasure, matched-random 비교,
+  refit-after-erasure와 제한적 ISUP-only increment의 수치·방향·interval을 대조한다.
+- [x] 두 encoder의 R/A/U/T 판정과 strong-H2 금지 상태가 동일한지 확인한다.
+- [x] nonvolatile output hash, source provenance 19개와 manuscript numeric mapping 33개를
+  재검증한다.
+- [x] QFM tests, PDF reference/overflow, file governance와 project boundary를 감사한다.
+
+**실패·중단 규칙**
+
+- nonvolatile hash 또는 핵심 수치가 불일치하면 원고 handoff를 중단하고 원인을 조사한다.
+- 불일치를 해소하기 위해 사후 tuning, endpoint 교체, 환자 제외 또는 claim ceiling 확대를
+  허용하지 않는다.
+- 통과하더라도 판정 상한은 `internal whole-tissue R/A/U exploratory; T not tested`이며
+  tumor-specific·external·indispensable·clinically incremental functional use를 주장하지 않는다.
+
+**다음 상태 전환 조건**
+
+모든 재현성 gate가 통과하면 원고를 연구책임자의 author·affiliation·funding·ethics·journal
+format·release metadata 확인 단계로 넘긴다. Multi-domain detector와 residual marker 발견은
+별도 후속 workstream으로 유지한다.
+
+**실행 결과**
+
+- FM6 analysis의 기존 20개 nonvolatile output hash와 clean-rerun hash는 20/20 일치했다.
+- ISUP OOF Spearman은 CONCH 0.615, Virchow 0.658이고 BCR-head C-index는 0.627과
+  0.632로 재현됐다.
+- Fixed-head C-index 감소는 0.041과 0.023, matched-random one-sided p는 두 모델 모두
+  0.0099로 재현됐다. Refit-after-erasure 감소는 0.014와 0.010이며 기존 interval 해석을
+  변경하지 않는다.
+- 두 encoder 모두 R=`PASS_WHOLE_TISSUE_DEVELOPMENT`, A=`PASS_INTERNAL`,
+  U=`PASS_EXPLORATORY_WHOLE_TISSUE`, T=`NOT_TESTED_LOCKED`, strong H2=`PROHIBITED`로
+  동일했다.
+- Manuscript build는 source 19/19와 numeric mapping 33/33을 통과했고 Main 22쪽,
+  Supplementary 13쪽을 생성했다. QFM tests는 91/91 통과했다.
+- PBV 원본 회귀검사는 322/323이 통과했다. 유일한 실패는 현재 NRF/GNU Funding 선언문과
+  과거 ICT funding 문구를 요구하는 기존 test의 불일치로, FM6 분석·QFM 원고 변경과
+  무관하며 PBV 선언문이나 test를 소급 수정하지 않았다.
+- 결론은 기존과 동일하다. ISUP-correlated direction에 대한 내부 기능 민감도는
+  재현됐지만 indispensable, tumor-specific, external 또는 clinically incremental use는
+  확립되지 않았다.
+
+### 21.25 FM6 clean-rerun 원고 편입·six-axis evidence-state 종결 — 2026-08-17
+
+**목적과 범위**
+
+- Task 21.24에서 재현된 FM6 결과와 계산 재현성 기록을 Main Methods·Results와
+  Supplementary에 정식 편입한다.
+- 새로운 cohort, endpoint, hyperparameter 또는 GPU 실험을 추가하지 않고, grade/phenotype,
+  PTEN/AR, SPOP, recurrence의 기존 근거를 Table 1과 Figure 2--6에서 명시적으로 대비한다.
+- `not evaluated/blocked`와 `available reference로 평가했지만 unsupported`를 분리하고,
+  internal clean rerun을 external replication으로 오해하지 못하게 한다.
+
+**태스크와 통과 기준**
+
+- [x] FM6 표본·probe·head·targeted erasure·matched control·refit·clean-rerun 방법을 Methods에
+  재현 가능하게 기술한다.
+- [x] 392명/80 events와 두 encoder의 recoverability, BCR C-index, fixed/refit erasure,
+  matched-random p 및 20/20 hash를 Results와 Supplementary에 일치시킨다.
+- [x] R/A/U는 내부 exploratory 통과, T는 미실행, strong H2는 금지임을 명시한다.
+- [x] phenotype 외부 reference가 grade-derived tumor/benign status임을 Figure 2·Table 1·본문에
+  명시하고 exact tumor-content transport 주장을 금지한다.
+- [x] PTEN/AR의 조건부 근거와 functional-use 미실행, SPOP available-label unsupported,
+  recurrence endpoint sensitivity를 Figure 3--6과 본문에서 구분한다.
+- [x] Abstract, Table 1, Results, Discussion, Conclusion, Supplementary의 evidence state를
+  회귀검사로 고정한다.
+- [x] source 19/19, numeric mapping 33/33, QFM tests 92/92, Main 23쪽·Supplementary 13쪽,
+  unresolved reference/citation·overfull 0건과 핵심 페이지 시각 점검을 통과한다.
+
+**완료 해석과 다음 상태**
+
+- Grade/phenotype은 평가 축 중 가장 강하고 넓은 representation evidence를 보이지만,
+  phenotype transport는 정확한 외부 tumor fraction 재현이 아니다.
+- PTEN 관련 신호와 AR pooled alignment는 관찰됐으나 grade 독립성·site 안정성·외부
+  transport는 확립되지 않았고 BCR-head functional use는 미실행이다.
+- SPOP은 label 부재가 아니라 available genomic reference에서 frozen design이 지지되지
+  않은 결과이며, 생물학적 중요성의 부재를 뜻하지 않는다.
+- Recurrence는 endpoint와 clinical comparator에 민감한 exploratory risk association이며
+  robust prognostic utility 또는 외부 임상 유효성으로 승격하지 않는다.
+- FM6 20/20 hash 일치는 내부 계산 재현성이고, 외부 cohort functional replication이 아니다.
+  과학 분석은 종결하며 다음 작업은 연구책임자 metadata·release·submission 확정이다.

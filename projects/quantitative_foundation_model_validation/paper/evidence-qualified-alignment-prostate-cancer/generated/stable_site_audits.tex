@@ -1,0 +1,25 @@
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Complete AR and SPOP site audits. AR effects are slide-level with patient-cluster intervals; SPOP uses patient AUROC. The CH SPOP row is undefined because no positive event was present. Bootstrap accounting reports undefined draws out of 2,000 where applicable.}
+\label{tab:supp-site-audits}
+\begin{tabular}{@{}p{0.055\textwidth}p{0.06\textwidth}p{0.11\textwidth}p{0.065\textwidth}p{0.065\textwidth}p{0.08\textwidth}p{0.16\textwidth}p{0.16\textwidth}@{}}
+\toprule
+Target & Site & Metric & Patients & Events & Estimate & Interval & Accounting \\
+\midrule
+AR & CH & Spearman rho & 23 & not applicable & -0.128 & -0.561 to 0.350 & Event count not applicable \\
+AR & EJ & Spearman rho & 59 & not applicable & 0.127 & -0.121 to 0.363 & Event count not applicable \\
+AR & G9 & Spearman rho & 27 & not applicable & 0.195 & -0.258 to 0.598 & Event count not applicable \\
+AR & HC & Spearman rho & 47 & not applicable & 0.217 & -0.072 to 0.471 & Event count not applicable \\
+AR & KK & Spearman rho & 31 & not applicable & 0.265 & -0.087 to 0.558 & Event count not applicable \\
+AR & YL & Spearman rho & 22 & not applicable & 0.227 & -0.135 to 0.540 & Event count not applicable \\
+AR & Pooled & Spearman rho & 273 & not applicable & 0.195 & 0.074 to 0.310 & Event count not applicable \\
+SPOP & CH & AUROC & 23 & 0 & undefined & unavailable & Undefined: single class \\
+SPOP & EJ & AUROC & 59 & 7 & 0.613 & 0.418 to 0.798 & 0/2,000 \\
+SPOP & G9 & AUROC & 27 & 2 & 0.700 & 0.423 to 0.923 & 234/2,000 \\
+SPOP & HC & AUROC & 47 & 3 & 0.758 & 0.500 to 0.939 & 92/2,000 \\
+SPOP & KK & AUROC & 31 & 6 & 0.573 & 0.273 to 0.840 & 2/2,000 \\
+SPOP & YL & AUROC & 22 & 4 & 0.625 & 0.282 to 1.000 & 31/2,000 \\
+\bottomrule
+\end{tabular}
+\end{table}

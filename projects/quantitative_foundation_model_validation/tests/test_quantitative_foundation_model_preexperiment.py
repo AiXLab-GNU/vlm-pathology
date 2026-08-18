@@ -65,7 +65,7 @@ class QuantitativeFoundationModelPreexperimentTests(unittest.TestCase):
         self.assertEqual(len(eligibility), len(provenance))
 
     def test_immutable_clinician_source_hash(self) -> None:
-        source = p0.ROOT / "resources/data/shared/opendataset/PRECISE/precise_pni_review (1).csv"
+        source = p0.ROOT / "resources/data/precise_pni_candidate_triage/pathologist_reviews/candidate_review/precise_pni_review (1).csv"
         self.assertEqual(p0.sha256_file(source), p0.EXPECTED_CLINICIAN_SHA256)
 
     def test_all_required_tables_have_nonempty_schemas(self) -> None:

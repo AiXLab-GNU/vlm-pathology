@@ -50,7 +50,29 @@ MAIN_STUDY_OUTPUTS = {
     ),
     "fm4": (
         ROOT / "projects/quantitative_foundation_model_validation/milestones/fm4_concept_benchmark/outputs",
-        ("FM4_ENTRY_DECISION.md", "analysis_family.csv", "power_precision_plan.csv", "fm4_entry_checklist.csv", "fm4_shared_fold_manifest.csv", "run_config.json"),
+        (
+            "FM4_ENTRY_DECISION.md", "analysis_family.csv", "power_precision_plan.csv",
+            "fm4_entry_checklist.csv", "fm4_shared_fold_manifest.csv", "run_config.json",
+            "fm4-concept-benchmark-report.md", "fm4_oof_predictions.csv",
+            "fm4_subject_predictions.csv", "fm4_summary.csv", "fm4_paired_deltas.csv",
+            "fm4_fold_diagnostics.csv", "fm4_capacity_sensitivity.csv",
+            "fm4_claim_evidence.csv", "fm4_clean_rerun_comparison.csv",
+            "benchmark_run_config.json",
+        ),
+    ),
+    "fm5": (
+        ROOT / "projects/quantitative_foundation_model_validation/milestones/fm5_cross_model_comparison/outputs",
+        (
+            "fm5-entry-packet.md", "fm5_analysis_family.csv",
+            "fm5_source_manifest.csv", "fm5_discordance_definition.csv",
+            "fm5_entry_checklist.csv", "fm5_entry_run_config.json",
+            "fm5-cross-model-comparison-report.md", "fm5_subject_comparison.csv",
+            "fm5_tile_comparison.csv", "fm5_agreement_summary.csv",
+            "fm5_representation_similarity.csv", "fm5_bootstrap_replicates.csv",
+            "fm5_discordance_manifest.csv", "fm5_reproducibility_audit.csv",
+            "fm5_claim_evidence.csv", "fm5_clean_rerun_comparison.csv",
+            "fm5_run_config.json",
+        ),
     ),
 }
 FM4_APPROVAL_ATTESTATIONS = (
@@ -665,7 +687,7 @@ def fm4_scope_snapshot() -> dict[str, Any]:
         RECORDS_DIR / "main_study_unlock_matrix_final.csv",
     ]
     for stage, (directory, names) in MAIN_STUDY_OUTPUTS.items():
-        if stage == "fm4":
+        if stage in {"fm4", "fm5"}:
             continue
         required.extend(directory / name for name in names)
     files = []
@@ -790,7 +812,7 @@ def finalize_fm4_scope(*, records_dir: Path = RECORDS_DIR) -> dict[str, Any]:
             "## 해석 상한", "", "- internal descriptive recoverability only", "",
             "이 승인은 confirmatory, 질병예측/H2, 임상·PNI, scanner/stain, encoder 우월성 또는 외부 transport 주장을 해제하지 않는다.",
         ]
-        (records_dir / "FM4_SCOPE_APPROVAL.md").write_text("\n".join(report) + "\n", encoding="utf-8")
+        (records_dir / "fm4-scope-approval.md").write_text("\n".join(report) + "\n", encoding="utf-8")
         return manifest
 
 
@@ -823,7 +845,16 @@ def portal_data(
         available = all((directory / name).is_file() for name in names)
         main_study[stage] = {"available": available, "outputs": list(names)}
         if available:
-            config_value = json.loads((directory / "run_config.json").read_text(encoding="utf-8"))
+            config_name = (
+                "fm5_run_config.json"
+                if stage == "fm5" and (directory / "fm5_run_config.json").is_file()
+                else "fm5_entry_run_config.json" if stage == "fm5" else "run_config.json"
+            )
+            config_value = json.loads((directory / config_name).read_text(encoding="utf-8"))
+            if stage == "fm4" and (directory / "benchmark_run_config.json").is_file():
+                config_value = json.loads(
+                    (directory / "benchmark_run_config.json").read_text(encoding="utf-8")
+                )
             main_study[stage]["counts"] = config_value.get("counts", {})
             if stage == "fm4":
                 _, power_rows = _read_csv(directory / "power_precision_plan.csv")
@@ -834,7 +865,16 @@ def portal_data(
                 "fm1": "registry audit complete",
                 "fm2": "paired manifest frozen",
                 "fm3": "clean embedding bundle registered",
-                "fm4": "entry packet prepared; execution locked pending approval",
+                "fm4": (
+                    "approved exploratory/descriptive H1 benchmark complete; clean rerun passed"
+                    if config_value.get("status") == "complete_approved_exploratory_descriptive_h1"
+                    else "entry packet prepared; execution locked pending approval"
+                ),
+                "fm5": (
+                    "approved Amber-scope descriptive comparison complete; clean rerun passed"
+                    if config_value.get("status") == "complete_approved_amber_scope_descriptive_fm5"
+                    else "entry packet prepared under existing approval scope"
+                ),
             }[stage]
     return {
         "protocol_id": PROTOCOL_ID,

@@ -1,4 +1,28 @@
 dataset_id: TCGA-PRAD
 data_class: controlled_or_local_pathology
-projects: [prostate_biomarker_validation]
-rule: raw data and derived arrays are not committed
+projects: [prostate_biomarker_validation, quantitative_foundation_model_validation]
+source_name: NCI GDC TCGA Prostate Adenocarcinoma diagnostic pathology
+source_url: https://portal.gdc.cancer.gov/projects/TCGA-PRAD
+local_manifest_path: resources/data/shared/opendataset/TCGA-PRAD/manifest.csv
+local_manifest_sha256: ad79f4a2ec0e42e4ca929f4d995f68a1c581e24ce00f11fbd700b38513bf8701
+n_manifest_slides: 449
+n_manifest_subjects: 403
+qfm_allowed_use: source_registration_and_locked_development_only
+qfm_development_snapshot: current_GDC_BCR_2026-08-15
+qfm_development_subjects: 392
+qfm_development_bcr_events: 80
+qfm_development_slides: 437
+qfm_development_payload_bytes: 422597608423
+qfm_development_payload_status: GDC_MD5_VERIFIED_437_OF_437
+qfm_gdc_file_metadata_sha256: dbcb3b67ea186d816d9548edcb3e3571b11db1f27a473c2a59d2c7ee5862c12f
+qfm_subject_fold_manifest_sha256: 7c8b79237eb8cfaa2dc3b0da9f684e34bc10607d47730d8149a5e4e42e2e338c
+secondary_clinical_source_name: cBioPortal TCGA Prostate Adenocarcinoma PanCancer Atlas 2018
+secondary_clinical_source_url: https://www.cbioportal.org/study/summary?id=prad_tcga_pan_can_atlas_2018
+secondary_clinical_local_path: resources/projects/prostate_biomarker_validation/model_workspace/tcga_prad_clinical_extra/prad_pancan_clinical.json
+secondary_clinical_sha256: 3e2ec994c7ca87638d99ccc5a2287430613a749143d01a3a36ae36191bbc4241
+qfm_secondary_clinical_allowed_fields: [AGE, PATH_T_STAGE]
+qfm_secondary_clinical_role: exploratory_human_understood_covariates_not_independent_pathology_truth
+qfm_secondary_clinical_prohibited_fields: [PFS_STATUS, PFS_MONTHS, DFS_STATUS, DFS_MONTHS, OS_STATUS, OS_MONTHS, DSS_STATUS, DSS_MONTHS]
+qfm_patient_level_visibility: never_serve
+qfm_portal_visible_scope: aggregate_project_internal_only
+rule: raw data, patient-level clinical tables, WSI, content-verification rows, fold assignments, arrays, weights and derived embeddings are local and must not be committed or served by the portal

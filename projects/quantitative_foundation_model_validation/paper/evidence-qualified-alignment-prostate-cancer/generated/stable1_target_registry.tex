@@ -1,0 +1,18 @@
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Registered target definitions and interpretation boundaries. The unit and metric specify how each target was evaluated; the permitted-interpretation column is the claim ceiling and does not imply disease prediction or functional use by a downstream head.}
+\label{tab:supp-target-registry}
+\begin{tabular}{@{}p{0.04\textwidth}p{0.10\textwidth}p{0.15\textwidth}p{0.17\textwidth}p{0.13\textwidth}p{0.27\textwidth}@{}}
+\toprule
+ID & Layer & Target & Unit & Metric & Permitted interpretation \\
+\midrule
+T01 & Morphologic & Gleason or ISUP grade & Patient, case image, or session & Spearman rho & Grade information is recoverable and directionally transports \\
+T02 & Morphologic & Tumor phenotype or content & Patient or case image & Spearman rho or AUROC & Morphology-linked phenotype is recoverable and transports \\
+T03 & Molecular & PTEN loss & Patient & AUROC & Within-cohort PTEN-related information is recoverable \\
+T04 & Molecular & SPOP mutation & Patient & AUROC & Unsupported in the frozen primary design \\
+T05 & Molecular & AR activity & Patient & Spearman rho & Positive pooled within-cohort alignment \\
+T06 & Outcome & Post-hoc recurrence risk & Patient & C-index and paired increment & Exploratory endpoint-conditioned alignment \\
+\bottomrule
+\end{tabular}
+\end{table}

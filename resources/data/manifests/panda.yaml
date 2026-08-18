@@ -1,4 +1,6 @@
 dataset_id: PANDA
 data_class: external_pathology
-projects: [prostate_biomarker_validation]
+projects: [prostate_biomarker_validation, quantitative_foundation_model_validation]
+qfm_declared_use: deterministic provider-stratified pixel-mask scanner-proxy audit only
+qfm_claim_boundary: provider is an acquisition-domain proxy, not a verified scanner identifier or clinical external validation
 rule: raw data and derived arrays are not committed

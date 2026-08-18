@@ -472,10 +472,12 @@ def source_specs() -> list[dict[str, object]]:
          "path": ROOT / "resources/data/shared/opendataset/PRECISE/README.md", "immutable": True, "role": "dataset structure and annotator roles"},
         {"source_id": "precise_label_descriptions", "cohort": "PRECISE", "category": "annotation_metadata",
          "path": ROOT / "resources/data/shared/opendataset/PRECISE/label_descriptions.json", "immutable": True, "role": "mask label map"},
+        {"source_id": "precise_pni_cross_project_manifest", "cohort": "PRECISE", "category": "governance_manifest",
+         "path": ROOT / "resources/data/manifests/precise_pni_cross_project_inputs.yaml", "immutable": True, "role": "explicit hash-locked cross-project dependency contract"},
         {"source_id": "precise_clinician_review", "cohort": "PRECISE", "category": "clinician_source",
-         "path": ROOT / "resources/data/shared/opendataset/PRECISE/precise_pni_review (1).csv", "immutable": True, "role": "unrelated immutable PNI source boundary"},
+         "path": ROOT / "resources/data/precise_pni_candidate_triage/pathologist_reviews/candidate_review/precise_pni_review (1).csv", "immutable": True, "role": "unrelated immutable PNI source boundary"},
         {"source_id": "precise_locked_morphology_review", "cohort": "PRECISE", "category": "exclusion_manifest",
-         "path": ROOT / "resources/data/shared/opendataset/PRECISE/pni_morphology_rereview/locked/normalized_morphology_review.csv", "immutable": True, "role": "14 locked PNI-focus exclusion rectangles"},
+         "path": ROOT / "resources/artifacts/precise_pni_candidate_triage/morphology_rereview/locked/normalized_morphology_review.csv", "immutable": True, "role": "14 locked PNI-focus exclusion rectangles"},
         {"source_id": "conch_weights", "cohort": "model", "category": "model_weight",
          "path": conch_snapshot / "pytorch_model.bin", "immutable": True, "role": "frozen CONCH weights"},
         {"source_id": "conch_metadata", "cohort": "model", "category": "model_metadata",
@@ -3292,7 +3294,7 @@ def run_m8() -> None:
     missing = [name for name in required_files if not (OUT / name).exists()]
     if missing:
         raise FileNotFoundError("P0-M8 evidence is incomplete: " + "; ".join(missing))
-    clinician_source = ROOT / "resources/data/shared/opendataset/PRECISE/precise_pni_review (1).csv"
+    clinician_source = ROOT / "resources/data/precise_pni_candidate_triage/pathologist_reviews/candidate_review/precise_pni_review (1).csv"
     if sha256_file(clinician_source) != EXPECTED_CLINICIAN_SHA256:
         raise RuntimeError("immutable PRECISE clinician source hash mismatch; stop")
 
@@ -3674,7 +3676,7 @@ def run_m4() -> None:
     fold_map = {str(subject): int(index % 5) for index, subject in enumerate(shuffled)}
 
     pni = pd.read_csv(
-        ROOT / "resources/data/shared/opendataset/PRECISE/pni_morphology_rereview/locked/normalized_morphology_review.csv"
+        ROOT / "resources/artifacts/precise_pni_candidate_triage/morphology_rereview/locked/normalized_morphology_review.csv"
     )
     if len(pni) != 14 or pni.candidate_id.duplicated().any():
         raise RuntimeError("locked PNI exclusion source does not contain 14 unique candidates")

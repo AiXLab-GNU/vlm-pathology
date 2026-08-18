@@ -1,0 +1,18 @@
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Observed ranges across 12 correlated encoder--scale--tile configurations. Mean and range summarize the five-seed configuration values; null-straddling is the number of configurations whose observed seed range crossed the target-specific null, out of 12. These are sensitivity summaries, not independent validations.}
+\label{tab:supp-stability}
+\begin{tabular}{@{}p{0.10\textwidth}p{0.19\textwidth}p{0.08\textwidth}p{0.10\textwidth}p{0.23\textwidth}p{0.15\textwidth}@{}}
+\toprule
+Target & Metric & Null & Mean & Range & Null-straddling \\
+\midrule
+Grade & Patient Spearman rho & 0.0 & 0.464 & 0.271 to 0.646 & 0/12 \\
+Phenotype & Patient AUROC & 0.5 & 0.915 & 0.845 to 0.965 & 0/12 \\
+PTEN & Patient AUROC & 0.5 & 0.602 & 0.519 to 0.717 & 0/12 \\
+SPOP & Patient AUROC & 0.5 & 0.523 & 0.348 to 0.679 & 8/12 \\
+AR activity & Patient Spearman rho & 0.0 & 0.230 & 0.136 to 0.297 & 0/12 \\
+Recurrence risk & Patient C-index & 0.5 & 0.657 & 0.481 to 0.755 & 1/12 \\
+\bottomrule
+\end{tabular}
+\end{table}

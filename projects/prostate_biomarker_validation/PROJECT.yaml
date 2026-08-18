@@ -3,6 +3,9 @@ scientific_question: qualification and transport of prostate pathology represent
 cohorts: [TCGA-PRAD, NADT-Prostate, PANDA, LEOPARD]
 markers: [ERG, PTEN, SPOP, AR]
 owns_current_manuscript: true
+owns_frozen_alignment_evidence: true
+derivative_alignment_manuscript_owner: quantitative_foundation_model_validation
+cross_project_handoff: hash_locked_source_evidence_only
 status: manuscript_revision
 canonical_research_plan: docs/research_plan/01-prostate-biomarker-validation-plan.md
 canonical_milestones: docs/research_plan/01-01-prostate-biomarker-validation-milestones.md

@@ -5,8 +5,8 @@
 - 문서 유형: canonical research plan
 - 상태: active
 - Canonical path: `projects/quantitative_foundation_model_validation/docs/research_plan/01-quantitative-ai-validation-disease-diagnosis-plan-ko.md`
-- 문서 버전: 0.1
-- 기준일: 2026-08-11
+- 문서 버전: 0.5
+- 기준일: 2026-08-15
 - 문서 성격: 연구 프로그램 개념계획서 및 단계별 사전 연구 로드맵
 - 우선 적용 분야: 전립선암 병리, Gleason/ISUP, 분자표현형, 신경주위침윤(PNI)
 - 확장 분야: 다암종 디지털 병리 진단 보조, 예후·치료반응 예측, 외부 코호트 AI 감시
@@ -27,6 +27,15 @@
 
 ## 2. 연구 요약
 
+본 프로젝트의 최상위 과학적 목표는 다음과 같다.
+
+> 동일 환자·동일 조직에서 독립적으로 측정한 복수의 임상·병리 정량지표가
+> CONCH와 Virchow의 frozen representation과 locked 질병예측 판단을 얼마나
+> 완전하게 설명하는지 규명한다. 이어서 알려진 지표와 기술적 교란을 제거한
+> 뒤에도 두 모델과 독립 외부 코호트에서 반복되는 residual morphology를 명시적
+> 정량지표로 전환하고, 독립 assay·omics·임상 outcome으로 신규 마커 후보의
+> 타당성을 검증한다.
+
 병리 진단은 핵 크기와 다형성, 유사분열, 선 구조, 침윤 깊이, 종양–기질 비율,
 면역세포 밀도, 신경·혈관 침윤, IHC 발현 및 Gleason과 같은 정량·반정량 지표의
 조합에 기반한다. 최근의 기반 모델과 VLM은 이러한 사람이 정의한 특징을 명시적으로
@@ -36,15 +45,25 @@
 구분되지 않았다.
 
 본 연구는 독립적으로 측정 가능한 병리 정량지표를 생물학적 기준축으로 사용해
-동결된 AI 모델의 판단을 검증한다. 개발 코호트에서 AI–정량지표 관계를 확립하고,
-외부 코호트에서 그 관계의 보존성과 실제 성능 변화를 함께 측정한다. 기존 지표로
-설명되지 않는 AI 잔차는 blinded 병리 재검토, 명시적 형태계측, IHC·유전체·공간
-오믹스 및 독립 임상 endpoint를 통해 신규 바이오마커 후보와 shortcut으로 분리한다.
+동결된 AI 모델의 **표현 정보의 존재, 지표 간 포함관계, 질병판단에서의 기능적
+사용**을 단계적으로 분리해 검증한다. 개발 코호트에서 개별·조건부·지표군 복원성과
+joint completeness를 추정하고, concept-targeted erasure와 matched control로 locked
+disease head의 기능적 의존성을 검증한다. 이 관계와 제거 규칙은 외부 코호트에
+재학습 없이 적용한다.
+
+알려진 지표로 설명되지 않는 표현 residual과 판단 residual은 즉시 신규 바이오마커로
+해석하지 않는다. 두 encoder에서의 공통성, 외부 재현, site·stain·scanner·scale·grade·치료
+교란, blinded 병리 검토, 명시적 형태계측, IHC·유전체·공간 omics 및 독립 임상
+endpoint를 통과한 신호만 신규 정량 마커 후보로 승격한다.
 
 핵심 원칙은 다음과 같다.
 
 > AI–정량지표 일치도는 정확도 자체가 아니다. 일치도는 의미적 안정성과 외부
 > 이식가능성의 경보 지표이며, 실제 정확성은 독립 ground truth로 별도 검증한다.
+
+이 연구의 증거 사슬은 `복원성 → 포함관계·완전성 → 기능적 활용 → 설명되지 않은
+residual → 명시적 지표화 → 외부·생물학적 검증`의 순서를 따른다. 앞 단계의 gate를
+통과하지 못한 신호를 뒤 단계의 강한 주장으로 승격하지 않는다.
 
 ## 3. 연구 배경 및 필요성
 
@@ -167,13 +186,35 @@ AI 출력 또는 surrogate label의 concordance를 결합한 감시 체계를 �
 
 ### 4.6 연구 공백
 
-문헌의 구성요소는 충분하지만 다음을 한 체계에서 수행한 연구는 드물다.
+각 구성요소를 다룬 문헌은 있지만, 다음 전체 증거 사슬을 하나의 pathology
+foundation-model 연구에서 연결한 사례는 드물다.
 
-- 독립 정량지표가 AI score를 설명하는 정도를 환자분리 방식으로 측정
-- 두 개 이상의 독립 기반 모델에서 같은 concept를 비교
-- 정량지표 일치도가 외부 실제 성능 저하를 추가로 예측하는지 검증
-- 잔차를 신규 바이오마커와 shortcut으로 분해
-- 병리전문의, IHC/omics 및 독립 임상 outcome으로 후보를 검증
+- 복수의 독립 사람 정량지표를 동일 환자·ROI·물리 FOV에서 측정
+- CONCH와 Virchow 각각에서 개별 복원성과 지표 간 조건부 고유정보를 paired 비교
+- 사람 지표 패널이 각 모델의 표현과 질병판단을 얼마나 완전하게 설명하는지 측정
+- targeted erasure와 matched random erasure로 해당 지표의 실제 기능적 사용을 검증
+- 알려진 지표를 제거한 표현·판단 residual의 공통성과 모델 특이성을 분리
+- site·stain·scanner·scale·grade·분자·치료 교란을 제거하여 shortcut을 배제
+- residual을 병리의가 blinded review하고 명시적인 새 측정 정의로 전환
+- source에서 고정한 관계와 제거 규칙을 외부 코호트에 재학습 없이 적용하고,
+  독립 assay·omics·outcome으로 후보를 검증
+
+이 프로젝트가 채우는 공백은 `concept discovery` 자체가 아니라, **known human metrics →
+actual functional use → unexplained residual → externally validated marker candidate**를 연결하는
+증거 체계다.
+
+### 4.7 선행연구 활용·확장 전략
+
+| 선행연구 축 | 본 연구에서 가져올 부분 | 본 연구의 확장 |
+|---|---|---|
+| Diao 등의 607개 human-interpretable feature | 핵·세포·조직·공간 지표 family | 전립선암의 paired CONCH–Virchow completeness와 기능적 사용 검증 |
+| GleasonXAI | 전문의 형태 vocabulary, soft label, 판독 불확실성 | GP3/4/5, cribriform, fused/poorly formed gland를 연속 정량 family로 변환 |
+| PLUTO-SAE·PICASSO | latent feature, sparse decomposition, prototype 탐색 | known-metric subspace를 먼저 제거하고 두 FM·외부 재현 residual만 후보화 |
+| Concept Bottleneck·completeness | concept 집합의 충분성·완전성 정식화 | 복수 병리 metric family가 두 FM 판단을 설명하는 정도를 OOF·외부에서 측정 |
+| LEACE·concept erasure | concept 관련 선형 정보 제거 | fixed-head, refit-after-erasure, matched random control로 실제 사용과 대체 정보를 분리 |
+| FM representational-similarity 연구 | CKA·RSA·slide dependence 비교 | 모델–모델 유사성을 사람 지표로 조건화한 similarity·residual agreement로 확장 |
+| PathoROB·분자예측 confounding 연구 | site·scanner·grade·동반변이 shortcut 감사 | residual 신규성 판정의 필수 negative-control·제외 gate로 사용 |
+| BCR·gland·immune-spatial biomarker 연구 | endpoint, 임상 baseline, 명시적 형태·공간 지표화 | `AI+ISUP의 성능` 반복이 아니라, 어떤 지표를 실제 사용하고 무엇이 남는지 검증 |
 
 ## 5. 사전 연구 및 보유 기반
 
@@ -206,9 +247,10 @@ marker pool을 두 encoder로 평가하고 scale, tile budget과 sampling seed �
 |---|---|---|
 | NADT-Prostate | Gleason, benign/tumor, ERG serial stain | source concept/probe 연구 |
 | PANDA | ISUP grade, 두 기관 | grade/phenotype 외부검증 |
-| TCGA-PRAD | Gleason, PTEN, SPOP, AR, ERG, outcome | 분자·예후 및 site audit |
+| TCGA-PRAD | Gleason/ISUP, current-GDC BCR status/time, 치료, PTEN/SPOP/AR/ERG | FM6 개발 source 392명/80 events, eligible WSI 437장/422,597,608,423 bytes GDC MD5·기술 QC·환자 fold 고정; tumor-region·endpoint·power·H2 잠금 |
 | SICAPv2 | 전립선 조직·grade | 진단 sanity check |
 | LEOPARD | BCR event/follow-up | recurrence source/transfer 연구 |
+| CHIMERA Task 1 | prostatectomy H&E WSI, reported ISUP/Gleason, BCR status/time(months), 임상 공변량 | 외부 ISUP–BCR candidate; source discrepancy·embargo·H2 잠금 |
 | PRECISE | Gleason, pixel annotation, paired H&E/IHC, PNI review | 공간 face-validity와 PNI 방법론 pilot |
 
 ### 5.4 사전 결과
@@ -220,6 +262,14 @@ marker pool을 두 encoder로 평가하고 scale, tile budget과 sampling seed �
 - ERG 관련 연관은 Virchow에서 더 강했다.
 - SPOP은 설정 민감성이 커 robust positive 또는 robust null로 확정되지 않았다.
 - recurrence는 endpoint, encoder와 scale 의존성이 컸다.
+- TCGA-PRAD 392명/80 BCR events의 whole-tissue 내부 개발 pilot에서 ISUP OOF rho는
+  CONCH 0.615, Virchow 0.658이고 BCR head C-index는 0.627/0.632였다.
+- 제거분산을 정확히 맞춘 random control 대비 ISUP-correlated fixed-head C-index 감소는
+  0.041/0.023으로 paired 95% CI가 0을 넘었으나, refit 감소와 ISUP+AI의 ISUP 대비
+  증분은 CI가 0을 포함했다. 이는 내부 기능 민감도와 임상적 증분가치가 다름을 보인다.
+- 이 결과는 독립 tumor-region truth가 없는 whole-tissue R/A/U exploratory evidence다.
+  AI risk–tissue fraction rho 0.324/0.341과 미실행 external T 때문에 strong H2와 residual
+  marker discovery는 계속 잠근다.
 - PRECISE frozen PNI ranker는 층화·블라인드 120후보 표본에서 관찰된 PNI focus를
   높은 순위에 집중시켰지만 whole-slide sensitivity나 진단 threshold를 검증하지 않았다.
 - 14개 선택 nerve-positive focus의 morphology pilot은 contour 대상 선정을 위한
@@ -233,41 +283,56 @@ marker pool을 두 encoder로 평가하고 scale, tile budget과 sampling seed �
 
 ### 6.1 핵심 연구 질문
 
-> AI 판단 중 기존 병리 정량지표로 재현되는 부분, 상보적인 생물학적 부분, 비생물학적
-> shortcut 부분을 각각 얼마나 분리할 수 있으며, 이 분리가 외부 코호트에서의 실제
-> 성능 저하를 예측하고 새로운 질병 지표를 발견하는 데 기여하는가?
+> 복수의 임상·병리 정량지표가 CONCH와 Virchow의 표현과 locked 질병예측
+> 판단을 얼마나 완전하게 설명하며, 알려진 지표를 제거한 뒤에도 두 모델과 독립
+> 외부 코호트에서 반복되는 residual을 사람이 측정·검증할 수 있는 신규 정량
+> 마커 후보로 전환할 수 있는가?
 
 ### 6.2 세부 연구 질문
 
-1. AI가 기존 정량지표를 사람 또는 기존 알고리즘보다 재현성 있게 측정하는가?
-2. CONCH와 Virchow는 동일 정량지표와 동일한 방향으로 연관되는가?
-3. 기존 지표 조합은 각 AI score를 외부 표본에서 어느 정도 재구성할 수 있는가?
-4. 기존 지표와 AI를 결합하면 각각을 단독 사용했을 때보다 외부 성능과 calibration이
-   개선되는가?
-5. 정량지표 관계의 source–target 보존성이 QC, embedding shift와 uncertainty보다
-   실제 성능 저하를 더 잘 예측하는가?
-6. 기존 지표로 설명되지 않는 공통 또는 모델별 잔차에 재현 가능한 병리 형태가 있는가?
+1. **개별 복원성:** 각 frozen embedding에서 gland architecture, nuclear morphology,
+   tumor microenvironment 및 독립 molecular/clinical anchor를 환자분리 OOF 방식으로
+   복원할 수 있는가?
+2. **조건부 고유정보와 포함관계:** 다른 지표를 알고 난 뒤에도 각 지표의 고유
+   정보가 남는가? 공선성이 큰 지표는 개별 원인이 아니라 metric-family subspace로
+   해석해야 하는가?
+3. **Joint completeness:** 복수 사람 지표 패널이 각 모델의 표현 및 locked disease
+   score를 외부 표본에서 얼마나 재구성하는가?
+4. **기능적 활용:** 지표 관련 표현을 선택적으로 제거하면 같은 locked disease
+   head의 성능과 환자별 판단이 matched random·label-permuted·other-metric control보다
+   특이적으로 저하되는가?
+5. **중복·상보성:** 임상변수, 사람 지표, CONCH, Virchow가 질병 endpoint에 중복
+   또는 상보적 정보를 제공하는가?
+6. **Residual 및 transport:** 알려진 지표로 설명되지 않은 표현·판단 residual 중
+   두 모델과 외부 기관에서 반복되는 성분을 생물학, 모델 특이성, 기술적
+   shortcut으로 분리할 수 있는가?
+7. **신규 마커 전환:** 반복 residual morphology를 병리의가 명명하고 물리 단위와
+   반복성을 갖는 지표로 정의한 뒤 독립 assay·omics·outcome·cohort에서 검증할 수
+   있는가?
 
 ### 6.3 가설
 
-- H1: AI score의 유의한 부분은 gland, nuclear, spatial, immune 및 nerve-interface
-  지표로 out-of-sample 설명 가능하다.
-- H2: 두 기반 모델에서 방향이 재현되는 concept는 한 모델에만 존재하는 concept보다
-  외부 코호트에서 안정적이다.
-- H3: semantic concordance는 기술 QC와 embedding shift를 넘어 외부 성능 저하에
-  증분 설명력을 제공한다.
-- H4: 기존 지표와 AI의 결합은 일부 endpoint에서만 증분 가치가 있으며, 높은 내부
-  성능만 보이는 결합은 외부검증에서 감소한다.
-- H5: 기존 지표로 설명되지 않는 AI 잔차는 생물학적 후보와 site/stain/scanner
-  shortcut의 혼합이며, 독립 assay와 다기관 설계로 분리할 수 있다.
+- **H1—Quantitative representation:** frozen representation에는 모델과 독립적으로 측정한
+  정량지표를 grouped-null보다 우수하게 복원할 수 있는 정보가 존재한다. H1은
+  `decodability`를 의미하며 질병판단에서의 사용을 의미하지 않는다.
+- **H2—Functional utilization:** H1을 통과하고 질병 endpoint와 독립적으로 정의된 지표의
+  표현 성분을 제거하면 locked disease head의 성능 또는 환자별 판단이 matched control
+  제거보다 특이적으로 저하된다.
+- **H2 증거 단계:** 복원성 (R), 질병 관련성 (A), 기능적 의존성 (U), 외부 재현성
+  (T)를 순서대로 평가하며, 강한 H2 주장은 `R+A+U+T`를 모두 충족할 때만 허용한다.
+- **Residual discovery 가설:** 알려진 metric-family subspace로 설명되지 않은 residual은
+  생물학적 후보, encoder-specific 정보, 기술적 shortcut과 잡음의 혼합이다. 두 FM
+  공통성, shortcut 감사, 외부 재현, blinded review와 orthogonal validation을 통해서만
+  신규 마커 후보로 분류할 수 있다.
 
 ## 7. 연구 목적과 세부목표
 
 ### 7.1 최종 목적
 
-독립 정량 병리개념, AI 표현, 기술 품질, 임상·분자 ground truth를 연결하여 기반
-모델의 정확성·해석성·외부 이식성을 감사하고, 검증 가능한 신규 디지털 병리
-바이오마커를 발굴하는 재현 가능한 질병 진단 보조 기술을 구축한다.
+복수의 독립 정량 병리개념이 CONCH와 Virchow의 frozen representation과 locked
+질병예측 판단을 설명하는 범위·포함관계·기능적 사용을 정량화한다. 이어서
+사람 지표와 기술적 교란으로 설명되지 않고 두 모델·외부 코호트에서 반복되는
+residual morphology를 명시적 정량지표로 전환하고 독립 생물학·임상 근거로 검증한다.
 
 ### 7.2 세부목표
 
@@ -277,15 +342,19 @@ marker pool을 두 encoder로 평가하고 scale, tile budget과 sampling seed �
 2. **두 기반 모델의 정량개념 복원력 비교**
    동일 환자·좌표·물리 시야에서 CONCH와 Virchow가 정량지표를 얼마나 복원하는지
    paired benchmark한다.
-3. **중복성과 상보성 규명**
-   임상변수, 기존 지표, AI score 및 결합모델을 동일 split에서 비교한다.
-4. **외부 이식성 감시체계 개발**
+3. **지표 간 포함관계와 joint completeness 규명**
+   개별·조건부·metric-family 정보량과 복수 지표 패널의 AI 표현·판단 설명력을
+   환자분리 및 외부 표본에서 평가한다.
+4. **기능적 활용과 상보성 규명**
+   targeted erasure, matched control, fixed-head, refit-after-erasure와
+   `C`, `C+M`, `C+AI`, `C+M+AI`를 분리 비교한다.
+5. **외부 이식성 감시체계 개발**
    technical QC, distribution shift, semantic concordance, sentinel ground truth의
    네 단계 gate를 구축한다.
-5. **신규 지표 발굴과 생물학적 검증**
-   AI residual에서 재현 가능한 형태·공간 concept를 정의하고 IHC/omics/outcome으로
-   검증한다.
-6. **질병별 확장과 임상 유용성 검증**
+6. **Residual 기반 신규 지표 전환과 생물학적 검증**
+   두 FM에서 공통적이고 외부 재현되는 residual을 blinded pathology review로 명시적
+   측정 공식으로 전환하고 IHC/omics/outcome으로 검증한다.
+7. **질병별 확장과 임상 유용성 검증**
    전립선암에서 방법을 확립한 뒤 충분한 다기관 코호트에서 다른 암종과 임상 endpoint로
    확장한다.
 
@@ -293,8 +362,9 @@ marker pool을 두 encoder로 평가하고 scale, tile budget과 sampling seed �
 
 다음 기호를 사용한다.
 
-- \(S\): 동결 AI의 연속 disease/candidate score
-- \(E\): AI embedding 또는 공간 feature map
+- \(S_k\): encoder \(k\)의 frozen embedding 위에 사전 고정된 규칙으로 학습한 locked
+  disease head의 연속 score, \(k\in\{CONCH,Virchow\}\)
+- \(Z_k\): encoder \(k\)의 frozen embedding 또는 공간 feature map
 - \(M\): 독립 정량 병리 지표 벡터
 - \(Q\): stain, focus, tissue area, scanner 등 기술 QC
 - \(C\): grade, specimen type, site, 환자 구성과 임상 공변량
@@ -303,15 +373,26 @@ marker pool을 두 encoder로 평가하고 scale, tile budget과 sampling seed �
 개발 코호트에서 다음 관계를 환자분리 교차검증으로 확립한 뒤 고정한다.
 
 \[
-S = g(M,C,Q) + R
+S_k = g_k(M,C,Q) + R^{score}_k
 \]
 
-- \(g(M,C,Q)\): 알려진 지표와 confounder로 설명되는 AI 판단
-- \(R\): 설명되지 않는 AI 잔차
+- \(g_k(M,C,Q)\): 알려진 지표와 confounder로 설명되는 encoder \(k\)의 AI 판단
+- \(R^{score}_k\): 알려진 지표와 confounder로 설명되지 않는 **판단 residual**
 
-외부 코호트에서는 \(g\)를 재학습하지 않고 relation preservation, residual shift와
-실제 성능 변화를 측정한다. \(R\)은 즉시 신규 바이오마커로 해석하지 않고 생물학적
-후보와 shortcut 후보로 분리한다.
+지표 패널 \(M\)과 관련된 training-fold concept projection을 \(P_M\)이라 하면 표현 제거와
+**표현 residual**은 다음으로 구분한다.
+
+\[
+Z_k^{-M}=(I-P_M)Z_k, \qquad R^{repr}_k=Z_k^{-M}
+\]
+
+- \(R^{repr}_k\): 알려진 metric-family subspace를 제거하고 embedding에 남은 **표현 residual**
+- \(R^{score}_k\): 알려진 지표·임상·품질 변수로 설명되지 않은 **판단 residual**
+
+외부 코호트에서는 \(g_k\), \(P_M\), concept probe, disease head와 threshold를 재학습하지
+않고 relation preservation, targeted-erasure effect, residual shift와 실제 성능 변화를 함께
+측정한다. 두 residual은 즉시 신규 biomarker로 해석하지 않고 common biological,
+encoder-specific, technical shortcut, outcome-irrelevant, uncertain으로 분류한다.
 
 ## 9. 연구 내용과 Work Package
 
@@ -332,24 +413,39 @@ S = g(M,C,Q) + R
 
 ### WP2. AI–정량지표 일치성 및 concept 복원
 
-- 개별 관계: partial Spearman 또는 적절한 generalized model
-- 전체 설명력: patient-grouped nested-CV \(R^2\), MAE와 calibration
-- 지표군 증분 설명력: gland, nuclear, texture, immune, nerve-interface별 평가
+- 개별 복원성: 지표별 patient-grouped nested-CV \(R^2\), MAE, CCC, Spearman 및 calibration
+- 조건부 고유정보: \(M_j\mid M_{-j},C,Q\)의 OOF 증분 정보와 조건부 concept direction
+- 포함관계: gland architecture, nuclear morphology, tumor microenvironment, molecular
+  anchor 간 공선성과 metric-family subspace를 계층적으로 평가
+- Joint completeness: 사람 지표 패널이 \(Z_k\) 및 \(S_k\)를 설명하는 OOF 전체·지표군별
+  설명력과 source-to-target calibration
 - 공간 일치: Dice/IoU, point–contour distance, spatial correlation
-- 표현 일치: CKA, regularized CCA, representational similarity
-- 인과 점검: semantic perturbation, ablation, 병리적으로 타당한 counterfactual
+- 표현 일치: 원본 및 human-metric-conditioned CKA, regularized CCA, representational
+  similarity, probe-prediction/residual agreement
 
-### WP3. 질병 판단의 중복성과 상보성
+### WP3. 질병 판단에서의 기능적 활용·중복성·상보성
+
+H1을 통과하고 질병 endpoint와 독립적으로 정의된 metric–endpoint 쌍에서만 다음을
+수행한다.
+
+- Full embedding을 사용한 locked disease head
+- 같은 locked head에 \(Z_k^{-M}\)을 입력하는 targeted fixed-head ablation
+- 제거 후 head를 다시 학습하는 refit-after-erasure로 대체 가능한 잔여 정보 평가
+- rank·제거분산·정규화를 맞춘 matched random subspace, label-permuted concept, other-metric
+  direction을 negative control로 사용
+- 기능적 활용 \(\Delta_{use}\), 제거 후 잔여 정보 \(\Delta_{info}\), 표적 특이성
+  \(\Delta_{specific}\)을 별도 보고
 
 동일 환자 split에서 다음 네 모델을 비교한다.
 
 1. 임상변수 \(C\)
 2. \(C+M\)
-3. \(C+S\) 또는 \(C+E\)
-4. \(C+M+S\) 또는 \(C+M+E\)
+3. \(C+S_k\) 또는 \(C+Z_k\)
+4. \(C+M+S_k\) 또는 \(C+M+Z_k\)
 
 결합모델은 외부 코호트에서 discrimination뿐 아니라 calibration, decision utility와
-subgroup 성능이 개선돼야 상보성이 있다고 판정한다.
+subgroup 성능이 개선돼야 상보성이 있다고 판정한다. `C+M+AI`의 향상은 상보성
+근거이지만, targeted erasure 근거 없이 AI가 \(M\)을 실제 사용했다는 증거는 아니다.
 
 ### WP4. 외부 코호트 이식성 및 성능 저하 감시
 
@@ -372,13 +468,25 @@ G1–G3은 audit trigger이며 진단 정확도의 대체물이 아니다. G4가
 
 ### WP5. AI 잔차 기반 신규 지표 발굴
 
-1. 높은 양·음의 residual patch와 모델 간 discordant patch를 수집한다.
-2. score, outcome, site를 가린 상태로 병리전문의가 검토한다.
-3. 반복 형태를 prototype 또는 concept로 명명한다.
-4. 핵·샘·세포·신경·공간 graph로 명시적 수치화한다.
-5. 측정 재현성과 기술적 안정성을 검증한다.
-6. 독립 코호트에서 endpoint 연관성과 기존 변수 이상의 증분 가치를 평가한다.
-7. 가능하면 IHC, 유전체 또는 spatial omics로 생물학적 타당성을 검증한다.
+1. Source training fold에서 \(R^{repr}_k\)와 \(R^{score}_k\)의 정의·threshold·sampling
+   rule을 outcome 검토 전에 고정한다.
+2. CONCH·Virchow 공통 residual, encoder-specific residual, 평가 가능한 양·음 극단과
+   모델 간 discordant patch를 균형 수집한다.
+3. Site·stain·scanner·MPP·scale·tissue area·grade·tumor purity·treatment·동반 변이와의
+   관계를 감사하여 shortcut 후보를 분리한다.
+4. Encoder, score, outcome, site를 가린 상태로 병리전문의가 morphology, artifact,
+   adequacy와 uncertainty를 검토한다.
+5. 반복 형태를 prototype에 멈추지 않고 핵·샘·세포·신경·공간 graph의 명시적 수치
+   공식과 물리 단위로 정의한다.
+6. Inter/intraobserver 합의와 자동계측의 repeatability, segmentation 의존성, scanner·stain·MPP
+   안정성을 검증한다.
+7. Source에서 고정한 residual 관계와 측정 공식을 독립 외부 코호트에 재학습 없이
+   적용하고 endpoint 연관성과 기존 grade·stage·clinical factor 이상의 증분 가치를 평가한다.
+8. 가능하면 IHC, 유전체 또는 spatial omics로 orthogonal biological validity를 검증한다.
+
+두 FM와 외부 cohort에서의 반복은 유망 후보의 선별 조건이지 충분조건이 아니다.
+외부 반복과 독립 생물학·임상 근거 전에는 `candidate biomarker` 이상의 용어를 사용하지
+않는다.
 
 ### WP6. 질병별 검증과 임상 전환
 
@@ -397,7 +505,7 @@ G1–G3은 audit trigger이며 진단 정확도의 대체물이 아니다. G4가
 |---|---|---|
 | 방법개발 | 기존 NADT, TCGA-PRAD, PRECISE | 지표 적격성·probe·측정 가능성 |
 | 내부 반복 | 동일 코호트 patient-grouped nested CV | optimism 억제와 재현성 |
-| 외부검증 | PANDA, SICAPv2, LEOPARD 및 신규 기관 | zero-shot/locked transport |
+| 외부검증 | PANDA, SICAPv2, LEOPARD, CHIMERA Task 1 및 신규 기관 | zero-shot/locked transport; cohort별 semantic·embargo gate 유지 |
 | 다기관 감시 | 서로 다른 stain/scanner/specimen의 여러 site | 성능 저하 예측모델 검증 |
 | 생물학적 검증 | IHC, 분자 assay, spatial omics가 있는 subset | 신규 지표 타당성 |
 | 임상 유용성 | 전향 또는 temporal silent deployment | workflow와 안전성 |
@@ -519,12 +627,16 @@ G1–G3은 audit trigger이며 진단 정확도의 대체물이 아니다. G4가
 ## 17. 기대성과
 
 1. 의료 정량지표 Tier 1–4와 별도 모델평가·통계·QC registry의 역할과 증거 수준을 명확히 한 정량검증 표준
-2. 두 기반 모델의 concept-level 공통성과 차이를 보여주는 paired benchmark
-3. 외부 성능 저하를 조기에 경보하는 semantic transportability dashboard
-4. 기존 지표와 AI의 실제 중복·상보성에 대한 외부검증 근거
-5. shortcut을 배제한 신규 형태·공간 바이오마커 후보
-6. 병리전문의가 감사 가능한 human-in-the-loop AI 검증 workflow
-7. 질병별 확장 가능한 패키지, 카탈로그, 프로토콜과 재현성 산출물
+2. 복수 지표의 개별·조건부 복원성, 포함관계와 joint completeness를 제시하는 paired
+   CONCH–Virchow benchmark
+3. Targeted erasure와 matched control로 사람 정량지표의 실제 기능적 사용과 대체
+   가능한 정보를 분리한 근거
+4. 외부 성능 저하를 조기에 경보하는 semantic transportability dashboard
+5. 기존 지표와 AI의 실제 중복·상보성에 대한 외부검증 근거
+6. 알려진 지표와 shortcut을 배제하고 두 FM·외부 cohort에서 반복되는 신규 형태·공간
+   정량 마커 후보
+7. 병리전문의가 감사 가능한 human-in-the-loop AI 검증 workflow
+8. 질병별 확장 가능한 패키지, 카탈로그, 프로토콜과 재현성 산출물
 
 ## 18. 최종 성공 정의
 
@@ -532,13 +644,19 @@ G1–G3은 audit trigger이며 진단 정확도의 대체물이 아니다. G4가
 지표를 만드는 것이 아니다. 다음 조건을 순서대로 충족하는 것으로 정의한다.
 
 1. 정량지표가 독립적이고 재현 가능하게 측정된다.
-2. AI–정량지표 관계가 환자분리 방식으로 평가된다.
-3. 두 기반 모델의 공통·모델특이 신호가 구분된다.
-4. 외부 코호트에서 관계 보존과 실제 성능이 함께 평가된다.
-5. semantic concordance가 QC/OOD 이상의 정보를 주는지 검증된다.
-6. 잔차 후보가 shortcut 감사를 통과한다.
-7. 신규 지표가 독립 assay, outcome과 코호트에서 재현된다.
-8. 임상적 주장은 전향·외부 근거가 허용하는 범위로 제한된다.
+2. 세 개 이상의 사전 정의 metric family에서 개별·조건부 복원성과 포함관계가 환자분리
+   방식으로 평가된다.
+3. 복수 사람 지표 패널이 각 모델의 표현과 질병판단을 설명하는 joint completeness가
+   OOF와 외부 표본에서 측정된다.
+4. 독립 metric–endpoint 쌍에서 `R+A+U+T` 증거 사슬과 matched control이 적용되어
+   기능적 사용, 대체 정보와 상보성이 분리된다.
+5. 두 기반 모델의 공통·모델특이 신호와 표현·판단 residual이 구분된다.
+6. 외부 코호트에서 관계 보존, targeted-erasure effect과 실제 성능이 함께 평가된다.
+7. semantic concordance와 residual shift가 QC/OOD 이상의 정보를 주는지 검증된다.
+8. residual 후보가 shortcut 감사와 blinded pathology review를 통과하고 명시적·반복 가능한
+   측정 정의로 전환된다.
+9. 신규 지표가 독립 assay·omics·outcome과 외부 코호트에서 재현된다.
+10. 임상적 주장은 전향·외부 근거가 허용하는 범위로 제한된다.
 
 ## 19. 핵심 참고문헌과 방법론
 
@@ -548,7 +666,13 @@ G1–G3은 audit trigger이며 진단 정확도의 대체물이 아니다. G4가
 - Concept bottleneck/TIL: [PubMed 38942745](https://pubmed.ncbi.nlm.nih.gov/38942745/)
 - TCAV: [Kim et al.](https://proceedings.mlr.press/v80/kim18d.html)
 - Concept Bottleneck Models: [Koh et al.](https://proceedings.mlr.press/v119/koh20a.html)
+- Completeness-aware concept explanations: [Yeh et al.](https://research.google/pubs/on-completeness-aware-concept-based-explanations-in-deep-neural-networks/)
+- Linear concept erasure: [LEACE](https://proceedings.neurips.cc/paper_files/paper/2023/file/d066d21c619d0a78c5b557fa3291a8f4-Paper-Conference.pdf)
 - CKA: [Kornblith et al.](https://proceedings.mlr.press/v97/kornblith19a.html)
+- Cross-FM representational similarity: [Mishra et al.](https://proceedings.mlr.press/v297/mishra26a.html)
+- Sparse feature recovery from pathology FM embeddings: [PLUTO-SAE](https://arxiv.org/abs/2407.10785)
+- Large-scale pathology concept atlas: [PICASSO](https://pubmed.ncbi.nlm.nih.gov/42367854/)
+- Interpretable spatial marker discovery: [PathPrism](https://pubmed.ncbi.nlm.nih.gov/42276049/)
 - Counterfactual pathology: [MoPaDi](https://pubmed.ncbi.nlm.nih.gov/42308255/)
 - Site-specific shortcuts: [Howard et al.](https://pubmed.ncbi.nlm.nih.gov/34285218/)
 - Pathology foundation-model robustness: [PathoROB](https://pubmed.ncbi.nlm.nih.gov/42277006/)
@@ -559,7 +683,21 @@ G1–G3은 audit trigger이며 진단 정확도의 대체물이 아니다. G4가
 - 정량지표 패키지 설명: `docs/metric_taxonomy/01-02-01-quantitative-metrics-package-ko.md`
 - 지표·질병 서베이: `infrastructure/packages/vlm_pathology_metrics/SURVEY_KO.md`
 - 두 기반 모델 canonical 마일스톤: `projects/quantitative_foundation_model_validation/docs/research_plan/01-01-foundation-model-validation-milestones-ko.md`
+- FM6 ISUP–BCR source·power protocol: `projects/quantitative_foundation_model_validation/docs/protocols/fm6-isup-bcr-source-and-power-protocol-ko.md`
+- FM6 TCGA 개발 source package: `projects/quantitative_foundation_model_validation/milestones/fm6_development_source_package/outputs/fm6-development-source-package-report.md`
+- FM6 TCGA WSI 전처리·환자 집계 protocol: `projects/quantitative_foundation_model_validation/docs/protocols/fm6-tcga-wsi-preprocessing-and-aggregation-protocol-ko.md`
+- FM6 TCGA WSI 기술 QC: `projects/quantitative_foundation_model_validation/milestones/fm6_development_source_package/outputs/fm6-tcga-wsi-qc-report.md`
+- FM6 TCGA whole-tissue 내부 개발 pilot: `projects/quantitative_foundation_model_validation/milestones/fm6_internal_development_pilot/outputs/fm6-tcga-internal-development-pilot-report.md`
 - 기반 모델 정량검증 사전실험: `docs/15_FOUNDATION_MODEL_QUANTITATIVE_VALIDATION_PREEXPERIMENT_PLAN_KO.md`
 - PRECISE 전체 로드맵: `projects/precise_pni_candidate_triage/docs/project_plan/01-precise-pni-project-plan-ko.md`
 - Frozen-score 승인 설계: `projects/precise_pni_candidate_triage/docs/designs/2026-08-05-precise-pni-frozen-score-audit-design.md`
 - Morphology 승인 설계: `projects/precise_pni_candidate_triage/docs/designs/2026-08-06-precise-pni-morphology-rereview-design.md`
+
+## 21. 변경 이력
+
+| 날짜 | 버전 | 변경 내용 | 운영 범위 영향 |
+|---|---:|---|---|
+| 2026-08-15 | 0.5 | TCGA-PRAD eligible WSI 437장 전체를 GDC size/MD5로 이중 검증하고 outcome-blind header·thumbnail·MPP QC, 5-fold 환자 split, 394.24 µm FOV와 slide→patient 집계 규칙을 고정 | WSI acquisition gate를 닫고 preprocessing/tumor-region gate로 이동; endpoint equivalence·독립 tumor-region·disease-head validity·power·embargo 미충족으로 H2와 residual 분석은 계속 잠금 |
+| 2026-08-15 | 0.4 | TCGA-PRAD current-GDC ISUP–BCR 개발 universe 392명/80 events와 WSI UUID를 QFM source package로 hash-lock하고 TCGA–CHIMERA harmonization을 감사 | patient-level pooling 금지; 미확보 WSI·tumor-region·aggregation·power가 남아 H2와 claim ceiling은 계속 잠금 |
+| 2026-08-15 | 0.3 | CHIMERA Task 1 외부 source 확보와 ISUP–Gleason semantic QC, BCR month 단위, embargo 및 source/power protocol을 등록 | 외부 source 존재를 반영하되 H2·외부 transport·residual 분석과 claim ceiling은 계속 잠금 |
+| 2026-08-14 | 0.2 | 복수 사람 지표의 복원·포함·완전성, targeted functional-use 검증, cross-model·external residual의 신규 지표 전환을 최상위 핵심 목표로 확정 | 현재 claim ceiling과 FM6 잠금을 해제하지 않음; 기존 metric–endpoint·subject/event·external gate 유지 |

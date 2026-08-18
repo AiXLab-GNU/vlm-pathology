@@ -1773,7 +1773,7 @@ def build_transportable_signals(root: Path) -> pd.DataFrame:
                 "source_field": f"data_provider|{outcome}|{prediction}",
             })
 
-    precise_results_path = "resources/data/shared/opendataset/PRECISE/spatial_facevalidity_results_150um.csv"
+    precise_results_path = "resources/artifacts/prostate_biomarker_validation/precise_spatial_face_validity/spatial_facevalidity_results_150um.csv"
     precise_participants_path = "resources/data/shared/opendataset/PRECISE/participants.csv"
     precise = _submission_csv(root, precise_results_path)
     participants = _submission_csv(root, precise_participants_path).set_index("IMAGE_NAME")

@@ -1,0 +1,177 @@
+The Methods retain the information needed to interpret and reproduce the main claims;
+implementation details, complete sensitivity families, and missingness accounting are
+provided in Supplementary Sections S1--S12. The analyses, endpoints, folds, and frozen
+estimates were inherited from the source prostate-biomarker study without retrospective
+optimization for this manuscript.
+
+\subsection{Study design and interpretation contract}
+
+Representation--target alignment was defined as association or discrimination between a
+registered target and the patient-disjoint out-of-fold or locked external output of a probe
+fitted to a frozen representation. The primary design compared Grade/ISUP, tumor
+phenotype/content, PTEN loss, SPOP mutation, AR activity, and recurrence under
+target-appropriate metrics and qualification axes. It tests whether target-related
+information is recoverable and reproducible, not whether a disease-prediction head uses the
+same human concept. A secondary extension tested Grade/ISUP with locked BCR heads, targeted
+erasure, and matched controls because this axis had the required recoverable direction and
+available internal outcome frame. This unequal testing depth is reported as part of the
+six-axis evidence map rather than interpreted as evidence that grade is uniquely important.
+Neither analysis establishes mechanistic equivalence, indispensable use, complete
+explanation, clinical utility, or an observed effect on clinician trust or reliance.
+Clinician trust, reliance, diagnostic performance, and clinical utility were not study
+endpoints.
+
+Targets were evaluated on the evidence axes permitted by their data: primary recoverability,
+cross-cohort transport, conditional increment, site behavior, representation and sampling
+sensitivity, and endpoint fidelity. The resulting states---transportable,
+context-sensitive, unsupported in the frozen design, unresolved, not evaluated, or not
+applicable---are evidence summaries rather than model-confidence or clinical-action scores.
+
+\subsection{Cohorts, targets, and analysis units}
+
+NADT-Prostate supplied source grade and tumor-phenotype labels; PANDA supplied Karolinska
+and Radboud case images and official ISUP grades for locked transport; PRECISE supplied
+session-level pathologist Gleason scores; TCGA-PRAD supplied histology, grade, PTEN loss,
+SPOP mutation, AR activity, and recurrence-style endpoints; and LEOPARD supplied BCR labels
+for fitting the transferred recurrence score \cite{nadt2021,panda2022,precise2026,leopard2026,grisi2026}.
+Only evaluable target rows were used, and missing or uncertain outcomes were not recoded as
+negative. Patient, case-image, session, and slide effects remained explicitly distinct.
+
+For NADT, predictions and labels were aggregated by patient and phenotype was the mean
+tumor fraction. PANDA sampling capped each institution--ISUP stratum at 100 cases before
+tissue filtering; its phenotype target was ISUP 0 versus ISUP at least 1. Recurrence-style
+definitions were not pooled or renamed: reconstructed with-tumor recurrence, strict
+recurrence, TCGA-CDR PFS and DFS, and official PFI retained separate identities
+\cite{tcgacdr2018}. Full cohort, target, event, and analysis-unit definitions are given in
+Supplementary Sections S1 and S9.
+
+\subsection{Frozen representations, probes, and evaluation}
+
+CONCH and Virchow encoder weights remained frozen. Tissue-qualified tiles were converted to
+embedding vectors and averaged into slide representations; patient endpoints then used
+patient aggregation. The sensitivity program crossed encoder, native or shared physical
+scale, tile budgets of 16, 32, or 64, and five sampling seeds on fixed cohorts and folds.
+
+Continuous targets used standardized ridge regression and binary TCGA-PRAD targets used
+standardized logistic regression. Ridge regression is a linear model whose coefficient
+penalty stabilizes fits when thousands of correlated embedding features are available for
+far fewer patients; the fitted coefficients define a target-predictive direction rather than
+a localized gland or cell type. Logistic regression converts a weighted embedding score to a
+binary probability. Within-cohort evaluation used five patient-disjoint grouped folds, so
+every patient was scored by a probe fitted without that patient's data. Locked transfer
+applied the source probe and preprocessing to the target cohort without refitting.
+
+Metrics followed the clinical target type. Continuous or ordinal targets used patient
+Spearman correlation, which asks whether predicted and observed ranks move together. Binary
+targets used AUROC, a threshold-free ranking measure rather than classification accuracy at
+one cutoff; AUROC does not choose a clinical sensitivity/specificity threshold. Survival risk
+used C-index, which asks whether the higher predicted risk precedes
+the earlier observed event among comparable pairs while accounting for censoring. Spearman
+and incremental-$R^2$ nulls were 0; AUROC and C-index nulls were 0.5. These measures assess
+association or discrimination, not probability calibration, causal mechanism, or clinical
+benefit; it is not a calibrated survival probability.
+
+The saved discovery family used two-sided Spearman or Mann--Whitney tests and
+Benjamini--Hochberg false-discovery-rate control. Grade-adjusted audits used nested outer
+patient-disjoint evaluation and a grade-stratified permutation test of held-out increment.
+The full fitting specifications, nulls, multiplicity family, site resampling, and plain-language
+statistical definitions are retained in Supplementary Sections S2, S3, S6, and S7.
+
+\subsection{Conditional, setting, and outcome qualification}
+
+PTEN and AR conditional analyses compared clinical-only, image-only, and combined models in
+nested patient-disjoint folds. Primary held-out increments were change in AUROC for PTEN and
+change in $R^2$ for AR. Here $R^2$ is the proportion of held-out variation explained, and the
+registered delta was combined minus grade-only; a positive delta therefore favors adding the
+image-derived score. The untouched outer fold estimates that increment without reusing the
+patients that selected or fitted the probe. AR site effects used slide-level Spearman
+correlation with patients resampled as clusters. Site labels remained entangled with
+acquisition and case mix and were not interpreted causally.
+
+Encoder, scale, tile-budget, and seed repeats reused patients and folds. Seed summaries and
+390 seed-matched contrasts therefore describe correlated analytic sensitivity rather than
+independent replication. The complete grid, ranges, null crossings, and paired contrasts are
+reported in Supplementary Section S8.
+
+The post-hoc recurrence score was fitted with a Cox model in LEOPARD and applied unchanged
+to TCGA-PRAD. Reconstructed recurrence and official PFI were evaluated separately. Paired
+clinical-versus-image comparisons reused the same complete-case patients and bootstrap draw;
+positive C-index or integrated Brier score improvement favored the augmented model under the
+registered delta definition. C-index improvement was augmented minus reference. Because a
+lower integrated Brier score indicates smaller time-dependent prediction error, its delta was
+defined in the reverse direction---reference minus augmented---so that positive consistently
+favored augmentation. The PCA sweep was exploratory and not an unbiased model-selection
+estimate. Endpoint definitions and all paired comparisons are provided in Supplementary
+Section S9.
+
+\subsection{Secondary ISUP functional-sensitivity extension}
+
+After the six targets had been evaluated at the representation level, the FM6 extension
+tested whether the most developed eligible coordinate affected an internal downstream head.
+It used 27,968 paired whole-tissue tiles aggregated to 392 TCGA-PRAD patients, including 80
+BCR events. CONCH and Virchow were evaluated separately under the same five outer
+patient-disjoint folds. Within each training fold, 64 principal components summarized the
+representation, standardized ridge regression learned an ISUP direction, and a
+ridge-penalized Cox model learned BCR risk. Regularization was selected from the fixed grid
+0.1, 1, 10, 100, and 1,000 using training data only.
+
+For the primary intervention, the fitted Cox coefficients were locked while the normalized
+ISUP-probe direction was projected out of held-out representations. The estimand was full
+minus erased C-index. One hundred variance-matched random directions and 20 label-permuted
+directions served as controls; the one-sided empirical $p$ value compared targeted erasure
+with the matched-random distribution. A secondary analysis refitted the Cox head after
+erasure to test compensation. Patient-bootstrap intervals used 2,000 resamples, and ISUP
+recoverability used 200 label permutations.
+
+An ISUP-plus-AI versus ISUP-only comparison was a limited internal boundary check, not a
+comprehensive clinical-increment study. The analysis remained whole-tissue because the
+tumor detector's locked threshold failed the prespecified sensitivity gate in both newly
+held-out PANDA providers. Supplementary Section S5A reports the complete intervention and
+detector results and the associated claim ceiling. No equivalent head intervention was
+performed for the other five axes; their distinct eligibility and data limitations are
+reported in Table~\ref{tab:alignment-summary} and the Discussion.
+
+For manuscript closure, the FM6 analysis was rerun under the locked protocol with the same
+392 patients, 80 events, saved paired embeddings, five folds, random seed, preprocessing,
+regularization grids, resampling counts, controls, endpoints, and output schema. No tuning or
+data-dependent change was permitted. Before execution, the SHA-256 hashes of 20
+protocol-defined nonvolatile outputs were retained as the baseline; volatile execution time
+and device metadata were excluded from this comparison. The analysis and figure-rendering
+entry points then regenerated the outputs, and handoff required exact equality of all 20
+hashes plus unchanged headline estimates and gate states. A mismatch would have stopped
+manuscript handoff rather than triggered retrospective tuning. This procedure tests exact
+computational reproducibility of the internal analysis, not external biological replication.
+
+The FM6 gate labels separate four questions: R, recoverability of ISUP from the frozen
+whole-tissue representation; A, internal association of the locked head with BCR; U,
+functional sensitivity of that head to targeted ISUP-direction removal; and T, equivalent
+external transport. R, A, and U passed at the stated internal exploratory level for both
+encoders, T was not tested, and the protocol therefore prohibited a strong H2 functional-use
+claim.
+
+\subsection{Uncertainty, missingness, and provenance}
+
+Where supported by the saved source, estimates used 95\% percentile patient-bootstrap
+intervals; the patient bootstrap resamples patients rather than slides. AR site intervals
+used patient-cluster resampling. Unavailable intervals, event
+counts, single-class sites, undefined replicates, and legacy bootstrap accounting were
+preserved rather than reconstructed. An interval containing the registered null was treated
+as unresolved evidence, not proof that the biological relationship is absent; an interval excluding the null
+did not substitute for transport, functional-use, or clinical-utility evidence. The
+Benjamini--Hochberg procedure controlled the false-discovery rate across the saved discovery
+family, whereas target-specific bootstrap intervals described estimation uncertainty. No
+multiple imputation was performed for the paired recurrence analysis. Supplementary Section
+S10 provides the complete accounting.
+
+Analyses used the repository's locked Python environment, fixed seeds, and auditable entry
+scripts. The builder verifies owner, byte count, and SHA-256 hash for every source registered
+in \path{provenance/source_evidence_manifest.csv}; figures and tables are regenerated from
+saved source tables, and a mismatch fails the build. Claim, endpoint, and numeric registries
+provide row-level lineage. The prostate-biomarker project remains owner of the frozen source
+analyses, while QFM owns this derivative manuscript.
+
+\paragraph{Large language model assistance.}
+OpenAI Codex assisted code editing, test authoring, figure production, and language revision.
+It was not treated as an author and did not independently determine endpoints or scientific
+conclusions. Product/model version, usage dates, and the accountable authors' final
+verification statement require confirmation before submission.

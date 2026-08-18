@@ -1,0 +1,16 @@
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Held-out molecular-target increments beyond grade. Delta is the image-augmented model minus the grade reference on untouched outer-fold patients; positive values favor adding the image score. Intervals are 95 percent patient-bootstrap intervals.}
+\label{tab:supp-conditional-increments}
+\begin{tabular}{@{}p{0.12\textwidth}p{0.12\textwidth}p{0.12\textwidth}p{0.08\textwidth}p{0.13\textwidth}p{0.28\textwidth}@{}}
+\toprule
+Target & Encoder & Metric & n & Delta & Interval \\
+\midrule
+PTEN & CONCH & AUROC & 273 & +0.019 & -0.025 to +0.068 \\
+AR & CONCH & R2 & 273 & +0.004 & -0.036 to +0.042 \\
+PTEN & Virchow & AUROC & 273 & +0.035 & -0.013 to +0.087 \\
+AR & Virchow & R2 & 273 & +0.019 & -0.015 to +0.051 \\
+\bottomrule
+\end{tabular}
+\end{table}

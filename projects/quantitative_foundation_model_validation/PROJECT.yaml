@@ -1,7 +1,10 @@
 project_id: quantitative_foundation_model_validation
-scientific_question: recoverability and functional use of medical quantitative metrics in foundation-model representations
-current_milestone: FM4_entry_gate
-current_claim_ceiling: internal_descriptive_recoverability
+scientific_question: >-
+  how completely multiple independent clinical and pathology quantitative metrics explain
+  CONCH and Virchow representations and locked disease decisions, and whether reproducible
+  residual morphology can be converted into externally validated quantitative marker candidates
+current_milestone: alignment_manuscript_author_controlled_metadata_handoff
+current_claim_ceiling: internal_whole_tissue_exploratory_R_A_U
 allowed_target: tumor_fraction
 allowed_models: [CONCH, Virchow]
 allowed_fov_um: 394.24
@@ -12,3 +15,7 @@ canonical_execution_tracker: docs/research_plan/01-01-01-foundation-model-valida
 survey_index: docs/surveys/README.md
 results_index: reports/README.md
 paper_entrypoint: paper/README.md
+alignment_manuscript_owner: quantitative_foundation_model_validation
+alignment_manuscript_scope: known_target_alignment_plus_internal_ISUP_functional_sensitivity
+alignment_manuscript_claim_ceiling: internal_exploratory_not_indispensable_external_or_clinically_incremental
+alignment_evidence_source_owner: prostate_biomarker_validation

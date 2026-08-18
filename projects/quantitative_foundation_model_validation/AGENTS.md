@@ -10,7 +10,11 @@ not in a new root folder, and require the structure-Codex metadata header.
 - 의료 T1–T4 지표와 모델 성능·QC·감사용 analysis measures를 분리한다.
 - H1 recoverability, disease association, H2 functional utilization,
   complementarity와 external transport는 별도 estimand와 gate로 관리한다.
-- 현재 허용 표적은 shared 394.24 µm `tumor_fraction`의 내부 descriptive H1뿐이다.
+- 확증적으로 허용된 표적은 shared 394.24 µm `tumor_fraction`의 내부 descriptive H1뿐이다.
+- FM6에서는 별도 잠금 프로토콜에 따른 TCGA-PRAD whole-tissue 내부 개발 pilot을
+  허용한다. 이 pilot은 BCR head 유효성, ISUP 복원성, ISUP-correlated subspace
+  sensitivity와 power 입력을 산출할 수 있으나, 독립 tumor-region truth가 없으므로
+  tumor-specific H1/H2·외부 이식성·신규 residual marker의 근거로 승격하지 않는다.
 - 측정 반복성 없는 confirmatory target 지정, 임상/whole-slide 진단, encoder 우월성,
   scanner/stain robustness 및 독립 metric–endpoint·충분한 subjects/events·외부검증 없는
   H2는 금지한다.

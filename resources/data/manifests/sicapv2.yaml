@@ -1,0 +1,9 @@
+dataset_id: SICAPv2
+data_class: external_pathology_pixel_annotation
+projects: [quantitative_foundation_model_validation]
+local_archive: resources/data/shared/opendataset/SICAPv2 - Prostate Whole Slide Images with Gleason Grades Annotations.zip
+archive_size_bytes: 2153353595
+archive_sha256: e08c5c17d03096baf10805daf54ec05b91ef6e7835a8cff66e5df862d29ad8f1
+local_extracted_root: resources/data/shared/opendataset/SICAPv2/SICAPv2
+declared_use: independent tumor-region detector development and locked official-split audit
+rule: raw images, masks, detector weights, arrays, and patient-level outputs are not committed

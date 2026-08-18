@@ -1,0 +1,122 @@
+The central result is not that one prostate-cancer target explains a foundation model. It is
+that six clinically interpretable axes occupy different, empirically distinguishable
+positions in a shared-coordinate map. Grade/ISUP and tumor phenotype/content provided the
+broadest representation-level transport; PTEN loss and AR activity were detectable but
+became conditional under clinical or site audits; SPOP mutation did not yield a qualified
+direction; and recurrence changed with endpoint, comparator, encoder, and scale. These
+contrasts are the main scientific finding. The ISUP intervention is important because it
+extends the best-developed axis one step further, from representation availability to
+internal functional sensitivity, but it does not make ISUP the sole organizing target.
+
+This hierarchy must be read together with reference availability. The study did not ask a
+slide-only model to agree with six unobserved quantities: each reported estimate compared a
+slide-derived embedding with an available, target-specific paired reference. What differed
+was the breadth of those references. Grade and phenotype had the widest compatible external
+coverage; PTEN, SPOP, and AR molecular references were largely confined to TCGA-PRAD; and
+recurrence references used non-equivalent event definitions. Missing external or same-patient
+functional truth therefore produced not-evaluated or blocked cells, not evidence of
+non-alignment. By contrast, SPOP was unsupported after comparison with an available genomic
+reference. The observed hierarchy consequently reflects both biological accessibility in
+H\&E and unequal opportunities for transport and functional validation.
+
+The morphology results illustrate both the promise and the incompleteness of a shared
+coordinate. Grade describes architectural differentiation, whereas phenotype/content
+describes the presence or amount of tumor-like tissue. Both were recoverable and retained
+direction under compatible external application without target-cohort refitting, making
+them the strongest current candidates for cross-cohort interpretation. Their different
+clinical meanings remain essential: a model can encode tumor amount without encoding
+aggressiveness, and can encode grade without measuring tumor burden. Transport also does not
+show that either coordinate completely explains the representation or is used by every
+downstream task. Moreover, PANDA phenotype transport used grade-derived tumor-versus-benign
+status rather than an independent quantitative tumor-content assay, so it supports a
+transported tumor-related direction but not externally reproduced exact tumor fraction.
+
+The molecular targets show why a positive pooled estimate is not a sufficient explanation.
+PTEN-related information was recoverable in the frozen primary analysis (AUROC 0.632), and
+AR activity showed positive pooled alignment (Spearman $\rho=0.195$). Yet held-out
+increments beyond grade included the null, and the AR site intervals did not establish site
+transport. These findings support conditional histology--molecular associations, not routine
+molecular diagnosis from H\&E and not evidence that a BCR head used PTEN or AR. SPOP provides
+the complementary negative qualification: its primary estimate and setting range did not
+support a stable recoverable direction. That result limits SPOP-based interpretation in this
+design without implying that SPOP biology is absent or unimportant.
+
+Recurrence occupies a different level again. It is a post-treatment patient outcome shaped
+by disease biology, treatment, follow-up, censoring, and the event definition rather than a
+microscopic feature directly assigned to the slide. The transferred image score ranked risk
+more strongly for reconstructed recurrence than for official PFI, and its apparent increment
+changed with the clinical reference and metric. Recurrence is therefore evidence that an
+embedding can carry endpoint-associated risk information, but it is not an interchangeable
+sixth pathology feature or a validated prognostic biomarker. Keeping the endpoints separate
+prevents a favorable result under one definition from being silently generalized to another.
+
+The evidence-qualified design explains this hierarchy more faithfully than one pooled
+accuracy number. Recoverability asks whether target-related information is accessible;
+external transport asks whether the same fitted rule retains direction elsewhere;
+conditional and site audits ask whether clinical structure or acquisition context narrows
+the interpretation; and representation, sampling, and endpoint audits test different forms
+of dependence. CONCH and Virchow are therefore complementary probes of target-specific
+representation sensitivity rather than contestants in a universal model ranking. Likewise,
+the 360 seed cells and 390 matched setting contrasts expose analytic sensitivity but do not
+create new patients, institutions, or independent replications.
+
+This position differs from methods that directly connect concepts to a trained prediction.
+TCAV estimates prediction sensitivity along a concept direction, and concept bottleneck
+models route predictions through explicit, intervenable concepts \cite{kim2018,koh2020}.
+Recent medical-imaging and pathology systems have similarly linked model-important regions
+or concept embeddings to expert-recognizable findings \cite{lou2026,han2026}. Here, the
+primary contribution is comparative qualification of pre-existing clinical targets in
+frozen representations. The targeted-erasure experiment is a secondary worked example of
+how a qualified coordinate may be tested against a downstream decision; it is not a complete
+concept-grounded architecture or a mechanistic-fidelity result.
+
+Among the six axes, Grade/ISUP had the most complete available evidence chain. Removing an
+ISUP-correlated direction reduced fixed-head concordance more than variance-matched random
+removal for both CONCH and Virchow, arguing against an idiosyncrasy of one representation.
+Refitted heads could nevertheless compensate within statistical uncertainty, and the
+limited ISUP-only comparison was not designed or powered as a comprehensive
+clinical-increment study. The warranted claim is therefore internal sensitivity of two BCR
+heads to an ISUP-correlated subspace, not necessary use of a human-equivalent grading
+mechanism, external functional transport, or absence of clinical increment.
+
+Exact agreement of all 20 protocol-defined nonvolatile output hashes in the locked clean
+rerun strengthens the computational reproducibility of this internal result. It does not add
+new patients, institutions, outcomes, or labels and therefore cannot upgrade the claim to
+external functional replication.
+
+The other five axes stop at different points for different reasons. Phenotype/content has
+strong transported representation evidence, but its BCR-head intervention is blocked by the
+absence of independently validated same-patient tumor-content truth in the TCGA BCR frame and
+by unresolved independent-domain detector sensitivity. PTEN and AR functional-use tests are
+feasible in principle but were not run; they require a newly locked molecular-label--BCR
+intersection, adequate event counts, folds, directions, matched controls, and preferably an
+external molecular--BCR cohort. SPOP was not advanced because a reliable intervention
+direction was not qualified. Recurrence is the outcome predicted by the BCR head, so its
+appropriate next test is external prognostic validation rather than erasure as though it
+were an input pathology coordinate. Absence of a functional-use result is therefore not one
+common negative result, and it does not show that a head ignores PTEN, AR, phenotype, or any
+other untested axis.
+
+Several limitations bound the comparative hierarchy. External target-matched cohorts were
+available mainly for morphology, so stronger transport there partly reflects greater
+opportunity for testing. Some external rows lacked retained interval estimates, several
+molecular binary rows lacked preserved event-count accounting, and site remained confounded
+with acquisition and case mix. The recurrence signal was post hoc, endpoint definitions
+differed, and paired analyses used complete cases with modest event counts. The remediated
+tumor detector met the accepted secondary SICAP specificity threshold, but sensitivity
+remained below the prespecified threshold in both held-out PANDA providers; the ISUP
+functional result must therefore remain whole-tissue and internal. None of the six axes was
+evaluated for calibration, treatment utility, autonomous diagnosis, or population-wide
+generalization. Clinician trust, reliance, diagnostic accuracy, and the effect of presenting
+these coordinates were not measured; any benefit for calibrated reliance remains a
+prospective hypothesis. Clinically familiar explanations can themselves increase
+inappropriate reliance \cite{prinster2024}, which makes that prospective test necessary.
+
+Joint completeness and residual-marker discovery are deliberately separate next questions.
+Completeness would require two or more independently measured clinical or pathology targets
+on the same patients, a pre-specified joint intervention, and adequate external outcome
+data. A new residual marker would additionally require removal of known targets and technical
+confounders, repetition across models and independent cohorts, an explicit measurable marker
+definition, and biological or clinical validation. Separating those studies preserves the
+present contribution: a comparative map of what is currently shared, what is conditional,
+what is unsupported, and which evidence step each target must satisfy next.

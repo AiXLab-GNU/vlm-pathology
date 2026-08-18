@@ -79,3 +79,12 @@ its evidence is site-, endpoint-, encoder-, scale-, or configuration-dependent. 
 stopped when integrity reconciliation fails, an endpoint is substituted, the analysis is
 underpowered or undefined, or the frozen design does not support it. Additional experiments
 or external cohorts require an approved plan rather than retrospective reinterpretation.
+
+## Cross-project manuscript handoff
+
+The frozen analyses and source tables remain owned by this project. The derivative
+alignment-centered manuscript under `quantitative_foundation_model_validation` may use only
+items enumerated in its hash-locked source-evidence manifest. That manuscript may interpret
+recoverability and transport as candidate shared interpretive coordinates, but it may not
+reinterpret them as functional use by a disease-prediction head. The original PBV submission
+bundle remains unchanged provenance and is not a compatibility copy of the derivative paper.

@@ -1,0 +1,105 @@
+Clinical adoption of artificial intelligence requires calibrated reliance rather than blind
+trust or a persuasive explanation attached to every output. Clinicians should be able to
+judge when an AI output has a defensible basis, when it should be challenged, and where the
+model's competence ends. Explanations that fit the decision context can support rational
+checking \cite{tonekaboni2019}, but familiar explanations can also increase reliance when AI
+advice is wrong \cite{prinster2024}. A clinically recognizable explanation is therefore not
+evidence of trustworthy model behavior unless the proposed link can itself be tested.
+
+Clinically established quantitative and ordinal targets offer a possible interface for such
+testing. A pathologist can define, measure, contest, and communicate grade or tumor extent;
+molecular laboratories can provide assay-defined targets; and clinical records provide
+outcomes. If an AI signal is demonstrably linked to one of these targets, the proposed basis
+becomes inspectable: a pathologist can confirm that the tissue supports the named feature,
+reject the explanation when it does not, or identify a meaningful discordance. Concept-based
+methods provide precedents. TCAV tests prediction sensitivity to human-defined concepts, and
+concept bottleneck models make named concepts explicit and intervenable
+\cite{kim2018,koh2020}. Medical-imaging and pathology systems have likewise exposed
+confounders or connected influential regions and embeddings to expert-recognizable findings
+\cite{sauter2022,lou2026,han2026}. These studies also show why concept labels, embedding
+similarity, and actual decision dependence cannot be treated as interchangeable.
+
+Three evidence stages are particularly easy to collapse. A target may be recoverable from a
+frozen representation; that relationship may reproduce across cohorts and technical
+settings; and a downstream disease head may functionally use the target. Only the third
+directly tests sensitivity of a particular prediction rule, and even faithful functional use
+would not prove clinical benefit. We therefore order the evidence as recoverability,
+reproducibility and qualification, functional-use testing, and finally prospective evaluation
+of clinician reliance and utility. Each stage enables, but does not replace, the next.
+
+\paragraph{Clinical orientation and reference availability.}
+The disease studied here is predominantly prostate adenocarcinoma. Routine hematoxylin-and-
+eosin (H\&E) sections expose gland architecture, tumor amount, and tissue context but do not
+directly measure DNA alterations or transcriptional activity. The six study axes therefore
+span different biological levels \cite{panda2022,tcgaprad2015,tcgacdr2018}. Grade/ISUP measures
+architectural differentiation; tumor phenotype/content measures tumor presence or
+amount; PTEN loss and SPOP mutation are binary molecular alterations; AR activity is a
+continuous transcriptional pathway score. Recurrence is a patient outcome observed after
+treatment rather than a microscopic structure graded on the slide. They are not six
+interchangeable measures of ``cancer severity.''
+
+Crucially, the slides were model inputs, not the only study data. Every reported alignment
+estimate paired a slide-derived frozen embedding with a target-specific reference at the same
+analysis unit. The encoder was not fine-tuned on these study labels; a lightweight probe used
+the paired references to test whether the embedding contained recoverable target
+information. Reference availability nevertheless differed: morphology had compatible
+external labels, molecular references were largely confined to TCGA-PRAD, and recurrence
+definitions were non-equivalent across resources. Missing reference data were treated as not
+evaluable, not as evidence of non-alignment. Unsupported required an available comparison
+that did not qualify the proposed signal, as for SPOP. The detailed target, reference,
+availability, metric, and cohort frames are provided in Supplementary Section S1.
+
+\paragraph{Why the six prostate-cancer axes are not interchangeable.}
+A positive result supports a different claim at each level. Grade and phenotype are direct
+morphology targets; PTEN, SPOP, and AR are indirect histology--molecular associations; and
+recurrence is shaped by biology, treatment, follow-up, censoring, and endpoint definition.
+Recovering a target shows that related information is accessible in the embedding, not that
+H\&E replaces a molecular assay or that a later prediction head uses the target. Conversely,
+failure to recover or transport a target warns against invoking it as an explanation, but
+does not prove absence of the underlying biology.
+
+Existing studies often summarize image--label association with one pooled correlation or
+area under the receiver operating characteristic curve. Such a number cannot distinguish
+target information from grade composition, institutional case mix, acquisition conditions,
+sampling, or endpoint definitions \cite{dawood2026,neidlinger2025,pathorob2026}. Nor does it
+show whether a fitted relationship survives a new cohort without refitting. We therefore
+define \emph{representation--target alignment} as patient-level association or
+discrimination between a registered target and the out-of-fold or locked external output of
+a simple probe fitted to a frozen CONCH or Virchow representation
+\cite{conch2023,virchow2023}. We qualify each target across recoverability, external transport,
+conditional increment, site behavior, representation and sampling sensitivity, and endpoint
+fidelity, retaining these as an evidence vector rather than a composite score.
+
+\paragraph{Position of this study.}
+This study compares Grade/ISUP, tumor phenotype/content, PTEN loss, SPOP mutation, AR
+activity, and recurrence to determine which targets are accessible in frozen pathology
+representations and how their evidence changes across cohorts, clinical adjustment, sites,
+representations, sampling, and endpoint definitions. Grade and phenotype provide the
+broadest test of external transport; PTEN, AR, and SPOP distinguish recoverable, conditional,
+and unsupported molecular states; and recurrence tests whether outcome-linked information
+retains its meaning across event definitions and comparators. Among these axes, Grade/ISUP
+has the most complete evidence chain because it is additionally tested in two locked
+biochemical-recurrence heads as a deliberately narrow internal functional-sensitivity
+extension. ISUP is thus the most developed functional example, not the
+sole organizing target. The study does not explain a deployed model, establish indispensable
+or externally replicated functional use, comprehensively test clinical increment, or measure
+clinician reliance or benefit.
+
+Its primary task is comparative: to map the evidential status of all six axes without treating
+their labels, biological levels, or available validation opportunities as equivalent.
+
+\paragraph{Contributions.}
+This paper makes four contributions. First, it defines clinically interpretable targets as
+\emph{contestable shared coordinates} through which a pathologist can agree or disagree with
+a clinically stated basis for an AI output. Second, it provides a comparative six-axis map
+across cohorts and two foundation models, distinguishing transported morphology,
+context-sensitive molecular and outcome associations, and unsupported evidence. Third, it
+turns the map into an actionable audit vocabulary: transported coordinates can anchor
+clinician review of agreement and disagreement; conditional or unsupported axes indicate
+where explanations should be withheld; and evidence gaps prioritize external or functional
+validation. Fourth, it provides a worked extension from representation availability toward
+functional testing by applying targeted erasure and variance-matched controls to an
+ISUP-correlated direction in locked CONCH- and Virchow-derived risk heads. This final
+experiment extends rather than organizes the six-axis comparison. The proposed audit
+vocabulary is intended for model evaluation, communication, and validation planning; whether
+showing it to clinicians improves decisions remains untested.

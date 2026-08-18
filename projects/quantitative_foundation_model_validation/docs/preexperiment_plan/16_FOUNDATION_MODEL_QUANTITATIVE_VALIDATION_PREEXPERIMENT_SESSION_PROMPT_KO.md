@@ -36,7 +36,7 @@ scale, sampling, 표본 membership, 데이터 품질 또는 누출 때문인지 
 
 - 현재 PRECISE AI의 검증된 역할은 whole-slide PNI 진단이 아니라, 공간적으로 구별된
   후보 영역을 병리전문의 검토 순서로 정렬하는 candidate triage입니다.
-- `resources/data/shared/opendataset/PRECISE/precise_pni_review (1).csv`는 불변의 최종 임상의 source입니다.
+- `resources/data/precise_pni_candidate_triage/pathologist_reviews/candidate_review/precise_pni_review (1).csv`는 불변의 최종 임상의 source입니다.
   절대 수정하지 말고 SHA256
   `c1dd522b4ff4f233b3a23630bf9074da881bb7b9145996fc47c3383a0448d2a3`를 확인하십시오.
 - missing, blank, uncertain, not-evaluable 또는 unreviewed candidate를 `no`나 negative로

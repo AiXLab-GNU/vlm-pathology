@@ -1,0 +1,33 @@
+dataset_id: CHIMERA-TASK1
+data_class: external_pathology
+projects: [quantitative_foundation_model_validation]
+source_name: CHIMERA Task 1 - Prostate Cancer Biochemical Recurrence Prediction
+source_url: https://chimera.grand-challenge.org/dataset-download/
+source_bucket: s3://chimera-challenge/v2/task1/
+source_version: v2/task1
+retrieved_on: 2026-08-14
+license: CC-BY-NC-SA-4.0
+publication_policy: embargo_until_challenge_and_baseline_journal_papers_are_published
+local_root: resources/data/quantitative_foundation_model_validation/local-data/chimera_task1
+source_inventory_path: resources/data/quantitative_foundation_model_validation/local-data/chimera_task1/source_inventory.csv
+source_inventory_sha256: 06cd367f8c28a47c8da55ed3198c81a5ba8effb1b971eef97e8809ec18eabca0
+normalized_clinical_path: resources/data/quantitative_foundation_model_validation/local-data/chimera_task1/normalized_clinical.csv
+normalized_clinical_sha256: 95e62aa7c0a70d065fbaa3bf9d688f7f7d2c7fc0b27635cb190331ad042773bb
+image_payload_bytes: 404568807346
+n_subjects: 95
+n_bcr_events: 27
+n_prostatectomy_wsi: 190
+n_tissue_masks: 190
+bcr_definition: any_post_surgery_psa_ge_0.1_ug_per_l
+bcr_time_unit: months
+isup_source_status: reported_isup_with_three_gleason_mapping_discrepancies
+analysis_status: semantic_qc_flagged_publication_embargo_h2_locked
+portal_visibility:
+  raw_wsi_masks_and_clinical: never_serve
+  patient_level_normalized_clinical: never_serve
+  object_inventory: never_serve
+  outcome_derived_summaries_during_embargo: never_serve
+  acquisition_report: project_internal
+allowed_use: source_registration_integrity_qc_and_protocol_preparation_only
+prohibited_use: external_result_publication_h2_claim_or_target_cohort_tuning
+rule: raw patient-level data, WSI, masks, local inventories, arrays and derived embeddings are local and must not be committed or served by the portal

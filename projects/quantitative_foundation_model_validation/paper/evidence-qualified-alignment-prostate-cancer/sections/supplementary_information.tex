@@ -1,0 +1,445 @@
+\section*{Scope and reading rule}
+
+This Supplementary Information preserves the complete evidence needed to reproduce or
+challenge the main manuscript's target-specific alignment states. It does not enlarge the
+claim ceiling. In particular, recoverability means that a target can be predicted from a
+frozen representation by a patient-disjoint or locked external probe; it does not mean that
+a disease-prediction head functionally uses the target. Grade alone has a separate internal
+exploratory locked-head erasure analysis; it is not an external, indispensable, mechanistic,
+or clinical-increment result. No clinician trust, reliance, diagnostic-performance, or
+clinical-utility outcome was evaluated.
+
+\noindent\textbf{Abbreviations.} AR, androgen receptor; AUROC, area under the receiver
+operating characteristic curve; BCR, biochemical recurrence; C-index, concordance index;
+CONCH, CONtrastive learning
+from Captions for Histopathology; DFS, disease-free survival; H\&E, hematoxylin and eosin;
+IBS, integrated Brier score; ISUP, International Society of Urological Pathology; PANDA,
+Prostate cANcer graDe Assessment; PFI, progression-free interval; PFS, progression-free
+survival; PTEN, phosphatase and tensin homolog; SPOP, speckle type BTB/POZ protein;
+TCGA-PRAD, The Cancer Genome Atlas prostate adenocarcinoma cohort.
+
+\section*{S1. Cohort membership, target definition, and analysis unit}
+
+The main study combined five resources for complementary purposes rather than pooling them
+into one cohort. NADT-Prostate supplied source grade and phenotype probes. PANDA supplied
+Karolinska and Radboud case images for locked transfer. PRECISE supplied an additional
+session-level grade evaluation. TCGA-PRAD supplied molecular, site, and endpoint audits.
+LEOPARD supplied the source recurrence analysis. Patient, case-image, session, and slide
+units were never treated as interchangeable.
+
+Table~\ref{tab:supp-clinical-reference-primer} preserves the detailed clinical, reference,
+and metric orientation removed from the concise Main Introduction. It makes explicit that
+every reported estimate used a paired target reference while external and functional
+reference availability differed across axes.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\caption{\textbf{Clinical-target, paired-reference, and metric primer.} The metric follows
+the target type rather than a common accuracy scale. A positive representation result means
+that a probe can recover or rank the recorded target; it does not mean that H\&E replaces
+the clinical or molecular reference assay.}
+\label{tab:supp-clinical-reference-primer}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.11\textwidth}
+>{\raggedright\arraybackslash}p{0.29\textwidth}
+>{\raggedright\arraybackslash}p{0.27\textwidth}
+>{\raggedright\arraybackslash}p{0.23\textwidth}@{}}
+\toprule
+Axis & What is measured clinically or biologically & Paired reference and availability & How the study reads the target \\
+\midrule
+Grade/ISUP & Ordinal architectural differentiation; grade is not tumor amount. & Pathologist
+or source grade in NADT, PANDA, PRECISE, and TCGA; compatible external references were
+available. & Ordinal rank target; Spearman $\rho$, with 0 as the null. \\
+Tumor phenotype/\allowbreak content & Presence or fraction of tumor-like tissue; not a
+molecular subtype or aggressiveness score. & NADT tumor fraction and PANDA grade-derived
+tumor/benign status; independent same-patient truth was unavailable in the TCGA BCR frame. &
+Continuous or binary target; Spearman $\rho$ or AUROC, with AUROC 0.5 as chance. \\
+PTEN loss & Binary loss of a tumor-suppressor gene signal measured by molecular copy number.
+& TCGA-PRAD copy-number reference; compatible external transport data were unavailable. &
+Binary molecular target; AUROC. A positive result is a histology--molecular association. \\
+SPOP mutation & Binary genomic mutation state, not directly visible as a named H\&E
+structure. & TCGA-PRAD genomic reference was available; lack of a qualified signal was not
+caused by a missing target label. & Binary molecular target; AUROC. Near-chance performance
+does not prove absence of biological importance. \\
+AR activity & Continuous androgen-receptor-regulated transcriptional activity; not an
+immunostain or binary mutation. & TCGA-PRAD transcriptional activity score; compatible
+external transport data were unavailable. & Continuous molecular target; Spearman $\rho$,
+with grade-adjusted change in $R^2$ for conditional information. \\
+Recurrence & Time from treatment to a defined return or progression event. & LEOPARD and
+TCGA time-to-event references; event definitions were available but non-equivalent. &
+Censored time-to-event target; C-index for ordering and IBS for prediction error. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:supp-resource-orientation} records why the five resources and the correlated
+setting audit could not be pooled into one denominator or one validation claim.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.10}
+\caption{\textbf{Study resources, analysis frames, and roles in signal qualification.}
+Counts identify the unit used by each component and must not be summed because patients,
+slides, folds, and settings can overlap.}
+\label{tab:supp-resource-orientation}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.20\textwidth}
+>{\raggedright\arraybackslash}p{0.43\textwidth}
+>{\raggedright\arraybackslash}p{0.28\textwidth}@{}}
+\toprule
+Resource or component & Target and saved analysis frame & Role in the alignment design \\
+\midrule
+NADT-Prostate & Grade and phenotype; 39 patients & Source-cohort probe fitting and
+patient-level evaluation \\
+PANDA & Grade: 565 Karolinska and 572 Radboud case images; phenotype: 469 and 483 tumor cases
+& Cross-cohort transfer without target-cohort refitting \\
+PRECISE & Grade; 17 evaluable imaging sessions & Additional resource with a session-level
+analysis unit \\
+TCGA-PRAD & Molecular analyses: 273 patients; recurrence transfer: 270 patients; paired
+recurrence increment: 153 complete cases; FM6 frame: 392 patients and 80 events & Molecular,
+clinical-increment, site, endpoint, and scoped locked-head audits \\
+LEOPARD & Post-hoc recurrence risk score fitted in the source cohort & Transfer without
+refitting to the TCGA-PRAD target frames \\
+Correlated setting audit & Six targets; 72 configurations, 360 seed cells, and 390 paired
+contrasts & Encoder--scale--tile--seed sensitivity, not independent validation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:supp-target-registry} is the reading key for all subsequent analyses: it
+defines each target's biological layer, analysis unit, metric, and the strongest permitted
+interpretation before any numerical result is shown.
+
+\input{generated/stable1_target_registry.tex}
+
+Table~\ref{tab:supp-six-axis-evidence-stage} expands the Main evidence-state summary by
+showing why the six prostate-cancer axes are biologically non-interchangeable and by
+separating representation evidence from contribution to the BCR judgment.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.22}
+\caption{\textbf{Six prostate-cancer axes and the evidence stage reached in this study.}
+``Functional contribution'' refers specifically to a locked BCR-head intervention, not to
+whether the target is clinically or biologically relevant.}
+\label{tab:supp-six-axis-evidence-stage}
+\begin{tabular}{@{}p{0.13\textwidth}p{0.23\textwidth}p{0.27\textwidth}p{0.27\textwidth}@{}}
+\toprule
+Target & Meaning in prostate cancer & Signal in the frozen representation & Functional contribution to the AI judgment \\
+\midrule
+Grade/ISUP & Architectural differentiation and aggressiveness & Best-qualified recoverability and transport; CONCH and Virchow internal ISUP directions & Internal exploratory BCR-head sensitivity demonstrated \\
+Tumor phenotype/content & Presence or amount of tumor-like tissue, not aggressiveness & Strong recoverability and external morphology transport & Currently blocked: same-cohort independent tumor-content truth is unavailable \\
+PTEN loss & Loss of a tumor-suppressor gene & Recoverable but conditional beyond grade and without external transport & Feasible follow-up, not run; requires a new overlap, event-power, fold, and erasure protocol \\
+AR activity & Activity of the androgen-receptor pathway & Positive but conditional beyond grade and across sites & Feasible follow-up, not run; requires a new overlap, event-power, fold, and erasure protocol \\
+SPOP mutation & Molecular mutation state & No qualified signal in the frozen primary design & Not qualified for head-use testing because recoverability was unsupported \\
+Recurrence & Patient outcome influenced by tumor biology, treatment, and follow-up & Endpoint- and reference-sensitive image-risk association & Not applicable as an input-feature erasure target; requires external prognostic validation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\section*{S2. Frozen encoder, scale, sampling, aggregation, and fold contracts}
+
+CONCH and Virchow weights remained frozen. Tissue-qualified tiles were embedded and
+aggregated to slides; patient-unit endpoints then used patient aggregation. The correlated
+sensitivity program crossed two encoders, two physical-scale choices per encoder, three
+tile budgets, and five sampling seeds. Within-cohort probes used patient-disjoint folds.
+The external morphology probes were applied without target-cohort refitting.
+
+Continuous marker-family targets used standardized ridge regression with the saved fixed
+alpha grid. Binary TCGA-PRAD screening used standardized logistic regression with fixed
+regularization and balanced class weighting. The frozen NADT phenotype probe used for PANDA
+transfer retained its source specification: \texttt{LogisticRegression(C=1.0)}, 2,000
+maximum iterations, and no class weighting. Within-cohort evaluation used five grouped
+folds, with all slides from one patient confined to one fold. Each out-of-fold prediction
+therefore came from a model that had not seen that patient. Native refits and held-out site
+analyses remained separate evaluation types and did not substitute for locked transfer.
+
+\section*{S3. Target-specific estimands and nulls}
+
+Ordinal and continuous targets used Spearman correlation with null zero. Binary targets
+used AUROC with null 0.5. Time-to-event risk used C-index with null 0.5. Conditional
+increment nulls were zero change from the registered clinical reference. Metric values
+were not pooled across target types.
+
+Ridge regression is linear regression with a penalty on large coefficients, used here to
+stabilize high-dimensional correlated embeddings. Logistic regression maps features to a
+binary class probability. Spearman correlation measures rank preservation without requiring
+a linear relationship; AUROC is the probability that a randomly chosen positive patient is
+ranked above a negative patient; and the survival C-index is the corresponding ordering
+measure for comparable patient pairs under censoring.
+
+The saved 17-test discovery family used two-sided Spearman tests for continuous targets and
+two-sided Mann--Whitney tests for binary targets, with Benjamini--Hochberg
+false-discovery-rate control at $\alpha=0.05$. The Mann--Whitney test compares score
+distributions without assuming normality. Grade-stratified permutation tests shuffled
+patient labels and refitted the full nested procedure to estimate the no-increment reference
+distribution. Qualification repeats in another cohort or encoder were not added to the
+discovery family.
+
+\section*{S4. Complete primary estimates and uncertainty accounting}
+
+The NADT grade and phenotype rows retained patient-bootstrap intervals but not complete
+valid/undefined replicate accounting. PANDA and PRECISE aggregate rows did not retain
+intervals. TCGA molecular primary rows retained interval endpoints; binary event counts
+were not retained in those saved primary rows. These unavailable quantities were not
+reconstructed.
+
+Table~\ref{tab:supp-primary-estimates} reports the complete primary recoverability and
+external morphology-transport estimates. Because its rows use different estimands, a
+Spearman correlation, AUROC, and their denominators must be read within their own row and
+must not be compared as if they shared a common scale.
+
+\input{generated/stable2_primary_estimates.tex}
+
+
+\section*{S5. External transport details}
+
+The NADT grade direction persisted in the two PANDA institutions and the PRECISE resource.
+The NADT phenotype probe retained discrimination in both PANDA institutions. These are
+locked-transfer or separate-resource results, but their units and missing uncertainty remain
+row-specific. No compatible external cohort was available for PTEN, SPOP, or AR activity.
+
+\section*{S5A. Internal ISUP functional-sensitivity bridge and detector boundary}
+
+The two encoder analyses used identical outer patient-disjoint folds. Within each outer
+training fold, 64 principal components were fitted, standardized ridge regression learned
+the ISUP direction, and a ridge-penalized Cox model learned BCR risk. Regularization was
+selected from 0.1, 1, 10, 100, and 1,000 using training data only. The normalized ISUP-probe
+coefficient defined the targeted direction. The primary test held the fitted Cox coefficients
+fixed while projecting that direction out of held-out representations. One hundred random
+directions removed the same amount of representation variance, 20 label-permuted directions
+provided a negative control, and the one-sided empirical $p$ value compared the targeted
+change with the matched-random changes. A secondary analysis refitted the Cox head after
+erasure. Patient-bootstrap intervals used 2,000 resamples and ISUP-label permutation used
+200 permutations.
+
+The FM6 internal frame contained 392 TCGA-PRAD patients, 80 BCR events, and 27,968 paired
+whole-tissue tiles. The frozen CONCH and Virchow patient representations used the same five
+outer patient-disjoint folds. ISUP ridge probes achieved out-of-fold Spearman correlations
+of 0.615 and 0.658, while the corresponding full BCR heads achieved C-indices of 0.627
+(0.553--0.694) and 0.632 (0.564--0.691).
+
+For the fixed-head test, targeted removal of the ISUP-correlated direction reduced C-index
+by 0.041 (0.011--0.073) for CONCH and 0.023 (0.007--0.040) for Virchow. Each targeted change
+exceeded 100 variance-matched random-direction controls with one-sided empirical
+$p=0.0099$. After the BCR head was refitted on the erased representation, the corresponding
+differences were 0.014 ($-0.006$--0.035) and 0.010 ($-0.003$--0.022), so both intervals
+included zero. The limited ISUP-plus-AI versus ISUP-only comparison was $-0.000$
+($-0.039$--0.039) for CONCH and $-0.032$ ($-0.088$--0.025) for Virchow. This comparison
+does not establish absence of clinical increment; it only failed to establish increment in
+the scoped internal frame.
+
+The manuscript-closing clean rerun used the unchanged 392-patient/80-event membership,
+paired embeddings, five folds, seed, endpoints, preprocessing, regularization grids,
+resampling counts, controls, and output schema. Before execution, SHA-256 hashes for 20
+protocol-defined nonvolatile analysis outputs were retained as the baseline. All 20
+regenerated hashes matched exactly, and the ISUP recoverability, full-head C-index,
+fixed-head erasure, matched-random comparison, refit-after-erasure, limited ISUP-only
+comparison, and R/A/U/T decisions were unchanged. Timestamp and device metadata were
+treated as volatile and were not used to claim byte identity. This audit demonstrates exact
+computational reproducibility of the stored internal experiment, not an independent sample,
+institution, or endpoint replication.
+
+The functional analysis was not tumor-restricted. The remediated detector's opened SICAP
+secondary test had AUROC 0.919, sensitivity 0.875, and specificity 0.810. At the unchanged
+threshold, newly held-out PANDA sensitivity was 0.562 in Karolinska and 0.679 in Radboud,
+despite specificity of 0.943 and 0.913. SICAP specificity is accepted as internal technical
+evidence, but independent-domain sensitivity remains unresolved. Consequently, tumor-specific
+functional use, external functional transport, and strong mechanistic alignment remain
+unsupported.
+
+\section*{S6. Conditional increment and confounder audits}
+
+PTEN and AR increments were computed in nested patient-disjoint analyses. Neither encoder's
+stored interval excluded zero for PTEN AUROC increment or AR $R^2$ increment. These results
+limit grade-independent interpretation but do not prove that grade exhausts the molecular
+signal.
+
+Table~\ref{tab:supp-conditional-increments} makes the conditional comparison explicit:
+each delta is the held-out image-augmented model minus its grade-only reference, so a
+positive value favors adding the image-derived score.
+
+\input{generated/stable3_conditional_increments.tex}
+
+
+\section*{S7. Site characteristics and unresolved transport}
+
+The pooled AR patient-level estimate was positive. The six site-specific estimates used a
+slide-level effect with patient-cluster bootstrap, and every saved interval crossed zero.
+Site was entangled with tissue source, scanner, stain, preparation, and case mix; absent
+metadata were not inferred. For SPOP, one site was single-class and therefore had undefined
+AUROC, and the other stored site intervals included or touched chance.
+
+Table~\ref{tab:supp-site-audits} retains every AR and SPOP site row, including the undefined
+single-class SPOP row. The site abbreviations are source identifiers rather than verified
+scanner or staining protocols, and the differing analysis units are displayed explicitly.
+
+\input{generated/stable_site_audits.tex}
+
+
+\section*{S8. Full encoder--scale--tile--seed sensitivity program}
+
+The complete grid comprised 72 configurations and 360 correlated seed cells. The paired
+contrast table comprised 390 seed-matched comparisons. These settings reused cohorts,
+patients, and folds. Their intervals describe tile-sampling variation and their contrasts
+describe analytic sensitivity; neither is population uncertainty or independent
+replication.
+
+For each configuration, five seed-level values were summarized by mean, sample standard
+deviation, range, chance-or-worse count, and a Student-$t$ interval. Paired comparisons kept
+the seed fixed when subtracting scale, encoder, or tile-budget settings. These intervals
+quantify repeated tile-sampling variation only; they are not patient-bootstrap confidence
+intervals and were not used to revise labels, folds, or evidence thresholds.
+
+Figure~\ref{fig:supp-full-grid} shows every configuration mean relative to its
+target-specific null. Table~\ref{tab:supp-stability} then condenses those same correlated
+settings into ranges and null-straddling counts. The Main manuscript displays that summary
+graphically and also shows the seed-matched setting contrasts. These views describe the same
+sensitivity program and are not independent replications.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/sfig1_full_stability_grid.pdf}
+\caption{\textbf{Complete encoder--scale--tile configuration grid.} Each cell is the mean
+of five sampling seeds minus the target-specific metric null. Columns retain encoder,
+physical scale, and tile budget; rows retain target identity. Values reuse cohorts and folds
+and therefore describe correlated setting sensitivity rather than independent validation.}
+\label{fig:supp-full-grid}
+\end{figure}
+
+\input{generated/stable4_stability_summary.tex}
+
+The full contrast-level source contains 390 seed-matched comparisons. To expose their
+direction and spread without treating them as independent observations,
+Table~\ref{tab:supp-contrast-summary} summarizes every target within each registered contrast
+family. Median and range describe technical sensitivity; null-crossing counts describe a
+change in the target-specific chance relation, not a population-level hypothesis test.
+
+\input{generated/stable_contrast_summary.tex}
+
+The Main manuscript visualizes the same paired contrasts and preserves their direction:
+shared scale minus native scale, Virchow minus CONCH at the shared scale, and 64 minus 16
+tiles. A positive value therefore has meaning only within the named comparison.
+
+
+\section*{S9. Endpoint hierarchy and paired outcome increments}
+
+Reconstructed with-tumor recurrence, strict recurrence-only, TCGA-CDR PFS, TCGA-CDR DFS,
+and official PFI retained separate identifiers. On the 270-patient target frame,
+reconstructed recurrence had 57 events and official PFI had 42. Paired increment analyses
+used 153 complete cases, with 30 and 15 events respectively. All official-PFI paired
+C-index and IBS intervals included zero.
+
+Table~\ref{tab:supp-endpoints} defines the endpoint IDs, their roles, metrics, and the
+non-equivalence boundary that prevents a result under one recurrence definition from being
+silently relabeled as another.
+
+The transferred image-risk score was fitted with a Cox model in LEOPARD and applied to
+TCGA-PRAD without target-cohort refitting. Its principal-component dimension sweep was
+exploratory and was not nested inside an outer evaluation. Paired TCGA comparisons used the
+same complete-case patients and bootstrap draw for the reference and augmented models.
+C-index improvement was augmented minus reference; integrated Brier score improvement was
+reference minus augmented, so positive values favored augmentation under both definitions.
+The Cox model estimates relative event hazard under censoring, while integrated Brier score
+summarizes time-dependent prediction error and is lower when predictions are better.
+
+The comparison names in Tables~\ref{tab:supp-outcome-reconstructed} and
+\ref{tab:supp-outcome-official-pfi} have the following meaning. ``Grade + image vs grade''
+and ``full clinical + image vs full clinical'' test augmentation by the transferred image
+risk score; here the full clinical reference contains grade, age, PSA, pathological T stage,
+and surgical-margin status. ``Image vs grade'' and ``image vs full clinical'' compare
+non-nested reference choices rather than incremental models. In the separate prespecified
+hierarchy, M4 contains grade, PSA, pathological T stage, surgical-margin status, and
+tissue-source site, whereas M5 adds the image risk score. Thus ``full clinical + site + image
+vs full clinical + site'' is the M5--M4 comparison. These labels describe model contents,
+not evidence that the image score adds clinical value.
+
+\input{generated/stable5_endpoint_hierarchy.tex}
+
+
+Tables~\ref{tab:supp-outcome-reconstructed} and
+\ref{tab:supp-outcome-official-pfi} retain the full frozen-risk and paired comparison frames.
+The paired rows use identical patients and bootstrap draws within an endpoint. The two
+endpoint tables must not be pooled because their event definitions and event counts differ.
+
+\input{generated/stable_outcome_reconstructed.tex}
+
+
+\input{generated/stable_outcome_official_pfi.tex}
+
+The Main manuscript plots the paired intervals from the two tables on a common
+positive-favors-first-or-augmented convention; endpoint-specific panels remain separate
+because their event definitions and counts differ.
+
+
+\section*{S10. Multiplicity, undefined draws, and power boundaries}
+
+The saved discovery family contained 17 tests with Benjamini--Hochberg false-discovery-rate
+control. External and representation checks of an existing target were qualification
+analyses. Missing intervals, missing event counts, single-class sites, and underpowered
+endpoint rows remained explicit. No non-significant result was interpreted as biological
+absence.
+
+Where saved sources supported it, uncertainty used 95\% percentile patient-bootstrap
+intervals. The bootstrap resampled patients with replacement and recomputed the statistic;
+AR site analyses instead resampled patients as clusters around a slide-level effect. Paired
+survival contrasts used identical draws for both models. Requested, valid, and undefined
+replicate counts were reported when retained and otherwise marked unavailable. No missing
+or unevaluable outcome was converted to a negative label, and multiple imputation was not
+introduced retrospectively.
+
+The promoted derivative evidence retains the family-level multiplicity contract but does not
+contain a complete row-level table of all raw and adjusted $p$ values. Those values were not
+reconstructed from prose. Table~\ref{tab:supp-missingness-summary} instead reports every
+retained availability and bootstrap-accounting state across the promoted figure-source
+tables, making clear which limitations arise from missing intervals, event counts,
+single-class sites, or legacy replicate accounting.
+
+\input{generated/stable_missingness_summary.tex}
+
+
+\section*{S11. Claim--evidence and numeric lineage}
+
+Each main claim is connected to a PBV source claim, a target identifier, required evidence
+axes, and a functional-use status. Each reported headline number is linked to a source ID,
+semantic key, field, and display rule. The full machine-readable records are
+\path{provenance/claim_evidence_matrix.csv} and
+\path{provenance/numeric_qa_mapping.csv}.
+
+Table~\ref{tab:supp-claim-matrix} exposes the manuscript claim ID, source-claim lineage,
+registered target IDs, evidence state, and functional-use status together. It is the final
+check that a representation-level result has not been promoted to a locked-head or clinical
+claim.
+
+\input{generated/stable6_claim_matrix.tex}
+
+
+\section*{S12. Reproducibility and known limitations}
+
+The manuscript builder first verifies every source path against its registered byte count
+and SHA-256 hash. It then generates new QFM-owned figures and tables from those sources.
+No PBV-generated PDF, PNG, or TeX table is copied. The PBV project remains owner of the
+frozen analyses, while QFM owns the derivative alignment narrative.
+
+For the FM6 extension specifically, clean-rerun handoff required 20/20 nonvolatile output
+hashes, unchanged headline numbers, and unchanged gates. Both encoders retained
+R=whole-tissue recoverability, A=internal disease association, and U=exploratory
+whole-tissue functional sensitivity; T=external transport remained not tested and strong H2
+remained prohibited. These gate labels describe evidence scope rather than a sequence of
+clinical validation levels.
+
+Unequal availability of external target-matched cohorts limits comparison between target
+classes. The correlated grid is not independent validation; site effects are not causal
+acquisition effects; and recurrence endpoints are not interchangeable. The grade analysis
+includes a locked BCR head and target-erasure experiment, but only as whole-tissue internal
+exploratory evidence. Its detector did not pass the independent-domain sensitivity gate,
+refitted heads could compensate, and the limited ISUP-only comparison was not a sufficient
+clinical-increment study. The present paper therefore establishes candidate shared
+interpretive coordinates and scoped internal grade sensitivity, not complete explanation of
+AI decisions. Residual or unknown-feature marker discovery is reserved for a separate study.

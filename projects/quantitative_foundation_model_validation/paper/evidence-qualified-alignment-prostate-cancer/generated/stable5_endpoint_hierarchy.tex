@@ -1,0 +1,21 @@
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Registered endpoint hierarchy and non-equivalence boundaries. Primary rows define known-target recoverability, secondary rows test conditional or horizon-specific questions, and exploratory rows audit recurrence definitions. Each row keeps its own metric and boundary; endpoint IDs are not interchangeable outcomes.}
+\label{tab:supp-endpoints}
+\begin{tabular}{@{}p{0.05\textwidth}p{0.12\textwidth}p{0.16\textwidth}p{0.14\textwidth}p{0.15\textwidth}p{0.17\textwidth}@{}}
+\toprule
+ID & Hierarchy & Target or endpoint & Metric & Role & Boundary \\
+\midrule
+E01 & Primary & Continuous or ordinal marker target & Spearman rho & Known-target recoverability & Not a disease decision \\
+E02 & Primary & Binary marker target & AUROC & Known-target recoverability & Not a molecular diagnosis \\
+E03 & Secondary & PTEN or AR beyond grade & Delta AUROC or delta R2 & Conditional uniqueness beyond grade & Not evidence of functional use \\
+E04 & Exploratory & Reconstructed recurrence with tumor & C-index, time-dependent AUROC, and IBS & Recurrence alignment & Not official PFI \\
+E05 & Exploratory & Strict recurrence only & C-index and time-dependent AUROC & Sensitivity analysis & Not official PFI \\
+E06 & Exploratory & TCGA-CDR PFS & C-index, time-dependent AUROC, and landmark AUROC & Sensitivity analysis & Not relabeled as PFI \\
+E07 & Exploratory & TCGA-CDR DFS & C-index, time-dependent AUROC, and landmark AUROC & Sensitivity analysis & Not relabeled as PFI \\
+E08 & Exploratory & Official TCGA-CDR PFI & C-index and endpoint concordance & Outcome alignment & Not equivalent to reconstructed recurrence \\
+E09 & Secondary & Three- and five-year landmarks & Landmark C-index or AUROC & Sensitivity analysis & Not equivalent to a time-to-event analysis \\
+\bottomrule
+\end{tabular}
+\end{table}

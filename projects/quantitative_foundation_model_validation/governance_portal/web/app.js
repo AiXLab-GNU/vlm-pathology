@@ -39,7 +39,7 @@ function render(data) {
   $("#fm1-h1").textContent = fm1.summary?.immediately_executable_descriptive_H1 ?? "—";
   $("#fm1-h2").textContent = fm1.summary?.H2_pairs_executable_now ?? "—";
   $("#fm1-links").innerHTML = fm1.available ? fm1.outputs.map(name => `<a href="/api/fm1/${encodeURIComponent(name)}" target="_blank" rel="noopener">${esc(name)}</a>`).join("") : "";
-  for (const stage of ["fm2","fm3","fm4"]) {
+  for (const stage of ["fm2","fm3","fm4","fm5"]) {
     const milestone = data.main_study?.[stage] || {available:false,outputs:[]};
     $(`#${stage}-status`).textContent = milestone.available ? milestone.status : "산출물 없음";
     $(`#${stage}-links`).innerHTML = milestone.available ? milestone.outputs.map(name => `<a href="/api/main-study/${stage}/${encodeURIComponent(name)}" target="_blank" rel="noopener">${esc(name)}</a>`).join("") : "";
@@ -51,6 +51,10 @@ function render(data) {
   $("#fm4-approval-state").textContent = fm4Approval.finalized ? "APPROVED" : fm4Approval.ready_to_finalize ? "READY" : fm4Approval.latest ? String(fm4Approval.latest.decision).toUpperCase() : "PENDING";
   $("#fm4-approval-message").textContent = fm4Approval.finalized ? "제한적 exploratory/descriptive FM4 실행 범위가 확정되었습니다." : fm4Approval.ready_to_finalize ? "현재 snapshot에 대한 Approve 판정이 기록되었습니다. 최종 확정할 수 있습니다." : fm4Approval.latest && !fm4Approval.evidence_current ? "판정 후 근거가 변경되었습니다. 현재 snapshot을 다시 검토하십시오." : "현재 evidence snapshot에 대한 연구책임자 판정이 필요합니다.";
   $("#finalize-fm4").disabled = !fm4Approval.ready_to_finalize || fm4Approval.finalized;
+  if (fm4Approval.finalized) {
+    $("#fm4-approval-form").querySelectorAll("input, select, textarea, button").forEach(element => { element.disabled = true; });
+    $("#fm4-approval-form button[type='submit']").textContent = "FM4 승인 확정됨";
+  }
   $("#boundary-grid").innerHTML = data.scientific_boundaries.map(x => `<article class="boundary ${x.can_approval_resolve?"resolvable":"evidence"}"><span class="tag">${x.can_approval_resolve?"APPROVAL CAN RESOLVE":"ADDITIONAL EVIDENCE REQUIRED"}</span><h3>${esc(x.issue)}</h3><p>${esc(x.current_evidence)}</p><b>${esc(x.effect)}</b><p>해결: ${esc(x.resolution)}</p></article>`).join("");
   $("#snapshot-hash").textContent = data.g8.evidence_snapshot_sha256;
   $("#evidence-list").innerHTML = data.evidence_files.map(name => `<a href="/api/evidence/${encodeURIComponent(name)}" target="_blank" rel="noopener">${esc(name)}</a>`).join("");
