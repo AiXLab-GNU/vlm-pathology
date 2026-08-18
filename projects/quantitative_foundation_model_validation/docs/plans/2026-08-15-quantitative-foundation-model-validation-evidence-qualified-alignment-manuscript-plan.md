@@ -590,6 +590,24 @@ embedding, weight와 access-governed source가 필요한 end-to-end experiment�
 release tag와 reference PDF hashes가 원고·handoff·public manifest에서 일치해야 한다. 남은
 차단 항목은 institutional ethics classification 확인과 online reviewer/editorial metadata다.
 
+## Task 28. 2026-08-18 abstract motivation restoration and release synchronization
+
+- [x] 200-word 제한 안에서 임상의가 확인해야 할 세 질문---어떤 정량 축이 표현되는가,
+  cohort·technical variation에도 유지되는가, downstream decision이 사용하는가---를 초록
+  도입부에 복원했다.
+- [x] 여섯 축 모두에는 recoverability와 가능한 qualification을 적용하되, functional-use
+  검증은 ISUP의 두 internal locked BCR head에만 해당함을 명시했다.
+- [x] clinician-understandable reliability audit을 현재 기여로, residual-signal/new-biomarker
+  discovery를 알려진 좌표와 confounder를 통제한 뒤 수행할 후속 가능성으로 구분했다.
+- [x] 198-word abstract, 1,100-word Introduction, source 19/19, numeric mapping 33/33,
+  semantic contracts 53/53과 manuscript contract tests 15/15를 확인했다.
+- [x] 새 `main.pdf`를 공개 package에 반영하고 annotated tag `v1.0.3-submission`, commit
+  `5c859a27467e7aecc8d9c624e5da06fff8d08c1a`을 fresh clone에서 release tests 6/6으로 검증했다.
+
+**Gate 28:** 동기, 중요성, 지표별 evidence hierarchy와 claim ceiling이 198-word abstract와
+Introduction에서 일치한다. 이 연구는 새 바이오마커를 발견했다고 주장하지 않으며,
+functional use의 직접 검증 범위를 ISUP internal locked-head sensitivity 이상으로 확장하지 않는다.
+
 ## 완료 판정
 
 본 plan은 main만 문장 수정하거나 Supplementary를 제목만 바꾼 상태에서는 완료가 아니다.

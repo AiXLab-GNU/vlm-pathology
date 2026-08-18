@@ -88,17 +88,23 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         supplement = (WORKSPACE / "sections" / "supplementary_information.tex").read_text(encoding="utf-8")
 
         self.assertIn("comparative map provides an actionable audit vocabulary", normalized_abstract)
+        self.assertIn("clinicians need to know which human-interpretable", normalized_abstract)
+        self.assertIn("whether those axes survive cohort and technical variation", normalized_abstract)
+        self.assertIn("whether downstream decisions use them", normalized_abstract)
         self.assertIn("six non-interchangeable", normalized_abstract)
-        self.assertIn("grade, tumor phenotype/content", normalized_abstract)
+        self.assertIn("grade/isup, tumor phenotype/content", normalized_abstract.casefold())
         self.assertIn("PTEN-related information was recoverable", normalized_abstract)
         self.assertIn("AR activity showed positive pooled alignment", normalized_abstract)
-        self.assertIn("most complete evidence chain", normalized_abstract)
-        self.assertIn("not the sole organizing target", normalized_abstract)
+        self.assertIn("ISUP alone underwent a locked-head functional test", normalized_abstract)
         self.assertIn("SPOP was unsupported", normalized_abstract)
         self.assertIn("recurrence changed", normalized_abstract)
         self.assertIn("anchor clinician review of agreement and disagreement", normalized_abstract)
         self.assertIn("explanations should be withheld", normalized_abstract)
         self.assertIn("prioritize external or functional validation", normalized_abstract)
+        self.assertIn("clinician-understandable reliability audits", normalized_abstract)
+        self.assertIn("bounds future residual-signal discovery", normalized_abstract)
+        self.assertIn("does not establish clinical benefit", normalized_abstract)
+        self.assertIn("or new biomarkers", normalized_abstract)
         detexed = subprocess.run(
             ["detex"], input=abstract, text=True, capture_output=True, check=True
         ).stdout
@@ -113,6 +119,8 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         self.assertIn("Recurrence is a patient outcome", normalized_introduction)
         self.assertIn("confirm that the tissue supports the named feature", introduction)
         self.assertIn("agree or disagree with a clinically", normalized_introduction)
+        self.assertIn("defines the prerequisite for residual discovery", normalized_introduction)
+        self.assertIn("candidate biomarkers rather than artifacts", normalized_introduction)
         for citation in [
             "tonekaboni2019",
             "prinster2024",
@@ -232,7 +240,7 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
             for target in ["grade/isup", "phenotype/content", "pten", "ar activity", "spop", "recurrence"]:
                 self.assertIn(target, normalized, f"{name}:{target}")
 
-        self.assertIn("Among the six axes", normalized_sections["abstract"])
+        self.assertIn("among the six axes", normalized_sections["abstract"].casefold())
         self.assertIn("Its primary task is comparative", normalized_sections["introduction"])
         self.assertIn("The primary result is their comparative evidence hierarchy", normalized_sections["results"])
         self.assertIn("The central result is not that one prostate-cancer target", normalized_sections["discussion"])
@@ -295,7 +303,7 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
             self.assertIn(unchanged_statement, inherited_text)
         self.assertIn("projects/prostate_biomarker_validation/code/legacy/", inherited_text)
         self.assertIn("AiXLab-GNU/evidence-qualified-alignment-prostate-cancer", inherited_text)
-        self.assertIn("v1.0.2-submission", inherited_text)
+        self.assertIn("v1.0.3-submission", inherited_text)
         self.assertIn("build_publication_artifacts.py", inherited_text)
         self.assertIn("public-artifact", inherited_text)
         self.assertIn("editable manuscript source", inherited_text)
@@ -377,7 +385,7 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
             "0000-0002-2308-1638",
             "The authors declare no competing interests",
             "NRF-2023R1A2C1006639",
-            "v1.0.2-submission",
+            "v1.0.3-submission",
             "Reviewer suggestions or exclusions",
             "prior discussion with a Scientific Reports Editorial Board Member",
         ]:
