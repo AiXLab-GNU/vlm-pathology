@@ -646,6 +646,29 @@ clinical-audit significance와 bounded discovery-space claim을 사용한다.
 **Gate 30:** Main이 권고 word/display budget 안에 들고 핵심 claim과 수치가 보존되며,
 상세 근거는 Supplement에서 재현 가능하고 축약 전 상태는 immutable tag로 복구 가능하다.
 
+## Task 31. 2026-08-18 result interpretation and claim-linkage reinforcement
+
+- [x] 각 Results subsection에 관찰 결과가 논문의 중심 주장에 기여하는 역할과 허용되는
+  해석 범위를 함께 명시했다.
+- [x] Morphology를 positive cross-cohort audit anchor로, PTEN/AR를 decodability와 stable
+  explanation의 차이로, SPOP를 available-reference rejection으로, recurrence를
+  score--endpoint--reference 의존성으로 해석했다.
+- [x] ISUP erasure의 양의 delta가 performance degradation을 뜻함을 명확히 하고, fixed-head
+  sensitivity와 refit compensation을 한 쌍의 해석으로 제시했다.
+- [x] Discussion과 Conclusion에 각 결과의 argumentative role과 selective rather than
+  universal interpretability라는 종합 결론을 정렬했다.
+- [x] Main 16쪽, Introduction--Conclusion 4,383 words, source 19/19, numeric 33/33,
+  semantic 53/53, QFM tests 95/95, unresolved reference·overfull box 0건과 29개 PDF page
+  시각 점검을 확인했다.
+- [x] 책임저자가 기관 정책에 따라 deidentified secondary analysis에 추가 ethical approval
+  또는 participant consent가 필요하지 않음을 2026-08-18 확인했다. 제공되지 않은 committee
+  name 또는 determination identifier는 추가하지 않았다.
+- [ ] 해석 보강본 `main.pdf`를 새 public immutable submission tag로 export하고 fresh-clone
+  reviewer tests 6/6을 다시 확인한다.
+
+**Gate 31:** 독자가 각 수치에서 직접 해석, 중심 주장에 대한 역할과 claim ceiling을
+연속적으로 읽을 수 있고, 새 public release가 current working PDF와 일치해야 한다.
+
 ## 완료 판정
 
 본 plan은 main만 문장 수정하거나 Supplementary를 제목만 바꾼 상태에서는 완료가 아니다.

@@ -9,13 +9,13 @@ canonical_path: projects/quantitative_foundation_model_validation/paper/evidence
 
 # Scientific Reports submission handoff
 
-**Readiness:** `partial—online submission metadata and accountable-author ethics confirmation
-required`. The author list, affiliations, corresponding-author details and ORCID, contribution
+**Readiness:** `partial—public release refresh and online submission metadata required`.
+The author list, affiliations, corresponding-author details and ORCID, contribution
 statement, Funding statement, competing-interests declaration, scientific text, source-linked
 figures and tables, cover letter, build, and computational QA are ready for author review. The
 public submission repository, immutable commit, and annotated submission tag are established.
-Submission remains blocked only by author-controlled declarations and online submission materials,
-not by a pending scientific experiment or code release.
+The interpretation-enhanced manuscript has passed local scientific and layout QA, but its revised
+PDF has not yet been exported as a new public immutable tag. No new scientific experiment is pending.
 
 ## Submission artifacts and counts
 
@@ -23,10 +23,10 @@ not by a pending scientific experiment or code release.
 |---|---|
 | Title | 15 words; within the journal's 20-word recommendation |
 | Abstract | 198 words by `detex`; unstructured; no citations; within the 200-word limit |
-| Main | 15 pages; 3,708 Introduction--Conclusion words; 1,231 Methods words; 5 figures + 1 table |
+| Main | 16 pages; 4,383 Introduction--Conclusion words; 1,231 Methods words; 5 figures + 1 table |
 | Supplementary Information | 13 pages; 3,253 words including generated tables; 3 figures + 14 tables; one separate PDF |
 | References | 19 numbered references; all citation keys resolved |
-| `main.pdf` | SHA-256 `db3920ab0f069f5318734a306ff4c14213c1d8f9a9a0aabb83d03d6593034c84` |
+| `main.pdf` | SHA-256 `a2963db36c27588ea7ba7869467453b04166483ef96a10d887e56bca37707994` |
 | `supplement.pdf` | SHA-256 `0e90c4c157aba2e57911db0c718007eeba2adaa85da6ab5d46ea73eb62e6c700` |
 | `cover_letter.pdf` | 1 page; SHA-256 `87587a14f0b0b587347e885b430fd19a7bd03690bbd9021768b7934cc8288dab` |
 | Source manifest | 19/19 verified; manifest SHA-256 `c1129408a803a4bc0841e4b6adc097070d7f8995f3f6d7ee793e58ce4f9ef5d0` |
@@ -63,9 +63,9 @@ the present contribution. Residual-signal or biomarker discovery remains a bound
 of the map, not a result reported here.
 
 The manuscript builder verified 19/19 registered sources, 33/33 numeric mappings, and 53/53
-semantic contracts. All 28 PDF pages were raster-inspected; the condensed bundle has no clipping,
+semantic contracts. All 29 PDF pages were raster-inspected; the interpretation-enhanced bundle has no clipping,
 table overflow, empty page, unresolved citation/reference, or overfull box. QFM tests passed
-94/94. File governance and worktree audits and `git diff --check` passed. The boundary validator's
+95/95. File governance and worktree audits and `git diff --check` passed. The boundary validator's
 sole failure is the pre-existing unregistered root file `webportal-refactoring.md`.
 
 The public `v1.0.5-submission` tag was independently cloned and passed all six reviewer release
@@ -74,6 +74,10 @@ PDFs with exact committed hashes, verifies both reference-PDF hashes, and preser
 snapshots of 10 source-analysis entry points for code audit. End-to-end source experiments still
 require the original datasets, patient/fold manifests, embeddings, and weights identified by the
 project provenance; this boundary is explicit in the public `REPRODUCIBILITY.md`.
+
+The tag predates the current result-interpretation revision. Before journal upload, export the
+current `main.pdf`, update its public artifact hash, rerun the six reviewer tests from a fresh
+clone, and create a new immutable submission tag; do not move `v1.0.5-submission`.
 
 ## Revision experiment and release workflow
 
@@ -101,17 +105,18 @@ The final author order, affiliations, corresponding-author details, Jin Hyun Kim
 declaration, and public/deidentified secondary-analysis ethics statement were supplied on
 2026-08-18 and are now present in the manuscript; the same author list and corresponding-author
 ORCID appear on Supplementary page 1. A one-page Scientific Reports cover letter is included.
+On 2026-08-18, the corresponding author completed the institutional-policy confirmation that this
+deidentified secondary analysis requires no additional ethical approval or participant consent.
+No committee name or determination identifier has been inferred or invented.
 
-1. Confirm under the accountable author's institutional policy that this deidentified secondary
-   analysis is non-human-participant research or is exempt from additional review. If an
-   institutional determination, committee name, or reference number exists, add it before upload;
-   no identifier should be inferred or invented.
-2. Approve the six recommended keywords and the cover letter; supply reviewer
+1. Approve the six recommended keywords and the cover letter; supply reviewer
    suggestions/exclusions, the prior-editorial-discussion answer, submission date, and all
    online-system metadata.
-3. Verify exact title/abstract parity across the manuscript, Supplementary Information, and
+2. Verify exact title/abstract parity across the manuscript, Supplementary Information, and
    submission system; upload the
    manuscript, five individual main figure PDFs, and the single Supplementary PDF.
+3. Refresh the public submission release with the interpretation-enhanced `main.pdf` and record
+   the new immutable tag and commit in this handoff before upload.
 
 An archive DOI is not required to identify the submitted code snapshot because the annotated tag
 and full commit hash are fixed above. A Zenodo DOI may be added later if the authors connect the

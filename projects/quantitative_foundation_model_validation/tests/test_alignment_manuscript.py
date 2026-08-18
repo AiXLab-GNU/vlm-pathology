@@ -258,6 +258,33 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
             methods.index("Secondary ISUP functional-sensitivity extension"),
         )
 
+    def test_each_result_states_its_argumentative_role_and_claim_boundary(self) -> None:
+        results = " ".join(
+            (WORKSPACE / "sections" / "results.tex").read_text(encoding="utf-8").split()
+        )
+        discussion = " ".join(
+            (WORKSPACE / "sections" / "discussion.tex").read_text(encoding="utf-8").split()
+        )
+        conclusion = " ".join(
+            (WORKSPACE / "sections" / "conclusion.tex").read_text(encoding="utf-8").split()
+        )
+
+        for interpretation_contract in [
+            "candidate clinician-interpretable coordinates for comparing model behavior",
+            "separating information recovery from stable explanatory value",
+            "score--endpoint--reference combination",
+            "less compatible with a single chosen configuration artifact",
+            "only direct bridge from representation availability to a downstream judgment",
+            "selective rather than universal interpretability",
+        ]:
+            self.assertIn(interpretation_contract, results)
+
+        self.assertIn("functional-erasure experiments were feasible but not run", results)
+        self.assertIn("positive-means-degradation convention", results)
+        self.assertIn("rather than any single performance value", discussion)
+        self.assertIn("Each result therefore has a different argumentative role", discussion)
+        self.assertIn("The evidence chain supporting that conclusion is deliberately asymmetric", conclusion)
+
     def test_reference_availability_is_not_misread_as_non_alignment(self) -> None:
         introduction = (WORKSPACE / "sections" / "introduction.tex").read_text(encoding="utf-8")
         results = (WORKSPACE / "sections" / "results.tex").read_text(encoding="utf-8")
@@ -448,7 +475,10 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         self.assertLess(results.index("generated/table1_alignment_summary.tex"), results.index("\\subsection"))
         self.assertIn("This does not mean that only ISUP describes prostate cancer", normalized_results)
         self.assertIn("SPOP did not yield a qualified representation feature", normalized_results)
-        self.assertIn("PTEN and AR are feasible follow-up tests that were not run", normalized_results)
+        self.assertIn(
+            "PTEN- and AR-directed functional tests are feasible follow-up experiments that were not run",
+            normalized_results,
+        )
         discussion = (WORKSPACE / "sections" / "discussion.tex").read_text(encoding="utf-8")
         normalized_discussion = " ".join(discussion.split())
         self.assertIn("six clinically interpretable axes", normalized_discussion.casefold())

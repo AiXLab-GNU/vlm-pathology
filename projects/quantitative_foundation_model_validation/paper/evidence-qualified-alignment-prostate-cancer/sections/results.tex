@@ -10,6 +10,12 @@ not qualify the proposed signal. Table~\ref{tab:alignment-summary} summarizes th
 states, and Supplementary Section S1 retains the detailed target, paired-reference,
 availability, metric, and biological definitions.
 
+The hierarchy is therefore not a ranking of which biological target is intrinsically most
+visible in H\&E. It tests the paper's central claim that human-defined coordinates become useful
+for reliability audit only to the extent supported by target-specific evidence: some can anchor
+cross-cohort comparison, some require explanation to be withheld or qualified, and recoverability
+alone does not establish use by a downstream decision.
+
 \input{generated/table1_alignment_summary.tex}
 
 \subsection{The study separates recoverability, reproducibility, and functional use}
@@ -19,10 +25,10 @@ frozen representation, unchanged-probe external transport, and clinical, site, r
 sampling, or endpoint qualification (Figure~\ref{fig:alignment-map}). These are target-specific
 evidence states, not model-confidence scores or clinical thresholds. For grade alone, a separate
 internal analysis used locked BCR heads, target-specific erasure, and matched controls to test
-functional sensitivity. Phenotype was blocked by unavailable same-cohort independent truth;
-PTEN and AR were feasible but not run; SPOP lacked a qualified direction; and recurrence was
-the predicted outcome rather than an input target for erasure. External functional replication
-was not achieved.
+functional sensitivity. Phenotype functional testing was blocked by unavailable same-cohort
+independent truth; PTEN- and AR-directed functional-erasure experiments were feasible but not
+run; SPOP lacked a qualified direction; and recurrence was the predicted outcome rather than an
+input target for erasure. External functional replication was not achieved.
 
 \begin{figure}[H]
 \centering
@@ -64,6 +70,13 @@ transport, not exact external tumor-content agreement. Saved target-cohort inter
 unavailable for PANDA and PRECISE and were not reconstructed. The complete cohort, unit,
 denominator, metric, and uncertainty frame is in Supplementary Section S4.
 
+The positive contribution of these experiments is that locked, source-trained probes retained
+the direction of familiar morphology-linked information without target-cohort refitting. Grade
+and phenotype can therefore serve as candidate clinician-interpretable coordinates for comparing
+model behavior across compatible cohorts. They provide the strongest support in this study for
+the claim that at least some human-defined quantities can anchor a contestable model audit; the
+reference and uncertainty limitations prevent a stronger claim of interchangeable measurement.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures/fig2_known_target_alignment.pdf}
@@ -97,6 +110,14 @@ The SPOP genomic reference was available and was used, so its unsupported state 
 lack of qualification in this frozen design, not a missing-label result. None of these findings
 establishes molecular diagnosis from H\&E or use by a disease-prediction head.
 
+The contrast among PTEN, AR, and SPOP is itself evidence for the proposed qualification
+framework. PTEN and AR show that molecular covariation can be accessible to a frozen
+representation yet fail to qualify as grade-independent or site-transported explanation. SPOP
+shows that the framework can reject a plausible coordinate when the required genomic reference
+is available but the signal does not separate reliably from chance. Together, these results
+directly support separating information recovery from stable explanatory value, rather than
+treating every decodable target as a trustworthy account of model behavior.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures/fig3_conditional_alignment.pdf}
@@ -128,6 +149,12 @@ clinical usefulness, and the exploratory PCA sweep was not an unbiased model-sel
 procedure. Supplementary Section S9 retains the endpoint definitions, complete paired
 comparison family, and outcome-contrast figure.
 
+The change in apparent value when the event definition and clinical comparator changed supports
+the central claim from the outcome side: alignment is not an intrinsic property of an image score
+alone, but of the score--endpoint--reference combination. A favorable comparison under one
+reconstructed endpoint cannot therefore be promoted to a stable human--AI coordinate or reused
+as evidence for prognosis under a non-equivalent endpoint.
+
 \subsection{Representation audits bound sensitivity without selecting a universal model}
 \label{sec:results-sensitivity}
 
@@ -139,6 +166,12 @@ occurred in 8 of 12 for SPOP and 1 of 12 for recurrence
 they assess analytic sensitivity rather than independent replication or a universal
 CONCH-versus-Virchow ranking. Supplementary Section S8 contains the complete grid and the
 seed-matched encoder, physical-scale, and tile-budget contrast figure.
+
+Directional persistence across settings makes the grade, phenotype, PTEN, and AR findings less
+compatible with a single chosen configuration artifact, whereas frequent null crossing reinforces
+the lack of a qualified SPOP coordinate and the conditional status of recurrence. This supports
+the robustness layer of the evidence map, but not population generalization: no new patients,
+institutions, or independent representations were introduced by the setting grid.
 
 \begin{figure}[H]
 \centering
@@ -161,12 +194,20 @@ ISUP-correlated direction was removed, with variance-matched random directions a
 
 ISUP was recoverable out of fold (Spearman $\rho=0.615$ for CONCH and $0.658$ for Virchow),
 and the full BCR heads had C-indices of 0.627 (0.553--0.694) and 0.632 (0.564--0.691).
-Targeted removal reduced concordance by $+0.041$ (0.011--0.073) and $+0.023$
-(0.007--0.040), respectively, exceeding matched-random controls ($p=0.0099$ for each).
+Under the registered positive-means-degradation convention, targeted removal produced
+concordance losses of $+0.041$ (0.011--0.073) and $+0.023$ (0.007--0.040), respectively,
+exceeding matched-random controls ($p=0.0099$ for each).
 After refitting, differences narrowed to $+0.014$ ($-0.006$--0.035) and $+0.010$
 ($-0.003$--0.022). Limited ISUP-plus-AI versus ISUP-only differences were $-0.000$
 ($-0.039$--0.039) and $-0.032$ ($-0.088$--0.025). Intervals including zero indicate
 potential compensation and do not establish indispensable use or absence of clinical increment.
+
+The fixed-head result supplies the study's only direct bridge from representation availability to
+a downstream judgment: both heads were more sensitive to removal of the ISUP-correlated direction
+than to variance-matched arbitrary directions. The refit and ISUP-only comparisons define the
+other half of the interpretation. Because compensation remained possible and independent clinical
+increment was not demonstrated, the experiment supports head sensitivity to an ISUP-correlated
+subspace, not necessary use of a human-equivalent grading mechanism.
 
 A protocol-locked clean rerun preserved all estimates and gate states; Supplementary Section
 S5A reports the 20/20 hash audit and detector boundary. This establishes computational
@@ -183,14 +224,8 @@ direction was evaluated as a new marker.
 The combined hierarchy retains unlike metrics and missing evidence rather than averaging them.
 Grade and phenotype are the best-qualified representation coordinates; PTEN and AR are
 conditional; SPOP is unsuitable in the frozen design; and recurrence is endpoint-sensitive.
-Grade alone additionally has internal exploratory functional-sensitivity evidence.
-
-Figure~\ref{fig:human-ai-linkage} links each clinical coordinate to its operational probe-defined
-feature and the available evidence about downstream judgment. This does not mean that only ISUP
-describes prostate cancer: phenotype is strongly represented, PTEN and AR are feasible follow-up
-tests that were not run, SPOP did not yield a qualified representation feature, and recurrence
-requires external prognostic validation. What is unique to ISUP is evidence that the tested BCR
-heads were sensitive to its correlated embedding direction.
+Grade alone additionally has internal exploratory functional-sensitivity evidence
+(Figure~\ref{fig:human-ai-linkage}).
 
 \begin{figure}[H]
 \centering
@@ -203,3 +238,18 @@ Only ISUP has internal locked-BCR-head erasure evidence, repeated in CONCH and V
 displayed coordinates do not completely explain an AI decision.}
 \label{fig:human-ai-linkage}
 \end{figure}
+
+Taken together, the experiments support selective rather than universal interpretability. They
+show that a foundation-model representation can expose several clinically recognizable quantities,
+but that those quantities occupy different evidential stages and cannot all be treated as stable
+explanations of a downstream decision. The contribution is the tested separation of transported,
+conditional, unsupported, and functionally probed coordinates---not a claim that one metric or
+one probe explains the model as a whole.
+
+Figure~\ref{fig:human-ai-linkage} links each clinical coordinate to its operational probe-defined
+feature and the available evidence about downstream judgment. This does not mean that only ISUP
+describes prostate cancer: phenotype is strongly represented, PTEN- and AR-directed functional
+tests are feasible follow-up experiments that were not run, SPOP did not yield a qualified
+representation feature, and recurrence
+requires external prognostic validation. What is unique to ISUP is evidence that the tested BCR
+heads were sensitive to its correlated embedding direction.
