@@ -663,8 +663,9 @@ clinical-audit significance와 bounded discovery-space claim을 사용한다.
 - [x] 책임저자가 기관 정책에 따라 deidentified secondary analysis에 추가 ethical approval
   또는 participant consent가 필요하지 않음을 2026-08-18 확인했다. 제공되지 않은 committee
   name 또는 determination identifier는 추가하지 않았다.
-- [ ] 해석 보강본 `main.pdf`를 새 public immutable submission tag로 export하고 fresh-clone
-  reviewer tests 6/6을 다시 확인한다.
+- [x] 해석 보강본 `main.pdf`를 public tag `v1.0.6-submission`, commit
+  `b3009b0001360975104e1d77cb3cb6a20a220a55`로 export하고 fresh-clone reviewer tests
+  6/6을 다시 확인했다.
 
 **Gate 31:** 독자가 각 수치에서 직접 해석, 중심 주장에 대한 역할과 claim ceiling을
 연속적으로 읽을 수 있고, 새 public release가 current working PDF와 일치해야 한다.

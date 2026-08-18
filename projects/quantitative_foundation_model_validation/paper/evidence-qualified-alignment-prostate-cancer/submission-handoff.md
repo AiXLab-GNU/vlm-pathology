@@ -9,13 +9,13 @@ canonical_path: projects/quantitative_foundation_model_validation/paper/evidence
 
 # Scientific Reports submission handoff
 
-**Readiness:** `partial—public release refresh and online submission metadata required`.
+**Readiness:** `partial—online submission metadata required`.
 The author list, affiliations, corresponding-author details and ORCID, contribution
 statement, Funding statement, competing-interests declaration, scientific text, source-linked
 figures and tables, cover letter, build, and computational QA are ready for author review. The
 public submission repository, immutable commit, and annotated submission tag are established.
-The interpretation-enhanced manuscript has passed local scientific and layout QA, but its revised
-PDF has not yet been exported as a new public immutable tag. No new scientific experiment is pending.
+The interpretation-enhanced manuscript has passed local scientific and layout QA and is fixed in
+the public immutable submission release. No new scientific experiment or code release is pending.
 
 ## Submission artifacts and counts
 
@@ -26,13 +26,13 @@ PDF has not yet been exported as a new public immutable tag. No new scientific e
 | Main | 16 pages; 4,383 Introduction--Conclusion words; 1,231 Methods words; 5 figures + 1 table |
 | Supplementary Information | 13 pages; 3,253 words including generated tables; 3 figures + 14 tables; one separate PDF |
 | References | 19 numbered references; all citation keys resolved |
-| `main.pdf` | SHA-256 `a2963db36c27588ea7ba7869467453b04166483ef96a10d887e56bca37707994` |
+| `main.pdf` | SHA-256 `cb2a2feb03b0c4d9068e509529f1a96ad0d7d1034730c307f7c9bb2495decc78` |
 | `supplement.pdf` | SHA-256 `0e90c4c157aba2e57911db0c718007eeba2adaa85da6ab5d46ea73eb62e6c700` |
-| `cover_letter.pdf` | 1 page; SHA-256 `87587a14f0b0b587347e885b430fd19a7bd03690bbd9021768b7934cc8288dab` |
+| `cover_letter.pdf` | 1 page; SHA-256 `7b5359238b9a988167c44584e50ecbbd76fd6c40f78122c6e6a41c68b4f49f23` |
 | Source manifest | 19/19 verified; manifest SHA-256 `c1129408a803a4bc0841e4b6adc097070d7f8995f3f6d7ee793e58ce4f9ef5d0` |
 | Numeric QA mapping | 33/33 verified; SHA-256 `c707818dd79ccec4ee04f8481ce980d1ac671bdfe10a3f6161884d654e77134c` |
 | Public release repository | `https://github.com/AiXLab-GNU/evidence-qualified-alignment-prostate-cancer` |
-| Submission release | tag `v1.0.5-submission`; commit `d53f77f2f863bb1cb13de1e91b73ac16b136354f` |
+| Submission release | tag `v1.0.6-submission`; commit `b3009b0001360975104e1d77cb3cb6a20a220a55` |
 | Public manuscript boundary | `main.pdf` and `supplement.pdf` only; editable TeX source excluded |
 | Reviewer reproduction | 12/12 aggregate sources, 33/33 numeric mappings, 8/8 byte-identical figures, 10/10 analysis-code snapshots, 6/6 release tests |
 
@@ -68,16 +68,16 @@ table overflow, empty page, unresolved citation/reference, or overfull box. QFM 
 95/95. File governance and worktree audits and `git diff --check` passed. The boundary validator's
 sole failure is the pre-existing unregistered root file `webportal-refactoring.md`.
 
-The public `v1.0.5-submission` tag was independently cloned and passed all six reviewer release
+The public `v1.0.6-submission` tag was independently cloned and passed all six reviewer release
 tests. That package verifies 12 aggregate inputs and 33 mapped values, regenerates eight figure
 PDFs with exact committed hashes, verifies both reference-PDF hashes, and preserves hash-locked
 snapshots of 10 source-analysis entry points for code audit. End-to-end source experiments still
 require the original datasets, patient/fold manifests, embeddings, and weights identified by the
 project provenance; this boundary is explicit in the public `REPRODUCIBILITY.md`.
 
-The tag predates the current result-interpretation revision. Before journal upload, export the
-current `main.pdf`, update its public artifact hash, rerun the six reviewer tests from a fresh
-clone, and create a new immutable submission tag; do not move `v1.0.5-submission`.
+The public reference `main.pdf` has SHA-256
+`cb2a2feb03b0c4d9068e509529f1a96ad0d7d1034730c307f7c9bb2495decc78`, matching the current
+interpretation-enhanced working PDF. Earlier submission tags remain immutable.
 
 ## Revision experiment and release workflow
 
@@ -115,8 +115,6 @@ No committee name or determination identifier has been inferred or invented.
 2. Verify exact title/abstract parity across the manuscript, Supplementary Information, and
    submission system; upload the
    manuscript, five individual main figure PDFs, and the single Supplementary PDF.
-3. Refresh the public submission release with the interpretation-enhanced `main.pdf` and record
-   the new immutable tag and commit in this handoff before upload.
 
 An archive DOI is not required to identify the submitted code snapshot because the annotated tag
 and full commit hash are fixed above. A Zenodo DOI may be added later if the authors connect the

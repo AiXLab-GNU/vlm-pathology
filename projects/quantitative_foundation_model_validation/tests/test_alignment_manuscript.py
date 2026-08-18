@@ -332,7 +332,7 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
             self.assertIn(unchanged_statement, inherited_text)
         self.assertIn("source-analysis snapshots", inherited_text)
         self.assertIn("AiXLab-GNU/evidence-qualified-alignment-prostate-cancer", inherited_text)
-        self.assertIn("v1.0.5-submission", inherited_text)
+        self.assertIn("v1.0.6-submission", inherited_text)
         self.assertIn("build_publication_artifacts.py", inherited_text)
         self.assertIn("REPRODUCIBILITY.md", inherited_text)
         self.assertIn("editable manuscript source", inherited_text)
@@ -414,7 +414,7 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
             "0000-0002-2308-1638",
             "The authors declare no competing interests",
             "NRF-2023R1A2C1006639",
-            "v1.0.5-submission",
+            "v1.0.6-submission",
             "Reviewer suggestions or exclusions",
             "prior discussion with a Scientific Reports Editorial Board Member",
         ]:
