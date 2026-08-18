@@ -53,101 +53,54 @@ patient aggregation. The sensitivity program crossed encoder, native or shared p
 scale, tile budgets of 16, 32, or 64, and five sampling seeds on fixed cohorts and folds.
 
 Continuous targets used standardized ridge regression and binary TCGA-PRAD targets used
-standardized logistic regression. Ridge regression is a linear model whose coefficient
-penalty stabilizes fits when thousands of correlated embedding features are available for
-far fewer patients; the fitted coefficients define a target-predictive direction rather than
-a localized gland or cell type. Logistic regression converts a weighted embedding score to a
-binary probability. Within-cohort evaluation used five patient-disjoint grouped folds, so
-every patient was scored by a probe fitted without that patient's data. Locked transfer
-applied the source probe and preprocessing to the target cohort without refitting.
+standardized logistic regression. The fitted coefficients define a target-predictive direction
+rather than a localized gland or cell type. Five patient-disjoint folds produced out-of-fold
+scores; locked transfer applied the source probe and preprocessing without target-cohort
+refitting.
 
-Metrics followed the clinical target type. Continuous or ordinal targets used patient
-Spearman correlation, which asks whether predicted and observed ranks move together. Binary
-targets used AUROC, a threshold-free ranking measure rather than classification accuracy at
-one cutoff; AUROC does not choose a clinical sensitivity/specificity threshold. Survival risk
-used C-index, which asks whether the higher predicted risk precedes
-the earlier observed event among comparable pairs while accounting for censoring. Spearman
-and incremental-$R^2$ nulls were 0; AUROC and C-index nulls were 0.5. These measures assess
-association or discrimination, not probability calibration, causal mechanism, or clinical
-benefit; it is not a calibrated survival probability.
-
-The saved discovery family used two-sided Spearman or Mann--Whitney tests and
-Benjamini--Hochberg false-discovery-rate control. Grade-adjusted audits used nested outer
-patient-disjoint evaluation and a grade-stratified permutation test of held-out increment.
-The full fitting specifications, nulls, multiplicity family, site resampling, and plain-language
-statistical definitions are retained in Supplementary Sections S2, S3, S6, and S7.
+Metrics followed target type: Spearman correlation for continuous or ordinal targets, AUROC
+for binary targets, and C-index for censored survival risk. AUROC is threshold-free and does
+not choose a clinical sensitivity/specificity threshold; a C-index is not a calibrated survival
+probability. The saved discovery family used two-sided Spearman or Mann--Whitney tests with
+Benjamini--Hochberg false-discovery-rate control, and conditional audits used a grade-stratified
+permutation test. Supplementary Sections S2, S3, S6, and S7 retain full specifications, nulls,
+multiplicity, resampling, and statistical definitions.
 
 \subsection{Conditional, setting, and outcome qualification}
 
 PTEN and AR conditional analyses compared clinical-only, image-only, and combined models in
-nested patient-disjoint folds. Primary held-out increments were change in AUROC for PTEN and
-change in $R^2$ for AR. Here $R^2$ is the proportion of held-out variation explained, and the
-registered delta was combined minus grade-only; a positive delta therefore favors adding the
-image-derived score. The untouched outer fold estimates that increment without reusing the
-patients that selected or fitted the probe. AR site effects used slide-level Spearman
-correlation with patients resampled as clusters. Site labels remained entangled with
-acquisition and case mix and were not interpreted causally.
-
-Encoder, scale, tile-budget, and seed repeats reused patients and folds. Seed summaries and
-390 seed-matched contrasts therefore describe correlated analytic sensitivity rather than
-independent replication. The complete grid, ranges, null crossings, and paired contrasts are
-reported in Supplementary Section S8.
+nested patient-disjoint folds. Held-out increments were change in AUROC for PTEN and change
+in $R^2$---the proportion of held-out variation explained---for AR. AR site effects used
+slide-level Spearman correlation with patients resampled as clusters; site was not interpreted
+causally. Encoder, scale, tile-budget, and seed repeats reused patients and folds, so their
+390 matched contrasts describe analytic sensitivity rather than independent replication
+(Supplementary Section S8).
 
 The post-hoc recurrence score was fitted with a Cox model in LEOPARD and applied unchanged
 to TCGA-PRAD. Reconstructed recurrence and official PFI were evaluated separately. Paired
-clinical-versus-image comparisons reused the same complete-case patients and bootstrap draw;
-positive C-index or integrated Brier score improvement favored the augmented model under the
-registered delta definition. C-index improvement was augmented minus reference. Because a
-lower integrated Brier score indicates smaller time-dependent prediction error, its delta was
-defined in the reverse direction---reference minus augmented---so that positive consistently
-favored augmentation. The PCA sweep was exploratory and not an unbiased model-selection
-estimate. Endpoint definitions and all paired comparisons are provided in Supplementary
-Section S9.
+comparisons reused the same complete cases and bootstrap draws; positive C-index or integrated
+Brier-score deltas favored augmentation under the registered definitions. The PCA sweep was
+exploratory. Supplementary Section S9 provides endpoint definitions, delta directions, and all
+paired comparisons.
 
 \subsection{Secondary ISUP functional-sensitivity extension}
 
-After the six targets had been evaluated at the representation level, the FM6 extension
-tested whether the most developed eligible coordinate affected an internal downstream head.
-It used 27,968 paired whole-tissue tiles aggregated to 392 TCGA-PRAD patients, including 80
-BCR events. CONCH and Virchow were evaluated separately under the same five outer
-patient-disjoint folds. Within each training fold, 64 principal components summarized the
-representation, standardized ridge regression learned an ISUP direction, and a
-ridge-penalized Cox model learned BCR risk. Regularization was selected from the fixed grid
-0.1, 1, 10, 100, and 1,000 using training data only.
+The FM6 extension used 27,968 whole-tissue tiles aggregated to 392 TCGA-PRAD patients with
+80 BCR events. Within five outer patient-disjoint folds, 64 principal components summarized
+each frozen representation, ridge regression learned an ISUP direction, and a penalized Cox
+model learned BCR risk. The primary intervention locked the Cox coefficients while projecting
+the normalized ISUP direction from held-out representations. One hundred variance-matched
+random directions and 20 label-permuted directions served as controls; secondary analyses
+refitted the head after erasure and compared ISUP plus AI with ISUP alone. Patient-bootstrap
+intervals used 2,000 resamples.
 
-For the primary intervention, the fitted Cox coefficients were locked while the normalized
-ISUP-probe direction was projected out of held-out representations. The estimand was full
-minus erased C-index. One hundred variance-matched random directions and 20 label-permuted
-directions served as controls; the one-sided empirical $p$ value compared targeted erasure
-with the matched-random distribution. A secondary analysis refitted the Cox head after
-erasure to test compensation. Patient-bootstrap intervals used 2,000 resamples, and ISUP
-recoverability used 200 label permutations.
-
-An ISUP-plus-AI versus ISUP-only comparison was a limited internal boundary check, not a
-comprehensive clinical-increment study. The analysis remained whole-tissue because the
-tumor detector's locked threshold failed the prespecified sensitivity gate in both newly
-held-out PANDA providers. Supplementary Section S5A reports the complete intervention and
-detector results and the associated claim ceiling. No equivalent head intervention was
-performed for the other five axes; their distinct eligibility and data limitations are
-reported in Table~\ref{tab:alignment-summary} and the Discussion.
-
-For manuscript closure, the FM6 analysis was rerun under the locked protocol with the same
-392 patients, 80 events, saved paired embeddings, five folds, random seed, preprocessing,
-regularization grids, resampling counts, controls, endpoints, and output schema. No tuning or
-data-dependent change was permitted. Before execution, the SHA-256 hashes of 20
-protocol-defined nonvolatile outputs were retained as the baseline; volatile execution time
-and device metadata were excluded from this comparison. The analysis and figure-rendering
-entry points then regenerated the outputs, and handoff required exact equality of all 20
-hashes plus unchanged headline estimates and gate states. A mismatch would have stopped
-manuscript handoff rather than triggered retrospective tuning. This procedure tests exact
-computational reproducibility of the internal analysis, not external biological replication.
-
-The FM6 gate labels separate four questions: R, recoverability of ISUP from the frozen
-whole-tissue representation; A, internal association of the locked head with BCR; U,
-functional sensitivity of that head to targeted ISUP-direction removal; and T, equivalent
-external transport. R, A, and U passed at the stated internal exploratory level for both
-encoders, T was not tested, and the protocol therefore prohibited a strong H2 functional-use
-claim.
+The analysis remained whole-tissue because the detector failed its sensitivity gate in both
+held-out PANDA providers. No equivalent intervention was performed for the other axes. A
+protocol-locked rerun required unchanged estimates, gates, and 20 nonvolatile hashes. The gate
+labels were R, recoverability; A, internal BCR association; U, functional sensitivity; and T,
+equivalent external transport. R, A, and U passed at the internal exploratory level; T was not
+tested. Supplementary Section S5A retains the complete intervention, detector, rerun, and claim
+ceiling.
 
 \subsection{Uncertainty, missingness, and provenance}
 

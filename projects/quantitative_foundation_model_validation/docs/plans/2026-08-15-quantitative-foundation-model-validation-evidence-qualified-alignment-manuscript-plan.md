@@ -626,6 +626,26 @@ functional use의 직접 검증 범위를 ISUP internal locked-head sensitivity 
 **Gate 29:** Abstract, Introduction과 Conclusion이 동일한 motivation, evidence-stage boundary,
 clinical-audit significance와 bounded discovery-space claim을 사용한다.
 
+## Task 30. 2026-08-18 submission-length condensation and recovery lock
+
+- [x] 축약 전 editable manuscript를 internal annotated tag
+  `qfm-manuscript-pre-condensation-v1.0.4` (commit `ace22870`)로 고정했다.
+- [x] Results, Discussion, Conclusion, Methods와 availability를 중복 없이 축약하면서 여섯
+  축의 상태, 핵심 수치, reference-availability 경계, ISUP functional-sensitivity claim
+  ceiling과 bounded biomarker-discovery 문구를 보존했다.
+- [x] 상세 encoder--scale--tile setting comparison 그림을 Supplement S8로, 전체 outcome
+  comparison family 그림을 Supplement S9로 이동했다. Main에는 5 figures + 1 table을 남겼다.
+- [x] Main을 22쪽에서 15쪽으로, Introduction--Conclusion을 6,772 words에서 3,708 words로
+  축약했다. Supplement는 13쪽, 3 figures + 14 tables로 유지했다.
+- [x] source 19/19, numeric 33/33, semantic 53/53, QFM tests 94/94와 28개 PDF page 시각
+  점검을 통과했다.
+- [x] public tag `v1.0.5-submission`, commit
+  `d53f77f2f863bb1cb13de1e91b73ac16b136354f`를 독립 clone하여 reviewer tests 6/6을
+  확인했다.
+
+**Gate 30:** Main이 권고 word/display budget 안에 들고 핵심 claim과 수치가 보존되며,
+상세 근거는 Supplement에서 재현 가능하고 축약 전 상태는 immutable tag로 복구 가능하다.
+
 ## 완료 판정
 
 본 plan은 main만 문장 수정하거나 Supplementary를 제목만 바꾼 상태에서는 완료가 아니다.

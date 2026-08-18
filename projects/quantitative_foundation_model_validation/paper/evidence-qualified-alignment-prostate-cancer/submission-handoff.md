@@ -23,23 +23,24 @@ not by a pending scientific experiment or code release.
 |---|---|
 | Title | 15 words; within the journal's 20-word recommendation |
 | Abstract | 198 words by `detex`; unstructured; no citations; within the 200-word limit |
-| Main | 22 pages; 6,772 Introduction--Conclusion words; 1,708 Methods words; 7 figures + 1 table |
-| Supplementary Information | 12 pages; 3,137 words including generated tables; 1 figure + 14 tables; one separate PDF |
+| Main | 15 pages; 3,708 Introduction--Conclusion words; 1,231 Methods words; 5 figures + 1 table |
+| Supplementary Information | 13 pages; 3,253 words including generated tables; 3 figures + 14 tables; one separate PDF |
 | References | 19 numbered references; all citation keys resolved |
-| `main.pdf` | SHA-256 `8b9677625d5f8e9bac9115e27b4a9891978f3dd39d6808605c882dffc4d43a17` |
-| `supplement.pdf` | SHA-256 `e423f2661938b32fb916517d2285430f6b09e524c5deb7af120b782ac8bc228d` |
-| `cover_letter.pdf` | 1 page; SHA-256 `c8c560fdd99c74ba2ddb52fad694ffa14c34e8b69443dfb355ae7e4941af692a` |
+| `main.pdf` | SHA-256 `db3920ab0f069f5318734a306ff4c14213c1d8f9a9a0aabb83d03d6593034c84` |
+| `supplement.pdf` | SHA-256 `0e90c4c157aba2e57911db0c718007eeba2adaa85da6ab5d46ea73eb62e6c700` |
+| `cover_letter.pdf` | 1 page; SHA-256 `87587a14f0b0b587347e885b430fd19a7bd03690bbd9021768b7934cc8288dab` |
 | Source manifest | 19/19 verified; manifest SHA-256 `c1129408a803a4bc0841e4b6adc097070d7f8995f3f6d7ee793e58ce4f9ef5d0` |
 | Numeric QA mapping | 33/33 verified; SHA-256 `c707818dd79ccec4ee04f8481ce980d1ac671bdfe10a3f6161884d654e77134c` |
 | Public release repository | `https://github.com/AiXLab-GNU/evidence-qualified-alignment-prostate-cancer` |
-| Submission release | tag `v1.0.4-submission`; commit `9dc1e137ab92e369cd2d29382602be41c198d2d5` |
+| Submission release | tag `v1.0.5-submission`; commit `d53f77f2f863bb1cb13de1e91b73ac16b136354f` |
 | Public manuscript boundary | `main.pdf` and `supplement.pdf` only; editable TeX source excluded |
 | Reviewer reproduction | 12/12 aggregate sources, 33/33 numeric mappings, 8/8 byte-identical figures, 10/10 analysis-code snapshots, 6/6 release tests |
 
 Scientific Reports states that page count and the 4,500-word main-text target are generally
-recommendations rather than strict limits. The longer main text retains the required six-axis
-comparison, functional-sensitivity boundary, and limitations. The eight main display items meet
-the stated maximum. Official sources checked on 2026-08-18: [submission guidelines](https://www.nature.com/srep/author-instructions/submission-guidelines),
+recommendations rather than strict limits. The condensed Introduction--Conclusion text is below
+that recommendation even when figure captions are included. The required six-axis comparison,
+functional-sensitivity boundary, and limitations remain in the main text, and its six display
+items are below the stated maximum. Official sources checked on 2026-08-18: [submission guidelines](https://www.nature.com/srep/author-instructions/submission-guidelines),
 [initial-submission checklist](https://www.nature.com/documents/srep-checklist-for-initial-submissions.pdf),
 and [editorial policies](https://www.nature.com/srep/journal-policies/editorial-policies).
 
@@ -61,14 +62,13 @@ is sensitive to the corresponding direction. Clinician-understandable reliabilit
 the present contribution. Residual-signal or biomarker discovery remains a bounded future use
 of the map, not a result reported here.
 
-Two fresh `/tmp` builds produced byte-identical generated tables, eight figure PDFs, `main.pdf`,
-and `supplement.pdf`. All 34 PDF pages were raster-inspected; the corrected bundle has no clipping,
+The manuscript builder verified 19/19 registered sources, 33/33 numeric mappings, and 53/53
+semantic contracts. All 28 PDF pages were raster-inspected; the condensed bundle has no clipping,
 table overflow, empty page, unresolved citation/reference, or overfull box. QFM tests passed
-94/94. PBV tests passed 322/323; the sole failure is the pre-existing Funding-text expectation.
-File governance and worktree audits and `git diff --check` passed. The boundary validator's sole
-failure is the pre-existing unregistered root file `webportal-refactoring.md`.
+94/94. File governance and worktree audits and `git diff --check` passed. The boundary validator's
+sole failure is the pre-existing unregistered root file `webportal-refactoring.md`.
 
-The public `v1.0.4-submission` tag was independently cloned and passed all six reviewer release
+The public `v1.0.5-submission` tag was independently cloned and passed all six reviewer release
 tests. That package verifies 12 aggregate inputs and 33 mapped values, regenerates eight figure
 PDFs with exact committed hashes, verifies both reference-PDF hashes, and preserves hash-locked
 snapshots of 10 source-analysis entry points for code audit. End-to-end source experiments still
@@ -90,6 +90,10 @@ the accepted revision with a new immutable identifier such as `v1.1.0-revision1`
 overwrite an earlier submission tag. The response-to-reviewers document and editable manuscript source
 remain in the controlled research workspace and journal submission system.
 
+The readable pre-condensation manuscript is fixed in the internal annotated tag
+`qfm-manuscript-pre-condensation-v1.0.4` at commit `ace22870`. This immutable tag provides the
+recovery point; a duplicate manuscript directory is therefore unnecessary.
+
 ## Accountable-author actions before upload
 
 The final author order, affiliations, corresponding-author details, Jin Hyun Kim ORCID
@@ -107,7 +111,7 @@ ORCID appear on Supplementary page 1. A one-page Scientific Reports cover letter
    online-system metadata.
 3. Verify exact title/abstract parity across the manuscript, Supplementary Information, and
    submission system; upload the
-   manuscript, seven individual main figure PDFs, and the single Supplementary PDF.
+   manuscript, five individual main figure PDFs, and the single Supplementary PDF.
 
 An archive DOI is not required to identify the submitted code snapshot because the annotated tag
 and full commit hash are fixed above. A Zenodo DOI may be added later if the authors connect the

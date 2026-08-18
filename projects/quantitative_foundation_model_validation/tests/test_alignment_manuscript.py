@@ -143,8 +143,8 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         self.assertIn("comparative hierarchy", normalized_conclusion)
         self.assertIn("contestable coordinates", normalized_conclusion)
         self.assertIn("pathologist agreement, calibrated reliance", normalized_conclusion)
-        self.assertIn("experiments support four connected contributions", normalized_conclusion)
-        self.assertIn("The central claim is supported within that boundary", normalized_conclusion)
+        self.assertIn("do not demonstrate pathologist agreement", normalized_conclusion)
+        self.assertIn("disciplined starting point for potential new-biomarker discovery", normalized_conclusion)
         for operational_claim in [
             "anchor clinician review of agreement and disagreement",
             "explanations should be withheld",
@@ -181,22 +181,19 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
             "Recurrence",
         ]:
             self.assertIn(clinical_target, supplement)
+        statistical_context = " ".join((methods + "\n" + supplement).split())
         for reader_boundary in [
-            "AUROC does not choose a clinical sensitivity/specificity threshold",
-            "it is not a calibrated survival probability",
+            "does not choose a clinical sensitivity/specificity threshold",
+            "not a calibrated survival probability",
             "resamples patients rather than slides",
             "not proof that the biological relationship is absent",
         ]:
-            self.assertIn(reader_boundary, " ".join(methods.split()))
+            self.assertIn(reader_boundary, statistical_context)
         self.assertIn("Supplementary Section S1 retains the detailed target, paired-reference", " ".join(results.split()))
-        for heading in [
-            "Alignment question.",
-            "Analysis frame.",
-            "Evidence test.",
-            "Interpretive boundary.",
-            "Qualification rule.",
-        ]:
-            self.assertGreaterEqual(results.count(heading), 4, heading)
+        detexed_results = subprocess.run(
+            ["detex"], input=results, text=True, capture_output=True, check=True
+        ).stdout
+        self.assertLessEqual(len(detexed_results.split()), 2200)
         self.assertIn("How to read the qualification map", results)
         for functional_status in [
             "BL, blocked because same-cohort independent phenotype truth was unavailable",
@@ -212,7 +209,7 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
                             '("not_tested", "NR")', '("unsupported", "NQ")',
                             '("not_applicable", "NA")']:
             self.assertIn(status_code, builder)
-        normalized_methods = " ".join(methods.split()).casefold()
+        normalized_methods = statistical_context.casefold()
         for statistical_term in [
             "ridge regression",
             "Mann--Whitney",
@@ -225,7 +222,7 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
             self.assertIn(statistical_term.casefold(), normalized_methods)
         for statistical_explanation in [
             "target-predictive direction rather than a localized gland or cell type",
-            "threshold-free ranking measure rather than classification accuracy",
+            "auroc is threshold-free",
             "proportion of held-out variation explained",
             "reference minus augmented",
             "not proof that the biological relationship is absent",
@@ -247,7 +244,7 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         self.assertIn("Its primary task is comparative", normalized_sections["introduction"])
         self.assertIn("The primary result is their comparative evidence hierarchy", normalized_sections["results"])
         self.assertIn("The central result is not that one prostate-cancer target", normalized_sections["discussion"])
-        self.assertIn("This comparative hierarchy", normalized_sections["conclusion"])
+        self.assertIn("The comparative hierarchy", normalized_sections["conclusion"])
         self.assertIn("The study was motivated by the need", normalized_sections["conclusion"])
         self.assertIn("disciplined starting point for potential new-biomarker discovery", normalized_sections["conclusion"])
         self.assertIn("The primary design compared", normalized_sections["methods"])
@@ -288,7 +285,7 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         self.assertIn("unsupported denotes an available comparison", normalized["results"])
         self.assertIn("did not ask a slide-only model to agree with six unobserved quantities", normalized["discussion"])
         self.assertIn("reflects both biological accessibility", normalized["discussion"])
-        self.assertIn("does not treat unavailable labels as negative results", normalized["conclusion"])
+        self.assertIn("Unavailable labels are not negative results", normalized["conclusion"])
 
     def test_declarations_preserve_source_statements_but_publish_qfm_code_lineage(self) -> None:
         source = ROOT / "projects" / "prostate_biomarker_validation" / "paper" / "sections" / "declarations.tex"
@@ -306,13 +303,13 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         ]:
             self.assertIn(unchanged_statement, source_text)
             self.assertIn(unchanged_statement, inherited_text)
-        self.assertIn("projects/prostate_biomarker_validation/code/legacy/", inherited_text)
+        self.assertIn("source-analysis snapshots", inherited_text)
         self.assertIn("AiXLab-GNU/evidence-qualified-alignment-prostate-cancer", inherited_text)
-        self.assertIn("v1.0.4-submission", inherited_text)
+        self.assertIn("v1.0.5-submission", inherited_text)
         self.assertIn("build_publication_artifacts.py", inherited_text)
-        self.assertIn("public-artifact", inherited_text)
+        self.assertIn("REPRODUCIBILITY.md", inherited_text)
         self.assertIn("editable manuscript source", inherited_text)
-        self.assertIn("is not publicly redistributed", inherited_text)
+        self.assertIn("are not redistributed", inherited_text)
         self.assertNotIn("have not yet been assigned", inherited_text)
         self.assertNotIn("feat/precise-pni-morphology-rereview", inherited_text)
         self.assertNotIn("resources/projects/prostate_biomarker_validation/model_workspace", inherited_text)
@@ -390,7 +387,7 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
             "0000-0002-2308-1638",
             "The authors declare no competing interests",
             "NRF-2023R1A2C1006639",
-            "v1.0.4-submission",
+            "v1.0.5-submission",
             "Reviewer suggestions or exclusions",
             "prior discussion with a Scientific Reports Editorial Board Member",
         ]:
@@ -428,14 +425,21 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         for reference in [
             "fig:conditional-alignment",
             "fig:human-ai-linkage",
-            "fig:outcome-contrasts",
             "fig:stability",
-            "fig:setting-contrasts",
             "tab:alignment-summary",
         ]:
             self.assertIn(reference, results)
-        for reference in ["fig:supp-full-grid", "tab:supp-six-axis-evidence-stage"]:
+        for reference in [
+            "fig:supp-full-grid",
+            "fig:supp-setting-contrasts",
+            "fig:supp-outcome-contrasts",
+            "tab:supp-six-axis-evidence-stage",
+        ]:
             self.assertIn(reference, supplement)
+        self.assertNotIn("fig:setting-contrasts", results)
+        self.assertNotIn("fig:outcome-contrasts", results)
+        self.assertIn("figures/fig5_setting_contrasts.pdf", supplement)
+        self.assertIn("figures/fig6_outcome_contrasts.pdf", supplement)
         self.assertIn("generated/stable2_primary_estimates.tex", supplement)
         for main_only_reference in ["tab:primary-evidence", "tab:six-axis-evidence-stage"]:
             self.assertNotIn(main_only_reference, results)
@@ -447,7 +451,7 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         self.assertIn("PTEN and AR are feasible follow-up tests that were not run", normalized_results)
         discussion = (WORKSPACE / "sections" / "discussion.tex").read_text(encoding="utf-8")
         normalized_discussion = " ".join(discussion.split())
-        self.assertIn("six clinically interpretable axes", normalized_discussion)
+        self.assertIn("six clinically interpretable axes", normalized_discussion.casefold())
         self.assertIn("PTEN-related information was recoverable", normalized_discussion)
         self.assertIn("Absence of a functional-use result is therefore not one common negative result", normalized_discussion)
         self.assertIn("does not make ISUP the sole organizing target", normalized_discussion)
@@ -494,20 +498,19 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         self.assertIn("not exact external tumor-content agreement", normalized["results"])
         self.assertIn("SPOP genomic reference was available and was used", normalized["results"])
         self.assertIn("8 of 12 for SPOP and 1 of 12 for recurrence", normalized["results"])
-        self.assertIn("All 20 protocol-defined nonvolatile output SHA-256 hashes matched", normalized["results"])
+        self.assertIn("Supplementary Section S5A reports the 20/20 hash audit", normalized["results"])
         self.assertIn("not an independent-cohort replication", normalized["results"])
-        self.assertIn("Before execution, the SHA-256 hashes of 20", normalized["methods"])
+        self.assertIn("protocol-locked rerun required unchanged estimates", normalized["methods"])
         self.assertIn("R, recoverability", normalized["methods"])
-        self.assertIn("A, internal association", normalized["methods"])
+        self.assertIn("A, internal BCR association", normalized["methods"])
         self.assertIn("U, functional sensitivity", normalized["methods"])
         self.assertIn("T, equivalent external transport", normalized["methods"])
         self.assertIn("All 20 regenerated hashes matched exactly", normalized["supplement"])
         self.assertIn("cannot upgrade the claim to external functional replication", normalized["discussion"])
-        self.assertIn("20/20 nonvolatile hash agreement", normalized["conclusion"])
         self.assertIn("does not itself demonstrate a new residual marker", normalized["conclusion"])
-        self.assertIn("after jointly accounting for known clinical--pathology targets and technical confounders", normalized["conclusion"])
-        self.assertIn("recurs across models and independent cohorts", normalized["conclusion"])
-        self.assertIn("were not shown to completely explain AI representations or decisions", normalized["conclusion"])
+        self.assertIn("after jointly accounting for known clinical--pathology targets and technical confounders", normalized["conclusion"].casefold())
+        self.assertIn("recur across models and independent cohorts", normalized["conclusion"])
+        self.assertIn("complete explanation of AI representations or decisions", normalized["conclusion"])
 
         run_config_path = (
             ROOT
@@ -551,7 +554,10 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         self.assertIn("tab:supp-clinical-reference-primer", supplement)
         self.assertIn("tab:supp-resource-orientation", supplement)
         self.assertIn("Cell codes are S, supported", results)
-        self.assertIn("Positive values indicate improvement after adding the image-derived score", results)
+        self.assertIn(
+            "positive values indicate improvement after adding the image-derived score",
+            " ".join(results.split()).casefold(),
+        )
 
         supplementary_table_labels = [
             "tab:supp-clinical-reference-primer",
@@ -572,7 +578,11 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         for label in supplementary_table_labels:
             self.assertIn(f"\\ref{{{label}}}", supplement, label)
 
-        supplementary_figure_labels = ["fig:supp-full-grid"]
+        supplementary_figure_labels = [
+            "fig:supp-full-grid",
+            "fig:supp-setting-contrasts",
+            "fig:supp-outcome-contrasts",
+        ]
         for label in supplementary_figure_labels:
             self.assertIn(f"\\ref{{{label}}}", supplement, label)
             self.assertIn(f"\\label{{{label}}}", supplement, label)

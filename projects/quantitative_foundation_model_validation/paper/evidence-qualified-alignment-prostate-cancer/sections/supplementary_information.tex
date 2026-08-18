@@ -299,9 +299,10 @@ intervals and were not used to revise labels, folds, or evidence thresholds.
 
 Supplementary Figure~\ref{fig:supp-full-grid} shows every configuration mean relative to its
 target-specific null. Supplementary Table~\ref{tab:supp-stability} then condenses those same correlated
-settings into ranges and null-straddling counts. The Main manuscript displays that summary
-graphically and also shows the seed-matched setting contrasts. These views describe the same
-sensitivity program and are not independent replications.
+settings into ranges and null-straddling counts. The Main manuscript displays the target-level
+range summary; Supplementary Figure~\ref{fig:supp-setting-contrasts} retains the more detailed
+seed-matched setting contrasts. These views describe the same sensitivity program and are not
+independent replications.
 
 \begin{figure}[H]
 \centering
@@ -323,9 +324,20 @@ change in the target-specific chance relation, not a population-level hypothesis
 
 \input{generated/stable_contrast_summary.tex}
 
-The Main manuscript visualizes the same paired contrasts and preserves their direction:
+Supplementary Figure~\ref{fig:supp-setting-contrasts} visualizes the same paired contrasts and preserves their direction:
 shared scale minus native scale, Virchow minus CONCH at the shared scale, and 64 minus 16
 tiles. A positive value therefore has meaning only within the named comparison.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/fig5_setting_contrasts.pdf}
+\caption{\textbf{Seed-matched encoder, physical-scale, and tile-budget contrasts.}
+Each box summarizes paired performance changes for one target while preserving the sampling
+seed. \textbf{a}, Shared physical scale minus encoder-native scale. \textbf{b}, Virchow minus
+CONCH at the shared 1.76-micrometre-per-pixel scale. \textbf{c}, 64 minus 16 tiles per slide.
+All comparisons reuse cohorts and folds and do not define a universally preferable setting.}
+\label{fig:supp-setting-contrasts}
+\end{figure}
 
 
 \section*{S9. Endpoint hierarchy and paired outcome increments}
@@ -373,9 +385,21 @@ endpoint tables must not be pooled because their event definitions and event cou
 
 \input{generated/stable_outcome_official_pfi.tex}
 
-The Main manuscript plots the paired intervals from the two tables on a common
-positive-favors-first-or-augmented convention; endpoint-specific panels remain separate
-because their event definitions and counts differ.
+Supplementary Figure~\ref{fig:supp-outcome-contrasts} plots the paired intervals from the two
+tables on a common positive-favors-first-or-augmented convention; endpoint-specific panels
+remain separate because their event definitions and counts differ.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/fig6_outcome_contrasts.pdf}
+\caption{\textbf{Complete paired outcome-comparison family across non-equivalent endpoints.}
+Rows compare the image score with grade or fuller clinical references, or compare nested
+clinical models, on the same patients and bootstrap draws. \textbf{a,b}, Reconstructed
+with-tumor C-index and integrated-Brier-score improvements. \textbf{c,d}, Corresponding
+official TCGA-CDR PFI comparisons. Positive values favor the first, augmented, or more
+complete model under the registered delta definition.}
+\label{fig:supp-outcome-contrasts}
+\end{figure}
 
 
 \section*{S10. Multiplicity, undefined draws, and power boundaries}

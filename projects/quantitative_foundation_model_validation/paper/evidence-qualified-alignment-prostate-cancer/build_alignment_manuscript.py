@@ -1147,7 +1147,7 @@ def verify_manuscript_semantics(sources: dict[str, Path]) -> list[str]:
     require("fm6-denominator", "results", f"{conch['n_subjects']} TCGA-PRAD patients")
     require("fm6-events", "results", f"{conch['n_events']} BCR events")
     require("fm6-random-p-conch", "results", f"p={float(conch['target_vs_random_p_one_sided']):.4f}")
-    require("fm6-clean-hash-count", "results", "All 20 protocol-defined nonvolatile output SHA-256 hashes matched")
+    require("fm6-clean-hash-count", "supplement", "All 20 regenerated hashes matched exactly")
     require("computational-not-external", "results", "not an independent-cohort replication")
 
     if failures:
