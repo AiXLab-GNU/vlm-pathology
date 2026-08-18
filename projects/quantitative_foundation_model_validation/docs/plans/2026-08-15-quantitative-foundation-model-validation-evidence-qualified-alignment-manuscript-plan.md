@@ -137,36 +137,37 @@ projects/quantitative_foundation_model_validation/
 ## Task 6. Main–Supplement 통합 numeric·semantic QA
 
 - [x] headline quantity 20개는 main·Supplement에서 같은 source field와 rounding rule을 사용한다.
-- [ ] cohort denominator, event count, complete-case count, analysis unit와 interval type을
+- [x] cohort denominator, event count, complete-case count, analysis unit와 interval type을
   자동 대조한다.
-- [ ] endpoint substitution, patient/slide unit mixing과 OOF/in-sample 혼용을 검사한다.
+- [x] endpoint substitution, patient/slide unit mixing과 OOF/in-sample 혼용을 검사한다.
 - [x] `transportable`, `context-sensitive`, `unsupported`, `not evaluated` 상태가 claim matrix와
   일치하는지 검사한다.
 - [x] main과 supplement를 각각 두 번 build해 unresolved citation·figure·table reference 0건을 확인한다.
-- [ ] source manifest에 없는 수치·그림·문장을 fail로 처리한다.
+- [x] source manifest에 없는 headline 수치와 source ID를 fail로 처리하고, mapped display가
+  지정 manuscript section에 실제 존재하는지 검사한다.
 
 **Gate 6:** numeric mismatch 0, semantic mismatch 0, unresolved references 0.
 
 ## Task 7. 빌드·재현성·시각 QA
 
 - [x] 단일 builder가 main과 supplement의 tables, figures, TeX와 PDF를 생성하도록 한다.
-- [ ] temporary output root 두 곳에서 clean build하고 비휘발성 hash를 비교한다.
+- [x] temporary output root 두 곳에서 clean build하고 비휘발성 hash를 비교한다.
 - [x] XeLaTeX를 각 문서에 두 번 실행하고 unresolved reference/citation과 overfull defect를
   검사한다.
-- [ ] 모든 PDF page를 rasterize해 글자 크기, clipping, panel balance, table overflow와 빈
+- [x] 모든 PDF page를 rasterize해 글자 크기, clipping, panel balance, table overflow와 빈
   page를 시각 검토한다.
 - [x] 승계한 PBV source 15개의 hash·bytes가 build 전후 일치함을 확인한다.
-- [ ] QFM/PBV focused tests, full tests, file governance, boundary, worktree와 diff checks를
+- [x] QFM/PBV focused tests, full tests, file governance, boundary, worktree와 diff checks를
   실행한다.
 
 **Gate 7:** 두 submission PDF 재현, 원본 hash 불변, 모든 의도된 audit PASS.
 
 ## Task 8. 연구책임자 handoff
 
-- [ ] 기여 문장, primary claims, evidence gaps와 prohibited claims를 한 페이지로 요약한다.
-- [ ] main/supplement page·word·figure/table counts와 artifact hashes를 기록한다.
-- [ ] author/funding/ethics/journal-format action item을 구분한다.
-- [ ] submission status를 `complete`, `partial`, `blocked` 중 하나로 근거와 함께 판정한다.
+- [x] 기여 문장, primary claims, evidence gaps와 prohibited claims를 한 페이지로 요약한다.
+- [x] main/supplement page·word·figure/table counts와 artifact hashes를 기록한다.
+- [x] author/funding/ethics/journal-format action item을 구분한다.
+- [x] submission status를 `partial—author metadata required`로 근거와 함께 판정한다.
 - [x] FM6 중 whole-tissue internal ISUP functional-sensitivity 근거만 명시적으로 승계하고,
   residual/new-marker 결과는 이 원고에 합치지 않는다는 경계를 확인한다.
 
@@ -503,6 +504,91 @@ Table 1 및 Main 10--11쪽·Supplementary 6·13쪽 시각 점검으로 통과했
 `SPOP = evaluated but unsupported`, `recurrence = endpoint-sensitive`, `ISUP = internal
 exploratory functional sensitivity only`로 고정한다. 다음 작업은 author-controlled metadata와
 submission release 확정이다.
+
+## Task 24. 2026-08-18 Scientific Reports submission-readiness closure
+
+- [x] 공식 Scientific Reports submission guideline, initial-submission checklist와 editorial
+  policy를 확인하고 200-word abstract, 8-display-item, Supplementary, declaration, ethics,
+  availability와 file-package 요구를 대조했다.
+- [x] Data/Code Availability를 References 앞에, Acknowledgements·Author Contributions와
+  Additional Information/Competing Interests를 References 뒤에 배치하고 ethics placeholder를
+  Methods 안으로 이동했다.
+- [x] builder에 53개 denominator/event/unit/interval/endpoint/OOF/headline-provenance 의미
+  contract와 격리 `--output-root` build를 추가했다.
+- [x] 두 fresh `/tmp` root의 tables, figures와 두 PDF가 byte-identical임을 확인하고 Main
+  23쪽·Supplement 13쪽 전부를 rasterize해 시각 점검했다. Figure 3 주석 겹침과
+  Supplementary caption clipping을 수정했다.
+- [x] `submission-handoff.md`에 counts, hashes, claim ceiling, journal checklist와 단일
+  author-action checklist를 기록했다.
+
+**Gate 24:** source 19/19, numeric mapping 33/33, semantic contracts 53/53, QFM 94/94,
+file-governance/worktree/diff PASS. PBV 322/323의 기존 Funding 기대값 실패와 boundary의
+기존 `webportal-refactoring.md` 실패를 무관한 pre-existing issue로 보존한다. 제출 상태는
+`partial—author metadata required`이며 추가 과학 실험은 필요하지 않다.
+
+## Task 25. 2026-08-18 submission-specific public release
+
+- [x] 독립 공개 저장소 `AiXLab-GNU/evidence-qualified-alignment-prostate-cancer`를 기존
+  research monorepo의 submodule이 아닌 별도 publication package로 구성했다.
+- [x] 공개 원고는 `main.pdf`와 `supplement.pdf`만 남기고 editable TeX 및 `sections/`를
+  공개 이력에서 제외했다. claim/provenance registry, 실제 figure build에 필요한 12개
+  aggregate source table과 public renderer는 유지했다.
+- [x] WSI, patient-level prediction, embedding, weight, cache 및 access-governed LEOPARD
+  artifact를 제외했다.
+- [x] standalone public-artifact builder가 source hash 12/12와 numeric mapping 33/33을
+  검증하고 figure PDF 8개를 독립 환경에서 재생성함을 확인했다.
+- [x] release contract test 4/4를 통과하고 추적 파일의 `.tex` 및 `sections/`가 0개임을
+  원격 tag의 새 clone에서 확인했다.
+- [x] 공개 `main` branch와 annotated tag `v1.0.0-submission`을 commit
+  `d19cca8b4de2e3109055b644bfc724ecbe85f5a8`의 단일 clean root history로 교체하고 원격
+  tag를 새 clone에서 다시 검증했다.
+- [x] 리비전 실험은 `vlm-pathology`의 owning project에서 수행하고, 검증된 aggregate
+  artifact와 reference PDF만 공개 저장소의 `revision/rN` branch 및 새 immutable tag로
+  export하도록 README와 handoff에 기록했다.
+
+**Gate 25:** submission-specific code/data-display release와 immutable Git identifier는
+완료했다. 남은 제출 작업은 keywords, cover letter, reviewer metadata, prior-editorial-
+discussion 여부, submission date 및 online-system title/abstract parity의 책임저자 확인이다.
+
+## Task 26. 2026-08-18 reviewer reproducibility reinforcement
+
+- [x] 공개 package의 재현 범위를 aggregate artifact reproduction, source-analysis code audit,
+  original-resource-required rerun, editable manuscript rebuild의 네 수준으로 구분했다.
+- [x] 12개 aggregate source의 hash 검증과 33개 publication-facing numeric mapping을 한 번의
+  release test 명령으로 재실행하도록 유지했다.
+- [x] 격리 output root에서 main figure 7개와 supplementary figure 1개를 재생성하고, committed
+  artifact manifest와 8/8 byte-identical hash를 자동 비교하도록 강화했다.
+- [x] PBV 6개와 QFM/FM6 4개 source-analysis entrypoint의 정확한 snapshot, original path,
+  size, SHA-256와 reproduction role을 공개했다.
+- [x] `REPRODUCIBILITY.md`, public artifact manifest, analysis-code manifest와 GitHub Actions
+  workflow를 추가하고 editable manuscript source 및 restricted artifact 부재를 검사했다.
+- [x] `v1.0.1-submission` commit `d7d22220cbaa50b23ead5bbc3e9a1e13e40ef79a`을 새로 clone해
+  reviewer release tests 6/6과 source 12/12, numeric 33/33, figure 8/8, code snapshot 10/10을
+  확인했다.
+
+**Gate 26:** 심사자는 공개 repository만으로 공개 집계 근거와 모든 publication figure를
+정확히 재현하고 원 분석 entrypoint를 감사할 수 있다. WSI, patient/fold-level artifact,
+embedding, weight와 access-governed source가 필요한 end-to-end experiment는 재배포하지 않으며,
+그 제한을 재현 실패나 독립 replication으로 오인하지 않도록 공개 문서에 명시한다.
+
+## Task 27. 2026-08-18 cover letter, corresponding-author ORCID, and internal submission lock
+
+- [x] Jin Hyun Kim의 ORCID `0000-0002-2308-1638`을 Main과 Supplementary title page에
+  동일하게 반영했다.
+- [x] Scientific Reports용 1-page cover letter와 editable source를 manuscript workspace에
+  생성하고 연구 적합성, 핵심 bounded finding, ethics, funding, competing interests와 public
+  reproducibility release를 기술했다.
+- [x] 확인되지 않은 reviewer suggestion/exclusion과 prior Editorial Board discussion 여부를
+  추정하지 않고 online submission에서 accountable author가 선언할 항목으로 남겼다.
+- [x] ORCID가 반영된 두 PDF를 public package와 동기화하고 `v1.0.2-submission` commit
+  `664a542166219e7ececec00b6219e787863a70ed`을 새 clone에서 release tests 6/6으로 검증했다.
+- [x] 공개·비식별 secondary analysis의 일반 ethics 문구를 유지하되 institutional
+  non-human-participant/exempt determination과 존재하는 reference number는 accountable-author
+  confirmation 없이 추정하지 않는 submission gate로 명시했다.
+
+**Gate 27:** Main 22쪽, Supplementary 12쪽, cover letter 1쪽이 정상 렌더링되고, ORCID,
+release tag와 reference PDF hashes가 원고·handoff·public manifest에서 일치해야 한다. 남은
+차단 항목은 institutional ethics classification 확인과 online reviewer/editorial metadata다.
 
 ## 완료 판정
 

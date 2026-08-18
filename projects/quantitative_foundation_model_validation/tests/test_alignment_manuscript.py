@@ -24,12 +24,14 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         required = [
             "main.tex",
             "supplement.tex",
+            "cover_letter.tex",
             "sections/abstract.tex",
             "sections/introduction.tex",
             "sections/results.tex",
             "sections/discussion.tex",
             "sections/conclusion.tex",
             "sections/methods.tex",
+            "sections/availability.tex",
             "sections/supplementary_information.tex",
         ]
         for relative in required:
@@ -277,9 +279,13 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
 
     def test_declarations_preserve_source_statements_but_publish_qfm_code_lineage(self) -> None:
         source = ROOT / "projects" / "prostate_biomarker_validation" / "paper" / "sections" / "declarations.tex"
-        inherited = WORKSPACE / "sections" / "declarations.tex"
+        availability = WORKSPACE / "sections" / "availability.tex"
+        declarations = WORKSPACE / "sections" / "declarations.tex"
+        methods = WORKSPACE / "sections" / "methods.tex"
         source_text = source.read_text(encoding="utf-8")
-        inherited_text = inherited.read_text(encoding="utf-8")
+        inherited_text = "\n".join(
+            path.read_text(encoding="utf-8") for path in [availability, declarations, methods]
+        )
         for unchanged_statement in [
             "NADT-Prostate is available from The Cancer Imaging Archive",
             "NRF-2023R1A2C1006639",
@@ -288,11 +294,94 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
             self.assertIn(unchanged_statement, source_text)
             self.assertIn(unchanged_statement, inherited_text)
         self.assertIn("projects/prostate_biomarker_validation/code/legacy/", inherited_text)
-        self.assertIn("projects/quantitative_foundation_model_validation/paper/", inherited_text)
-        self.assertIn("build_alignment_manuscript.py", inherited_text)
-        self.assertIn("submission-specific", inherited_text)
+        self.assertIn("AiXLab-GNU/evidence-qualified-alignment-prostate-cancer", inherited_text)
+        self.assertIn("v1.0.2-submission", inherited_text)
+        self.assertIn("build_publication_artifacts.py", inherited_text)
+        self.assertIn("public-artifact", inherited_text)
+        self.assertIn("editable manuscript source", inherited_text)
+        self.assertIn("is not publicly redistributed", inherited_text)
+        self.assertNotIn("have not yet been assigned", inherited_text)
         self.assertNotIn("feat/precise-pni-morphology-rereview", inherited_text)
         self.assertNotIn("resources/projects/prostate_biomarker_validation/model_workspace", inherited_text)
+
+    def test_scientific_reports_submission_structure_is_explicit(self) -> None:
+        main = (WORKSPACE / "main.tex").read_text(encoding="utf-8")
+        supplement = (WORKSPACE / "supplement.tex").read_text(encoding="utf-8")
+        methods = (WORKSPACE / "sections" / "methods.tex").read_text(encoding="utf-8")
+        availability = (WORKSPACE / "sections" / "availability.tex").read_text(encoding="utf-8")
+        declarations = (WORKSPACE / "sections" / "declarations.tex").read_text(encoding="utf-8")
+
+        self.assertLess(main.index("sections/availability"), main.index("sections/bibliography"))
+        self.assertLess(main.index("sections/declarations"), main.index("sections/bibliography"))
+        self.assertIn("\\section*{Data Availability}", availability)
+        self.assertIn("\\section*{Code Availability}", availability)
+        self.assertIn("\\subsection{Ethics approval and consent to participate}", methods)
+        self.assertIn("No additional ethical approval or participant consent was", methods)
+        self.assertIn("contains no identifiable participant information", methods)
+        self.assertIn("OpenAI Codex assisted with code editing", methods)
+        self.assertIn("figure-code preparation", methods)
+        self.assertIn("take full responsibility", methods)
+        self.assertIn("for the final manuscript", methods)
+        self.assertNotIn("Product/model version", methods)
+        self.assertIn("\\section*{Author Contributions}", declarations)
+        for contribution in [
+            "J.H.K. had overall responsibility for the manuscript",
+            "D.H.S. contributed to the study concept",
+            "assessed the medical validity of the study",
+            "H.C. reviewed the manuscript and curated the data",
+            "I.L. assessed the overall scientific",
+        ]:
+            self.assertIn(contribution, declarations)
+        self.assertIn("\\section*{Funding}", declarations)
+        self.assertIn(
+            "NRF-2023R1A2C1006639) and in part by Gyeongsang National University.",
+            declarations,
+        )
+        self.assertNotIn("GNU-SGRP-2026", declarations)
+        self.assertIn("\\section*{Additional Information}", declarations)
+        self.assertIn("\\subsection*{Competing Interests}", declarations)
+        self.assertIn("The authors declare no competing interests.", declarations)
+        for draft_source in [main, supplement, methods, availability, declarations]:
+            self.assertNotIn("Draft status", draft_source)
+            self.assertNotIn("Draft:", draft_source)
+        self.assertNotIn("must confirm", methods)
+        self.assertIn("\\renewcommand{\\figurename}{Supplementary Figure}", supplement)
+        self.assertIn("\\renewcommand{\\tablename}{Supplementary Table}", supplement)
+
+        for author in ["Jin Hyun Kim", "Dae Hyun Song", "Hyonyoung Choi", "Insup Lee"]:
+            self.assertIn(author, main)
+            self.assertIn(author, supplement)
+        for affiliation in [
+            "Gyeongsang National University, Jinju, Republic of Korea",
+            "Department of Pathology, Gyeongsang National University School of Medicine",
+            "PRECISE Center and Department of Computer and Information Science",
+        ]:
+            self.assertIn(affiliation, main)
+            self.assertIn(affiliation, supplement)
+        self.assertIn("\\textsuperscript{1,*}", main)
+        self.assertIn("Correspondence: Jin Hyun Kim", main)
+        self.assertIn("jin.kim@gnu.ac.kr", main)
+        self.assertIn("jin.kim@gnu.ac.kr", supplement)
+        for title_page in [main, supplement]:
+            self.assertIn("0000-0002-2308-1638", title_page)
+            self.assertIn("https://orcid.org/0000-0002-2308-1638", title_page)
+        self.assertNotIn("Author details:", main)
+
+        cover_letter = (WORKSPACE / "cover_letter.tex").read_text(encoding="utf-8")
+        normalized_cover_letter = " ".join(cover_letter.split())
+        for required_cover_letter_text in [
+            "Scientific Reports",
+            "Jin Hyun Kim",
+            "Associate Professor",
+            "jin.kim@gnu.ac.kr",
+            "0000-0002-2308-1638",
+            "The authors declare no competing interests",
+            "NRF-2023R1A2C1006639",
+            "v1.0.2-submission",
+            "Reviewer suggestions or exclusions",
+            "prior discussion with a Scientific Reports Editorial Board Member",
+        ]:
+            self.assertIn(required_cover_letter_text, normalized_cover_letter)
 
     def test_expanded_results_expose_all_promoted_evidence_axes(self) -> None:
         results = (WORKSPACE / "sections" / "results.tex").read_text(encoding="utf-8")

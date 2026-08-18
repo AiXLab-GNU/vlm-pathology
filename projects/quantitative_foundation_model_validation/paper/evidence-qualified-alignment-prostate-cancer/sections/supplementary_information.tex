@@ -27,7 +27,7 @@ session-level grade evaluation. TCGA-PRAD supplied molecular, site, and endpoint
 LEOPARD supplied the source recurrence analysis. Patient, case-image, session, and slide
 units were never treated as interchangeable.
 
-Table~\ref{tab:supp-clinical-reference-primer} preserves the detailed clinical, reference,
+Supplementary Table~\ref{tab:supp-clinical-reference-primer} preserves the detailed clinical, reference,
 and metric orientation removed from the concise Main Introduction. It makes explicit that
 every reported estimate used a paired target reference while external and functional
 reference availability differed across axes.
@@ -74,7 +74,7 @@ Censored time-to-event target; C-index for ordering and IBS for prediction error
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:supp-resource-orientation} records why the five resources and the correlated
+Supplementary Table~\ref{tab:supp-resource-orientation} records why the five resources and the correlated
 setting audit could not be pooled into one denominator or one validation claim.
 
 \begin{table}[H]
@@ -109,13 +109,13 @@ contrasts & Encoder--scale--tile--seed sensitivity, not independent validation \
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:supp-target-registry} is the reading key for all subsequent analyses: it
+Supplementary Table~\ref{tab:supp-target-registry} is the reading key for all subsequent analyses: it
 defines each target's biological layer, analysis unit, metric, and the strongest permitted
 interpretation before any numerical result is shown.
 
 \input{generated/stable1_target_registry.tex}
 
-Table~\ref{tab:supp-six-axis-evidence-stage} expands the Main evidence-state summary by
+Supplementary Table~\ref{tab:supp-six-axis-evidence-stage} expands the Main evidence-state summary by
 showing why the six prostate-cancer axes are biologically non-interchangeable and by
 separating representation evidence from contribution to the BCR judgment.
 
@@ -190,7 +190,7 @@ intervals. TCGA molecular primary rows retained interval endpoints; binary event
 were not retained in those saved primary rows. These unavailable quantities were not
 reconstructed.
 
-Table~\ref{tab:supp-primary-estimates} reports the complete primary recoverability and
+Supplementary Table~\ref{tab:supp-primary-estimates} reports the complete primary recoverability and
 external morphology-transport estimates. Because its rows use different estimands, a
 Spearman correlation, AUROC, and their denominators must be read within their own row and
 must not be compared as if they shared a common scale.
@@ -261,7 +261,7 @@ stored interval excluded zero for PTEN AUROC increment or AR $R^2$ increment. Th
 limit grade-independent interpretation but do not prove that grade exhausts the molecular
 signal.
 
-Table~\ref{tab:supp-conditional-increments} makes the conditional comparison explicit:
+Supplementary Table~\ref{tab:supp-conditional-increments} makes the conditional comparison explicit:
 each delta is the held-out image-augmented model minus its grade-only reference, so a
 positive value favors adding the image-derived score.
 
@@ -276,7 +276,7 @@ Site was entangled with tissue source, scanner, stain, preparation, and case mix
 metadata were not inferred. For SPOP, one site was single-class and therefore had undefined
 AUROC, and the other stored site intervals included or touched chance.
 
-Table~\ref{tab:supp-site-audits} retains every AR and SPOP site row, including the undefined
+Supplementary Table~\ref{tab:supp-site-audits} retains every AR and SPOP site row, including the undefined
 single-class SPOP row. The site abbreviations are source identifiers rather than verified
 scanner or staining protocols, and the differing analysis units are displayed explicitly.
 
@@ -297,8 +297,8 @@ the seed fixed when subtracting scale, encoder, or tile-budget settings. These i
 quantify repeated tile-sampling variation only; they are not patient-bootstrap confidence
 intervals and were not used to revise labels, folds, or evidence thresholds.
 
-Figure~\ref{fig:supp-full-grid} shows every configuration mean relative to its
-target-specific null. Table~\ref{tab:supp-stability} then condenses those same correlated
+Supplementary Figure~\ref{fig:supp-full-grid} shows every configuration mean relative to its
+target-specific null. Supplementary Table~\ref{tab:supp-stability} then condenses those same correlated
 settings into ranges and null-straddling counts. The Main manuscript displays that summary
 graphically and also shows the seed-matched setting contrasts. These views describe the same
 sensitivity program and are not independent replications.
@@ -317,7 +317,7 @@ and therefore describe correlated setting sensitivity rather than independent va
 
 The full contrast-level source contains 390 seed-matched comparisons. To expose their
 direction and spread without treating them as independent observations,
-Table~\ref{tab:supp-contrast-summary} summarizes every target within each registered contrast
+Supplementary Table~\ref{tab:supp-contrast-summary} summarizes every target within each registered contrast
 family. Median and range describe technical sensitivity; null-crossing counts describe a
 change in the target-specific chance relation, not a population-level hypothesis test.
 
@@ -336,7 +336,7 @@ reconstructed recurrence had 57 events and official PFI had 42. Paired increment
 used 153 complete cases, with 30 and 15 events respectively. All official-PFI paired
 C-index and IBS intervals included zero.
 
-Table~\ref{tab:supp-endpoints} defines the endpoint IDs, their roles, metrics, and the
+Supplementary Table~\ref{tab:supp-endpoints} defines the endpoint IDs, their roles, metrics, and the
 non-equivalence boundary that prevents a result under one recurrence definition from being
 silently relabeled as another.
 
@@ -349,7 +349,7 @@ reference minus augmented, so positive values favored augmentation under both de
 The Cox model estimates relative event hazard under censoring, while integrated Brier score
 summarizes time-dependent prediction error and is lower when predictions are better.
 
-The comparison names in Tables~\ref{tab:supp-outcome-reconstructed} and
+The comparison names in Supplementary Tables~\ref{tab:supp-outcome-reconstructed} and
 \ref{tab:supp-outcome-official-pfi} have the following meaning. ``Grade + image vs grade''
 and ``full clinical + image vs full clinical'' test augmentation by the transferred image
 risk score; here the full clinical reference contains grade, age, PSA, pathological T stage,
@@ -363,7 +363,7 @@ not evidence that the image score adds clinical value.
 \input{generated/stable5_endpoint_hierarchy.tex}
 
 
-Tables~\ref{tab:supp-outcome-reconstructed} and
+Supplementary Tables~\ref{tab:supp-outcome-reconstructed} and
 \ref{tab:supp-outcome-official-pfi} retain the full frozen-risk and paired comparison frames.
 The paired rows use identical patients and bootstrap draws within an endpoint. The two
 endpoint tables must not be pooled because their event definitions and event counts differ.
@@ -396,7 +396,7 @@ introduced retrospectively.
 
 The promoted derivative evidence retains the family-level multiplicity contract but does not
 contain a complete row-level table of all raw and adjusted $p$ values. Those values were not
-reconstructed from prose. Table~\ref{tab:supp-missingness-summary} instead reports every
+reconstructed from prose. Supplementary Table~\ref{tab:supp-missingness-summary} instead reports every
 retained availability and bootstrap-accounting state across the promoted figure-source
 tables, making clear which limitations arise from missing intervals, event counts,
 single-class sites, or legacy replicate accounting.
@@ -412,7 +412,7 @@ semantic key, field, and display rule. The full machine-readable records are
 \path{provenance/claim_evidence_matrix.csv} and
 \path{provenance/numeric_qa_mapping.csv}.
 
-Table~\ref{tab:supp-claim-matrix} exposes the manuscript claim ID, source-claim lineage,
+Supplementary Table~\ref{tab:supp-claim-matrix} exposes the manuscript claim ID, source-claim lineage,
 registered target IDs, evidence state, and functional-use status together. It is the final
 check that a representation-level result has not been promoted to a locked-head or clinical
 claim.

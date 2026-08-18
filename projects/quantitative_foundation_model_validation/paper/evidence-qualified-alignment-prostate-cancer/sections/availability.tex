@@ -1,0 +1,44 @@
+\section*{Data Availability}
+
+The public cohorts used in this study retain their source-specific access and reuse terms.
+Digital Object Identifiers (DOIs) provide the persistent repository links below.
+NADT-Prostate is available from The Cancer Imaging Archive at
+\url{https://doi.org/10.7937/TCIA.JHQD-FR46} \cite{nadt2021}; PANDA data are distributed through the
+PANDA challenge under its platform terms \cite{panda2022}; TCGA-PRAD histology and
+molecular data are available through the Genomic Data Commons, with the referenced
+TCGA clinical endpoint fields available through cBioPortal; and PRECISE is available from
+Zenodo at \url{https://doi.org/10.5281/zenodo.20721779} \cite{precise2026}. LEOPARD is an
+access-governed challenge resource: its training data and outcome labels remain subject to
+the LEOPARD challenge and dataset terms, and its public challenge report is cited here
+\cite{leopard2026}. Publication-facing aggregate numerical source tables used to generate
+the article's figures and tables are supplied with the public code repository. Patient-level
+derived analysis artifacts and local provenance manifests are not redistributed.
+
+\section*{Code Availability}
+
+The analysis-display code, aggregate source-data tables, provenance registries, and
+figure-reproduction builder are available at
+\url{https://github.com/AiXLab-GNU/evidence-qualified-alignment-prostate-cancer} under the
+annotated release tag \texttt{v1.0.2-submission}. Reference copies of the submitted main
+and Supplementary Information PDFs are included; editable manuscript source is maintained
+by the authors and is not publicly redistributed. The frozen source analyses remain maintained
+in \url{https://github.com/AiXLab-GNU/vlm-pathology}; their principal auditable entry points are
+\begin{itemize}
+\item \path{projects/prostate_biomarker_validation/code/legacy/build_revision_p0_artifacts.py};
+\item \path{projects/prostate_biomarker_validation/code/legacy/aggregate_stability_grid.py};
+\item \path{projects/prostate_biomarker_validation/code/legacy/build_tcga_cdr_pfi_evidence.py};
+\item \path{projects/prostate_biomarker_validation/code/legacy/build_marker7_survival_paired_analysis.py};
+\item \path{projects/prostate_biomarker_validation/code/legacy/run_marker7_common_source_sensitivity.py}; and
+\item \path{projects/prostate_biomarker_validation/code/legacy/build_ar_spop_evidence_closure.py}.
+\end{itemize}
+The auditable public-artifact entry point is \path{build_publication_artifacts.py}; its release
+tests are in \path{tests/test_publication_artifacts.py}. The builder verifies the recorded owner,
+byte count, and SHA-256 hash of every supplied aggregate source table before regenerating the
+publication figures and verifies the mapped headline values. No source model was retrained or
+refitted solely for the present interpretive re-analysis.
+
+Repository-authored software and documentation are released under the MIT License.
+Dataset copies, whole-slide images, cached embeddings, pretrained model weights,
+access-governed LEOPARD artifacts and patient-level derived outputs are not redistributed;
+they must be obtained or reconstructed from their original sources under the applicable
+access terms and are not covered by the repository's software license.

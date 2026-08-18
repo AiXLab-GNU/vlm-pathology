@@ -16,6 +16,9 @@ The builder fails if a source byte count or SHA-256 differs from the approved ha
 
 - Design: [`../../docs/designs/2026-08-15-quantitative-foundation-model-validation-evidence-qualified-alignment-manuscript-design.md`](../../docs/designs/2026-08-15-quantitative-foundation-model-validation-evidence-qualified-alignment-manuscript-design.md)
 - Implementation plan: [`../../docs/plans/2026-08-15-quantitative-foundation-model-validation-evidence-qualified-alignment-manuscript-plan.md`](../../docs/plans/2026-08-15-quantitative-foundation-model-validation-evidence-qualified-alignment-manuscript-plan.md)
+- Submission handoff: [`submission-handoff.md`](submission-handoff.md)
+- Cover letter: [`cover_letter.pdf`](cover_letter.pdf) with editable source in
+  [`cover_letter.tex`](cover_letter.tex)
 - Original source manuscript bundle: [`../../../prostate_biomarker_validation/paper/README.md`](../../../prostate_biomarker_validation/paper/README.md)
 
 ## Core interpretation
@@ -38,6 +41,10 @@ diagnostic performance, or clinical utility.
 ```bash
 .venv/bin/python projects/quantitative_foundation_model_validation/paper/evidence-qualified-alignment-prostate-cancer/build_alignment_manuscript.py
 ```
+
+Use `--output-root /tmp/<fresh-directory>` for an isolated clean build. The builder stages
+the manuscript sources there, verifies the original repository evidence, and renders the complete
+bundle without changing the tracked workspace.
 
 The command verifies all promoted evidence, checks headline numeric mappings, renders seven
 claim-essential main figures plus the supplementary full-grid audit, generates source-driven

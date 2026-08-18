@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Iterable
 
 os.environ.setdefault("MPLCONFIGDIR", "/tmp/qfm-alignment-matplotlib")
+os.environ.setdefault("SOURCE_DATE_EPOCH", "1786766400")
 
 import matplotlib
 
@@ -27,8 +28,9 @@ from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 WORKSPACE = Path(__file__).resolve().parent
 REPO_ROOT = WORKSPACE.parents[3]
 PROVENANCE = WORKSPACE / "provenance"
-FIGURES = WORKSPACE / "figures"
-GENERATED = WORKSPACE / "generated"
+BUILD_ROOT = WORKSPACE
+FIGURES = BUILD_ROOT / "figures"
+GENERATED = BUILD_ROOT / "generated"
 
 COLORS = {
     "supported": "#167D6D",
@@ -480,15 +482,6 @@ def render_conditional_alignment(sources: dict[str, Path]) -> None:
     axes[2].set_yticks(range(len(labels)), labels, fontsize=8)
     axes[2].invert_yaxis()
     style_axis(axes[2], "c  SPOP site AUROC (events/patients)", 0.5)
-    axes[2].text(
-        0.02,
-        0.02,
-        "CH not plotted: single class (0/23 events)",
-        transform=axes[2].transAxes,
-        ha="left",
-        va="bottom",
-        fontsize=7,
-    )
     fig.tight_layout()
     fig.savefig(FIGURES / "fig3_conditional_alignment.pdf", bbox_inches="tight")
     plt.close(fig)
@@ -1085,6 +1078,94 @@ def verify_numeric_mapping(sources: dict[str, Path]) -> list[dict[str, str]]:
     return report
 
 
+def verify_manuscript_semantics(sources: dict[str, Path]) -> list[str]:
+    """Fail closed on headline provenance, units, endpoints, and interval contracts."""
+    section_paths = {
+        "results": WORKSPACE / "sections" / "results.tex",
+        "methods": WORKSPACE / "sections" / "methods.tex",
+        "supplement": WORKSPACE / "sections" / "supplementary_information.tex",
+    }
+    section_text = {
+        name: " ".join(path.read_text(encoding="utf-8").split())
+        for name, path in section_paths.items()
+    }
+    failures: list[str] = []
+    checks: list[str] = []
+
+    def require(name: str, section: str, fragment: str) -> None:
+        if fragment not in section_text[section]:
+            failures.append(f"{name}:{section}:missing={fragment}")
+        else:
+            checks.append(name)
+
+    # Every mapped headline value must come from a registered source and appear in its
+    # declared manuscript section. This prevents an unmapped display value from replacing
+    # a source-linked value while retaining a superficially successful source-hash check.
+    manifest_ids = {row["source_id"] for row in read_csv(PROVENANCE / "source_evidence_manifest.csv")}
+    for row in read_csv(PROVENANCE / "numeric_qa_mapping.csv"):
+        if row["source_id"] not in manifest_ids:
+            failures.append(f"numeric-source-unregistered:{row['numeric_id']}:{row['source_id']}")
+            continue
+        section = "supplement" if row["manuscript_location"].startswith("supplement") else "results"
+        displays = {
+            row["expected_display"],
+            row["expected_display"].lstrip("+"),
+            row["expected_display"].replace("/", " of "),
+        }
+        if not any(display in section_text[section] for display in displays):
+            failures.append(
+                f"numeric-display-missing:{row['numeric_id']}:{section}:{row['expected_display']}"
+            )
+        else:
+            checks.append(f"numeric-display:{row['numeric_id']}")
+
+    transport = index_rows(read_csv(sources["PBV-TRANSPORT"]))
+    molecular = index_rows(read_csv(sources["PBV-MOLECULAR"]))
+    outcomes = index_rows(read_csv(sources["PBV-OUTCOME"]))
+    fm6 = {row["encoder"].casefold(): row for row in read_csv(sources["QFM-FM6-SUMMARY"])}
+
+    require("nadt-denominator-unit", "results", f"{transport['gleason:nadt']['n']} patients")
+    require("panda-karolinska-unit", "results", f"{transport['gleason_panda:karolinska']['n']} case images")
+    require("panda-radboud-unit", "results", f"{transport['gleason_panda:radboud']['n']} case images")
+    require("precise-session-unit", "results", f"{transport['gleason_precise:all']['n']} imaging sessions")
+    require("molecular-denominator", "results", f"{molecular['pten:frozen_primary']['patient_denominator']} TCGA-PRAD patients")
+    require("patient-bootstrap-main", "results", "patient-bootstrap interval")
+    require("patient-bootstrap-methods", "methods", "patient-bootstrap intervals")
+    require("site-cluster-interval", "methods", "patients resampled as clusters")
+
+    reconstructed = outcomes["E04_reconstructed_with_tumor:frozen_risk:c_index"]
+    official = outcomes["E08_official_pfi:frozen_risk:c_index"]
+    require("reconstructed-denominator", "results", f"{reconstructed['n']}-patient transfer frame")
+    require("reconstructed-events", "results", f"{reconstructed['n_events']} events")
+    require("official-events", "results", f"{official['n_events']} events")
+    require("complete-case-denominator", "results", "153 complete cases")
+    require("endpoint-separation", "methods", "Reconstructed recurrence and official PFI were evaluated separately")
+    require("oof-contract", "methods", "patient-disjoint out-of-fold or locked external output")
+    require("no-retrospective-endpoint-substitution", "supplement", "must not be pooled")
+
+    conch = fm6["conch"]
+    require("fm6-denominator", "results", f"{conch['n_subjects']} TCGA-PRAD patients")
+    require("fm6-events", "results", f"{conch['n_events']} BCR events")
+    require("fm6-random-p-conch", "results", f"p={float(conch['target_vs_random_p_one_sided']):.4f}")
+    require("fm6-clean-hash-count", "results", "All 20 protocol-defined nonvolatile output SHA-256 hashes matched")
+    require("computational-not-external", "results", "not an independent-cohort replication")
+
+    if failures:
+        raise RuntimeError("Manuscript semantic QA failed:\n" + "\n".join(failures))
+    return checks
+
+
+def prepare_build_root(build_root: Path) -> None:
+    """Stage immutable manuscript sources when rendering outside the tracked workspace."""
+    if build_root == WORKSPACE:
+        return
+    build_root.mkdir(parents=True, exist_ok=True)
+    for source_name in ("main.tex", "supplement.tex"):
+        shutil.copy2(WORKSPACE / source_name, build_root / source_name)
+    shutil.copytree(WORKSPACE / "sections", build_root / "sections", dirs_exist_ok=True)
+    shutil.copytree(WORKSPACE / "provenance", build_root / "provenance", dirs_exist_ok=True)
+
+
 def build_pdfs() -> list[str]:
     engine = shutil.which("xelatex")
     if engine is None:
@@ -1096,7 +1177,7 @@ def build_pdfs() -> list[str]:
         for _ in range(2):
             completed = subprocess.run(
                 [engine, "-interaction=nonstopmode", "-halt-on-error", source],
-                cwd=WORKSPACE,
+                cwd=BUILD_ROOT,
                 env=env,
                 text=True,
                 capture_output=True,
@@ -1110,15 +1191,31 @@ def build_pdfs() -> list[str]:
 
 
 def main() -> int:
+    global BUILD_ROOT, FIGURES, GENERATED
     parser = argparse.ArgumentParser()
     parser.add_argument("--verify-only", action="store_true")
     parser.add_argument("--no-pdf", action="store_true")
+    parser.add_argument(
+        "--output-root",
+        type=Path,
+        help="Render into an isolated directory (for example, a fresh /tmp path).",
+    )
     args = parser.parse_args()
+    if args.output_root is not None:
+        BUILD_ROOT = args.output_root.resolve()
+        FIGURES = BUILD_ROOT / "figures"
+        GENERATED = BUILD_ROOT / "generated"
+        prepare_build_root(BUILD_ROOT)
     FIGURES.mkdir(exist_ok=True)
     GENERATED.mkdir(exist_ok=True)
     sources = verify_sources()
     numeric_report = verify_numeric_mapping(sources)
-    messages = [f"verified_sources={len(sources)}", f"numeric_rows={len(numeric_report)}"]
+    semantic_report = verify_manuscript_semantics(sources)
+    messages = [
+        f"verified_sources={len(sources)}",
+        f"numeric_rows={len(numeric_report)}",
+        f"semantic_contracts={len(semantic_report)}",
+    ]
     if not args.verify_only:
         render_alignment_map(sources)
         render_known_target_alignment(sources)
@@ -1135,6 +1232,7 @@ def main() -> int:
         "status": "PASS",
         "source_count": len(sources),
         "numeric_qa_count": len(numeric_report),
+        "semantic_qa_count": len(semantic_report),
         "messages": messages,
     }
     (GENERATED / "build_report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
