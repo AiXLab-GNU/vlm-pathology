@@ -14,7 +14,8 @@ target-appropriate metrics and qualification axes. It tests whether target-relat
 information is recoverable and reproducible, not whether a disease-prediction head uses the
 same human concept. A secondary extension tested Grade/ISUP with locked BCR heads, targeted
 erasure, and matched controls because this axis had the required recoverable direction and
-available internal outcome frame. This unequal testing depth is reported as part of the
+available outcome frames. It comprised internal development, site-held-out transport, and a
+locked independent-patient LEOPARD reanalysis. This unequal testing depth is reported as part of the
 six-axis evidence map rather than interpreted as evidence that grade is uniquely important.
 Neither analysis establishes mechanistic equivalence, indispensable use, complete
 explanation, clinical utility, or an observed effect on clinician trust or reliance.
@@ -33,7 +34,8 @@ NADT-Prostate supplied source grade and tumor-phenotype labels; PANDA supplied K
 and Radboud case images and official ISUP grades for locked transport; PRECISE supplied
 session-level pathologist Gleason scores; TCGA-PRAD supplied histology, grade, PTEN loss,
 SPOP mutation, AR activity, and recurrence-style endpoints; and LEOPARD supplied BCR labels
-for fitting the transferred recurrence score \cite{nadt2021,panda2022,precise2026,leopard2026,grisi2026}.
+for the earlier transferred recurrence score and the subsequent locked external functional
+reanalysis \cite{nadt2021,panda2022,precise2026,leopard2026,grisi2026}.
 Only evaluable target rows were used, and missing or uncertain outcomes were not recoded as
 negative. Patient, case-image, session, and slide effects remained explicitly distinct.
 
@@ -98,9 +100,25 @@ The analysis remained whole-tissue because the detector failed its sensitivity g
 held-out PANDA providers. No equivalent intervention was performed for the other axes. A
 protocol-locked rerun required unchanged estimates, gates, and 20 nonvolatile hashes. The gate
 labels were R, recoverability; A, internal BCR association; U, functional sensitivity; and T,
-equivalent external transport. R, A, and U passed at the internal exploratory level; T was not
-tested. Supplementary Section S5A retains the complete intervention, detector, rerun, and claim
-ceiling.
+external transport. R, A, and U passed at the internal exploratory level; T was evaluated only
+in the subsequent locked tests described below. Supplementary Section S5A retains the complete
+intervention, detector, rerun, and claim ceiling.
+
+\subsection{Site-held-out and LEOPARD functional transport tests}
+
+Seven TCGA tissue-source sites with at least 20 subjects and five BCR events were held out in
+turn (289 subjects; 69 events). Each split refitted the training-only PCA, ISUP direction, Cox
+head, and 100 matched controls. The primary C-index excluded cross-site pairs; 2,000
+site-stratified bootstraps and encoder-wise Holm correction defined the gate.
+
+One final TCGA-only head and ISUP direction per encoder were then applied without refitting to
+508 LEOPARD patients (87 events). The encoders shared 32,512 outcome-blind crops with matching
+hashes and row order. External C-index decrease after targeted erasure was compared with 100
+TCGA-derived matched directions using 2,000 bootstraps and Holm correction; passing required
+both head and erasure intervals to exclude their nulls and adjusted $p\leq0.05$. LEOPARD lacked
+ISUP and treatment covariates and its outcomes had been used in an earlier reverse-transfer
+analysis, making this a newly locked reanalysis rather than prospectively untouched confirmation
+(Supplementary Section S5B).
 
 \subsection{Uncertainty, missingness, and provenance}
 

@@ -304,7 +304,12 @@ def canonical_crops(rows: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
     return np.stack(crops), np.asarray(hashes, dtype="U64")
 
 
-def extract(encoder: str, smoke_only: bool = False) -> None:
+def extract(
+    encoder: str,
+    smoke_only: bool = False,
+    shard_index: int = 0,
+    shard_count: int = 1,
+) -> None:
     import torch
 
     manifest, _ = verify_preparation()
@@ -321,10 +326,13 @@ def extract(encoder: str, smoke_only: bool = False) -> None:
     print(json.dumps({"encoder": encoder, "smoke_shape": list(first.shape), "exact_repeat": True}), flush=True)
     if smoke_only:
         return
+    if shard_count < 1 or shard_index < 0 or shard_index >= shard_count:
+        raise ValueError("shard_index must satisfy 0 <= shard_index < shard_count")
 
     cache_root = ARTIFACTS / "slide_cache" / encoder
     cache_root.mkdir(parents=True, exist_ok=True)
-    grouped = list(manifest.groupby("case_id", sort=False))
+    all_grouped = list(manifest.groupby("case_id", sort=False))
+    grouped = [pair for index, pair in enumerate(all_grouped) if index % shard_count == shard_index]
     for complete, (case_id, rows) in enumerate(grouped, 1):
         destination = slide_cache_path(encoder, case_id)
         if destination.exists():
@@ -336,7 +344,11 @@ def extract(encoder: str, smoke_only: bool = False) -> None:
                 )
             if valid:
                 if complete % 20 == 0 or complete == len(grouped):
-                    print(f"{encoder} LEOPARD {complete}/{len(grouped)} cached", flush=True)
+                    print(
+                        f"{encoder} shard {shard_index + 1}/{shard_count} "
+                        f"{complete}/{len(grouped)} cached",
+                        flush=True,
+                    )
                 continue
         crops, hashes = canonical_crops(rows)
         values = []
@@ -364,11 +376,16 @@ def extract(encoder: str, smoke_only: bool = False) -> None:
         )
         os.replace(temporary, destination)
         if complete % 10 == 0 or complete == len(grouped):
-            print(f"{encoder} LEOPARD {complete}/{len(grouped)}", flush=True)
+            print(
+                f"{encoder} shard {shard_index + 1}/{shard_count} "
+                f"{complete}/{len(grouped)}",
+                flush=True,
+            )
     del model, tensor
     gc.collect()
     torch.cuda.empty_cache()
-    assemble(encoder)
+    if shard_count == 1:
+        assemble(encoder)
 
 
 def assemble(encoder: str) -> None:
@@ -578,6 +595,7 @@ def analyze() -> None:
                 "external_isup_recoverability": "NOT_TESTED_LABEL_UNAVAILABLE",
                 "tumor_specific_functional_use": "NOT_TESTED",
                 "endpoint_threshold_equivalence": "NOT_ESTABLISHED",
+                "prospectively_untouched_confirmation": "NOT_ESTABLISHED_PREVIOUS_OUTCOME_ACCESS",
                 "strong_H2": "PROHIBITED",
             }
         )
@@ -617,7 +635,7 @@ def analyze() -> None:
         "",
         "## Evidence scope",
         "",
-        "This analysis applies TCGA-only locked heads and ISUP-correlated directions to the independent LEOPARD BCR cohort. LEOPARD lacks ISUP and treatment covariates; external ISUP recoverability, tumor-specific use, endpoint-threshold equivalence, clinical increment, and strong H2 therefore remain unestablished.",
+        "This analysis applies TCGA-only locked heads and ISUP-correlated directions to the independent-patient LEOPARD BCR cohort. LEOPARD lacks ISUP and treatment covariates, and its outcomes were accessed in an earlier directionally reversed analysis in this research program; this is a newly locked external reanalysis rather than a prospectively untouched confirmation. External ISUP recoverability, tumor-specific use, endpoint-threshold equivalence, clinical increment, and strong H2 therefore remain unestablished.",
         "",
         f"- External subjects/events: {EXPECTED_SUBJECTS}/{EXPECTED_EVENTS}",
         f"- Overall prespecified status: **{overall_status}**",
@@ -642,7 +660,7 @@ def analyze() -> None:
         [
             "## Locked interpretation",
             "",
-            "The prespecified result is reported without target-cohort tuning. A positive gate supports independent external BCR transport of whole-tissue functional sensitivity only. It does not establish strong H2 or a tumor-specific human-equivalent mechanism.",
+            "The prespecified result is reported without target-cohort tuning. A positive gate supports independent-patient external BCR transport of whole-tissue functional sensitivity only. It does not establish a prospectively untouched confirmation, strong H2, or a tumor-specific human-equivalent mechanism.",
             "",
         ]
     )
@@ -670,6 +688,8 @@ def analyze() -> None:
         "bootstraps": BOOTSTRAPS,
         "publication_clearance": "accountable_author_confirmed_embargo_complete_2026-08-20",
         "external_clearance_document": "unrecorded",
+        "prior_programmatic_leopard_outcome_access": True,
+        "confirmation_status": "newly_locked_external_reanalysis_not_prospectively_untouched",
         "overall_status": overall_status,
         "claim_ceiling": "independent external BCR whole-tissue functional transport only; external ISUP R, tumor-specific use, endpoint equivalence, clinical increment, and strong H2 prohibited",
         "preparation_lock_sha256": sha256_file(OUTPUTS / "fm6_leopard_preparation_lock.json"),
@@ -685,16 +705,33 @@ def analyze() -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--stage", choices=["prepare", "extract", "analyze", "all"], default="all")
+    parser.add_argument(
+        "--stage",
+        choices=["prepare", "extract", "assemble", "audit", "analyze", "all"],
+        default="all",
+    )
     parser.add_argument("--encoder", choices=["conch", "virchow"])
     parser.add_argument("--smoke-only", action="store_true")
+    parser.add_argument("--shard-index", type=int, default=0)
+    parser.add_argument("--shard-count", type=int, default=1)
     args = parser.parse_args()
     if args.stage == "prepare":
         prepare()
     elif args.stage == "extract":
         if args.encoder is None:
             raise ValueError("--encoder is required for extract")
-        extract(args.encoder, smoke_only=args.smoke_only)
+        extract(
+            args.encoder,
+            smoke_only=args.smoke_only,
+            shard_index=args.shard_index,
+            shard_count=args.shard_count,
+        )
+    elif args.stage == "assemble":
+        if args.encoder is None:
+            raise ValueError("--encoder is required for assemble")
+        assemble(args.encoder)
+    elif args.stage == "audit":
+        print(json.dumps(paired_embedding_audit(), indent=2, sort_keys=True), flush=True)
     elif args.stage == "analyze":
         analyze()
     else:

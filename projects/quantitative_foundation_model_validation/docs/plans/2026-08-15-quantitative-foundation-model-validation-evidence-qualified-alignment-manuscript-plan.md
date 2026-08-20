@@ -670,6 +670,51 @@ clinical-audit significance와 bounded discovery-space claim을 사용한다.
 **Gate 31:** 독자가 각 수치에서 직접 해석, 중심 주장에 대한 역할과 claim ceiling을
 연속적으로 읽을 수 있고, 새 public release가 current working PDF와 일치해야 한다.
 
+## Task 32. 2026-08-18 motivation-focused title revision
+
+- [x] 기술적 target-family 열거 대신 연구의 동기와 결론을 함축하는 제목
+  `From Clinical Signal Recovery to Evidence-Qualified Interpretation of Prostate Cancer
+  Pathology Foundation Models`를 선택했다.
+- [x] Main, Supplementary Information, cover letter와 workspace README의 제목을 동기화하고
+  exact-title regression contract를 추가했다.
+- [x] 새 제목의 Main 16쪽, Supplement 13쪽, cover letter 1쪽 build와 title-page QA,
+  unresolved reference·overfull box 0건, QFM regression tests 96/96을 확인했다.
+- [ ] title-revised PDFs를 새 public immutable submission tag로 export하고 fresh-clone
+  reviewer tests 6/6을 확인한다.
+
+**Gate 32:** 제목이 recoverability와 evidence-qualified interpretation의 차이를 정확히
+표현하고 모든 제출 artifact 및 public release에서 일치해야 한다.
+
+## Task 33. 2026-08-20 pdfLaTeX correction and initial submission completion
+
+- [x] 제출 source에서 pdfTeX일 때 `fontspec`을 로딩하지 않는 engine-conditional preamble을
+  Main, Supplementary Information과 cover letter에 동기화했다.
+- [x] corrected `submission-package.zip`을 fresh directory에 풀어 pdfLaTeX로 Main 16쪽,
+  Supplement 13쪽과 cover letter 1쪽을 독립 재빌드했다.
+- [x] 책임저자 확인에 따라 Scientific Reports 초기 제출 완료 상태를 기록했다.
+- [ ] motivation-focused title, Funding과 pdfLaTeX reference PDFs를 새 public immutable
+  submission tag로 사후 동기화하고 fresh-clone reviewer tests를 확인한다.
+
+**Gate 33:** 초기 제출은 완료됐다. 다음 manuscript 작업은 editorial screening 또는 심사
+의견이 도착한 뒤 승인된 revision workstream에서 시작하며, 미완료 public release 동기화는
+제출 완료와 구분해 추적한다.
+
+## Task 34. 2026-08-20 locked functional-transport revision experiment
+
+- [x] TCGA site-heldout와 LEOPARD external-functional design·protocol·runner·tests를 결과
+  분석 전에 commit으로 고정했다.
+- [x] LEOPARD 508명/87 events, 32,512 identical paired crops에서 CONCH/Virchow embedding을
+  추출하고 paired hash audit를 통과했다.
+- [x] site-heldout는 encoder-specific partial, LEOPARD external은 두 encoder 모두
+  fail/inconclusive로 판정하고 설정 변경 없이 두 번 재현했다.
+- [x] Main·Supplementary·claim matrix·numeric QA·source manifest에 음성/불확정 결과와
+  prospectively untouched가 아닌 한계를 함께 편입했다.
+- [x] builder 21/21 sources·41/41 numbers·61 semantic contracts와 focused tests를 통과했다.
+- [ ] 저널 revision 업로드와 새 public immutable revision tag는 책임저자 승인 후 수행한다.
+
+**Gate 34:** 실험 수행은 완료·잠금 가능하다. 그러나 External T와 strong H2는 통과하지
+않았으며, 재제출 문구는 `external functional transport was not qualified`를 유지한다.
+
 ## 완료 판정
 
 본 plan은 main만 문장 수정하거나 Supplementary를 제목만 바꾼 상태에서는 완료가 아니다.

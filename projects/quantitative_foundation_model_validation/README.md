@@ -23,11 +23,12 @@ CONCH와 Virchow는 우열을 가리기 위한 대상이 아니라, 사전학습
 
 ## 현재 운영 범위
 
-P0와 FM1–FM5는 완료되었다. 현재 허용된 결론은 25명·1,218 paired tile에서
-shared 394.24 µm `tumor_fraction`이 두 frozen representation에서 복원된다는 내부
-descriptive H1 근거뿐이다. FM6 H2는 독립 metric–endpoint 쌍, 충분한 환자·사건,
-치료 공변량과 외부 코호트가 확보될 때까지 잠금 상태다. 위 핵심 목표의 등록은
-이 잠금을 해제하거나 임상·외부·신규 biomarker 주장을 승인하지 않는다.
+P0와 FM1–FM5는 완료되었다. FM6에서는 TCGA 392명/80 events의 whole-tissue 내부
+ISUP 기능 민감도가 두 encoder에서 관찰됐고, 7-site holdout은 Virchow만 통과했다.
+508명/87 events LEOPARD locked reanalysis에서는 두 encoder 모두 external transport
+gate를 통과하지 못했다. 따라서 허용 결론은 내부 exploratory sensitivity와
+encoder-specific site evidence까지이며, qualified external T·strong H2·tumor-specific
+mechanism·임상 증분·신규 biomarker는 계속 금지한다.
 
 P0부터 FM/H2까지의 진행 순서는 [`00-project-sequence/`](00-project-sequence/)에서
 번호순으로 확인한다.
@@ -38,3 +39,21 @@ P0부터 FM/H2까지의 진행 순서는 [`00-project-sequence/`](00-project-seq
 - 관련연구: [survey index](docs/surveys/README.md)
 - 결과: [report index](reports/README.md)
 - 논문: [paper entry point](paper/README.md)
+
+## 재현
+
+프로젝트에 필요한 공개·credentialed·restricted·custodian 자산과 실행 DAG는 저장소 공통
+registry에 고정되어 있다.
+
+```bash
+.venv/bin/python infrastructure/scripts/reproduce_repository.py status \
+  --project quantitative_foundation_model_validation
+.venv/bin/python infrastructure/scripts/reproduce_repository.py plan \
+  --project quantitative_foundation_model_validation
+```
+
+FM6 TCGA-PRAD는 `resources/data/manifests/tcga_prad_gdc_files.csv`의 437개 공개 GDC
+UUID/size/MD5 snapshot을 사용한다. CONCH와 Virchow도 registry의 exact revision과 weight
+SHA-256을 사용한다. P0/FM1–FM5 전체 재실행에는 PRECISE 공개 WSI 외에도 원 연구의
+병리의 판독·잠금 exclusion과 PBV에서 생성된 NADT/LEOPARD frozen cache가 필요하다.
+이 제한 자산이 없으면 CLI는 해당 단계를 재현 가능하다고 표시하지 않는다.

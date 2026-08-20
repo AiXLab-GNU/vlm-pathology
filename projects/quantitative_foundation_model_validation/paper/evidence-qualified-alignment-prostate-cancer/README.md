@@ -2,8 +2,7 @@
 
 Working title:
 
-> **Evidence-Qualified Alignment of Pathology Foundation Models with Morphologic,
-> Molecular, and Outcome Axes in Prostate Cancer**
+> **From Clinical Signal Recovery to Evidence-Qualified Interpretation of Prostate Cancer Pathology Foundation Models**
 
 This is the active QFM manuscript workspace for an alignment-centered narrative. It is not
 a copy of `projects/prostate_biomarker_validation/paper/`. The source project retains the
@@ -17,19 +16,20 @@ The builder fails if a source byte count or SHA-256 differs from the approved ha
 - Design: [`../../docs/designs/2026-08-15-quantitative-foundation-model-validation-evidence-qualified-alignment-manuscript-design.md`](../../docs/designs/2026-08-15-quantitative-foundation-model-validation-evidence-qualified-alignment-manuscript-design.md)
 - Implementation plan: [`../../docs/plans/2026-08-15-quantitative-foundation-model-validation-evidence-qualified-alignment-manuscript-plan.md`](../../docs/plans/2026-08-15-quantitative-foundation-model-validation-evidence-qualified-alignment-manuscript-plan.md)
 - Submission handoff: [`submission-handoff.md`](submission-handoff.md)
+- Self-contained submission source package: [`submission/`](submission/)
+- pdfLaTeX-compatible upload archive: [`submission-package.zip`](submission-package.zip)
 - Cover letter: [`cover_letter.pdf`](cover_letter.pdf) with editable source in
   [`cover_letter.tex`](cover_letter.tex)
 - Original source manuscript bundle: [`../../../prostate_biomarker_validation/paper/README.md`](../../../prostate_biomarker_validation/paper/README.md)
 
 ## Core interpretation
 
-Existing cohorts test whether clinically interpretable targets are recoverable and
-reproducible from frozen representations. A scoped FM6 analysis additionally tests whether
-two internally trained biochemical-recurrence heads are sensitive to an ISUP-correlated
-representation direction. That analysis supports internal functional sensitivity, but not
-indispensable use, external functional transport, established clinical increment, or complete
-explanation. The single internal ISUP-only comparison is a boundary check, not a sufficient
-clinical-increment study.
+Existing cohorts test whether clinically interpretable targets are recoverable and reproducible
+from frozen representations. FM6 additionally tests whether BCR heads are sensitive to an
+ISUP-correlated direction. Internal sensitivity repeated across encoders, but TCGA site-heldout
+evidence was encoder-specific and the locked 508-patient LEOPARD reanalysis did not qualify
+external transport. This supports a bounded internal result plus a negative/inconclusive external
+test, not indispensable use, clinical increment, strong H2, or complete explanation.
 SICAP specificity is accepted as secondary internal detector evidence; poor sensitivity on
 the independent PANDA providers remains an explicit domain limitation. Residual or unknown
 AI-feature marker discovery is reserved for a separate follow-up study. Nothing in this

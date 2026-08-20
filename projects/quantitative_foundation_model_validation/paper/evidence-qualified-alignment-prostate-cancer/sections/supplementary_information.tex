@@ -254,6 +254,38 @@ evidence, but independent-domain sensitivity remains unresolved. Consequently, t
 functional use, external functional transport, and strong mechanistic alignment remain
 unsupported.
 
+\section*{S5B. Locked site-heldout and LEOPARD functional transport}
+
+The site-heldout analysis used the seven TCGA tissue-source sites with at least 20 subjects
+and five BCR events, totaling 289 unique evaluation subjects and 69 events. Every site was
+excluded from its training partition. Cross-site patient pairs were excluded from the primary
+stratified C-index. CONCH produced a full-head C-index of 0.612 (0.524--0.696) and targeted
+$\Delta_{use}=0.048$ ($-0.005$--0.102); its target interval included zero. Virchow produced
+0.588 (0.514--0.665) and $\Delta_{use}=0.033$ (0.007--0.060), respectively. Both targeted
+effects exceeded matched-random controls after Holm correction, but only Virchow passed all
+prespecified encoder criteria. The family therefore closed as partial encoder-specific
+site-heldout evidence rather than replicated internal transport.
+
+The external reanalysis applied one TCGA-only scaler, 64-component PCA transform, Cox head,
+and ISUP-correlated direction per encoder to 508 LEOPARD patients with 87 BCR events. All
+32,512 outcome-blind sampled crops were identical across encoders by coordinate and decoded
+crop hash. CONCH yielded a full-head C-index of 0.517 (0.449--0.590) and
+$\Delta_{use}=0.038$ (0.014--0.066; Holm $p=0.0198$). Virchow yielded 0.457
+(0.386--0.528) and $\Delta_{use}=0.002$ ($-0.008$--0.011; Holm $p=0.2277$).
+CONCH failed the required full-head discrimination criterion, while Virchow failed both head
+validity and targeted sensitivity. Neither encoder passed external whole-tissue functional
+transport. Two exact reruns reproduced all nonvolatile aggregate output hashes.
+
+LEOPARD patients and institution were independent of TCGA, but LEOPARD lacked ISUP and
+treatment covariates and its outcomes had been accessed in an earlier directionally reversed
+analysis in this research program. The test is therefore a newly locked independent-patient
+external reanalysis, not a prospectively untouched confirmation. It cannot establish external
+ISUP recoverability, endpoint equivalence, tumor-specific mechanism, clinical increment,
+indispensability, or strong H2. The prespecified negative or inconclusive gate was retained
+without retuning.
+
+\input{generated/stable_external_functional_transport.tex}
+
 \section*{S6. Conditional increment and confounder audits}
 
 PTEN and AR increments were computed in nested patient-disjoint analyses. Neither encoder's
@@ -453,8 +485,9 @@ frozen analyses, while QFM owns the derivative alignment narrative.
 
 For the FM6 extension specifically, clean-rerun handoff required 20/20 nonvolatile output
 hashes, unchanged headline numbers, and unchanged gates. Both encoders retained
-R=whole-tissue recoverability, A=internal disease association, and U=exploratory
-whole-tissue functional sensitivity; T=external transport remained not tested and strong H2
+R=whole-tissue recoverability, A=internal disease association, and U=exploratory whole-tissue
+functional sensitivity. Site-heldout transport was encoder-specific; the locked LEOPARD
+family failed or remained inconclusive for both encoders, so T did not pass and strong H2
 remained prohibited. These gate labels describe evidence scope rather than a sequence of
 clinical validation levels.
 

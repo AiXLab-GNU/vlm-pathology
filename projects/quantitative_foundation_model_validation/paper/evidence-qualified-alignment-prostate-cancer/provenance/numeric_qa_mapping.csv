@@ -32,3 +32,11 @@ N030,A08,QFM-DETECTOR-PANDA,karolinska,sensitivity,.3f,0.562,supplement_detector
 N031,A08,QFM-DETECTOR-PANDA,radboud,sensitivity,.3f,0.679,supplement_detector_boundary
 N032,A08,QFM-FM6-SUMMARY,conch,bcr_full_c_index,.3f,0.627,results_functional_sensitivity
 N033,A08,QFM-FM6-SUMMARY,virchow,bcr_full_c_index,.3f,0.632,results_functional_sensitivity
+N034,A11,QFM-FM6-SITE-HELDOUT,conch,full_stratified_c_index,.3f,0.612,results_functional_sensitivity
+N035,A11,QFM-FM6-SITE-HELDOUT,conch,target_delta_use,+.3f,+0.048,results_functional_sensitivity
+N036,A11,QFM-FM6-SITE-HELDOUT,virchow,full_stratified_c_index,.3f,0.588,results_functional_sensitivity
+N037,A11,QFM-FM6-SITE-HELDOUT,virchow,target_delta_use,+.3f,+0.033,results_functional_sensitivity
+N038,A11,QFM-FM6-LEOPARD-EXTERNAL,conch,full_c_index,.3f,0.517,results_functional_sensitivity
+N039,A11,QFM-FM6-LEOPARD-EXTERNAL,conch,target_delta_use,+.3f,+0.038,results_functional_sensitivity
+N040,A11,QFM-FM6-LEOPARD-EXTERNAL,virchow,full_c_index,.3f,0.457,results_functional_sensitivity
+N041,A11,QFM-FM6-LEOPARD-EXTERNAL,virchow,target_delta_use,+.3f,+0.002,results_functional_sensitivity

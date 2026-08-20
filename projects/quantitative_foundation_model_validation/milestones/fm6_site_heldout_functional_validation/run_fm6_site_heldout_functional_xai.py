@@ -511,7 +511,7 @@ def run() -> None:
         [
             "## Interpretation boundary",
             "",
-            "The result is locked without retuning. Even a positive gate supports only multi-site held-out whole-tissue functional sensitivity within TCGA. CHIMERA and LEOPARD remain embargoed, independent external T remains untested, and strong external H2 remains prohibited.",
+            "The result is locked without retuning. Even a positive gate supports only multi-site held-out whole-tissue functional sensitivity within TCGA. CHIMERA remains excluded; LEOPARD independent external analysis is assessed separately, and this result alone does not establish independent external T or strong external H2.",
             "",
         ]
     )

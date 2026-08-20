@@ -20,4 +20,5 @@ bcr_time_unit: years
 isup_source_status: unavailable
 qfm_declared_use: locked TCGA BCR head and ISUP-correlated direction external whole-tissue functional transport
 qfm_claim_boundary: independent external BCR transport without external ISUP recoverability, endpoint-threshold equivalence, tumor-specific mechanism, clinical increment, or strong H2
+qfm_confirmation_status: independent patients and institution; previously accessed outcomes; newly locked external reanalysis, not prospectively untouched confirmation
 rule: raw data and derived arrays are not committed

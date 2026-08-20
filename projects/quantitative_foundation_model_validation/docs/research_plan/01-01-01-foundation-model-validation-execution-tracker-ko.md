@@ -12,11 +12,11 @@ parent_document: projects/quantitative_foundation_model_validation/docs/research
 # 정량 기반모델 검증 실행 추적표
 
 - Governing research plan: [01-quantitative-ai-validation-disease-diagnosis-plan-ko.md](01-quantitative-ai-validation-disease-diagnosis-plan-ko.md)
-- Current milestone: [FM6 clean-rerun 원고 편입·six-axis evidence-state 종결 완료; author-controlled metadata handoff](01-01-foundation-model-validation-milestones-ko.md)
+- Current milestone: [Scientific Reports 초기 제출 완료; locked functional-transport revision experiment 완료](01-01-foundation-model-validation-milestones-ko.md)
 - 프로그램 핵심 목표: 복수의 독립 임상·병리 지표가 CONCH/Virchow의 frozen 표현과 locked 질병판단을 얼마나 완전하게 설명하는지 검증하고, 알려진 지표·기술적 교란을 제거한 뒤 두 모델·외부 코호트에서 반복되는 residual을 명시적 신규 정량 마커 후보로 전환·검증
 - 증거 사슬: `개별 복원성 → 조건부 고유정보·포함관계 → joint completeness → 기능적 활용 → 표현·판단 residual → 명시적 지표화 → 외부·생물학적 검증`
-- 현재 상태: P0와 FM1–FM5 및 FM6 TCGA whole-tissue 내부 pilot 완료; 독립 detector 1차·train-only remediation을 실행했으나 새 PANDA holdout sensitivity gate 실패로 tumor-restricted H2와 T는 잠금. 원고는 SICAP secondary specificity를 내부 근거로 수용하고 domain limitation을 명시하는 scope로 고정
-- 현재 과학적 위치: shared 394.24 µm `tumor_fraction` 내부 H1과 별도로, TCGA 392명/80 events에서 두 encoder의 ISUP recoverability·BCR head·ISUP-correlated fixed-head sensitivity를 내부 개발 수준으로 관찰했다. 이는 whole-tissue R/A/U exploratory evidence이며 strong H2·external transport·residual marker 근거가 아님
+- 현재 상태: P0와 FM1–FM5, FM6 TCGA whole-tissue 내부 pilot, 7-site holdout와 LEOPARD locked external reanalysis 완료. Site는 Virchow만 통과했고 LEOPARD는 두 encoder 모두 fail/inconclusive다. 초기 제출본은 불변이며 revision working manuscript에 결과를 편입했다.
+- 현재 과학적 위치: TCGA 392명/80 events의 internal R/A/U는 유지되지만 site transport는 encoder-specific이고 LEOPARD 508명/87 events에서 External T가 통과하지 않았다. 이는 음성/불확정 외부 검증 근거이며 strong H2·tumor-specific mechanism·residual marker 근거가 아니다.
 - 병렬 원고 workstream: PBV의 hash-locked 근거를 승계한 QFM alignment 원고를
   `기존 cohort의 지표 복원 정확성·외부 재현성 → 공통 해석 좌표의 가능성·한계`
   기조로 재편집했다. FM6의 ISUP fixed-head erasure 결과는 두 encoder에서 반복된
@@ -24,11 +24,11 @@ parent_document: projects/quantitative_foundation_model_validation/docs/research
   임상 증분의 불충분한 평가와 독립 domain sensitivity 미해결을 함께 보고하며 strong
   H2 claim ceiling은 변경하지 않는다. Residual/unknown AI feature marker는 후속 논문이다.
 - 근거: 프로젝트 sequence, `PROJECT.yaml`, FM1–FM5 저장 산출물, FM6 entry-audit 산출물, CHIMERA acquisition 보고서·source manifest·semantic/power protocol과 governance record
-- 주장 경계: tumor_fraction 내부 descriptive H1과 FM6 `internal whole-tissue R/A/U exploratory evidence`만 허용; T와 strong H2는 금지
+- 주장 경계: tumor_fraction descriptive H1, FM6 internal whole-tissue R/A/U와 encoder-specific site evidence만 허용; External T=`FAIL_OR_INCONCLUSIVE`, strong H2=`PROHIBITED`
 - 최근 결정: 1차 SICAP detector는 test specificity 0.751로 실패했다. Train-only 3-fold 후보 비교로 HED+scale를 선택해 OOF AUROC/sensitivity/specificity 0.949/0.887/0.887을 얻었고, 열린 SICAP test 참고 재평가 specificity는 0.810으로 개선됐다. 그러나 새로 잠근 PANDA 100-slide holdout의 sensitivity가 Karolinska 0.563, Radboud 0.679로 모두 0.75 미만이어서 threshold를 사후 변경하지 않고 TCGA scoring을 중단했다.
-- Blocker: detector의 cross-domain calibration/sensitivity, TCGA–CHIMERA PSA threshold·censoring equivalence와 CHIMERA publication embargo가 남는다. AI risk–tissue fraction rho 0.324/0.341은 whole-tissue composition confounding 가능성을 보인다. AGE·path-T는 보조 임상축일 뿐 독립 병리 metric family가 아니므로 복수 독립 병리지표 completeness도 미완료다.
-- 현재 단일 다음 작업: 연구책임자가 author·affiliation·funding·ethics·journal format과 submission-specific release tag/commit/DOI를 확인하고 원고 submission status를 판정한다. 과학 수치와 claim ceiling은 더 이상 재튜닝하지 않는다.
-- 다음 상태 전환 조건: author-controlled metadata와 공개 code/data release 위치가 확정되면 제출 패키지를 생성한다. Multi-domain detector·제3 acquisition-domain holdout과 residual marker 연구는 현재 원고와 분리된 후속 workstream으로 둔다.
+- Blocker: detector cross-domain sensitivity, LEOPARD의 ISUP·치료 공변량 부재와 endpoint equivalence, prior outcome access가 남는다. CHIMERA는 별도 governance lock을 유지한다.
+- 현재 단일 다음 작업: journal revision 요청 또는 책임저자 업로드 승인이 오면 현재 locked negative/inconclusive 결과를 revision package와 새 immutable public tag로 export한다. 과학 수치와 gate는 재튜닝하지 않는다.
+- 다음 상태 전환 조건: 편집부 또는 심사 의견이 도착하면 승인된 revision workstream을 개설한다. Multi-domain detector·제3 acquisition-domain holdout과 residual marker 연구는 현재 제출 논문과 분리된 후속 workstream으로 둔다.
 
 ## 완료 체크리스트
 
@@ -64,10 +64,13 @@ parent_document: projects/quantitative_foundation_model_validation/docs/research
 - [x] residual/unknown AI feature marker discovery를 후속 논문으로 분리
 - [x] 새 scope의 main·Supplementary build, numeric/semantic·visual·governance QA
 - [x] FM6 alignment 원고 종결용 locked clean rerun·20/20 nonvolatile hash와 핵심 수치 일치 감사
+- [x] TCGA 7-site holdout functional transport: CONCH fail, Virchow pass, family partial 판정
+- [x] LEOPARD 508명/87 events external functional transport: paired crop audit·두 encoder fail/inconclusive·exact rerun
 - [x] 원고 source 19개·numeric mapping 33개 provenance 재빌드
 - [x] FM6 Methods/Results 정식 편입과 Figure 2--6·Table 1·Abstract/Discussion/Conclusion의
   six-axis evidence-state 종결 정합성 감사
-- [ ] 연구책임자 author·affiliation·funding·ethics·journal/release metadata handoff
+- [x] 연구책임자 author·affiliation·funding·ethics·journal metadata 확인과 Scientific Reports 초기 제출
+- [ ] motivation-focused title·pdfLaTeX 제출본의 새 public immutable release 동기화
 
 2026-08-17 locked clean-rerun QA: FM6 analysis nonvolatile output hash 20/20과 두 encoder의
 핵심 수치·R/A/U/T 판정이 기존 기준선과 일치했다. Alignment manuscript builder는 source

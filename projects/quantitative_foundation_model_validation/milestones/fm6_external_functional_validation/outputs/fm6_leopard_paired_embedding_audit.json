@@ -1,0 +1,16 @@
+{
+  "conch_shape": [
+    32512,
+    512
+  ],
+  "crop_hashes_identical_across_encoders": true,
+  "row_order_locked": true,
+  "rows": 32512,
+  "status": "PASS",
+  "subjects": 508,
+  "tile_ids_unique": true,
+  "virchow_shape": [
+    32512,
+    2560
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "bootstraps": 2000,
+  "claim_ceiling": "independent external BCR whole-tissue functional transport only; external ISUP R, tumor-specific use, endpoint equivalence, clinical increment, and strong H2 prohibited",
+  "confirmation_status": "newly_locked_external_reanalysis_not_prospectively_untouched",
+  "cox_alpha": 1000.0,
+  "external_clearance_document": "unrecorded",
+  "finished_at_utc": "2026-08-20T23:13:51.444324+00:00",
+  "output_sha256": {
+    "fm6-leopard-external-functional-xai-report.md": "741360272eb1c982b0e392bed06371708f4ea8ab392da9491dc68162f9952997",
+    "fm6_leopard_bootstrap_intervals.csv": "872c797bc4fba275690bc37e250e7c213e381aaefc9517b6d5805da3a4b127df",
+    "fm6_leopard_external_evidence_chain.csv": "86c18fa8d6a3a775745e7a70125a80038aa8342965ff30dfc99101a04ec8c375",
+    "fm6_leopard_external_summary.csv": "9e2bb8bb81bedb0487f1ff8acf3781e8e56a602afacbbc785216e1892cc8f477",
+    "fm6_leopard_matched_random_controls.csv": "f82cb98eec21fd6052a89ec67575ac530906f340f5903ffe73b935583b5d5e5b",
+    "fm6_leopard_paired_embedding_audit.json": "35ef572abb08b6ac5ba567b4026444e31052951acbb0d79ee772b46be3b540fe"
+  },
+  "overall_status": "FAIL_OR_INCONCLUSIVE_EXTERNAL_FUNCTIONAL_TRANSPORT",
+  "patient_predictions_sha256": "0dca8f3de8ec055ef182959dbe5c4e17c41338f0236decc9f8a7fda36a3e8afb",
+  "pca_components": 64,
+  "preparation_lock_sha256": "9f5448037edb6c2799667915f2f1f8684cbebd2fc45e840f4eb7c0b894320472",
+  "prior_programmatic_leopard_outcome_access": true,
+  "protocol": "fm6-leopard-external-functional-xai-protocol",
+  "publication_clearance": "accountable_author_confirmed_embargo_complete_2026-08-20",
+  "random_controls": 100,
+  "ridge_alpha": 1000.0,
+  "seed": 260820,
+  "volatile_fields": [
+    "finished_at_utc"
+  ]
+}

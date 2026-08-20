@@ -169,7 +169,7 @@ def render_alignment_map(sources: dict[str, Path]) -> None:
         matrix[i, j] = code[state]
         labels[i, j] = label_map[state]
     functional_status = {
-        "Grade/ISUP": ("context_sensitive", "IE"),
+        "Grade/ISUP": ("context_sensitive", "IF"),
         "Tumor phenotype/content": ("not_tested", "BL"),
         "PTEN": ("not_tested", "NR"),
         "AR activity": ("not_tested", "NR"),
@@ -215,6 +215,7 @@ def render_human_ai_linkage_map(sources: dict[str, Path]) -> None:
     outcome = index_rows(read_csv(sources["PBV-OUTCOME"]))
     fm6 = index_numeric_source(read_csv(sources["QFM-FM6-SUMMARY"]))
     contrasts = index_numeric_source(read_csv(sources["QFM-FM6-CONTRASTS"]))
+    external = index_numeric_source(read_csv(sources["QFM-FM6-LEOPARD-EXTERNAL"]))
 
     rows = [
         {
@@ -228,7 +229,8 @@ def render_human_ai_linkage_map(sources: dict[str, Path]) -> None:
                 "Locked BCR-head sensitivity\n"
                 f"CONCH delta C = {as_float(contrasts['conch:full_minus_target_fixed']['estimate_left_minus_right']):.3f}\n"
                 f"Virchow delta C = {as_float(contrasts['virchow:full_minus_target_fixed']['estimate_left_minus_right']):.3f}\n"
-                "internal exploratory"
+                f"LEOPARD full C = {as_float(external['conch']['full_c_index']):.3f} / "
+                f"{as_float(external['virchow']['full_c_index']):.3f}; gate failed"
             ),
             "target_state": "supported",
             "feature_state": "supported",
@@ -808,7 +810,7 @@ def generate_tables(sources: dict[str, Path]) -> None:
             "Grade/ISUP",
             evidence_state_names[claims_by_id["A02"]["evidence_state"]],
             "Grade information is recoverable and directionally transports across compatible external resources",
-            "Internal exploratory locked-BCR-head sensitivity; indispensable, external, and clinical-increment use not established",
+            "Internal exploratory locked-BCR-head sensitivity; site evidence encoder-specific and LEOPARD external gate failed or remained inconclusive",
         ],
         [
             "Tumor phenotype/content",
@@ -1025,6 +1027,43 @@ def generate_tables(sources: dict[str, Path]) -> None:
             formatted_outcomes,
             "@{}p{0.23\\textwidth}p{0.11\\textwidth}p{0.04\\textwidth}p{0.06\\textwidth}p{0.08\\textwidth}p{0.16\\textwidth}p{0.11\\textwidth}@{}",
         )
+
+    site_functional = index_numeric_source(read_csv(sources["QFM-FM6-SITE-HELDOUT"]))
+    external_functional = index_numeric_source(read_csv(sources["QFM-FM6-LEOPARD-EXTERNAL"]))
+    functional_transport_rows: list[list[str]] = []
+    for encoder in ("conch", "virchow"):
+        site_row = site_functional[encoder]
+        functional_transport_rows.append([
+            "TCGA site-heldout",
+            encoder,
+            f"{as_float(site_row['full_stratified_c_index']):.3f} "
+            f"({as_float(site_row['full_stratified_c_index_ci_low']):.3f} to "
+            f"{as_float(site_row['full_stratified_c_index_ci_high']):.3f})",
+            f"{as_float(site_row['target_delta_use']):+.3f} "
+            f"({as_float(site_row['target_delta_use_ci_low']):+.3f} to "
+            f"{as_float(site_row['target_delta_use_ci_high']):+.3f})",
+            "Pass" if site_row["site_heldout_functional_transport_pass"] == "True" else "Fail or inconclusive",
+        ])
+        external_row = external_functional[encoder]
+        functional_transport_rows.append([
+            "LEOPARD external",
+            encoder,
+            f"{as_float(external_row['full_c_index']):.3f} "
+            f"({as_float(external_row['full_c_index_ci_low']):.3f} to "
+            f"{as_float(external_row['full_c_index_ci_high']):.3f})",
+            f"{as_float(external_row['target_delta_use']):+.3f} "
+            f"({as_float(external_row['target_delta_use_ci_low']):+.3f} to "
+            f"{as_float(external_row['target_delta_use_ci_high']):+.3f})",
+            "Pass" if external_row["external_whole_tissue_functional_transport_pass"] == "True" else "Fail or inconclusive",
+        ])
+    write_table(
+        GENERATED / "stable_external_functional_transport.tex",
+        "Locked site-heldout and independent-patient functional-transport tests. C-index intervals and targeted erasure deltas use 2,000 patient-bootstrap draws. Passing required valid full-head discrimination, a positive targeted-delta interval, matched-random significance after Holm correction, and the family-specific sample gate.",
+        "tab:supp-functional-transport",
+        ["Frame", "Encoder", "Full-head C-index (95% CI)", "Target delta (95% CI)", "Gate"],
+        functional_transport_rows,
+        "@{}p{0.16\\textwidth}p{0.10\\textwidth}p{0.20\\textwidth}p{0.20\\textwidth}p{0.16\\textwidth}@{}",
+    )
 
     missingness_groups = {
         "transport": read_csv(sources["PBV-TRANSPORT"]),

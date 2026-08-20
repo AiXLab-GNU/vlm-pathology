@@ -2,33 +2,35 @@
 document_id: qfm-evidence-qualified-alignment-submission-handoff
 owner_project: quantitative_foundation_model_validation
 document_type: report
-status: submission-metadata-required
+status: submitted
 created: 2026-08-18
 canonical_path: projects/quantitative_foundation_model_validation/paper/evidence-qualified-alignment-prostate-cancer/submission-handoff.md
 ---
 
 # Scientific Reports submission handoff
 
-**Readiness:** `partial—online submission metadata required`.
-The author list, affiliations, corresponding-author details and ORCID, contribution
-statement, Funding statement, competing-interests declaration, scientific text, source-linked
-figures and tables, cover letter, build, and computational QA are ready for author review. The
-public submission repository, immutable commit, and annotated submission tag are established.
-The interpretation-enhanced manuscript has passed local scientific and layout QA and is fixed in
-the public immutable submission release. No new scientific experiment or code release is pending.
+**Status:** `submitted—locked revision XAI analysis complete; revision upload not yet performed`.
+The corresponding author confirmed completion of the Scientific Reports initial submission on
+2026-08-20. The submitted package includes the verified author list, affiliations,
+corresponding-author details and ORCID, contribution and Funding statements,
+competing-interests declaration, scientific text, source-linked figures and tables, cover letter,
+and pdfLaTeX-compatible source ZIP. No journal manuscript identifier has been supplied for this
+record, and none is inferred. The initial package remains immutable; a newly locked
+site-heldout/LEOPARD functional-transport analysis is present only in the revision working copy.
 
 ## Submission artifacts and counts
 
 | Item | Final audit |
 |---|---|
-| Title | 15 words; within the journal's 20-word recommendation |
+| Title | 13 words; within the journal's 20-word recommendation |
 | Abstract | 198 words by `detex`; unstructured; no citations; within the 200-word limit |
 | Main | 16 pages; 4,383 Introduction--Conclusion words; 1,231 Methods words; 5 figures + 1 table |
 | Supplementary Information | 13 pages; 3,253 words including generated tables; 3 figures + 14 tables; one separate PDF |
 | References | 19 numbered references; all citation keys resolved |
-| `main.pdf` | SHA-256 `cb2a2feb03b0c4d9068e509529f1a96ad0d7d1034730c307f7c9bb2495decc78` |
-| `supplement.pdf` | SHA-256 `0e90c4c157aba2e57911db0c718007eeba2adaa85da6ab5d46ea73eb62e6c700` |
-| `cover_letter.pdf` | 1 page; SHA-256 `7b5359238b9a988167c44584e50ecbbd76fd6c40f78122c6e6a41c68b4f49f23` |
+| `main.pdf` | SHA-256 `5aa98c3c1491d8991b793e07dcee519847738837fabd469087f2bd0c3da3c89f` |
+| `supplement.pdf` | SHA-256 `8f3ee96ae07e08cc0e38a72f37562d291cd10de47474a679d6b51d7dcf12615c` |
+| `cover_letter.pdf` | 1 page; SHA-256 `469db26460b0a42f81515f748ff4875abf0be64c4a81a0eda6a444558ed48b93` |
+| Submission source ZIP | `submission-package.zip`; pdfLaTeX fresh-extraction build passed; SHA-256 `50e1022cc8c44fac0b5ada3290c366887f690703f7f9d745ac5db52f2b7ce50e` |
 | Source manifest | 19/19 verified; manifest SHA-256 `c1129408a803a4bc0841e4b6adc097070d7f8995f3f6d7ee793e58ce4f9ef5d0` |
 | Numeric QA mapping | 33/33 verified; SHA-256 `c707818dd79ccec4ee04f8481ce980d1ac671bdfe10a3f6161884d654e77134c` |
 | Public release repository | `https://github.com/AiXLab-GNU/evidence-qualified-alignment-prostate-cancer` |
@@ -44,14 +46,41 @@ items are below the stated maximum. Official sources checked on 2026-08-18: [sub
 [initial-submission checklist](https://www.nature.com/documents/srep-checklist-for-initial-submissions.pdf),
 and [editorial policies](https://www.nature.com/srep/journal-policies/editorial-policies).
 
+## Locked revision working copy — 2026-08-20
+
+The revision experiment used seven TCGA held-out sites (289 patients; 69 events) and an
+independent-patient LEOPARD reanalysis (508 patients; 87 events; 32,512 identical paired crops).
+TCGA site-heldout evidence was encoder-specific: CONCH failed and Virchow passed. In LEOPARD,
+CONCH had a positive erasure delta but its full-head interval crossed chance; Virchow failed head
+validity and erasure sensitivity. The locked external family status is
+`FAIL_OR_INCONCLUSIVE_EXTERNAL_FUNCTIONAL_TRANSPORT`, with no retuning.
+
+| Revision item | Audit |
+|---|---|
+| Abstract | 194 words |
+| Main | 17 pages; 4,498 Introduction--Conclusion words |
+| Supplementary Information | 14 pages; includes locked site/external gate table |
+| `main.pdf` | SHA-256 `2e72b1aed184fbaff365e8b7574f6dffddb1eab2776600a6447e2c0901a3165e` |
+| `supplement.pdf` | SHA-256 `dbfe13aa2e8150dab38f46c604c3d3d54a0d119aacfac31d31e255867403394c` |
+| Source manifest | 21/21 verified; SHA-256 `1b0199e5a4213ff5488e8b8c1e35162093b0fe0f1227a936d48ed7ed1bde5fcb` |
+| Numeric QA mapping | 41/41 verified; SHA-256 `34518504bf5505e43b61c4af56b9075617763aadbe6d24e28dbcae138be7f7d6` |
+| Semantic contracts | 61/61 passed |
+
+LEOPARD is independent of TCGA by patient and institution, but lacks ISUP and treatment
+covariates and had prior outcome access in an earlier reverse-transfer analysis. It is a newly
+locked reanalysis, not a prospectively untouched confirmation. The accountable author confirmed
+embargo completion; the exact external clearance document/URL remains unarchived and should be
+stored before revision release.
+
 ## Scientific and verification lock
 
 The primary claim is that explicitly qualified morphologic, molecular, and outcome axes provide
 contestable shared coordinates for auditing human--AI agreement, disagreement, explanation
 withholding, and validation priorities. Grade/ISUP and phenotype have the strongest representation
 evidence; PTEN and AR are conditional; SPOP is evaluated but unsupported; recurrence is
-endpoint-sensitive. Only two internal locked BCR heads were shown sensitive to an
-ISUP-correlated direction. Indispensable/mechanistic use, external functional transport,
+endpoint-sensitive. Two internal locked BCR heads were sensitive to an ISUP-correlated direction,
+but site transport was encoder-specific and LEOPARD external transport was not qualified.
+Indispensable/mechanistic use, qualified external functional transport,
 clinical increment, improved clinician outcomes, complete explanation, residual-marker discovery,
 and encoder superiority remain prohibited claims.
 
@@ -62,10 +91,11 @@ is sensitive to the corresponding direction. Clinician-understandable reliabilit
 the present contribution. Residual-signal or biomarker discovery remains a bounded future use
 of the map, not a result reported here.
 
-The manuscript builder verified 19/19 registered sources, 33/33 numeric mappings, and 53/53
-semantic contracts. All 29 PDF pages were raster-inspected; the interpretation-enhanced bundle has no clipping,
+The initial-submission builder verified 19/19 registered sources, 33/33 numeric mappings, and
+53/53 semantic contracts. The revision builder verifies 21/21 sources, 41/41 numeric mappings,
+and 61/61 semantic contracts. The initial 29 PDF pages were raster-inspected; the interpretation-enhanced bundle has no clipping,
 table overflow, empty page, unresolved citation/reference, or overfull box. QFM tests passed
-95/95. File governance and worktree audits and `git diff --check` passed. The boundary validator's
+97/97. File governance and worktree audits and `git diff --check` passed. The boundary validator's
 sole failure is the pre-existing unregistered root file `webportal-refactoring.md`.
 
 The public `v1.0.6-submission` tag was independently cloned and passed all six reviewer release
@@ -75,9 +105,10 @@ snapshots of 10 source-analysis entry points for code audit. End-to-end source e
 require the original datasets, patient/fold manifests, embeddings, and weights identified by the
 project provenance; this boundary is explicit in the public `REPRODUCIBILITY.md`.
 
-The public reference `main.pdf` has SHA-256
-`cb2a2feb03b0c4d9068e509529f1a96ad0d7d1034730c307f7c9bb2495decc78`, matching the current
-interpretation-enhanced working PDF. Earlier submission tags remain immutable.
+The public tag predates the motivation-focused title, Funding and pdfLaTeX revisions used for the
+initial submission. As a post-submission provenance action, export the submitted reference PDFs,
+update their public artifact hashes, rerun the reviewer tests from a fresh clone, and create a new
+immutable submission tag. Earlier submission tags remain immutable.
 
 ## Revision experiment and release workflow
 
@@ -98,7 +129,7 @@ The readable pre-condensation manuscript is fixed in the internal annotated tag
 `qfm-manuscript-pre-condensation-v1.0.4` at commit `ace22870`. This immutable tag provides the
 recovery point; a duplicate manuscript directory is therefore unnecessary.
 
-## Accountable-author actions before upload
+## Post-submission actions
 
 The final author order, affiliations, corresponding-author details, Jin Hyun Kim ORCID
 `0000-0002-2308-1638`, author-contribution roles, Funding statement, no-competing-interests
@@ -109,12 +140,15 @@ On 2026-08-18, the corresponding author completed the institutional-policy confi
 deidentified secondary analysis requires no additional ethical approval or participant consent.
 No committee name or determination identifier has been inferred or invented.
 
-1. Approve the six recommended keywords and the cover letter; supply reviewer
-   suggestions/exclusions, the prior-editorial-discussion answer, submission date, and all
-   online-system metadata.
-2. Verify exact title/abstract parity across the manuscript, Supplementary Information, and
-   submission system; upload the
-   manuscript, five individual main figure PDFs, and the single Supplementary PDF.
+1. Record the journal manuscript identifier and editorial-screening status when they become
+   available.
+2. Refresh the public submission release with the submitted title, Funding statement,
+   pdfLaTeX-compatible PDFs and source-package provenance; record the new immutable tag and commit
+   in this handoff without moving an earlier tag.
+3. Archive the exact LEOPARD official clearance URL or screenshot before any public revision
+   release or journal upload.
+4. On author approval, package the locked negative/inconclusive revision result without
+   retuning and create a new immutable revision tag; do not overwrite the initial tag.
 
 An archive DOI is not required to identify the submitted code snapshot because the annotated tag
 and full commit hash are fixed above. A Zenodo DOI may be added later if the authors connect the

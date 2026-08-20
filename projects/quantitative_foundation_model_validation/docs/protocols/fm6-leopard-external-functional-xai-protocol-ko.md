@@ -18,6 +18,9 @@ canonical_path: projects/quantitative_foundation_model_validation/docs/protocols
 본 분석은 TCGA에서만 고정한 BCR head와 ISUP-correlated direction을 독립 LEOPARD BCR
 cohort에 한 번 적용한다. LEOPARD에는 ISUP/Gleason과 치료 공변량이 없으므로 external ISUP
 recoverability, 임상 증분 또는 tumor-specific mechanism을 검증하지 않는다.
+LEOPARD 환자와 기관은 TCGA와 독립이지만, 연구 프로그램의 이전 역방향 recurrence
+분석에서 LEOPARD outcome이 사용되었다. 따라서 본 분석은 새로 잠근 external reanalysis이며,
+연구팀에게 prospectively untouched 또는 blinded confirmatory cohort 검증은 아니다.
 
 ## 고정 자료와 전처리
 
@@ -59,5 +62,5 @@ Encoder 통과에는 다음이 모두 필요하다.
 
 양성 결과는 `independent external BCR transport of whole-tissue functional sensitivity`만
 지지한다. External ISUP R, tumor-specific use, endpoint equivalence, clinical increment,
-indispensability, strong H2와 신규 biomarker는 계속 미확립 또는 금지 상태다. 결과가 음성이면
-재튜닝 없이 그대로 잠근다.
+indispensability, prospectively untouched confirmation, strong H2와 신규 biomarker는 계속
+미확립 또는 금지 상태다. 결과가 음성이면 재튜닝 없이 그대로 잠근다.

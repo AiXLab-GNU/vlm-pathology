@@ -1,6 +1,11 @@
-% !TEX program = xelatex
+% !TEX program = pdflatex
 \documentclass[11pt,a4paper]{article}
-\usepackage{fontspec}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+\else
+  \usepackage{fontspec}
+\fi
 \usepackage[margin=2.35cm]{geometry}
 \usepackage{graphicx}
 \usepackage{booktabs}
@@ -14,8 +19,8 @@
 \captionsetup{font=small,labelfont=bf}
 \setlength{\emergencystretch}{3em}
 
-\title{Evidence-Qualified Alignment of Pathology Foundation Models with Morphologic,
-Molecular, and Outcome Axes in Prostate Cancer}
+\title{From Clinical Signal Recovery to Evidence-Qualified Interpretation of Prostate Cancer
+Pathology Foundation Models}
 \author{Jin Hyun Kim\textsuperscript{1,*}, Dae Hyun Song\textsuperscript{2},\\
 Hyonyoung Choi\textsuperscript{3}, and Insup Lee\textsuperscript{3}\\[0.6em]
 \small \textsuperscript{1}Gyeongsang National University, Jinju, Republic of Korea\\

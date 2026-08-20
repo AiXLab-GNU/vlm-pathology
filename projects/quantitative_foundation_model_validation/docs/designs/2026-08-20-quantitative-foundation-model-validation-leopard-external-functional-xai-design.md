@@ -41,6 +41,10 @@ LEOPARD BCR more than variance-matched random-direction removal?
 
 No LEOPARD image, representation, event, or follow-up value may select preprocessing,
 hyperparameters, subspace rank, direction, head, threshold, control, or analysis universe.
+LEOPARD patients and institution are independent of TCGA, but LEOPARD outcomes were used in
+an earlier, directionally reversed recurrence analysis in this research program. The present
+work is therefore a newly locked external reanalysis, not a prospectively untouched or blinded
+confirmatory cohort evaluation.
 
 ## 3. Fixed source and image boundary
 
@@ -104,6 +108,7 @@ A positive result establishes independent external BCR transport of whole-tissue
 sensitivity to a TCGA-derived ISUP-correlated direction. It does not establish external ISUP
 recoverability, tumor-specific ISUP use, endpoint-threshold equivalence, clinical incremental
 utility, indispensability, a human-equivalent mechanism, residual-marker novelty, or strong
-H2. Those states remain not tested or prohibited.
+H2. It also does not convert the previously accessed LEOPARD cohort into a prospectively
+untouched confirmatory sample. Those states remain not tested or prohibited.
 
 A failed or inconclusive gate is reported without retuning. CHIMERA remains excluded.

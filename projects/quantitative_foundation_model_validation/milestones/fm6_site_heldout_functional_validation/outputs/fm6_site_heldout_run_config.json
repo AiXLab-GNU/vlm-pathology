@@ -1,0 +1,40 @@
+{
+  "bootstraps": 2000,
+  "claim_ceiling": "TCGA site-held-out internal whole-tissue functional transport only; independent external T and strong H2 prohibited",
+  "cox_alpha": 1000.0,
+  "eligible_sites": [
+    "EJ",
+    "G9",
+    "HC",
+    "J4",
+    "KK",
+    "V1",
+    "YL"
+  ],
+  "finished_at_utc": "2026-08-20T23:14:32.788698+00:00",
+  "input_sha256": {
+    "development_subjects.csv": "c36bfc442f6f33aaa6887eb6882c62f8984561e2336a35b6ab30eab370e1d814",
+    "fm6_tcga_conch_tile_embeddings.npy": "99c6d5f3bc59070a7c2e74f3c6f3adc3f7f8db5cf6d8837465bde955953e9d2d",
+    "fm6_tcga_virchow_tile_embeddings.npy": "4e23555436084c1154dbfdd94df86ddff556617fa41864615fb505f438f17ca7",
+    "fm6_tcga_whole_tissue_tile_manifest.csv": "d4fe8ba50ec0e129ebcc7e5b529b4d26bb724de89f8869bb06648716ab4a9c04"
+  },
+  "output_sha256": {
+    "fm6-site-heldout-functional-xai-report.md": "bd2468cb8eefa05d9831ec5904f9365cf1b2cd317f2141fde34d33348022b8c6",
+    "fm6_site_heldout_bootstrap_intervals.csv": "0f4836dc9cd83d031850f089b7264b0fb6d38b692cf9767bd17c16101b61c552",
+    "fm6_site_heldout_evidence_chain.csv": "93887c03785cc41fe2baec4b31baf4200563f3b7cb58eb5b393cc2b4ed46a24a",
+    "fm6_site_heldout_random_controls.csv": "7a5e9b8ee2ae7aa9b4a7347f4512d5de58e6534802bd636346727adfcc80b1ee",
+    "fm6_site_heldout_site_metrics.csv": "36d9d7295d943cf7577d0d501993b132a5867106d489a47fc8c14daea6cd0a11",
+    "fm6_site_heldout_source_site_audit.csv": "5799f0b65b6b408294e54699e8277af20a217788baf4e1028f8f8cdfc0840d9b",
+    "fm6_site_heldout_subject_predictions.csv": "a006024347b132acc2b2a1e0e802c7d5880857bdc8551a9e16d59e501d9af473",
+    "fm6_site_heldout_summary.csv": "420f98345c127eda80d981bf7a8fe853f3f0af02c85deacd267719f484df12c8"
+  },
+  "overall_status": "PARTIAL_ENCODER_SPECIFIC_SITE_HELDOUT_EVIDENCE",
+  "pca_components": 64,
+  "protocol": "fm6-site-heldout-functional-xai-protocol",
+  "random_controls": 100,
+  "ridge_alpha": 1000.0,
+  "seed": 260820,
+  "volatile_fields": [
+    "finished_at_utc"
+  ]
+}
