@@ -1,0 +1,23 @@
+{
+  "claim_ceiling": "external whole-tissue functional transport; external ISUP R, tumor-specific use, endpoint equivalence, clinical increment, and strong H2 prohibited",
+  "created_at_utc": "2026-08-20T22:29:06.005003+00:00",
+  "evaluable_events": 87,
+  "evaluable_subjects": 508,
+  "evaluable_tiles": 32512,
+  "external_clearance_document": "unrecorded",
+  "labels_sha256": "04d8229b58348a317790d279ae134d84f6a795ab956fd52208c08f2279ff1186",
+  "max_tiles_per_wsi": 64,
+  "min_tiles_per_wsi": 16,
+  "physical_fov_um": 394.24,
+  "protocol": "fm6-leopard-external-functional-xai-protocol",
+  "publication_clearance": "accountable_author_confirmed_embargo_complete_2026-08-20",
+  "sampling_qc_sha256": "dee277f4ea95c69fcf43ab876924c7ddf15f9d4104086ac0d961c7107a807f5d",
+  "seed": 260820,
+  "source_events": 87,
+  "source_inventory_sha256": "9bbc5fb15bd24cbef8a99fe31dfae2d39e849ea6c26c767a5c9be26e506bb380",
+  "source_subjects": 508,
+  "tile_manifest_sha256": "5e0e3603c5d3373c202956faf3871b3d104c044b8518a6423da651a3c50138e3",
+  "volatile_fields": [
+    "created_at_utc"
+  ]
+}

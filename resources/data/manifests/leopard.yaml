@@ -1,4 +1,23 @@
 dataset_id: LEOPARD
 data_class: external_pathology
-projects: [prostate_biomarker_validation]
+projects: [prostate_biomarker_validation, quantitative_foundation_model_validation]
+source_name: LEarning biOchemical Prostate cAncer Recurrence from histopathology sliDes
+source_url: https://leopard.grand-challenge.org/data/
+source_version: public_training_508
+retrieved_on: unrecorded
+license: CC-BY-NC-SA-4.0
+publication_policy: accountable_author_confirmed_embargo_complete_2026-08-20
+publication_clearance_evidence: accountable-author interactive confirmation; external documentary record not archived
+local_root: resources/data/shared/opendataset/LEOPARD
+labels_path: resources/data/shared/opendataset/LEOPARD/training_labels.csv
+labels_sha256: 04d8229b58348a317790d279ae134d84f6a795ab956fd52208c08f2279ff1186
+image_payload_bytes: 2141843817674
+n_subjects: 508
+n_bcr_events: 87
+n_prostatectomy_wsi: 508
+n_tissue_masks: 508
+bcr_time_unit: years
+isup_source_status: unavailable
+qfm_declared_use: locked TCGA BCR head and ISUP-correlated direction external whole-tissue functional transport
+qfm_claim_boundary: independent external BCR transport without external ISUP recoverability, endpoint-threshold equivalence, tumor-specific mechanism, clinical increment, or strong H2
 rule: raw data and derived arrays are not committed
