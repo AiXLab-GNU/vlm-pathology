@@ -155,12 +155,19 @@ class FM6ChimeraExternalFunctionalXAITest(unittest.TestCase):
         if not primary.exists():
             self.skipTest("embargo-controlled analysis not generated yet")
         config = json.loads(primary.read_text(encoding="utf-8"))
+        if config["runner_sha256"] != MODULE.sha256_file(SCRIPT):
+            self.skipTest("saved analysis predates the current committed provenance-only runner")
         self.assertEqual(config["publication_status"], MODULE.EMBARGO_STATUS)
         self.assertEqual(
             config["result_visibility"],
             "internal_embargo_controlled_local_artifact_only",
         )
         self.assertIn("publication", config["claim_ceiling"])
+        self.assertEqual(set(config["model_provenance"]), {"conch", "virchow"})
+        for encoder, provenance in config["model_provenance"].items():
+            self.assertEqual(provenance["dimension"], MODULE.DIMENSION[encoder])
+            self.assertEqual(len(provenance["weights_sha256"]), 64)
+            self.assertEqual(len(provenance["tile_embedding_sha256"]), 64)
         self.assertFalse((SCRIPT.parent / "outputs").exists())
         for filename, expected in config["nonvolatile_output_sha256"].items():
             self.assertEqual(MODULE.sha256_file(primary.parent / filename), expected)

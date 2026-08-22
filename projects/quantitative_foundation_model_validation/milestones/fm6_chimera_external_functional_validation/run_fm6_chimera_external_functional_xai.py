@@ -107,6 +107,8 @@ EXPECTED_INPUT_SHA256 = {
     "source_inventory.csv": "06cd367f8c28a47c8da55ed3198c81a5ba8effb1b971eef97e8809ec18eabca0",
     "normalized_clinical.csv": "95e62aa7c0a70d065fbaa3bf9d688f7f7d2c7fc0b27635cb190331ad042773bb",
     "development_subjects.csv": "c36bfc442f6f33aaa6887eb6882c62f8984561e2336a35b6ab30eab370e1d814",
+    "fm6_tcga_whole_tissue_tile_manifest.csv": "d4fe8ba50ec0e129ebcc7e5b529b4d26bb724de89f8869bb06648716ab4a9c04",
+    "fm6_tcga_embedding_technical_qc.csv": "8dd0bb6c2917b7367532a968ace70ad88a3e6cc8e7bb4aa4d816e042ce24e3bd",
     "fm6_tcga_conch_tile_embeddings.npy": "99c6d5f3bc59070a7c2e74f3c6f3adc3f7f8db5cf6d8837465bde955953e9d2d",
     "fm6_tcga_virchow_tile_embeddings.npy": "4e23555436084c1154dbfdd94df86ddff556617fa41864615fb505f438f17ca7",
 }
@@ -153,6 +155,12 @@ def source_paths() -> dict[str, Path]:
             ROOT
             / "resources/data/quantitative_foundation_model_validation/local-data"
             / "tcga_prad_current_gdc_bcr/development_subjects.csv"
+        ),
+        "fm6_tcga_whole_tissue_tile_manifest.csv": (
+            INTERNAL_OUTPUTS / "fm6_tcga_whole_tissue_tile_manifest.csv"
+        ),
+        "fm6_tcga_embedding_technical_qc.csv": (
+            INTERNAL_OUTPUTS / "fm6_tcga_embedding_technical_qc.csv"
         ),
         "fm6_tcga_conch_tile_embeddings.npy": (
             INTERNAL_ARTIFACTS / "fm6_tcga_conch_tile_embeddings.npy"
@@ -444,7 +452,8 @@ def verify_preparation() -> tuple[pd.DataFrame, dict[str, object]]:
         raise RuntimeError("CHIMERA tile manifest changed after preparation")
     if sha256_file(sampling_path) != lock["sampling_qc_sha256"]:
         raise RuntimeError("CHIMERA sampling QC changed after preparation")
-    if verify_locked_inputs() != lock["input_sha256"]:
+    observed_inputs = verify_locked_inputs()
+    if any(observed_inputs.get(name) != value for name, value in lock["input_sha256"].items()):
         raise RuntimeError("CHIMERA/TCGA locked inputs changed after preparation")
     manifest = pd.read_csv(manifest_path, dtype={"subject_id": str, "slide_id": str})
     if len(manifest) != EXPECTED_TILES:
@@ -927,6 +936,33 @@ def _runtime_environment() -> dict[str, object]:
     }
 
 
+def model_provenance() -> dict[str, dict[str, object]]:
+    locked = pd.read_csv(INTERNAL_OUTPUTS / "fm6_tcga_embedding_technical_qc.csv").set_index(
+        "encoder"
+    )
+    provenance: dict[str, dict[str, object]] = {}
+    for encoder in ("conch", "virchow"):
+        spec = INTERNAL_RUNNER.model_spec(encoder)
+        weights = Path(spec["weights"])
+        observed_weight_sha256 = sha256_file(weights)
+        expected_weight_sha256 = str(locked.loc[encoder, "weights_sha256"])
+        if observed_weight_sha256 != expected_weight_sha256:
+            raise RuntimeError(f"{encoder} weight hash changed from locked TCGA extraction")
+        provenance[encoder] = {
+            "model_id": str(spec["model_id"]),
+            "model_revision": str(spec["revision"]),
+            "weights_sha256": observed_weight_sha256,
+            "dimension": DIMENSION[encoder],
+            "tile_embedding_sha256": sha256_file(
+                ARTIFACTS / f"fm6_chimera_{encoder}_tile_embeddings.npy"
+            ),
+            "decoded_crop_hash_array_sha256": sha256_file(
+                ARTIFACTS / f"fm6_chimera_{encoder}_crop_hashes.npy"
+            ),
+        }
+    return provenance
+
+
 def internal_report(summary: pd.DataFrame, overall_status: str) -> str:
     lines = [
         "# FM6 CHIMERA external functional XAI failure decomposition",
@@ -1075,6 +1111,7 @@ def analyze(run_id: str) -> dict[str, object]:
         "preparation_lock_sha256": sha256_file(ARTIFACTS / "fm6_chimera_preparation_lock.json"),
         "paired_embedding_audit_sha256": sha256_file(ARTIFACTS / "fm6_chimera_paired_embedding_audit.json"),
         "environment": _runtime_environment(),
+        "model_provenance": model_provenance(),
         "nonvolatile_output_sha256": {
             name: sha256_file(run_root / name) for name in output_names
         },
