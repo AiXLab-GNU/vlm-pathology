@@ -23,8 +23,11 @@ assay·outcome·외부 코호트 검증 전에는 신규 마커로 주장하지 
 AI risk와 tissue fraction의 상관도 0.324–0.341이므로 독립 tumor-region·기술 교란 감사
 전에는 설명되지 않은 risk를 신규 생물학으로 해석하지 않는다. 2026-08-20 site-heldout
 T는 Virchow만 통과했고, 508명/87 events LEOPARD locked reanalysis에서는 두 encoder 모두
-외부 gate를 통과하지 못했다. 따라서 External T는 `FAIL_OR_INCONCLUSIVE`, strong H2는
-`PROHIBITED`다.
+외부 gate를 통과하지 못했다. CHIMERA 95명/27 events에서는 두 encoder의 ISUP 방향이
+복원되고 targeted erasure가 양성이었지만, prespecified head·control·multiplicity gate를
+모두 통과한 것은 Virchow뿐이었다. 따라서 External T는
+`ENCODER_SPECIFIC_WHOLE_TISSUE_TRANSPORT`이며, 전체 encoder family의 universal transport와
+strong H2는 `PROHIBITED`다.
 
 2026-08-16 독립 detector gate에서는 TCGA outcome·ISUP·CONCH·Virchow를 사용하지 않은
 ImageNet ResNet18을 SICAPv2 pixel mask로 개발했다. 공식 test AUROC 0.920과 sensitivity
@@ -45,10 +48,11 @@ detector gate와 TCGA 적용은 계속 실패/미실행으로 둔다.
 PBV의 해시-잠금 근거를 승계한 alignment 원고에서는 기존 cohort에서 지표의
 복원 정확성·외부 재현성이 사람과 AI 사이의 공통 해석 좌표 가능성을 제시한다고
 요약할 수 있다. 여기에 FM6 whole-tissue ISUP fixed-head erasure를 두 encoder에서 반복한
-결과와 site-heldout encoder-specific evidence를 포함하되, LEOPARD external transport
-실패/불확정 결과를 함께 보고한다. SICAP specificity
+결과와 site-heldout encoder-specific evidence를 포함하고, LEOPARD external transport
+실패/불확정 및 Virchow-only CHIMERA 통과 결과를 함께 보고한다. SICAP specificity
 0.810은 secondary internal evidence로 수용하지만 PANDA 두 provider의 sensitivity 실패를
-독립 domain limitation으로 병기한다. 이 derivative manuscript claim은 현재 strong H2
-ceiling을 높이지 않으며 indispensable use, qualified external functional transport, tumor-specific
-mechanism 또는 clinical increment를 주장하지 않는다. Residual/unknown AI feature의 신규
+독립 domain limitation으로 병기한다. 이 derivative manuscript는 Virchow--CHIMERA에 한해
+qualified external whole-tissue functional transport를 주장하지만 strong H2 ceiling은 높이지
+않는다. Indispensable use, encoder superiority, universal transport, tumor-specific mechanism 또는
+clinical increment를 주장하지 않는다. Residual/unknown AI feature의 신규
 정량 marker화는 현재 원고에서 제외하고 별도 후속 논문으로 다룬다.

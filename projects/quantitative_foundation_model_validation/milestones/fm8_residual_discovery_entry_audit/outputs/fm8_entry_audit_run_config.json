@@ -1,0 +1,52 @@
+{
+  "claim_ceiling": "entry audit only; no residual biomarker, tumor-specific mechanism, or paper-1 reopening",
+  "clean_rerun_status": "PASS_EXACT_HASH",
+  "decision": "NO-GO",
+  "execution_time_seconds": 2.122735,
+  "input_sha256": {
+    "chimera_clinical": "95e62aa7c0a70d065fbaa3bf9d688f7f7d2c7fc0b27635cb190331ad042773bb",
+    "chimera_conch_embedding": "dccfe69241a13e3b552da322d7f24b153d35b651cdb0f52f221b8035baf76aea",
+    "chimera_predictions": "df89e630186c223def4f04d93831a1232b5b073493851b6e763405f030d38426",
+    "chimera_source_verification": "c5b38358fb07d125d8f2d74e14ae7ee9f5ea961b5db867add911c9b679cad6b8",
+    "chimera_tiles": "ba95d49626e01054f6efdf2c2d25509f01ed60e997b340785feb6add4781f38a",
+    "chimera_virchow_embedding": "2cfc6468a1963bb020760bb974004fed972d69f27491367db6464f306067c862",
+    "fm2_manifest": "1814a8fcbb51b873134562ed0a110da479aebec349bd739d9bc6131035a55bf6",
+    "fm3_conch_embedding": "c88112fdbe7a2b89d29e089591f8cd3ee1f5b29eb1a1a783cbf89fa14cabdd82",
+    "fm3_virchow_embedding": "115e6981a1a1d541a4e1d7f7c7e7fc9c824a620a81dfa11b49e69e1e18fd64d5",
+    "leopard_conch_embedding": "461bec6cf98093931619259e7122894cb9ade0503e5208a482032a35599b1a26",
+    "leopard_predictions": "0dca8f3de8ec055ef182959dbe5c4e17c41338f0236decc9f8a7fda36a3e8afb",
+    "leopard_tiles": "5e0e3603c5d3373c202956faf3871b3d104c044b8518a6423da651a3c50138e3",
+    "leopard_virchow_embedding": "5ea581a5c72b5024d37ac344964f667fb409696b818bcfc11f9916fb28179a36",
+    "siteheldout_predictions": "a006024347b132acc2b2a1e0e802c7d5880857bdc8551a9e16d59e501d9af473",
+    "tcga_conch_embedding": "99c6d5f3bc59070a7c2e74f3c6f3adc3f7f8db5cf6d8837465bde955953e9d2d",
+    "tcga_predictions": "a1ec31c6aff25a0d7ef57525c342fd06c529c5f53ec480eb5cd8ad48b54ca682",
+    "tcga_subjects": "c36bfc442f6f33aaa6887eb6882c62f8984561e2336a35b6ab30eab370e1d814",
+    "tcga_technical": "3c77a295e0e4398d31df9d13f4a34f64f2c133fdd81ed8584e06cf37a9d67e03",
+    "tcga_tiles": "d4fe8ba50ec0e129ebcc7e5b529b4d26bb724de89f8869bb06648716ab4a9c04",
+    "tcga_virchow_embedding": "4e23555436084c1154dbfdd94df86ddff556617fa41864615fb505f438f17ca7"
+  },
+  "output_sha256": {
+    "fm8-residual-discovery-entry-audit-report.md": "661d18b6729793b30b731348067c83604d022cc8ec61b972a3d76a390a73da10",
+    "fm8_artifact_availability_matrix.csv": "a721bcde8b88a4ed15eb89f4bcfb297184064a92a5b0a14cdc32c37e56833f09",
+    "fm8_blinded_review_feasibility_specification.csv": "86ac31ece97db93d59380160c534959c43d6d19ef2958acab36bf7ca2a50063c",
+    "fm8_blocker_action_list.csv": "01b80e8ee066e50dbb29114e5292068ea73a48930666359b27e29ce7cc6ce09e",
+    "fm8_clean_rerun_comparison.csv": "7c9f5d527a710e04fd534e0aa6cfbcb123b3b3fc8359d9547095feb0addc127f",
+    "fm8_estimand_leakage_control_specification.csv": "8a5542c8f1fb92c73c7b76af5af4196ddb902b020a3a8b4b5be84ecbbaf7a9f2",
+    "fm8_external_recurrence_feasibility_matrix.csv": "0c93682903f97c272ad70fca822d5e55ea6710bc2519da6dd013d2899d1213d7",
+    "fm8_gate_decision_matrix.csv": "a00837f1687390c2ebd87ac9191323540c96e8d2c15f4779bdbf0743583f1afe",
+    "fm8_output_integrity.csv": "2d368bbc6561adb7c937f73fa70433b92da3229527e5878a7a97a2cf2a6e2a58",
+    "fm8_shortcut_audit_matrix.csv": "825887c0def5f035db238b4f26e37fd1701afb5aa7a2eeb7e2af76ca47e36b85",
+    "fm8_source_evidence_manifest.csv": "749d13eaaeffb16665a88b5407b72f6b2b0b8352f536d2b5d00df6ddbca7431c",
+    "fm8_source_integrity_audit.csv": "2d00c63671542b38ee12aeb2cf242a80ad2d08f0f9d81f81195a45b1483a0374",
+    "fm8_source_lock_specification.csv": "ad58269ef2c52560ddae295c2d56aaee088e32738cabd4df1480e9e26495613a"
+  },
+  "protocol_id": "fm8-residual-discovery-entry-audit-protocol",
+  "python_version": "3.11.2",
+  "script_path": "projects/quantitative_foundation_model_validation/milestones/fm8_residual_discovery_entry_audit/run_fm8_residual_discovery_entry_audit.py",
+  "script_sha256": "3454e07c99490a0b3b9d1baca7b28bf5ca48af00e6bebd7fb45b032fcd9f6947",
+  "seed": 260825,
+  "source_integrity_all_pass": true,
+  "volatile_fields": [
+    "execution_time_seconds"
+  ]
+}

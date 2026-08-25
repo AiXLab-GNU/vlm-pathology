@@ -168,7 +168,27 @@ class FM6ChimeraExternalFunctionalXAITest(unittest.TestCase):
             self.assertEqual(provenance["dimension"], MODULE.DIMENSION[encoder])
             self.assertEqual(len(provenance["weights_sha256"]), 64)
             self.assertEqual(len(provenance["tile_embedding_sha256"]), 64)
-        self.assertFalse((SCRIPT.parent / "outputs").exists())
+        promoted_outputs = SCRIPT.parent / "outputs"
+        self.assertEqual(
+            {path.name for path in promoted_outputs.iterdir() if path.is_file()},
+            {
+                "fm6_chimera_external_summary.csv",
+                "fm6_chimera_clean_rerun_audit.json",
+                "fm6-chimera-external-functional-xai-report.md",
+            },
+        )
+        promoted_report = (
+            promoted_outputs / "fm6-chimera-external-functional-xai-report.md"
+        ).read_text(encoding="utf-8")
+        normalized_report = " ".join(promoted_report.split())
+        self.assertIn("accountable author determined that the embargo had ended", normalized_report)
+        self.assertIn(
+            "does not assert that written organizer clearance was obtained",
+            normalized_report,
+        )
+        self.assertNotIn("patient_id", (
+            promoted_outputs / "fm6_chimera_external_summary.csv"
+        ).read_text(encoding="utf-8"))
         for filename, expected in config["nonvolatile_output_sha256"].items():
             self.assertEqual(MODULE.sha256_file(primary.parent / filename), expected)
         if rerun.exists():

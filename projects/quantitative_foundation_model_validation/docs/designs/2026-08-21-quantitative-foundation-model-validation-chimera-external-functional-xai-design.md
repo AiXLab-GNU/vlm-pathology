@@ -23,6 +23,16 @@ verification:
 
 ## 1. Decision, ownership, and publication gate
 
+### 2026-08-24 accountable-author release amendment
+
+After reviewing publicly released studies using CHIMERA data, the accountable author determined
+that the CHIMERA embargo had ended and authorized promotion of aggregate results into the
+controlled revision manuscript. This decision does not assert that written organizer clearance
+was obtained. It supersedes only the release prohibition below; it does not alter the
+preregistered cohort, endpoint, model, intervention, uncertainty, gate, or claim boundary.
+Patient-level predictions, embeddings, crops, WSI, and other restricted/local artifacts remain
+unpublished.
+
 This is a new FM6 analysis unit owned only by
 `quantitative_foundation_model_validation`. It does not extend the acquisition milestone and
 does not consume another project's generated output. The runner is active project source;
@@ -30,7 +40,7 @@ design, plan, and protocol are active controlled documents; every generated crop
 patient prediction, outcome-derived table, report, and run record is a local generated artifact
 under the declared resource root.
 
-The official CHIMERA data page and challenge rules were checked on 2026-08-21:
+The official CHIMERA data page and challenge rules were checked on 2026-08-21 before execution:
 
 - `https://chimera.grand-challenge.org/dataset-download/`
 - `https://chimera.grand-challenge.org/challenge-rules/`
@@ -175,5 +185,6 @@ At most, a fully passing encoder supports internal embargo-controlled evidence o
 whole-tissue transport of a TCGA-locked functional sensitivity. It does not establish a tumor
 mask, tumor-specific mechanism, endpoint equivalence, clinical deployment, clinical increment,
 indispensability, encoder superiority, prospectively untouched confirmation, or a new biomarker.
-Until written clearance or both required official journal publications are verified, no numeric
-CHIMERA result is public evidence and no manuscript or release artifact is modified.
+At execution lock, numeric CHIMERA results were not public evidence. The 2026-08-24
+accountable-author amendment permits aggregate-result promotion without changing this scientific
+claim ceiling.

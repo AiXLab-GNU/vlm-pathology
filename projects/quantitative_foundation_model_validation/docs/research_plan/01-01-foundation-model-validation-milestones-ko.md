@@ -673,7 +673,7 @@ disease head, preprocessing과 제거 규칙을 독립 cohort에 재학습 없�
 | FM5 | 모델 간 표현·성능 비교 | P0-G7·G8·G9; FM4 완료 | 단일 T2 descriptive 범위 완료 | paired effect·CKA·discordance table |
 | FM6 | 복수지표 완전성·기능적 활용·AI 상보성 평가 | FM4–FM5; 적격 복수 지표와 독립 metric–endpoint 쌍, 충분한 subject/event | 개발·외부 source와 TCGA WSI/기술 QC/환자 fold 등록; endpoint/tumor-region/disease-head validity/power/embargo 잠금 | 조건부·joint completeness, targeted/matched-control ablation과 C/C+M/C+AI/C+M+AI 비교 |
 | FM7 | external semantic·functional transport test | P0-G9; 복수 site metadata와 sentinel truth | 잠금 | source-locked 관계·제거효과·residual·실제 성능의 target 재현 |
-| FM8 | residual/discordance 전문의 검토 | FM5/7 안정 residual; blinded review 승인 | 잠금 | 두 residual의 blinded review와 명시적 후보 concept 정의 |
+| FM8 | residual/discordance 전문의 검토 | FM5/7 안정 residual; blinded review 승인 | entry audit **NO-GO**; 본 연구 미개시 | 두 residual의 blinded review와 명시적 후보 concept 정의 |
 | FM9 | 신규 지표 독립 검증 | FM8 반복 후보; 독립 assay/omics/outcome/cohort | 잠금·장기 | repeatability, assay/omics/outcome, external replication |
 | FM10 | 패키지·보고서·논문 | 관련 단계 gate와 clean rerun 완료 | 잠금·장기 | clean rerun, source tables, claim-evidence audit |
 
@@ -2224,3 +2224,116 @@ format·release metadata 확인 단계로 넘긴다. Multi-domain detector와 re
   robust prognostic utility 또는 외부 임상 유효성으로 승격하지 않는다.
 - FM6 20/20 hash 일치는 내부 계산 재현성이고, 외부 cohort functional replication이 아니다.
   과학 분석은 종결하며 다음 작업은 연구책임자 metadata·release·submission 확정이다.
+
+### 21.26 Scientific Reports 초기 제출 완료 — 2026-08-20
+
+**완료 상태**
+
+- 책임저자가 author, affiliation, corresponding-author ORCID, Funding, ethics,
+  competing interests와 journal submission metadata를 확인하고 Scientific Reports 초기 제출을
+  완료했다.
+- 제출 원고는 동기 중심 제목, 198-word abstract, 16쪽 Main, 13쪽 Supplementary Information과
+  1쪽 cover letter를 사용한다.
+- 제출 source ZIP은 pdfLaTeX fresh-extraction build에서 Main 16쪽, Supplement 13쪽,
+  cover letter 1쪽을 생성했고 unresolved reference, overfull box와 fatal build error가 없었다.
+- 현재 논문의 XAI 근거는 six-axis recoverability·qualification과 internal ISUP fixed-head
+  sensitivity까지로 종결한다. Strong H2, external functional transport와 residual-marker
+  discovery는 제출 완료로 승인되거나 확장되지 않는다.
+
+**제출 후 다음 조건**
+
+- 제공되지 않은 journal manuscript identifier는 추정하지 않고, 확인되는 즉시 submission
+  handoff에 추가한다.
+- `v1.0.6-submission` 이후의 제목·Funding·pdfLaTeX 변경은 새 immutable public tag로 사후
+  동기화한다. 기존 tag를 이동하거나 덮어쓰지 않는다.
+- 편집부 또는 심사 의견이 도착할 때만 별도 revision workstream을 열고, 추가 실험은 승인된
+  protocol과 기존 claim boundary 아래에서 수행한다.
+
+### 21.27 FM6 CHIMERA external functional transport 종결 — 2026-08-24
+
+**실행과 결과**
+
+- 사전등록 protocol로 CHIMERA 95명/27 BCR events, 190 WSI, 12,160 whole-tissue crop을
+  분석하고 target-cohort fitting이나 결과 기반 retuning을 하지 않았다.
+- CONCH는 ISUP $\rho=0.272$와 targeted $\Delta C=0.055$를 보였지만 full-head interval
+  lower bound가 0.500이어서 fail/inconclusive였다.
+- Virchow는 ISUP $\rho=0.392$, full-head C-index 0.630 (0.512--0.753), targeted
+  $\Delta C=0.025$ (0.005--0.047), random p95 0.009와 Holm $p=0.0198$로 모든 gate를
+  통과했다.
+- 독립 clean rerun은 protocol-defined nonvolatile output hash 6/6을 정확히 재현했다.
+
+**판정과 claim ceiling**
+
+- External T는 Virchow--CHIMERA에 한해 `encoder-specific whole-tissue transport`로
+  허용한다. 전체 encoder family 수준에서는 CONCH 비통과 때문에 universal transport를
+  주장하지 않는다.
+- 27-event precision, tissue-only mask, endpoint equivalence와 formal between-encoder comparison
+  부재 때문에 strong H2, encoder superiority, tumor-specific mechanism, clinical increment와
+  신규 biomarker는 금지한다.
+- 책임저자는 공개 CHIMERA-data 연구의 존재를 근거로 embargo 종료를 판단하고 aggregate
+  결과의 controlled revision 원고 편입을 승인했다. 주최 측 written clearance를 받았다고
+  기술하지 않는다.
+
+**원고·재현성 handoff**
+
+- 원 제출 source package는 `submission_orig/`로 보존했다.
+- CHIMERA aggregate source 3개를 source manifest에, headline 수치 10개를 numeric QA에
+  등록하고 Abstract, Introduction, Results, Discussion, Conclusion, Methods와 Supplementary
+  S5B를 동기화했다.
+- Builder는 source 24/24, numeric mapping 51/51, semantic contract 77/77을 통과해 Main
+  18쪽과 Supplementary 15쪽을 생성했다.
+- 책임저자는 같은 날 과학 revision workstream을 완료·종결했다. 위 PDF와 provenance
+  hash가 closure baseline이며, 새 편집부 요구 또는 명시적 재개 결정 전에는 추가 실험,
+  retuning 또는 과학 문구 변경을 수행하지 않는다.
+- Journal revision 업로드와 public immutable revision tag 생성은 별도 책임저자 승인 후
+  수행하는 행정·release 단계이며 과학 workstream을 열린 상태로 두지 않는다.
+
+### 21.28 FM8 residual-discovery entry audit 종결 — 2026-08-25
+
+**범위와 운영 경계**
+
+- 논문 1 revision 과학 workstream은 21.27의 closure baseline으로 계속 잠근다. 이번 단계는
+  별도 후속 연구인 FM8의 자격 감사이며, FM8 본 연구·residual 산출·후보 선정·병리 검토를
+  시작한 것으로 기록하지 않는다.
+- 감사 protocol은
+  `projects/quantitative_foundation_model_validation/docs/protocols/fm8-residual-discovery-entry-audit-protocol-ko.md`,
+  실행 entry point는
+  `projects/quantitative_foundation_model_validation/milestones/fm8_residual_discovery_entry_audit/run_fm8_residual_discovery_entry_audit.py`다.
+  실행 코드는 기존 artifact를 읽어 schema·count·missingness·환자 독립성·provenance·hash만
+  검사하며 embedding 또는 residual을 재계산하지 않는다.
+
+**감사 결과**
+
+- PRECISE FM2--FM5, TCGA internal/site-heldout, LEOPARD와 CHIMERA를 조사했다. Paired
+  physical-FOV membership과 frozen embedding/model hash는 두 encoder 비교에 사용할 수
+  있고, TCGA source-fold를 사용한 별도 `Rscore`/`Rrepr` leakage-control specification과
+  outcome-blind source threshold·sampling rule도 고정할 수 있다.
+- TCGA는 392명/80 events와 27,968 paired tiles, LEOPARD는 508명/87 events와 32,512
+  paired tiles, CHIMERA는 95명/27 events와 12,160 paired tiles다. CHIMERA의 earlier-therapy
+  정보는 93/95가 비어 있고 site/stain/scanner/color 및 blur/fold/compression metadata가
+  없으며, TCGA에도 stain/color, blur/fold QC와 tumor purity가 없다.
+- 따라서 필수 G4 shortcut-metadata gate는 **FAIL**이다. G6 blinded-review legality와
+  reproducibility는 pathologist 승인·표본 부담·reviewer access·CHIMERA patient-level image
+  review clearance가 없어 **NOT-EVALUABLE**이다. Residual manifest와 fold/seed/rank stability
+  결과도 없어 readiness는 NOT-EVALUABLE이다.
+- TCGA age/path-T 입력이 PBV generated model workspace를 가리켜 cross-project source
+  provenance readiness도 **FAIL**이다. 다른 프로젝트 generated output을 FM8의 암묵적
+  입력으로 사용하지 않는다.
+- G1 leakage-free estimand 분리, G2 source lock, G3 paired encoder comparison, G5 CHIMERA에
+  대한 numeric source-locked recurrence 적용 가능성, G7 제한적 metric-panel 해석은
+  **PASS**다. G5는 Virchow-only CHIMERA evidence를 common residual 또는 encoder 우월성으로
+  확대하지 않으며, morphology recurrence와 review 승격은 G4/G6 해소 전 금지한다.
+
+**판정과 다음 gate**
+
+- 필수 gate 하나의 실패만으로도 중단한다는 규칙에 따라 전체 판정은 **NO-GO**다.
+- 다음 entry audit 전에 (1) source·external shortcut metadata와 QC/color statistics,
+  (2) QFM-owned 또는 hash-locked shared age/path-T source, (3) source-fold residual stability
+  artifact, (4) pathologist 승인·burden·repeat/adjudication 계획과 cohort별 image-review
+  clearance를 확보한다.
+- 같은 protocol과 decision matrix로 모든 필수 gate를 다시 평가해 전부 PASS가 된 뒤에만
+  FM8 본 연구를 별도 두 번째 논문 workstream으로 열 수 있다. NOT-EVALUABLE은 GO로
+  대체하지 않는다.
+- 근거 연결 최종 보고서는
+  `projects/quantitative_foundation_model_validation/milestones/fm8_residual_discovery_entry_audit/outputs/fm8-residual-discovery-entry-audit-report.md`이며,
+  독립 clean rerun에서 protocol-defined nonvolatile output hash가 정확히 일치했다.

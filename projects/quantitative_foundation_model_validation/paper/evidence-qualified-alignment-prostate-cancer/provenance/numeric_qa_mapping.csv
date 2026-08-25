@@ -40,3 +40,13 @@ N038,A11,QFM-FM6-LEOPARD-EXTERNAL,conch,full_c_index,.3f,0.517,results_functiona
 N039,A11,QFM-FM6-LEOPARD-EXTERNAL,conch,target_delta_use,+.3f,+0.038,results_functional_sensitivity
 N040,A11,QFM-FM6-LEOPARD-EXTERNAL,virchow,full_c_index,.3f,0.457,results_functional_sensitivity
 N041,A11,QFM-FM6-LEOPARD-EXTERNAL,virchow,target_delta_use,+.3f,+0.002,results_functional_sensitivity
+N042,A11,QFM-FM6-CHIMERA-EXTERNAL,conch,isup_spearman_all95,.3f,0.272,results_functional_sensitivity
+N043,A11,QFM-FM6-CHIMERA-EXTERNAL,virchow,isup_spearman_all95,.3f,0.392,results_functional_sensitivity
+N044,A11,QFM-FM6-CHIMERA-EXTERNAL,conch,full_c_index,.3f,0.630,results_functional_sensitivity
+N045,A11,QFM-FM6-CHIMERA-EXTERNAL,virchow,full_c_index,.3f,0.630,results_functional_sensitivity
+N046,A11,QFM-FM6-CHIMERA-EXTERNAL,conch,target_delta_use,+.3f,+0.055,results_functional_sensitivity
+N047,A11,QFM-FM6-CHIMERA-EXTERNAL,virchow,target_delta_use,+.3f,+0.025,results_functional_sensitivity
+N048,A11,QFM-FM6-CHIMERA-EXTERNAL,conch,random_delta_p95,.3f,0.045,results_functional_sensitivity
+N049,A11,QFM-FM6-CHIMERA-EXTERNAL,virchow,random_delta_p95,.3f,0.009,results_functional_sensitivity
+N050,A11,QFM-FM6-CHIMERA-EXTERNAL,conch,target_vs_random_p_holm,.4f,0.0198,results_functional_sensitivity
+N051,A11,QFM-FM6-CHIMERA-EXTERNAL,virchow,target_vs_random_p_holm,.4f,0.0198,results_functional_sensitivity

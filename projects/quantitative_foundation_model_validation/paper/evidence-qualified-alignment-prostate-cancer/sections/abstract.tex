@@ -1,19 +1,20 @@
 \begin{abstract}
-Prostate-cancer AI can distinguish states, but clinicians need to know which human-interpretable
+Clinicians need to know which human-interpretable
 quantitative axes its representations encode, whether those axes survive cohort and technical
 variation, and whether downstream decisions use them. We audited six non-interchangeable axes
-in frozen CONCH and Virchow representations: Grade/ISUP, tumor phenotype/content, PTEN loss, AR
-activity, SPOP mutation, and recurrence. Among the six axes, ISUP alone underwent locked-head
-functional tests. Grade and phenotype showed the strongest representation evidence and
-transport; PTEN and AR were conditional, SPOP was unsupported, and recurrence changed with
-endpoint and reference. Internal targeted
-erasure reduced two biochemical-recurrence heads' concordance beyond matched-random controls.
-In seven-site-held-out TCGA, only Virchow met the prespecified functional gate. In independent-
-patient LEOPARD (508 patients; 87 events), neither TCGA-trained head showed discrimination with
-a confidence interval excluding chance, so external functional transport was not qualified.
-This comparative map provides an actionable audit vocabulary: transported coordinates can
-anchor clinician review of agreement and disagreement, conditional or unsupported axes indicate
-where explanations should be withheld, and gaps prioritize external or functional validation.
-It enables clinician-understandable reliability audits and bounds future residual-signal
-discovery; it does not establish clinical benefit, strong functional use, or new biomarkers.
+in frozen CONCH and Virchow: Grade/ISUP, tumor phenotype/content, PTEN loss, AR
+activity, SPOP mutation, and recurrence. Among the six axes, grade and phenotype showed the strongest transport;
+PTEN and AR were conditional, SPOP was unsupported, and recurrence changed
+with endpoint and reference. ISUP alone underwent locked-head functional tests. Internal targeted
+erasure reduced two biochemical-recurrence heads' concordance beyond matched-random controls. In
+site-heldout TCGA, only Virchow passed. In independent-patient LEOPARD, neither encoder qualified.
+In CHIMERA (95 patients; 27 events), ISUP was recoverable in both encoders,
+but only Virchow met the prespecified external whole-tissue functional-transport gate; CONCH
+erasure was positive while its full-head interval reached chance. Functional transport was
+therefore model-specific. The comparative map provides an actionable
+audit vocabulary: transported coordinates can anchor clinician review of agreement and
+disagreement, conditional or unsupported axes indicate where explanations should be withheld,
+and gaps prioritize external or functional validation. It enables
+clinician-understandable reliability audits and bounds future residual-signal discovery; it does not
+establish clinical benefit, tumor-specific mechanisms, encoder superiority, or new biomarkers.
 \end{abstract}

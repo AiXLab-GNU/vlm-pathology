@@ -1,0 +1,16 @@
+shortcut_variable,source_TCGA,external,cross_cohort_audit_status,candidate_promotion
+site/acquisition domain,PASS TSS-derived for TCGA,FAIL CHIMERA/LEOPARD site absent,FAIL,prohibited unless PASS
+stain/color statistics,FAIL absent,FAIL absent,FAIL,prohibited unless PASS
+scanner,PARTIAL 23/437 missing,FAIL absent,FAIL,prohibited unless PASS
+MPP/physical FOV,PASS 12 MPP values and 394.24um FOV,PASS LEOPARD/CHIMERA,PASS,prohibited unless PASS
+tissue fraction/area,PASS thumbnail tissue fraction,PASS mask tissue fraction,PASS,prohibited unless PASS
+tumor purity/amount,FAIL no independent tumor truth; detector gate failed,FAIL tissue masks are not tumor masks,FAIL,prohibited unless PASS
+grade/ISUP,PASS ISUP,PARTIAL CHIMERA yes; LEOPARD no,FAIL,prohibited unless PASS
+specimen type,FAIL not encoded per analysis row,PARTIAL CHIMERA prostatectomy; LEOPARD absent,FAIL,prohibited unless PASS
+blur,FAIL absent,FAIL absent,FAIL,prohibited unless PASS
+fold artifact,FAIL absent,FAIL absent,FAIL,prohibited unless PASS
+compression,PASS TCGA slide summary,FAIL absent,FAIL,prohibited unless PASS
+QC failure,PARTIAL header/thumbnail only,PARTIAL sampling integrity only,FAIL,prohibited unless PASS
+age,PARTIAL 4/392 missing values across encoder rows; cross-project source provenance,PASS CHIMERA; LEOPARD absent,FAIL,prohibited unless PASS
+treatment,PARTIAL documentation flags only,FAIL CHIMERA 93/95 blank; LEOPARD absent,FAIL,prohibited unless PASS
+stage/molecular,PARTIAL path-T; molecular not in residual panel,PARTIAL CHIMERA pT; molecular absent,FAIL,prohibited unless PASS

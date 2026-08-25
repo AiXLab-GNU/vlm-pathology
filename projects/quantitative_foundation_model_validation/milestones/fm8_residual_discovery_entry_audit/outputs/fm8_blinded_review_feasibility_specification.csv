@@ -1,0 +1,11 @@
+review_requirement,evidence_or_design,status,package_execution
+hide encoder/residual/outcome/site,specifiable,PASS,prohibited until all PASS
+random candidate/control order,seed 260825 deterministic permutation,PASS,prohibited until all PASS
+morphology/artifact/adequacy/known concept/uncertainty fields,schema can preserve all,PASS,prohibited until all PASS
+not-evaluable preservation,separate value; never negative/normal,PASS,prohibited until all PASS
+patient/slide leakage prevention,cluster items and reviewer split by patient,PASS,prohibited until all PASS
+internal WSI provenance,coordinate/crop hash key hidden from reviewer,PASS,prohibited until all PASS
+inter/intraobserver and adjudication,design possible; reviewer count/repeat fraction/adjudicator not approved,NOT-EVALUABLE,prohibited until all PASS
+pathologist approval and burden,"no approval, item count, minutes/item, or burden record",NOT-EVALUABLE,prohibited until all PASS
+patient-level data use,TCGA terms not assembled in review record; CHIMERA written organizer clearance absent,NOT-EVALUABLE,prohibited until all PASS
+PHI/access control,local-only rule exists; reviewer role/access log not registered,NOT-EVALUABLE,prohibited until all PASS

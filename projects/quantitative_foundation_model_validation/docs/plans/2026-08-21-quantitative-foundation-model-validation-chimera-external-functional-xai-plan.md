@@ -56,3 +56,20 @@ publication state remains `EMBARGO_ACTIVE_NO_WRITTEN_CLEARANCE`.
   duplicating rows.
 - Do not change a locked setting after reading CHIMERA model results.
 - Do not modify the manuscript, submission package, public tag, release, or remote.
+
+## 2026-08-24 completion and aggregate-release amendment
+
+- [x] All 95 subjects, 27 events, 190 WSI, and 12,160 shared whole-tissue crops passed integrity
+  checks.
+- [x] Both encoders passed external ISUP recoverability.
+- [x] CONCH had positive targeted erasure but failed the strict full-head lower-CI gate and closed
+  as `FAIL_OR_INCONCLUSIVE_LOW_EVENT_PRECISION`.
+- [x] Virchow passed full-head validity, positive targeted erasure, matched-random, and Holm gates
+  and closed as `QUALIFIED_EXTERNAL_WHOLE_TISSUE_FUNCTIONAL_TRANSPORT`.
+- [x] A clean analysis rerun reproduced all six nonvolatile output hashes exactly.
+- [x] The accountable author determined that the embargo had ended and authorized promotion of
+  aggregate results only. Patient-level and representation artifacts remain local-only.
+
+The release amendment supersedes the manuscript/output prohibition above but not the locked
+analysis or claim boundary. The next action is controlled manuscript integration with both
+encoders reported together and no encoder-superiority claim.

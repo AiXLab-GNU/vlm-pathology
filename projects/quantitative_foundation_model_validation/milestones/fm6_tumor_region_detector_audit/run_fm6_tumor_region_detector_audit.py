@@ -41,7 +41,11 @@ PANDA_IMAGES = PANDA_ROOT / "PANDA_extracted/train_images"
 PANDA_ZIP = PANDA_ROOT / "PANDA/prostate-cancer-grade-assessment.zip"
 TCGA_OUTPUTS = ROOT / "projects/quantitative_foundation_model_validation/milestones/fm6_internal_development_pilot/outputs"
 TCGA_CROPS = ROOT / "resources/artifacts/quantitative_foundation_model_validation/fm6_internal_development_pilot/shared_canonical_crops"
-WEIGHTS = Path("/home/jinhyun/.cache/torch/hub/checkpoints/resnet18-f37072fd.pth")
+WEIGHTS = (
+    ROOT
+    / "resources/projects/quantitative_foundation_model_validation/model_cache/torch"
+    / "resnet18-f37072fd.pth"
+)
 
 SEED = 20260816
 BOUNDARY_UM = 394.24

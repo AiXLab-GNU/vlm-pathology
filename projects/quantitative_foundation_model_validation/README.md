@@ -26,9 +26,11 @@ CONCH와 Virchow는 우열을 가리기 위한 대상이 아니라, 사전학습
 P0와 FM1–FM5는 완료되었다. FM6에서는 TCGA 392명/80 events의 whole-tissue 내부
 ISUP 기능 민감도가 두 encoder에서 관찰됐고, 7-site holdout은 Virchow만 통과했다.
 508명/87 events LEOPARD locked reanalysis에서는 두 encoder 모두 external transport
-gate를 통과하지 못했다. 따라서 허용 결론은 내부 exploratory sensitivity와
-encoder-specific site evidence까지이며, qualified external T·strong H2·tumor-specific
-mechanism·임상 증분·신규 biomarker는 계속 금지한다.
+gate를 통과하지 못했다. CHIMERA 95명/27 events의 사전등록 whole-tissue 분석에서는
+두 encoder 모두 ISUP 방향과 양의 targeted-erasure 효과를 보였으나, 유효한 BCR head와
+matched-control gate까지 모두 통과한 것은 Virchow뿐이었다. 따라서 external T는
+Virchow--CHIMERA에 한정한 encoder-specific evidence로 허용한다. Strong H2, encoder 우월성,
+tumor-specific mechanism, 임상 증분과 신규 biomarker 주장은 계속 금지한다.
 
 P0부터 FM/H2까지의 진행 순서는 [`00-project-sequence/`](00-project-sequence/)에서
 번호순으로 확인한다.

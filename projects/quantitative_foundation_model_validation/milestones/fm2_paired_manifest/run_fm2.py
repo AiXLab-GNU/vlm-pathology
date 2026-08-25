@@ -37,6 +37,10 @@ def main() -> None:
     if g9["status"] != "pass_clean_rerun_handoff":
         raise RuntimeError("P0-G9 pass handoff required")
     source = Path(g9["attempt_dir"])
+    if not source.exists():
+        source = RECORDS / "clean_rerun" / source.name
+    if not source.is_dir():
+        raise RuntimeError(f"G9 source attempt is unavailable: {source}")
     tiles = read_csv(source / "paired_tile_manifest.csv")
     targets = {row["tile_id"]: row for row in read_csv(source / "quantitative_targets.csv")}
     embeddings = {row["tile_id"]: row for row in read_csv(source / "paired_embedding_manifest.csv")}

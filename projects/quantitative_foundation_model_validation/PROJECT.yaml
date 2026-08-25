@@ -3,8 +3,11 @@ scientific_question: >-
   how completely multiple independent clinical and pathology quantitative metrics explain
   CONCH and Virchow representations and locked disease decisions, and whether reproducible
   residual morphology can be converted into externally validated quantitative marker candidates
-current_milestone: alignment_manuscript_author_controlled_metadata_handoff
-current_claim_ceiling: internal_whole_tissue_exploratory_R_A_U
+current_milestone: fm8_residual_discovery_entry_audit_no_go_paper1_closed
+fm8_entry_status: no_go_main_study_not_started
+fm8_entry_protocol: docs/protocols/fm8-residual-discovery-entry-audit-protocol-ko.md
+fm8_entry_report: milestones/fm8_residual_discovery_entry_audit/outputs/fm8-residual-discovery-entry-audit-report.md
+current_claim_ceiling: encoder_specific_external_whole_tissue_T_virchow_chimera
 allowed_target: tumor_fraction
 allowed_models: [CONCH, Virchow]
 allowed_fov_um: 394.24
@@ -16,6 +19,6 @@ survey_index: docs/surveys/README.md
 results_index: reports/README.md
 paper_entrypoint: paper/README.md
 alignment_manuscript_owner: quantitative_foundation_model_validation
-alignment_manuscript_scope: known_target_alignment_plus_internal_ISUP_functional_sensitivity
-alignment_manuscript_claim_ceiling: internal_exploratory_not_indispensable_external_or_clinically_incremental
+alignment_manuscript_scope: known_target_alignment_plus_locked_internal_siteheldout_leopard_chimera_ISUP_functional_sensitivity
+alignment_manuscript_claim_ceiling: virchow_chimera_encoder_specific_external_whole_tissue_not_universal_indispensable_tumor_specific_or_clinically_incremental
 alignment_evidence_source_owner: prostate_biomarker_validation

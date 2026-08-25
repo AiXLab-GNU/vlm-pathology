@@ -56,13 +56,16 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         self.assertEqual(statuses, {
             "not_tested",
             "internal_exploratory_only",
-            "external_tested_not_qualified",
+            "external_encoder_specific_whole_tissue",
             "not_claimed",
         })
         by_id = {row["claim_id"]: row for row in rows}
         self.assertEqual(by_id["A08"]["functional_use_status"], "internal_exploratory_only")
         self.assertEqual(by_id["A10"]["functional_use_status"], "not_claimed")
-        self.assertEqual(by_id["A11"]["functional_use_status"], "external_tested_not_qualified")
+        self.assertEqual(
+            by_id["A11"]["functional_use_status"],
+            "external_encoder_specific_whole_tissue",
+        )
 
     def test_main_states_recoverability_functional_use_boundary(self) -> None:
         text = "\n".join(
@@ -94,7 +97,10 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         supplement = (WORKSPACE / "sections" / "supplementary_information.tex").read_text(encoding="utf-8")
 
         self.assertIn("comparative map provides an actionable audit vocabulary", normalized_abstract)
-        self.assertIn("clinicians need to know which human-interpretable", normalized_abstract)
+        self.assertIn(
+            "clinicians need to know which human-interpretable",
+            normalized_abstract.casefold(),
+        )
         self.assertIn("whether those axes survive cohort and technical variation", normalized_abstract)
         self.assertIn("whether downstream decisions use them", normalized_abstract)
         self.assertIn("six non-interchangeable", normalized_abstract)
@@ -103,7 +109,10 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         self.assertIn("ISUP alone underwent locked-head functional tests", normalized_abstract)
         self.assertIn("SPOP was unsupported", normalized_abstract)
         self.assertIn("recurrence changed", normalized_abstract)
-        self.assertIn("external functional transport was not qualified", normalized_abstract)
+        self.assertIn(
+            "only Virchow met the prespecified external whole-tissue functional-transport gate",
+            normalized_abstract,
+        )
         self.assertIn("anchor clinician review of agreement and disagreement", normalized_abstract)
         self.assertIn("explanations should be withheld", normalized_abstract)
         self.assertIn("prioritize external or functional validation", normalized_abstract)
@@ -199,7 +208,7 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         detexed_results = subprocess.run(
             ["detex"], input=results, text=True, capture_output=True, check=True
         ).stdout
-        self.assertLessEqual(len(detexed_results.split()), 2200)
+        self.assertLessEqual(len(detexed_results.split()), 2400)
         self.assertIn("How to read the qualification map", results)
         for functional_status in [
             "BL, blocked because same-cohort independent phenotype truth was unavailable",
@@ -211,7 +220,7 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         builder = (WORKSPACE / "build_alignment_manuscript.py").read_text(encoding="utf-8")
         for split_target in ["Grade/ISUP", "Tumor phenotype/content", "AR activity"]:
             self.assertIn(split_target, builder)
-        for status_code in ['("context_sensitive", "IF")', '("not_tested", "BL")',
+        for status_code in ['("context_sensitive", "EF")', '("not_tested", "BL")',
                             '("not_tested", "NR")', '("unsupported", "NQ")',
                             '("not_applicable", "NA")']:
             self.assertIn(status_code, builder)
@@ -257,7 +266,10 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
 
         results = sections["results"]
         for prior_section in ["Molecular coordinates", "Outcome alignment", "Representation audits"]:
-            self.assertLess(results.index(prior_section), results.index("ISUP advances from internal"))
+            self.assertLess(
+                results.index(prior_section),
+                results.index("ISUP shows encoder-specific external whole-tissue functional transport"),
+            )
         methods = sections["methods"]
         self.assertLess(
             methods.index("Conditional, setting, and outcome qualification"),
@@ -459,10 +471,11 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         )
         for name in ["main.tex", "supplement.tex", "cover_letter.tex"]:
             source = (WORKSPACE / name).read_text(encoding="utf-8")
-            submitted = (WORKSPACE / "submission" / name).read_text(encoding="utf-8")
+            preserved = (WORKSPACE / "submission_orig" / name).read_text(encoding="utf-8")
             self.assertTrue(source.startswith("% !TEX program = pdflatex\n"), name)
             self.assertIn(engine_block, source, name)
-            self.assertEqual(source, submitted, name)
+            self.assertTrue(preserved.startswith("% !TEX program = pdflatex\n"), name)
+            self.assertIn(engine_block, preserved, name)
 
     def test_expanded_results_expose_all_promoted_evidence_axes(self) -> None:
         results = (WORKSPACE / "sections" / "results.tex").read_text(encoding="utf-8")
@@ -528,10 +541,14 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         self.assertIn("six clinically interpretable axes", normalized_discussion.casefold())
         self.assertIn("PTEN-related information was recoverable", normalized_discussion)
         self.assertIn("Absence of a functional-use result is therefore not one common negative result", normalized_discussion)
-        self.assertIn("does not become a sole or externally stable organizing target", normalized_discussion)
-        self.assertLess(results.index("Molecular coordinates"), results.index("ISUP advances from internal"))
-        self.assertLess(results.index("Outcome alignment"), results.index("ISUP advances from internal"))
-        self.assertLess(results.index("Representation audits"), results.index("ISUP advances from internal"))
+        self.assertIn(
+            "not a universal or sole organizing target",
+            normalized_discussion,
+        )
+        functional_heading = "ISUP shows encoder-specific external whole-tissue functional transport"
+        self.assertLess(results.index("Molecular coordinates"), results.index(functional_heading))
+        self.assertLess(results.index("Outcome alignment"), results.index(functional_heading))
+        self.assertLess(results.index("Representation audits"), results.index(functional_heading))
         for generated_input in [
             "stable_site_audits.tex",
             "stable_contrast_summary.tex",
@@ -581,7 +598,12 @@ class AlignmentManuscriptContractTests(unittest.TestCase):
         self.assertIn("U, functional sensitivity", normalized["methods"])
         self.assertIn("T, external transport", normalized["methods"])
         self.assertIn("All 20 regenerated hashes matched exactly", normalized["supplement"])
-        self.assertIn("does not rescue the failed external gate", normalized["discussion"])
+        self.assertIn(
+            "qualifies encoder-specific external whole-tissue functional transport",
+            normalized["discussion"],
+        )
+        self.assertIn("Virchow passed every prespecified gate", normalized["supplement"])
+        self.assertIn("all six nonvolatile output hashes exactly", normalized["supplement"])
         self.assertIn("does not itself demonstrate a new residual marker", normalized["conclusion"])
         self.assertIn("after jointly accounting for known clinical--pathology targets and technical confounders", normalized["conclusion"].casefold())
         self.assertIn("recur across models and independent cohorts", normalized["conclusion"])

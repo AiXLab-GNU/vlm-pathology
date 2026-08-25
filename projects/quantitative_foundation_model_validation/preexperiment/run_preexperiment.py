@@ -19,6 +19,7 @@ import subprocess
 import sys
 import warnings
 from datetime import datetime, timezone
+from importlib.util import find_spec
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
@@ -392,15 +393,46 @@ def git_context() -> dict[str, object]:
     }
 
 
-def source_specs() -> list[dict[str, object]]:
-    hf_root = Path.home() / ".cache/huggingface-jhkim/hub"
-    conch_snapshot = hf_root / (
-        "models--MahmoodLab--conch/snapshots/"
-        "f9ca9f877171a28ade80228fb195ac5d79003357"
+def model_snapshot_root(encoder: str) -> Path:
+    """Resolve the repository-local reconstruction cache before the historical cache."""
+    repository_cache = (
+        ROOT
+        / "resources/projects/quantitative_foundation_model_validation/model_cache"
+        / encoder
     )
-    virchow_snapshot = hf_root / (
-        "models--paige-ai--Virchow/snapshots/"
-        "19eebc84ae33e79f1b2d866e6ff90ae50e522f9a"
+    if repository_cache.is_dir():
+        return repository_cache
+    hf_root = Path.home() / ".cache/huggingface-jhkim/hub"
+    if encoder == "conch":
+        return hf_root / (
+            "models--MahmoodLab--conch/snapshots/"
+            "f9ca9f877171a28ade80228fb195ac5d79003357"
+        )
+    if encoder == "virchow":
+        return hf_root / (
+            "models--paige-ai--Virchow/snapshots/"
+            "19eebc84ae33e79f1b2d866e6ff90ae50e522f9a"
+        )
+    raise ValueError(f"unknown encoder: {encoder}")
+
+
+def source_specs() -> list[dict[str, object]]:
+    conch_snapshot = model_snapshot_root("conch")
+    virchow_snapshot = model_snapshot_root("virchow")
+    legacy_conch_code = (
+        ROOT
+        / "resources/projects/prostate_biomarker_validation/model_workspace/CONCH"
+        / "conch/open_clip_custom/model_configs/conch_ViT-B-16.json"
+    )
+    conch_package = find_spec("conch")
+    installed_conch_code = (
+        Path(conch_package.origin).parent
+        / "open_clip_custom/model_configs/conch_ViT-B-16.json"
+        if conch_package and conch_package.origin
+        else Path("__conch_package_not_installed__")
+    )
+    conch_model_config = (
+        installed_conch_code if installed_conch_code.is_file() else legacy_conch_code
     )
     specs: list[dict[str, object]] = [
         {"source_id": "nadt_truth", "cohort": "NADT-Prostate", "category": "truth",
@@ -483,7 +515,7 @@ def source_specs() -> list[dict[str, object]]:
         {"source_id": "conch_metadata", "cohort": "model", "category": "model_metadata",
          "path": conch_snapshot / "meta.yaml", "immutable": True, "role": "CONCH snapshot metadata"},
         {"source_id": "conch_model_config", "cohort": "model", "category": "model_config",
-         "path": ROOT / "resources/projects/prostate_biomarker_validation/model_workspace/CONCH/conch/open_clip_custom/model_configs/conch_ViT-B-16.json",
+         "path": conch_model_config,
          "immutable": True, "role": "CONCH architecture/input config"},
         {"source_id": "virchow_weights", "cohort": "model", "category": "model_weight",
          "path": virchow_snapshot / "model.safetensors", "immutable": True, "role": "frozen Virchow weights"},
@@ -1802,17 +1834,16 @@ def he_qc_metrics(rgb: np.ndarray) -> dict[str, object]:
 
 
 def m5_model_spec(encoder: str) -> dict[str, object]:
-    hf_root = Path.home() / ".cache/huggingface-jhkim/hub"
     if encoder == "conch":
         return {
             "model_id": "conch_ViT-B-16 / MahmoodLab/conch",
             "revision": "f9ca9f877171a28ade80228fb195ac5d79003357",
-            "weights": hf_root / "models--MahmoodLab--conch/snapshots/f9ca9f877171a28ade80228fb195ac5d79003357/pytorch_model.bin",
+            "weights": model_snapshot_root("conch") / "pytorch_model.bin",
             "input_px": 448,
             "dimension": M5_DIMENSION[encoder],
         }
     if encoder == "virchow":
-        snapshot = hf_root / "models--paige-ai--Virchow/snapshots/19eebc84ae33e79f1b2d866e6ff90ae50e522f9a"
+        snapshot = model_snapshot_root("virchow")
         return {
             "model_id": "paige-ai/Virchow",
             "revision": "19eebc84ae33e79f1b2d866e6ff90ae50e522f9a",

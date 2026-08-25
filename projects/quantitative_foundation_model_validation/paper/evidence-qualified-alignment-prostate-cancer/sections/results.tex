@@ -28,7 +28,8 @@ internal analysis used locked BCR heads, target-specific erasure, and matched co
 functional sensitivity. Phenotype functional testing was blocked by unavailable same-cohort
 independent truth; PTEN- and AR-directed functional-erasure experiments were feasible but not
 run; SPOP lacked a qualified direction; and recurrence was the predicted outcome rather than an
-input target for erasure. External functional replication was not achieved.
+input target for erasure. External functional transport was encoder-specific rather than
+universal: Virchow passed CHIMERA, whereas CONCH did not, and neither encoder passed LEOPARD.
 
 \begin{figure}[H]
 \centering
@@ -36,11 +37,11 @@ input target for erasure. External functional replication was not achieved.
 \caption{\textbf{Evidence-qualified map of candidate shared interpretive coordinates.}
 Rows are targets and columns are distinct evidence axes. Cell codes are S, supported; C,
 context-sensitive; U, unresolved; NE, not evaluated; NA, not applicable; and X, unsupported
-in the frozen design. In the functional-use column, IF denotes internal exploratory sensitivity
-with external transport tested but not qualified for grade; BL, blocked because same-cohort independent phenotype truth was unavailable; NR,
+in the frozen design. In the functional-use column, EF denotes internal sensitivity with
+encoder-specific external whole-tissue transport for grade; BL, blocked because same-cohort independent phenotype truth was unavailable; NR,
 feasible but not run for PTEN and AR; NQ, not qualified because SPOP recoverability was
-unsupported; and NA, not applicable because recurrence is the predicted outcome. IF does not
-mean indispensable, externally reproduced, or clinically incremental use.}
+unsupported; and NA, not applicable because recurrence is the predicted outcome. EF does not
+mean indispensable, tumor-specific, universally reproduced, or clinically incremental use.}
 \label{fig:alignment-map}
 \end{figure}
 
@@ -183,7 +184,7 @@ correlated internal sensitivity settings rather than independent validation.}
 \label{fig:stability}
 \end{figure}
 
-\subsection{ISUP advances from internal functional sensitivity to a failed-or-inconclusive external transport test}
+\subsection{ISUP shows encoder-specific external whole-tissue functional transport}
 \label{sec:results-functional-sensitivity}
 
 Grade/ISUP was the only axis for which the current data and protocol supported a locked-head
@@ -224,17 +225,37 @@ full-head C-index of 0.457 (0.386--0.528) and $\Delta_{use}=+0.002$
 transport with a valid LEOPARD BCR head.
 Supplementary Section S5B reports the complete gate and matched-control results.
 
-Grade therefore retains \emph{internal exploratory functional sensitivity}, with external
-transport tested but not qualified. It is not indispensable, mechanistic, or clinically
-incremental use. No unknown direction was evaluated as a new marker.
+The preregistered CHIMERA analysis then evaluated all 95 CHIMERA patients (27 BCR events;
+190 slides) without target-cohort fitting. The TCGA-locked ISUP direction was recoverable for
+both encoders: Spearman $\rho=0.272$ (0.091--0.441) for CONCH and $0.392$
+(0.189--0.555) for Virchow. Both full heads had point C-index 0.630. For CONCH, the interval
+was 0.500--0.758 and therefore did not satisfy the strict lower-bound-above-chance gate.
+Targeted erasure nevertheless reduced C-index by $+0.055$ (0.009--0.111), exceeding the
+matched-random p95 of 0.045 (Holm $p=0.0198$). CONCH therefore remained fail or inconclusive
+because a positive erasure effect could not rescue an unqualified full head.
+
+Virchow's full-head C-index was 0.630 (0.512--0.753), and targeted erasure reduced C-index by
+$+0.025$ (0.005--0.047), exceeding the matched-random p95 of 0.009
+(Holm $p=0.0198$). Virchow passed every prespecified gate and qualified as external
+whole-tissue functional transport. A clean analysis rerun reproduced all six nonvolatile
+output hashes exactly. Because CHIMERA contained only 27 events, used tissue rather than tumor
+masks, and did not establish endpoint equivalence, this result is model-specific external
+sensitivity rather than a tumor mechanism, clinical validation, or a formal CONCH--Virchow
+superiority comparison.
+
+Grade therefore has internal functional sensitivity and encoder-specific external
+whole-tissue transport, not universal transport across models or cohorts. It is not
+indispensable, mechanistic, tumor-specific, or clinically incremental use. No unknown direction
+was evaluated as a new marker.
 
 \subsection{The final map distinguishes supported, conditional, and unsuitable coordinates}
 
 The combined hierarchy retains unlike metrics and missing evidence rather than averaging them.
 Grade and phenotype are the best-qualified representation coordinates; PTEN and AR are
 conditional; SPOP is unsuitable in the frozen design; and recurrence is endpoint-sensitive.
-Grade alone additionally has internal exploratory functional-sensitivity evidence and a
-failed-or-inconclusive locked external transport test
+Grade alone additionally has internal functional-sensitivity evidence and encoder-specific
+external whole-tissue transport: Virchow passed CHIMERA, CONCH remained inconclusive, and
+neither passed LEOPARD
 (Figure~\ref{fig:human-ai-linkage}).
 
 \begin{figure}[H]
@@ -245,7 +266,8 @@ The middle column identifies the operational probe direction or score, not a loc
 cell, or latent unit with independently established biological meaning. Solid arrows denote an
 evaluated link; dashed links end at representation evidence with the row-specific reason shown.
 Only ISUP has locked-BCR-head erasure evidence; its internal result repeated across encoders,
-whereas external functional transport did not qualify. The
+whereas external functional transport qualified only for Virchow in CHIMERA and not for either
+encoder in LEOPARD. The
 displayed coordinates do not completely explain an AI decision.}
 \label{fig:human-ai-linkage}
 \end{figure}

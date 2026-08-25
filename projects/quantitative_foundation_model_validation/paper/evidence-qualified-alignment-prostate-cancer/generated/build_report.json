@@ -1,11 +1,11 @@
 {
   "status": "PASS",
-  "source_count": 21,
-  "numeric_qa_count": 41,
-  "semantic_qa_count": 61,
+  "source_count": 24,
+  "numeric_qa_count": 51,
+  "semantic_qa_count": 77,
   "messages": [
-    "verified_sources=21",
-    "numeric_rows=41",
-    "semantic_contracts=61"
+    "verified_sources=24",
+    "numeric_rows=51",
+    "semantic_contracts=77"
   ]
 }

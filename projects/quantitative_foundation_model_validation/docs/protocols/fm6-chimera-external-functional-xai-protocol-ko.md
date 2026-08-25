@@ -9,6 +9,15 @@ canonical_path: projects/quantitative_foundation_model_validation/docs/protocols
 
 # FM6 CHIMERA 외부 기능적 XAI 실패 원인 분해 프로토콜
 
+## 2026-08-24 출판 상태 변경
+
+책임저자는 공개된 CHIMERA-data 연구가 존재한다는 근거를 검토하고 CHIMERA embargo가
+종료된 것으로 최종 판단했다. 이에 따라 집계 결과의 milestone 승격과 controlled revision
+manuscript 편입을 허용한다. 이 결정은 주최 측의 개별 서면 허가를 받았다는 기록이 아니며,
+사전등록 당시 적용한 분석·gate·중단 규칙을 변경하지 않는다. 환자별 예측, embedding,
+crop과 WSI는 계속 local-only로 유지한다. 아래 출판 정책 gate는 분석 실행 당시의 역사적
+잠금 조건으로 보존한다.
+
 ## 출판 정책 gate
 
 2026-08-21 공식 CHIMERA data page와 challenge rules를 확인했다.

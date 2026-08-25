@@ -1,0 +1,10 @@
+gate_id,required,gate,status,evidence,resolution_needed
+G1,yes,separate leakage-free Rrepr/Rscore computability,PASS,"TCGA 392 patients, 27968 paired tiles, five folds, OOF scores; protocol sections 3.1-3.2",none for computability; stability still separate
+G2,yes,source threshold and sampling lock,PASS,"protocol section 4 q10/q90, percentile-gap, caps, quotas, seed",review N burden approval before activation
+G3,yes,paired encoder comparison,PASS,FM2 1218 and FM6 TCGA/LEOPARD/CHIMERA paired row/crop audits all PASS,no component-index comparison
+G4,yes,shortcut metadata sufficiency,FAIL,"stain/color, blur/fold, tumor purity, specimen and external scanner/site gaps; shortcut matrix",hash-locked source+external metadata/measurements
+G5,yes,independent source-locked recurrence feasibility,PASS,CHIMERA paired embeddings+ISUP/age/pT/tissue/MPP for 95 patients; numeric recurrence only,shortcut metadata before morphology promotion; LEOPARD remains not evaluable
+G6,yes,lawful reproducible blinded package,NOT-EVALUABLE,"interface contract possible; no pathologist burden/approval, access role, or CHIMERA written review clearance","approvals, DUA/IRB/access record, burden/adjudication plan"
+G7,yes,scope-correct limited interpretation,PASS,protocol restricts to residual after available prespecified metric panel and whole tissue,"do not use all-known-pathology, tumor-specific, or biomarker language"
+R1,readiness,residual fold/seed/rank stability,NOT-EVALUABLE,no Rrepr/Rscore manifest or stability artifact exists,pre-review source-only stability audit after metadata repair
+R2,readiness,cross-project covariate provenance,FAIL,FM6 age/path-T source points to PBV model_workspace generated state,QFM-owned source or shared immutable hash-locked manifest

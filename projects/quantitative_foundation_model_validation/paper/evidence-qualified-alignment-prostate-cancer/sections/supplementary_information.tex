@@ -4,9 +4,10 @@ This Supplementary Information preserves the complete evidence needed to reprodu
 challenge the main manuscript's target-specific alignment states. It does not enlarge the
 claim ceiling. In particular, recoverability means that a target can be predicted from a
 frozen representation by a patient-disjoint or locked external probe; it does not mean that
-a disease-prediction head functionally uses the target. Grade alone has a separate internal
-exploratory locked-head erasure analysis; it is not an external, indispensable, mechanistic,
-or clinical-increment result. No clinician trust, reliance, diagnostic-performance, or
+a disease-prediction head functionally uses the target. Grade alone has separate internal and
+external locked-head erasure analyses. Virchow passed one independent-cohort CHIMERA
+whole-tissue gate, but this is not an indispensable, tumor-specific, universally transported,
+mechanistic, or clinical-increment result. No clinician trust, reliance, diagnostic-performance, or
 clinical-utility outcome was evaluated.
 
 \noindent\textbf{Abbreviations.} AR, androgen receptor; AUROC, area under the receiver
@@ -20,12 +21,13 @@ TCGA-PRAD, The Cancer Genome Atlas prostate adenocarcinoma cohort.
 
 \section*{S1. Cohort membership, target definition, and analysis unit}
 
-The main study combined five resources for complementary purposes rather than pooling them
+The main study combined six resources for complementary purposes rather than pooling them
 into one cohort. NADT-Prostate supplied source grade and phenotype probes. PANDA supplied
 Karolinska and Radboud case images for locked transfer. PRECISE supplied an additional
 session-level grade evaluation. TCGA-PRAD supplied molecular, site, and endpoint audits.
-LEOPARD supplied the source recurrence analysis. Patient, case-image, session, and slide
-units were never treated as interchangeable.
+LEOPARD supplied the source recurrence analysis and one external functional test; CHIMERA
+supplied a second independent-patient functional test with ISUP and BCR references. Patient,
+case-image, session, and slide units were never treated as interchangeable.
 
 Supplementary Table~\ref{tab:supp-clinical-reference-primer} preserves the detailed clinical, reference,
 and metric orientation removed from the concise Main Introduction. It makes explicit that
@@ -67,8 +69,8 @@ AR activity & Continuous androgen-receptor-regulated transcriptional activity; n
 immunostain or binary mutation. & TCGA-PRAD transcriptional activity score; compatible
 external transport data were unavailable. & Continuous molecular target; Spearman $\rho$,
 with grade-adjusted change in $R^2$ for conditional information. \\
-Recurrence & Time from treatment to a defined return or progression event. & LEOPARD and
-TCGA time-to-event references; event definitions were available but non-equivalent. &
+Recurrence & Time from treatment to a defined return or progression event. & LEOPARD, CHIMERA,
+and TCGA time-to-event references; event definitions were available but not assumed equivalent. &
 Censored time-to-event target; C-index for ordering and IBS for prediction error. \\
 \bottomrule
 \end{tabular}
@@ -101,8 +103,11 @@ analysis unit \\
 TCGA-PRAD & Molecular analyses: 273 patients; recurrence transfer: 270 patients; paired
 recurrence increment: 153 complete cases; FM6 frame: 392 patients and 80 events & Molecular,
 clinical-increment, site, endpoint, and scoped locked-head audits \\
-LEOPARD & Post-hoc recurrence risk score fitted in the source cohort & Transfer without
-refitting to the TCGA-PRAD target frames \\
+LEOPARD & Post-hoc recurrence risk score fitted in the source cohort; external functional
+frame: 508 patients and 87 events & Reverse transfer to TCGA-PRAD and locked external
+whole-tissue functional testing \\
+CHIMERA & External functional frame: 95 patients, 27 BCR events, 190 WSIs, and 12,160 crops &
+Locked ISUP recoverability, head validity, targeted erasure, and matched-control testing \\
 Correlated setting audit & Six targets; 72 configurations, 360 seed cells, and 390 paired
 contrasts & Encoder--scale--tile--seed sensitivity, not independent validation \\
 \bottomrule
@@ -132,7 +137,7 @@ whether the target is clinically or biologically relevant.}
 \toprule
 Target & Meaning in prostate cancer & Signal in the frozen representation & Functional contribution to the AI judgment \\
 \midrule
-Grade/ISUP & Architectural differentiation and aggressiveness & Best-qualified recoverability and transport; CONCH and Virchow internal ISUP directions & Internal exploratory BCR-head sensitivity demonstrated \\
+Grade/ISUP & Architectural differentiation and aggressiveness & Best-qualified recoverability and transport; CONCH and Virchow internal ISUP directions & Internal sensitivity in both encoders; external whole-tissue functional transport qualified only for Virchow in CHIMERA \\
 Tumor phenotype/content & Presence or amount of tumor-like tissue, not aggressiveness & Strong recoverability and external morphology transport & Currently blocked: same-cohort independent tumor-content truth is unavailable \\
 PTEN loss & Loss of a tumor-suppressor gene & Recoverable but conditional beyond grade and without external transport & Feasible follow-up, not run; requires a new overlap, event-power, fold, and erasure protocol \\
 AR activity & Activity of the androgen-receptor pathway & Positive but conditional beyond grade and across sites & Feasible follow-up, not run; requires a new overlap, event-power, fold, and erasure protocol \\
@@ -251,10 +256,10 @@ secondary test had AUROC 0.919, sensitivity 0.875, and specificity 0.810. At the
 threshold, newly held-out PANDA sensitivity was 0.562 in Karolinska and 0.679 in Radboud,
 despite specificity of 0.943 and 0.913. SICAP specificity is accepted as internal technical
 evidence, but independent-domain sensitivity remains unresolved. Consequently, tumor-specific
-functional use, external functional transport, and strong mechanistic alignment remain
-unsupported.
+functional use and strong mechanistic alignment remain unsupported even when a whole-tissue
+external functional gate passes.
 
-\section*{S5B. Locked site-heldout and LEOPARD functional transport}
+\section*{S5B. Locked site-heldout, LEOPARD, and CHIMERA functional transport}
 
 The site-heldout analysis used the seven TCGA tissue-source sites with at least 20 subjects
 and five BCR events, totaling 289 unique evaluation subjects and 69 events. Every site was
@@ -283,6 +288,24 @@ external reanalysis, not a prospectively untouched confirmation. It cannot estab
 ISUP recoverability, endpoint equivalence, tumor-specific mechanism, clinical increment,
 indispensability, or strong H2. The prespecified negative or inconclusive gate was retained
 without retuning.
+
+The preregistered CHIMERA analysis included 95 patients, 27 BCR events, 190 WSIs, and 12,160
+outcome-blind crops from the public tissue masks. The locked TCGA-only preprocessing, heads,
+ISUP directions, and 100 matched-random directions were applied without target-cohort tuning.
+CONCH recovered the external ISUP direction with Spearman $\rho=0.272$
+(0.091--0.441), and its targeted erasure reduced C-index by 0.055 (0.009--0.111), above the
+random-direction 95th percentile of 0.045 (Holm $p=0.0198$). Its full-head C-index was 0.630
+(0.500--0.758), whose lower bound did not exceed chance; CONCH therefore remained fail or
+inconclusive. Virchow recovered ISUP with $\rho=0.392$ (0.189--0.555), achieved a full-head
+C-index of 0.630 (0.512--0.753), and showed a targeted decrease of 0.025 (0.005--0.047), above
+the random-direction 95th percentile of 0.009 (Holm $p=0.0198$). Virchow passed every
+prespecified gate. An isolated clean rerun reproduced all six nonvolatile output hashes exactly.
+
+The CHIMERA result qualifies external whole-tissue functional transport for Virchow in this
+cohort. It does not rank Virchow against CONCH because the protocol was not designed as a formal
+between-encoder comparison. With only 27 events, public tissue rather than qualified tumor
+masks, and no assumed endpoint equivalence, it also does not establish a tumor-specific
+mechanism, indispensable use, clinical increment, or strong H2.
 
 \input{generated/stable_external_functional_transport.tex}
 
@@ -483,20 +506,21 @@ and SHA-256 hash. It then generates new QFM-owned figures and tables from those 
 No PBV-generated PDF, PNG, or TeX table is copied. The PBV project remains owner of the
 frozen analyses, while QFM owns the derivative alignment narrative.
 
-For the FM6 extension specifically, clean-rerun handoff required 20/20 nonvolatile output
-hashes, unchanged headline numbers, and unchanged gates. Both encoders retained
+For the FM6 extension specifically, internal clean-rerun handoff required 20/20 nonvolatile
+output hashes, unchanged headline numbers, and unchanged gates. Both encoders retained
 R=whole-tissue recoverability, A=internal disease association, and U=exploratory whole-tissue
-functional sensitivity. Site-heldout transport was encoder-specific; the locked LEOPARD
-family failed or remained inconclusive for both encoders, so T did not pass and strong H2
-remained prohibited. These gate labels describe evidence scope rather than a sequence of
+functional sensitivity. Site-heldout transport was encoder-specific; the locked LEOPARD family
+failed or remained inconclusive for both encoders; and Virchow alone passed the CHIMERA external
+whole-tissue gate. T therefore passed only at an encoder- and cohort-specific level, while strong
+H2 remained prohibited. These gate labels describe evidence scope rather than a sequence of
 clinical validation levels.
 
 Unequal availability of external target-matched cohorts limits comparison between target
 classes. The correlated grid is not independent validation; site effects are not causal
 acquisition effects; and recurrence endpoints are not interchangeable. The grade analysis
-includes a locked BCR head and target-erasure experiment, but only as whole-tissue internal
-exploratory evidence. Its detector did not pass the independent-domain sensitivity gate,
-refitted heads could compensate, and the limited ISUP-only comparison was not a sufficient
-clinical-increment study. The present paper therefore establishes candidate shared
-interpretive coordinates and scoped internal grade sensitivity, not complete explanation of
-AI decisions. Residual or unknown-feature marker discovery is reserved for a separate study.
+includes locked BCR heads and target-erasure experiments, including one encoder-specific
+external whole-tissue pass. Its detector did not pass the independent-domain sensitivity gate,
+refitted heads could compensate internally, and the limited ISUP-only comparison was not a
+sufficient clinical-increment study. The present paper therefore establishes candidate shared
+interpretive coordinates and bounded, model-specific grade sensitivity, not complete explanation
+of AI decisions. Residual or unknown-feature marker discovery is reserved for a separate study.

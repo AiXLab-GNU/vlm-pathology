@@ -1,0 +1,12 @@
+estimand,item,locked_specification,leakage_control,status
+Rscore,definition,"S_k - g_k(M,C,Q)",g fit in source outer-training fold only,PASS
+Rscore,analysis_unit,patient,all slides/tiles remain in patient fold,PASS
+Rscore,model_family,"ridge; alpha 0.01,0.1,1,10,100,1000; inner grouped CV one-SE",normalization/imputation/vocabulary trained in fold,PASS
+Rscore,prediction,one OOF residual per patient and encoder,no target recalibration or outcome thresholding,PASS
+Rrepr,definition,"(I-P_M,k) Z_k","P_M,k estimated in source outer-training fold",PASS
+Rrepr,analysis_unit,paired 394.24um physical-FOV tile with slide/patient clusters,patient fold controls all tiles,PASS
+Rrepr,rank_regularization,"ridge alpha budget as above; rank 1,2,4,8 with one-SE smallest rank; current ISUP panel max rank 1",encoder-specific train-fold fit only,PASS
+Rrepr,ranking_scalar,Trepr_k=zscore_train(w_k^T Rrepr_k),"w, mean, SD locked from source training fold",PASS
+both,manifest,separate residual type/encoder/unit manifests,no merged estimand or component matching,PASS
+both,interpretation,residual after the available prespecified metric panel,no all-known-pathology or biomarker language,PASS
+both,existing_stability,no residual manifest or fold/seed/rank stability result exists,must be evaluated after metadata repair and before review,NOT-EVALUABLE

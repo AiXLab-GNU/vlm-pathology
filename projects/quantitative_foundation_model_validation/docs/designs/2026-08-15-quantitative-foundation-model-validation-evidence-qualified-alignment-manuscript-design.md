@@ -54,9 +54,11 @@ verification:
 4. **운영적 기여:** 모든 문장·수치·그림을 source row와 hash에 연결해 alignment의 범위와
    미해결 축을 재현 가능하게 보고한다.
 5. **제한적 기능 기여:** ISUP에 한해 두 internal BCR head가 ISUP-correlated subspace의
-   targeted erasure에 민감한지를 동일한 규칙과 matched-random control로 시험한다. 이는
-   `internal functional sensitivity`이며 필수적 사용, human-equivalent mechanism, 외부
-   functional transport 또는 임상 증분의 확립을 뜻하지 않는다.
+   targeted erasure에 민감한지를 동일한 규칙과 matched-random control로 시험하고, 고정된
+   head와 direction을 site-heldout, LEOPARD, CHIMERA에 적용한다. CHIMERA에서는 Virchow만
+   사전지정 external whole-tissue functional-transport gate를 통과했다. 이는 encoder-specific
+   transport이며 필수적 사용, human-equivalent mechanism, tumor-specific mechanism, encoder
+   우월성 또는 임상 증분의 확립을 뜻하지 않는다.
 
 Qualification은 논문의 최상위 질문이 아니라 alignment를 과장 없이 판정하는 검증
 방법으로 배치한다.
@@ -129,8 +131,10 @@ probe 출력은 `AI-derived quantitative signal`로 통일한다.
 4. Evidence-qualified alignment map은 어떤 target이 다음 독립 검증으로 진행할 수 있고
    어떤 축이 미해결인지 한눈에 보여 준다.
 5. CONCH와 Virchow의 internal BCR head 모두에서 ISUP-correlated direction의 fixed-head
-   erasure effect가 matched-random control보다 컸지만, refit 후 effect와 제한적 ISUP-only
-   비교는 강한 functional-use 또는 clinical-increment 주장을 확립하지 못했다.
+   erasure effect가 matched-random control보다 컸다. 외부 결과는 model-specific했다:
+   LEOPARD에서는 어느 encoder도 통과하지 못했지만 CHIMERA에서는 Virchow만 사전지정
+   whole-tissue functional-transport gate를 통과했다. Refit 후 effect와 제한적 ISUP-only
+   비교는 indispensable use 또는 clinical-increment 주장을 확립하지 못했다.
 
 ### 4.2 Supporting claims
 
@@ -152,9 +156,10 @@ probe 출력은 `AI-derived quantitative signal`로 통일한다.
 - clinical validation, treatment utility, autonomous whole-slide diagnosis
 - universal CONCH/Virchow superiority, site/scanner causality 또는 endpoint equivalence
 
-본 원고는 FM6의 whole-tissue internal ISUP targeted-erasure 결과만 제한적으로 승계한다.
-외부 functional transport, tumor-specific functional use, completeness와 residual marker
-discovery는 별도 후속 근거 사슬로 남긴다. SICAP secondary specificity 0.810은 내부 기술
+본 원고는 FM6의 whole-tissue internal ISUP targeted-erasure와 사전등록된 site/LEOPARD/
+CHIMERA 외부 결과를 제한적으로 승계한다. Virchow의 CHIMERA 통과는 encoder-specific
+whole-tissue transport로만 해석한다. Tumor-specific functional use, completeness와 residual
+marker discovery는 별도 후속 근거 사슬로 남긴다. SICAP secondary specificity 0.810은 내부 기술
 근거로 수용하지만, PANDA Karolinska/Radboud sensitivity 0.562/0.679로 확인된 독립 domain
 sensitivity 미해결을 main과 Supplement에 명시한다.
 
@@ -274,13 +279,13 @@ QFM 장기 연구는 이 결과를 다음처럼 확장한다.
 
 ```text
 Known-target alignment and transport
-    → scoped internal ISUP functional sensitivity (current paper)
-    → multi-metric conditional uniqueness, joint completeness, external functional transport
+    → scoped internal and encoder-specific external ISUP functional sensitivity (current paper)
+    → multi-metric conditional uniqueness, joint completeness, multi-domain functional transport
     → cross-model/external residual (follow-up paper)
     → explicit new quantitative marker validation
 ```
 
-신규 원고는 첫 층과 제한적인 internal bridge만 정리한다. 추가 AI feature/residual의
+신규 원고는 첫 층과 제한적인 internal 및 encoder-specific external bridge만 정리한다. 추가 AI feature/residual의
 정량 marker 전환은 흥미로운 별도 발견 질문이므로 현재 원고에 넣지 않는다.
 
 ## 10. 완료 조건
@@ -436,3 +441,8 @@ Known-target alignment and transport
   근거의 재현성 감사이며 새 실험 family나 사후 최적화가 아니다. Nonvolatile output hash,
   핵심 수치 또는 R/A/U/T 판정이 달라지면 원고 handoff를 중단하고, 일치할 때만
   author-controlled metadata 단계로 전환한다.
+- 2026-08-24: 책임저자는 공개된 CHIMERA-data 연구를 근거로 embargo 종료를 최종 판단하고
+  사전등록된 집계 결과의 revision 원고 편입을 승인했다. 두 encoder를 함께 보고하며,
+  Virchow의 통과를 encoder-specific external whole-tissue functional transport로 제한한다.
+  CONCH의 low-event-precision 실패/불확정, 27-event 정밀도, endpoint 비동등성,
+  whole-tissue 및 encoder-우월성 금지 경계를 동시에 유지한다.

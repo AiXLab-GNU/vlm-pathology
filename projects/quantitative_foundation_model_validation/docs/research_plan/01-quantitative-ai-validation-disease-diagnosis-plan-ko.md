@@ -695,6 +695,52 @@ G1–G3은 audit trigger이며 진단 정확도의 대체물이 아니다. G4가
 
 ## 21. 변경 이력
 
+### 21.28 FM8 residual-discovery entry audit NO-GO — 2026-08-25
+
+- 논문 1의 revision 과학 workstream과 hash-locked 원고·PDF는 종결 상태로 유지하고,
+  FM8은 별도 후속 논문 후보의 **진입 감사**로만 평가했다. 정식 residual 계산,
+  GPU 분석, 후보 morphology 선정과 병리전문의 판독은 시작하지 않았다.
+- TCGA, site-heldout, LEOPARD와 CHIMERA의 source·artifact를 schema, 행 수,
+  missingness, 환자 독립성, provenance와 hash 수준에서 감사했다. TCGA는 392명/80 events,
+  LEOPARD는 508명/87 events, CHIMERA는 95명/27 events이며, 각 encoder의 paired tile
+  membership은 확인됐다.
+- `Rscore = S_k - g_k(M,C,Q)`와 `Rrepr = (I-P_M)Z_k`를 별도 estimand로 정의하고,
+  patient-grouped source-fold OOF, fold 내부 normalization·rank·regularization, target
+  재학습·재보정·threshold 변경 금지 규칙을 고정했다. 현재 해석은
+  `residual after the available prespecified metric panel`로 제한한다.
+- 필수 gate 중 paired encoder 비교, source lock, 외부 숫자 recurrence 적용 가능성과 제한
+  해석은 통과했으나, stain/color, scanner, MPP, blur/fold/compression, tumor amount/purity,
+  specimen metadata가 불충분하여 shortcut 감사 gate가 실패했다. 병리전문의 승인·burden,
+  reviewer access와 CHIMERA patient-level image review clearance는 확인되지 않아 blinded
+  review gate는 NOT-EVALUABLE이다.
+- age/path-T source가 다른 프로젝트의 generated model workspace를 가리키는 provenance
+  경계도 FM8 입력으로는 부적격하다. 따라서 전체 판정은 **NO-GO**이며, shortcut metadata,
+  QFM-owned 또는 hash-locked shared source, residual stability evidence와 review 적격성이
+  확보되기 전에는 FM8 본 연구를 개시하지 않는다.
+- 감사 protocol과 근거 연결 보고서는 각각
+  `docs/protocols/fm8-residual-discovery-entry-audit-protocol-ko.md`와
+  `milestones/fm8_residual_discovery_entry_audit/outputs/fm8-residual-discovery-entry-audit-report.md`에
+  둔다. 이 결정은 Virchow--CHIMERA의 encoder-specific whole-tissue evidence ceiling이나
+  논문 1 closure baseline을 변경하지 않는다.
+
+### 21.27 FM6 CHIMERA external functional transport 및 원고 편입 — 2026-08-24
+
+- CHIMERA 95명, 27 BCR events, 190 WSI, 12,160 outcome-blind crop에 locked TCGA-only
+  preprocessing, BCR head, ISUP direction과 matched-random controls를 적용했다.
+- CONCH와 Virchow 모두 외부 ISUP 방향이 복원되고 targeted erasure의 C-index 감소가
+  양성이었지만, full-head interval·random-control ceiling·Holm correction을 포함한 모든
+  prespecified gate를 통과한 것은 Virchow뿐이었다.
+- Virchow 결과는 `encoder-specific external whole-tissue functional transport`로 허용한다.
+  27-event precision, tissue-only mask, endpoint equivalence 미확정 때문에 encoder 우월성,
+  universal transport, strong H2, tumor-specific mechanism 또는 clinical increment는 금지한다.
+- 격리 clean rerun에서 6개 nonvolatile output hash가 모두 일치했다.
+- 책임저자는 공개 CHIMERA 사용 논문을 근거로 publication embargo 종료를 판단했다. 이
+  author release determination은 aggregate 원고 편입을 허용하지만, 주최 측 별도 서면
+  확인을 받은 것으로 기술하지 않는다.
+- 2026-08-24 책임저자 결정으로 현재 분석·원고·claim ceiling을 closure baseline으로
+  고정하고 revision 과학 workstream을 종결했다. Journal upload와 public tag는 별도
+  행정·release 작업으로 분리한다.
+
 | 날짜 | 버전 | 변경 내용 | 운영 범위 영향 |
 |---|---:|---|---|
 | 2026-08-15 | 0.5 | TCGA-PRAD eligible WSI 437장 전체를 GDC size/MD5로 이중 검증하고 outcome-blind header·thumbnail·MPP QC, 5-fold 환자 split, 394.24 µm FOV와 slide→patient 집계 규칙을 고정 | WSI acquisition gate를 닫고 preprocessing/tumor-region gate로 이동; endpoint equivalence·독립 tumor-region·disease-head validity·power·embargo 미충족으로 H2와 residual 분석은 계속 잠금 |

@@ -20,7 +20,10 @@ class PortfolioPortalTests(unittest.TestCase):
         )
         for project in data["projects"]:
             self.assertGreater(len(project["milestones"]), 5)
-            self.assertIn(project["current_gate"]["status_key"], {"active", "complete"})
+            self.assertIn(
+                project["current_gate"]["status_key"],
+                {"active", "complete", "locked"},
+            )
             self.assertGreaterEqual(project["progress_percent"], 0)
             self.assertLessEqual(project["progress_percent"], 100)
 

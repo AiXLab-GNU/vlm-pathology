@@ -1,0 +1,7 @@
+cohort,independence,encoder_scope,same_panel,paired_embedding,endpoint,metadata,recurrence_feasibility,limitation
+TCGA 7-site heldout,internal only,CONCH,yes ISUP,PASS,BCR days 289/69,partial,SUPPORTING_NOT_EXTERNAL,same TCGA source; CONCH site gate failed
+TCGA 7-site heldout,internal only,Virchow,yes ISUP,PASS,BCR days 289/69,partial,SUPPORTING_NOT_EXTERNAL,same TCGA source; Virchow-only site pass
+LEOPARD,independent external,CONCH,FAIL ISUP/C absent,PASS 32512x512,BCR years 508/87,FAIL,NOT-EVALUABLE,"cannot apply same M,C,Q residual definition"
+LEOPARD,independent external,Virchow,FAIL ISUP/C absent,PASS 32512x2560,BCR years 508/87,FAIL,NOT-EVALUABLE,"cannot apply same M,C,Q residual definition"
+CHIMERA,independent external,CONCH,PARTIAL ISUP+age+pT+tissue+MPP; treatment incomplete,PASS 12160x512,PSA>=0.1 BCR months 95/27,partial,PASS_NUMERIC_ONLY,CONCH functional gate failed; shortcut/review gates remain
+CHIMERA,independent external,Virchow,PARTIAL ISUP+age+pT+tissue+MPP; treatment incomplete,PASS 12160x2560,PSA>=0.1 BCR months 95/27,partial,PASS_NUMERIC_ONLY,Virchow-only prior T cannot establish common residual

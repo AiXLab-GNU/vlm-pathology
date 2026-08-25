@@ -715,6 +715,35 @@ clinical-audit significance와 bounded discovery-space claim을 사용한다.
 **Gate 34:** 실험 수행은 완료·잠금 가능하다. 그러나 External T와 strong H2는 통과하지
 않았으며, 재제출 문구는 `external functional transport was not qualified`를 유지한다.
 
+## Task 35. 2026-08-24 CHIMERA encoder-specific external-functional revision
+
+- [x] 기존 제출 source package를 `submission_orig/`로 이름을 바꾸어 보존했다.
+- [x] CHIMERA aggregate summary, clean-rerun audit와 report를 QFM-owned provenance source로
+  승격하고 byte count와 SHA-256을 등록했다.
+- [x] 95명/27 events에서 CONCH와 Virchow의 external ISUP recoverability, full-head C-index,
+  targeted-erasure delta, matched-random p95와 Holm-adjusted p를 numeric QA에 등록했다.
+- [x] Virchow만 모든 prespecified gate를 통과했다는 결과를 Abstract, Introduction,
+  Results, Discussion, Conclusion, Methods와 Supplementary S5B에 일관되게 편입했다.
+- [x] 모델 간 공식 우열 비교가 아니며 whole-tissue·small-event·endpoint 제한이 남는다는
+  claim ceiling을 명시했다.
+- [x] 책임저자의 publication-release 판단을 protocol, design, report와 project tracker에
+  기록하되 organizer written clearance로 표현하지 않았다.
+- [x] Main/Supplement build, source·numeric·semantic contract, focused tests, PDF visual QA와
+  file-governance audit를 완료한다.
+- [ ] 저널 revision 업로드와 새 public immutable revision tag는 책임저자 승인 후 수행한다.
+
+**Gate 35:** External T는 Virchow--CHIMERA에 한해
+`encoder-specific whole-tissue transport`로 통과한다. CONCH 및 전체 encoder family의
+universal transport, strong H2, encoder superiority, tumor-specific mechanism, clinical
+increment와 신규 biomarker는 계속 금지한다.
+
+**Revision closure — 2026-08-24:** Task 35의 과학 분석, 원고 편입, build, provenance,
+회귀검사와 시각 QA를 최종 완료하고 이 revision workstream을 종결한다. 현재 수치, gate,
+claim ceiling, Main/Supplement PDF hash를 기준선으로 잠근다. Journal 업로드와 public
+immutable tag 생성은 미완료 과학 작업이 아니라 별도 행정·release 작업이다. 추가 실험이나
+과학 문구 변경은 책임저자 또는 편집부의 새 요구로 workstream을 명시적으로 재개하기 전에는
+수행하지 않는다.
+
 ## 완료 판정
 
 본 plan은 main만 문장 수정하거나 Supplementary를 제목만 바꾼 상태에서는 완료가 아니다.

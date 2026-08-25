@@ -169,7 +169,7 @@ def render_alignment_map(sources: dict[str, Path]) -> None:
         matrix[i, j] = code[state]
         labels[i, j] = label_map[state]
     functional_status = {
-        "Grade/ISUP": ("context_sensitive", "IF"),
+        "Grade/ISUP": ("context_sensitive", "EF"),
         "Tumor phenotype/content": ("not_tested", "BL"),
         "PTEN": ("not_tested", "NR"),
         "AR activity": ("not_tested", "NR"),
@@ -216,6 +216,7 @@ def render_human_ai_linkage_map(sources: dict[str, Path]) -> None:
     fm6 = index_numeric_source(read_csv(sources["QFM-FM6-SUMMARY"]))
     contrasts = index_numeric_source(read_csv(sources["QFM-FM6-CONTRASTS"]))
     external = index_numeric_source(read_csv(sources["QFM-FM6-LEOPARD-EXTERNAL"]))
+    chimera = index_numeric_source(read_csv(sources["QFM-FM6-CHIMERA-EXTERNAL"]))
 
     rows = [
         {
@@ -230,7 +231,9 @@ def render_human_ai_linkage_map(sources: dict[str, Path]) -> None:
                 f"CONCH delta C = {as_float(contrasts['conch:full_minus_target_fixed']['estimate_left_minus_right']):.3f}\n"
                 f"Virchow delta C = {as_float(contrasts['virchow:full_minus_target_fixed']['estimate_left_minus_right']):.3f}\n"
                 f"LEOPARD full C = {as_float(external['conch']['full_c_index']):.3f} / "
-                f"{as_float(external['virchow']['full_c_index']):.3f}; gate failed"
+                f"{as_float(external['virchow']['full_c_index']):.3f}; neither passed\n"
+                f"CHIMERA delta C = {as_float(chimera['conch']['target_delta_use']):.3f} / "
+                f"{as_float(chimera['virchow']['target_delta_use']):.3f}; Virchow passed"
             ),
             "target_state": "supported",
             "feature_state": "supported",
@@ -810,7 +813,7 @@ def generate_tables(sources: dict[str, Path]) -> None:
             "Grade/ISUP",
             evidence_state_names[claims_by_id["A02"]["evidence_state"]],
             "Grade information is recoverable and directionally transports across compatible external resources",
-            "Internal exploratory locked-BCR-head sensitivity; site evidence encoder-specific and LEOPARD external gate failed or remained inconclusive",
+            "Internal locked-BCR-head sensitivity; external transport was encoder-specific: neither encoder passed LEOPARD, while Virchow alone passed CHIMERA",
         ],
         [
             "Tumor phenotype/content",
@@ -1030,6 +1033,7 @@ def generate_tables(sources: dict[str, Path]) -> None:
 
     site_functional = index_numeric_source(read_csv(sources["QFM-FM6-SITE-HELDOUT"]))
     external_functional = index_numeric_source(read_csv(sources["QFM-FM6-LEOPARD-EXTERNAL"]))
+    chimera_functional = index_numeric_source(read_csv(sources["QFM-FM6-CHIMERA-EXTERNAL"]))
     functional_transport_rows: list[list[str]] = []
     for encoder in ("conch", "virchow"):
         site_row = site_functional[encoder]
@@ -1056,9 +1060,21 @@ def generate_tables(sources: dict[str, Path]) -> None:
             f"{as_float(external_row['target_delta_use_ci_high']):+.3f})",
             "Pass" if external_row["external_whole_tissue_functional_transport_pass"] == "True" else "Fail or inconclusive",
         ])
+        chimera_row = chimera_functional[encoder]
+        functional_transport_rows.append([
+            "CHIMERA external",
+            encoder,
+            f"{as_float(chimera_row['full_c_index']):.3f} "
+            f"({as_float(chimera_row['full_c_index_ci_low']):.3f} to "
+            f"{as_float(chimera_row['full_c_index_ci_high']):.3f})",
+            f"{as_float(chimera_row['target_delta_use']):+.3f} "
+            f"({as_float(chimera_row['target_delta_use_ci_low']):+.3f} to "
+            f"{as_float(chimera_row['target_delta_use_ci_high']):+.3f})",
+            "Pass" if chimera_row["functional_erasure_gate_pass"] == "True" else "Fail or inconclusive",
+        ])
     write_table(
         GENERATED / "stable_external_functional_transport.tex",
-        "Locked site-heldout and independent-patient functional-transport tests. C-index intervals and targeted erasure deltas use 2,000 patient-bootstrap draws. Passing required valid full-head discrimination, a positive targeted-delta interval, matched-random significance after Holm correction, and the family-specific sample gate.",
+        "Locked site-heldout and independent-patient functional-transport tests. C-index intervals and targeted erasure deltas use 2,000 patient-bootstrap draws. Passing required valid full-head discrimination, a positive targeted-delta interval, matched-random significance after Holm correction, and the family-specific gate. CHIMERA used 95 patients and 27 events, limiting precision.",
         "tab:supp-functional-transport",
         ["Frame", "Encoder", "Full-head C-index (95% CI)", "Target delta (95% CI)", "Gate"],
         functional_transport_rows,
@@ -1162,6 +1178,7 @@ def verify_manuscript_semantics(sources: dict[str, Path]) -> list[str]:
     molecular = index_rows(read_csv(sources["PBV-MOLECULAR"]))
     outcomes = index_rows(read_csv(sources["PBV-OUTCOME"]))
     fm6 = {row["encoder"].casefold(): row for row in read_csv(sources["QFM-FM6-SUMMARY"])}
+    chimera = {row["encoder"].casefold(): row for row in read_csv(sources["QFM-FM6-CHIMERA-EXTERNAL"])}
 
     require("nadt-denominator-unit", "results", f"{transport['gleason:nadt']['n']} patients")
     require("panda-karolinska-unit", "results", f"{transport['gleason_panda:karolinska']['n']} case images")
@@ -1188,6 +1205,12 @@ def verify_manuscript_semantics(sources: dict[str, Path]) -> list[str]:
     require("fm6-random-p-conch", "results", f"p={float(conch['target_vs_random_p_one_sided']):.4f}")
     require("fm6-clean-hash-count", "supplement", "All 20 regenerated hashes matched exactly")
     require("computational-not-external", "results", "not an independent-cohort replication")
+    require("chimera-denominator", "results", f"{chimera['conch']['n_subjects']} CHIMERA patients")
+    require("chimera-events", "results", f"{chimera['conch']['n_events']} BCR events")
+    require("chimera-conch-status", "results", "CONCH therefore remained fail or inconclusive")
+    require("chimera-virchow-status", "results", "Virchow passed every prespecified gate")
+    require("chimera-rerun", "supplement", "all six nonvolatile output hashes exactly")
+    require("no-encoder-superiority", "methods", "not designed as a formal encoder-superiority comparison")
 
     if failures:
         raise RuntimeError("Manuscript semantic QA failed:\n" + "\n".join(failures))

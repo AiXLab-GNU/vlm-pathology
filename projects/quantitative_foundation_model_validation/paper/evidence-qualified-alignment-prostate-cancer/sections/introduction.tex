@@ -1,7 +1,6 @@
-Clinical adoption of artificial intelligence requires calibrated reliance rather than blind
-trust or a persuasive explanation attached to every output. Clinicians should be able to
-judge when an AI output has a defensible basis, when it should be challenged, and where the
-model's competence ends. Explanations that fit the decision context can support rational
+Clinical AI requires calibrated reliance rather than blind trust. Clinicians should be able to
+judge when an output has a defensible basis, when it should be challenged, and where competence
+ends. Explanations that fit the decision context can support rational
 checking \cite{tonekaboni2019}, but familiar explanations can also increase reliance when AI
 advice is wrong \cite{prinster2024}. A clinically recognizable explanation is therefore not
 evidence of trustworthy model behavior unless the proposed link can itself be tested.
@@ -13,12 +12,10 @@ technical variation, and whether a downstream decision actually uses it. Answeri
 questions axis by axis can make model reliability inspectable in terms clinicians can contest,
 rather than reducing trustworthiness to predictive performance or a plausible visualization.
 
-Clinically established quantitative and ordinal targets offer a possible interface for such
-testing. A pathologist can define, measure, contest, and communicate grade or tumor extent;
-molecular laboratories can provide assay-defined targets; and clinical records provide
-outcomes. If an AI signal is demonstrably linked to one of these targets, the proposed basis
-becomes inspectable: a pathologist can confirm that the tissue supports the named feature,
-reject the explanation when it does not, or identify a meaningful discordance. Concept-based
+Established quantitative targets offer an interface for testing. Pathologists can contest grade
+or tumor extent; molecular assays provide target truth; and clinical records provide outcomes.
+An AI link to one of these targets becomes inspectable: a pathologist can confirm that the tissue supports the named feature,
+reject it, or identify discordance. Concept-based
 methods provide precedents. TCAV tests prediction sensitivity to human-defined concepts, and
 concept bottleneck models make named concepts explicit and intervenable
 \cite{kim2018,koh2020}. Medical-imaging and pathology systems have likewise exposed
@@ -87,10 +84,11 @@ and unsupported molecular states; and recurrence tests whether outcome-linked in
 retains its meaning across event definitions and comparators. Among these axes, Grade/ISUP
 has the most complete evidence chain because it is additionally tested in two locked
 biochemical-recurrence heads and in site-heldout and independent-patient functional-transport
-analyses. Internal sensitivity was not promoted because site evidence was encoder-specific and
-the external gate failed or remained inconclusive. ISUP is thus the most developed functional example, not the
-organizing target. The study does not explain a deployed model, establish indispensable
-or externally replicated functional use, comprehensively test clinical increment, or measure
+analyses. External evidence was model-specific: Virchow passed the
+site-heldout gate and the preregistered CHIMERA whole-tissue gate, whereas CONCH did not; neither
+encoder passed LEOPARD. ISUP is thus the most developed functional example, not the organizing
+target. The study does not explain a deployed model, establish indispensable or tumor-specific
+functional use, prove encoder superiority, comprehensively test clinical increment, or measure
 clinician reliance or benefit.
 
 Its primary task is comparative: to map the evidential status of all six axes without treating
@@ -108,7 +106,10 @@ where explanations should be withheld; and evidence gaps prioritize external or 
 validation. Fourth, it provides a worked extension from representation availability toward
 functional testing by applying targeted erasure and matched controls to an
 ISUP-correlated direction in locked CONCH- and Virchow-derived risk heads, then testing its
-site and independent-patient transport without target-cohort refitting. This final
+site and independent-patient transport without target-cohort refitting. The resulting CHIMERA
+qualification for Virchow but not CONCH shows why a clinically interpretable direction must be
+reported as encoder-specific evidence rather than a universal property of pathology foundation
+models. This final
 experiment extends rather than organizes the six-axis comparison. The proposed audit
 vocabulary is intended for model evaluation, communication, and validation planning; whether
 showing it to clinicians improves decisions remains untested. Establishing this known-target

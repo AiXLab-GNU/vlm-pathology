@@ -1,0 +1,18 @@
+lock_item,prespecified_rule,target_locked,activation_status
+source_cohort,TCGA-PRAD 392 patients/80 events/437 WSI whole-tissue,yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+analysis_unit,Rscore patient; Rrepr paired tile clustered by slide and patient,yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+inclusion_exclusion,complete paired embedding+OOF score+ISUP+BCR+fold; explicit reason otherwise,yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+patient_grouping,existing five folds shared across encoders,yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+model_hyperparameter,ridge and fixed alpha/rank budgets; inner grouped CV one-SE,yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+positive_negative_threshold,source OOF <=q10 or >=q90; no target change,yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+discordance_threshold,absolute encoder percentile gap >=0.50,yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+common_residual,"same FOV, same sign, both extreme; morphology not presumed common biology",yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+matched_control,both encoders p25-p75; match site/ISUP/specimen/tissue quartile/slide when possible,yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+sampling_cap,"<=8 tiles/patient, <=2/slide, <=4 slides/patient",yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+quota,"balance residual type, encoder, sign, site, ISUP, tissue-fraction quartile",yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+seed_tie_break,seed 260825; SHA256(protocol|seed|sample_id) order,yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+missing_not_evaluable,preserve and do not backfill empty quota cells,yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+uncertainty,2000 patient-cluster bootstraps; undefined retained,yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+multiplicity,"separate Rscore/Rrepr, encoder, and external-cohort families; BH-FDR",yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+target_rule,"no refit, recalibration, threshold, quota, rank, or regularization change",yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO
+review_sample_size,requires outcome-blind pathologist burden approval before activation,yes,LOCKED_CANDIDATE_NOT_EXECUTED_NO_GO

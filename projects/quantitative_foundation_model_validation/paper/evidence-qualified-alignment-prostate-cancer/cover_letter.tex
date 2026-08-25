@@ -1,6 +1,11 @@
-% !TEX program = xelatex
+% !TEX program = pdflatex
 \documentclass[11pt,a4paper]{article}
-\usepackage{fontspec}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+\else
+  \usepackage{fontspec}
+\fi
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[hidelinks,colorlinks=false]{hyperref}
 \usepackage{parskip}
@@ -13,13 +18,13 @@
 Editorial Team\\
 \textit{Scientific Reports}
 
-\textbf{Re: Article submission, ``Evidence-Qualified Alignment of Pathology Foundation
-Models with Morphologic, Molecular, and Outcome Axes in Prostate Cancer''}
+\textbf{Re: Article submission, ``From Clinical Signal Recovery to Evidence-Qualified
+Interpretation of Prostate Cancer Pathology Foundation Models''}
 
 Dear Editors,
 
-Please consider our manuscript, ``Evidence-Qualified Alignment of Pathology Foundation
-Models with Morphologic, Molecular, and Outcome Axes in Prostate Cancer,'' for publication
+Please consider our manuscript, ``From Clinical Signal Recovery to Evidence-Qualified
+Interpretation of Prostate Cancer Pathology Foundation Models,'' for publication
 as an Article in \textit{Scientific Reports}.
 
 Pathology foundation models can encode clinically meaningful information, but recovery of a
@@ -46,8 +51,8 @@ The manuscript reports secondary analyses of deidentified data from previously p
 public or access-governed repositories. No new participants were recruited, and no identifiable
 participant information is reported. Original ethical approvals and consent or waivers remain
 those reported by the source studies and repositories. The authors declare no competing
-interests. The work was supported by NRF-2023R1A2C1006639 and in part by Gyeongsang National
-University.
+interests. The work was supported by NRF-2023R1A2C1006639 and by the 2026 Research Sabbatical
+Grant for Research Professors from Gyeongsang National University (GNU-SGRP-2026).
 
 Aggregate source tables, provenance registries, analysis-code snapshots, and deterministic
 figure-reproduction tests are available in the

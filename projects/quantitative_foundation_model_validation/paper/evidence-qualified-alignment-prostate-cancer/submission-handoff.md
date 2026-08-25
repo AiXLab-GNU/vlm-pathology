@@ -9,14 +9,15 @@ canonical_path: projects/quantitative_foundation_model_validation/paper/evidence
 
 # Scientific Reports submission handoff
 
-**Status:** `submitted—locked revision XAI analysis complete; revision upload not yet performed`.
+**Status:** `submitted—revision scientific workstream closed and hash-locked; revision upload not yet performed`.
 The corresponding author confirmed completion of the Scientific Reports initial submission on
 2026-08-20. The submitted package includes the verified author list, affiliations,
 corresponding-author details and ORCID, contribution and Funding statements,
 competing-interests declaration, scientific text, source-linked figures and tables, cover letter,
 and pdfLaTeX-compatible source ZIP. No journal manuscript identifier has been supplied for this
-record, and none is inferred. The initial package remains immutable; a newly locked
-site-heldout/LEOPARD functional-transport analysis is present only in the revision working copy.
+record, and none is inferred. The initial package remains immutable in `submission_orig/`;
+locked siteheldout, LEOPARD, and CHIMERA functional-transport analyses are present only in the
+revision working copy.
 
 ## Submission artifacts and counts
 
@@ -72,15 +73,52 @@ locked reanalysis, not a prospectively untouched confirmation. The accountable a
 embargo completion; the exact external clearance document/URL remains unarchived and should be
 stored before revision release.
 
+## Locked CHIMERA revision — 2026-08-24
+
+The preregistered CHIMERA analysis used 95 patients, 27 BCR events, 190 WSIs, and 12,160
+outcome-blind whole-tissue crops. Both encoders recovered the TCGA-locked ISUP direction and
+showed positive targeted-erasure effects. CONCH remained fail/inconclusive because its full-head
+interval reached chance. Virchow passed head validity, positive erasure, matched-random and Holm
+gates, qualifying encoder-specific external whole-tissue functional transport. This is not a
+formal encoder-superiority, tumor-specific, indispensable-use, clinical-increment, strong-H2, or
+new-biomarker claim.
+
+| CHIMERA revision item | Audit |
+|---|---|
+| Abstract | 198 words |
+| Main | 18 pages; 4,833 Introduction--Conclusion words; 1,559 Methods words |
+| Supplementary Information | 15 pages; CHIMERA detailed gates and six-row external table included |
+| `main.pdf` | SHA-256 `4e5897d85dda3f07863e803fef210ea4cde9587af58b15b0263487b6c7014f81` |
+| `supplement.pdf` | SHA-256 `f2a697259f8f8b7544cc86b1a70bd2775be54b03397f426a45d48f06b33d8f74` |
+| Source manifest | 24/24 verified; SHA-256 `7398334cbab06a48c20a272e9c3a874011b0825609b22b19c29c6be7c3172166` |
+| Numeric QA mapping | 51/51 verified; SHA-256 `87e94d9216bfe32fe9fb6ef79659f7a6b73f57f44e5d70211f049371254bf80a` |
+| Semantic contracts | 77/77 passed |
+| Clean rerun | CHIMERA nonvolatile output hashes 6/6 exact |
+
+On 2026-08-24 the accountable author determined, from publicly released studies using CHIMERA
+data, that the publication embargo had ended and authorized aggregate-result promotion. This is
+recorded as an author release determination, not as written organizer clearance. The official
+challenge pages still express release as conditional on publication of the challenge and
+baseline journal papers and do not provide a separate clearance certificate in the archived
+project record.
+
+The accountable author closed the revision scientific workstream on 2026-08-24. The Main and
+Supplementary PDFs, source manifest, numeric mapping, semantic contracts, and CHIMERA clean-rerun
+record in the table above are the closure baseline. No additional experiment, retuning, scientific
+claim change, or manuscript edit is planned. Journal upload and creation of a public immutable
+revision tag remain separate administrative release actions and do not keep the scientific
+workstream open.
+
 ## Scientific and verification lock
 
 The primary claim is that explicitly qualified morphologic, molecular, and outcome axes provide
 contestable shared coordinates for auditing human--AI agreement, disagreement, explanation
 withholding, and validation priorities. Grade/ISUP and phenotype have the strongest representation
 evidence; PTEN and AR are conditional; SPOP is evaluated but unsupported; recurrence is
-endpoint-sensitive. Two internal locked BCR heads were sensitive to an ISUP-correlated direction,
-but site transport was encoder-specific and LEOPARD external transport was not qualified.
-Indispensable/mechanistic use, qualified external functional transport,
+endpoint-sensitive. Two internal locked BCR heads were sensitive to an ISUP-correlated direction;
+site transport was encoder-specific; LEOPARD external transport was not qualified; and Virchow
+alone passed the CHIMERA whole-tissue gate. Qualified external functional transport is therefore
+limited to the Virchow--CHIMERA frame. Indispensable/mechanistic use, universal transport,
 clinical increment, improved clinician outcomes, complete explanation, residual-marker discovery,
 and encoder superiority remain prohibited claims.
 
@@ -147,7 +185,7 @@ No committee name or determination identifier has been inferred or invented.
    in this handoff without moving an earlier tag.
 3. Archive the exact LEOPARD official clearance URL or screenshot before any public revision
    release or journal upload.
-4. On author approval, package the locked negative/inconclusive revision result without
+4. On author approval, package the locked siteheldout/LEOPARD/CHIMERA revision results without
    retuning and create a new immutable revision tag; do not overwrite the initial tag.
 
 An archive DOI is not required to identify the submitted code snapshot because the annotated tag

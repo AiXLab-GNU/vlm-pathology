@@ -14,8 +14,8 @@ target-appropriate metrics and qualification axes. It tests whether target-relat
 information is recoverable and reproducible, not whether a disease-prediction head uses the
 same human concept. A secondary extension tested Grade/ISUP with locked BCR heads, targeted
 erasure, and matched controls because this axis had the required recoverable direction and
-available outcome frames. It comprised internal development, site-held-out transport, and a
-locked independent-patient LEOPARD reanalysis. This unequal testing depth is reported as part of the
+available outcome frames. It comprised internal development, site-held-out transport, and
+locked independent-patient LEOPARD and CHIMERA reanalyses. This unequal testing depth is reported as part of the
 six-axis evidence map rather than interpreted as evidence that grade is uniquely important.
 Neither analysis establishes mechanistic equivalence, indispensable use, complete
 explanation, clinical utility, or an observed effect on clinician trust or reliance.
@@ -33,9 +33,10 @@ applicable---are evidence summaries rather than model-confidence or clinical-act
 NADT-Prostate supplied source grade and tumor-phenotype labels; PANDA supplied Karolinska
 and Radboud case images and official ISUP grades for locked transport; PRECISE supplied
 session-level pathologist Gleason scores; TCGA-PRAD supplied histology, grade, PTEN loss,
-SPOP mutation, AR activity, and recurrence-style endpoints; and LEOPARD supplied BCR labels
-for the earlier transferred recurrence score and the subsequent locked external functional
-reanalysis \cite{nadt2021,panda2022,precise2026,leopard2026,grisi2026}.
+SPOP mutation, AR activity, and recurrence-style endpoints; LEOPARD supplied BCR labels for the
+earlier transferred recurrence score and the subsequent locked external functional reanalysis;
+and CHIMERA supplied public tissue masks, ISUP grades, and BCR outcomes for a second locked
+external functional test \cite{nadt2021,panda2022,precise2026,leopard2026,grisi2026}.
 Only evaluable target rows were used, and missing or uncertain outcomes were not recoded as
 negative. Patient, case-image, session, and slide effects remained explicitly distinct.
 
@@ -104,7 +105,7 @@ external transport. R, A, and U passed at the internal exploratory level; T was 
 in the subsequent locked tests described below. Supplementary Section S5A retains the complete
 intervention, detector, rerun, and claim ceiling.
 
-\subsection{Site-held-out and LEOPARD functional transport tests}
+\subsection{Site-held-out, LEOPARD, and CHIMERA functional transport tests}
 
 Seven TCGA tissue-source sites with at least 20 subjects and five BCR events were held out in
 turn (289 subjects; 69 events). Each split refitted the training-only PCA, ISUP direction, Cox
@@ -119,6 +120,19 @@ both head and erasure intervals to exclude their nulls and adjusted $p\leq0.05$.
 ISUP and treatment covariates and its outcomes had been used in an earlier reverse-transfer
 analysis, making this a newly locked reanalysis rather than prospectively untouched confirmation
 (Supplementary Section S5B).
+
+The CHIMERA analysis included 95 patients, 27 BCR events, 190 WSIs, and 12,160
+outcome-blind crops sampled from the public tissue masks. Slides were aggregated first and then
+weighted equally within each patient. Each encoder used the locked TCGA-only scaler, 64-component
+PCA transform, ISUP direction, BCR head, and matched-random directions without target-cohort
+tuning. Passing required positive external ISUP recovery, a full-head C-index interval with lower
+bound above 0.5, a positive targeted-erasure C-index-decrease interval, an observed decrease above
+the random-direction 95th percentile, and encoder-wise Holm-adjusted $p\leq0.05$. Patient-level
+intervals used 2,000 bootstrap resamples. A clean rerun required exact agreement of all
+nonvolatile output hashes. This protocol was not designed as a formal encoder-superiority
+comparison; its permitted inference is encoder-specific whole-tissue functional transport, not
+relative model ranking, tumor-specific mechanism, or clinical utility (Supplementary Section
+S5B).
 
 \subsection{Uncertainty, missingness, and provenance}
 

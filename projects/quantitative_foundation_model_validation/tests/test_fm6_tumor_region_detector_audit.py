@@ -14,6 +14,14 @@ SPEC.loader.exec_module(MODULE)
 
 
 class TumorDetectorAuditTest(unittest.TestCase):
+    def test_pretrained_weight_path_is_repository_local(self):
+        expected = (
+            ROOT
+            / "resources/projects/quantitative_foundation_model_validation/model_cache/torch"
+            / "resnet18-f37072fd.pth"
+        )
+        self.assertEqual(MODULE.WEIGHTS, expected)
+
     def test_threshold_is_deterministic(self):
         y = np.array([0, 0, 1, 1])
         score = np.array([0.1, 0.3, 0.7, 0.9])
