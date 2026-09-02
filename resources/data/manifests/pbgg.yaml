@@ -1,0 +1,23 @@
+dataset_id: PBGG-1-2
+data_class: external_pathology_multi_reader
+projects: [quantitative_foundation_model_validation]
+source_name: Prostate Biopsy Gleason Grading Dataset parts 1 and 2
+part_1_url: https://zenodo.org/records/8102833
+part_1_doi: https://doi.org/10.5281/zenodo.8102833
+part_1_slides: 50
+part_1_readers: 10
+part_1_source: UKK
+part_2_url: https://zenodo.org/records/8102929
+part_2_doi: https://doi.org/10.5281/zenodo.8102929
+part_2_slides: 50
+part_2_readers: 11
+part_2_source: WNS
+publication_url: https://doi.org/10.1038/s41698-023-00424-6
+sampling_contract: cancer_positive_biopsy_balanced_10_slides_per_majority_grade_group_1_to_5_in_each_part
+label_access_contract: grading_result_spreadsheet_requires_completed_request_form_and_nontransfer
+license: CC-BY-NC-SA-4.0_for_wsi_academic_noncommercial_use
+qfm_role: two_part_multi_reader_consensus_grading_qualification
+qfm_prohibited_uses: [cancer_detection, prevalence_estimation, target_tuning]
+qfm_required_preflight: [request_form, label_use_terms, file_md5_and_sha256, reader_and_majority_semantics]
+acquisition_status: not_acquired
+rule: raw WSI, requested reader tables, arrays, weights and predictions are local and must not be committed

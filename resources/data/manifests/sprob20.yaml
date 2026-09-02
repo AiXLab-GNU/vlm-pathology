@@ -1,0 +1,18 @@
+dataset_id: SPROB20
+data_class: controlled_access_pathology
+projects: [quantitative_foundation_model_validation]
+source_name: Spear Prostate Biopsy 2020
+source_url: https://datahub.aida.scilifelab.se/10.23698/aida/sprob20
+source_doi: https://doi.org/10.23698/aida/sprob20
+declared_cases: 460
+declared_scans: 2611
+declared_cancer_fraction_approx: 0.35
+declared_size_gb: 492.6
+declared_resolution_mpp: 0.2204
+scanner: Hamamatsu_NanoZoomer_S60
+available_context: case_mapping_clinical_metadata_treatment_decisions_and_macro_image_ink_annotations
+access_contract: controlled_access_requires_relevant_phd_and_institutional_authorized_signatory_data_sharing_agreement
+qfm_role: optional_patient_level_cancer_and_grading_transport_after_access_and_overlap_audit
+qfm_claim_boundary: not_multi_reader_consensus_unless_additional_reference_is_documented
+acquisition_status: not_acquired_controlled_access
+rule: raw WSI, patient-level clinical data, agreements, arrays, weights and predictions are local and must not be committed

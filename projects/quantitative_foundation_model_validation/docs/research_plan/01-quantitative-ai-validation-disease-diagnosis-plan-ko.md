@@ -13,7 +13,7 @@
 - 현재 PRECISE AI의 검증된 역할: whole-slide 진단이 아니라 공간적으로 구별된 병리 검토 후보의 우선순위 제시
 - Canonical milestones: [01-01-foundation-model-validation-milestones-ko.md](01-01-foundation-model-validation-milestones-ko.md)
 - Current execution tracker: [01-01-01-foundation-model-validation-execution-tracker-ko.md](01-01-01-foundation-model-validation-execution-tracker-ko.md)
-- 관련연구 입력: [survey index](../surveys/README.md); 현재 `CURRENT` survey 없음
+- 관련연구 입력: [survey index](../surveys/README.md), [전립선 진단 코호트 선정 서베이](../surveys/prostate-diagnostic-cohort-selection-survey-ko.md)
 
 ## 1. 연구 제목
 
@@ -510,6 +510,13 @@ G1–G3은 audit trigger이며 진단 정확도의 대체물이 아니다. G4가
 | 생물학적 검증 | IHC, 분자 assay, spatial omics가 있는 subset | 신규 지표 타당성 |
 | 임상 유용성 | 전향 또는 temporal silent deployment | workflow와 안전성 |
 
+전립선 biopsy 진단 lane은 2026-09-02부터 역할별 포트폴리오를 사용한다. PANDA는 개발,
+DiagSet-A/B/C는 암 유무 개발·공간 truth·9-reader qualification, PBGG-1/2는 암 양성
+multi-reader grading qualification, 최신 PRECISE release는 paired-IHC criterion anchor다.
+현재 local PRECISE H&E-only payload는 IHC가 없고 metadata 한 행이 malformed라 제외한다. PAR는 이미 열린
+historical stress test이고 새 모델의 선택 또는 primary gate로 사용하지 않는다. 선정 근거와
+접근 한계는 [코호트 선정 서베이](../surveys/prostate-diagnostic-cohort-selection-survey-ko.md)에 있다.
+
 ### 10.2 표본수 원칙
 
 - 패치 수가 아니라 독립 환자, 사건 수, 기관 수가 추론의 기준이다.
@@ -694,6 +701,80 @@ G1–G3은 audit trigger이며 진단 정확도의 대체물이 아니다. G4가
 - Morphology 승인 설계: `projects/precise_pni_candidate_triage/docs/designs/2026-08-06-precise-pni-morphology-rereview-design.md`
 
 ## 21. 변경 이력
+
+### 21.31 전립선 진단 코호트·모델 이중 경로 재설계 — 2026-09-02
+
+- 단일 데이터셋 대신 DiagSet(암 유무), PBGG-1/2(multi-reader grading), 최신 PRECISE release
+  (paired-IHC criterion)를 역할별로 선정했다. 현재 local PRECISE는 25명/27 H&E WSI+mask,
+  IHC 0과 malformed metadata 때문에 제외했다. PANDA는 development-only, PAR는 historical stress로 둔다.
+- task-specific diagnostic anchor와 frozen CONCH/Virchow discovery를 분리한다. Anchor는
+  데이터·진단 pipeline의 양성 대조이며 frozen representation의 feature use를 증명하지 않는다.
+- primary cancer probability를 ordinal ISUP의 보완값으로 만들지 않고 전용 binary/abstaining
+  head를 사용한다. 무작위 최대 64 tissue tile 대신 전체조직 저배율 coverage와 tumor 후보
+  고배율 표집을 사용하며, grading은 cancer ROI의 GP3/4/5와 primary/secondary rule을 분리한다.
+- 두 encoder는 common physical FOV와 model-native scale을 별도 평가한다. DiagSet-C/PBGG
+  prediction 전에 access, membership, patient identity, source hash와 모든 모델 선택을 잠근다.
+- 새 design, plan, protocol은 각각 `docs/designs/2026-09-02-quantitative-foundation-model-validation-prostate-diagnostic-anchor-and-discovery-design.md`,
+  `docs/plans/2026-09-02-quantitative-foundation-model-validation-prostate-diagnostic-anchor-and-discovery-plan.md`,
+  `docs/protocols/fm9-prostate-diagnostic-anchor-and-discovery-protocol-ko.md`에 둔다.
+
+### 21.30 Grading accuracy·criterion·functional-use 선행 gate — 2026-09-01
+
+- Grading residual보다 먼저 독립 코호트의 grade accuracy, 해당 reference를 만든 임상 병리
+  기준의 표현, locked grading 판단에서의 실제 사용, 상관된 기준별 기여도 배분을 순서대로
+  확립한다. 기존 BCR 결과는 이 grading gate를 대신하지 않는다.
+- PANDA 공개 10,616 biopsy는 development 전용으로 고정한다. 공개 label table에 patient ID가
+  없으므로 내부 resampling score는 성능 근거가 아니다. 다른 프로젝트가 생성한 PANDA
+  embedding/cache도 사용하지 않고 QFM이 raw WSI에서 frozen embedding을 다시 만든다.
+- SICAPv2의 공식 patient-disjoint test 21명/31 WSI와 GP3/4/5·cribriform mask는 criterion
+  qualification에 사용한다. 이 test는 이전 detector task에서 열린 이력이 있으므로 pristine
+  confirmatory grading cohort라고 부르지 않는다.
+- PAR `S-BIAD2323`의 185명/339 glass slides, 세 scanner 반복, 339/337/59개의 독립 reader
+  label을 confirmatory external/scanner-repeatability 후보로 등록했다. 제공된 consensus가
+  없고 reader 1--2 exact agreement가 0.644(QWK 0.811)이므로 하나의 독단적 gold label로
+  합치지 않고 reader-conditioned agreement와 제한된 consensus sensitivity를 보고한다.
+- Biopsy의 highest-grade secondary rule과 prostatectomy의 second-most-prevalent/minor-pattern
+  rule을 분리한다. 형태 criterion은 GP3 well-formed gland, GP4 poorly formed/fused/cribriform/
+  glomeruloid, GP5 gland 소실·solid/cord/single-cell/comedonecrosis와 GP3/4/5 proportion이다.
+  현재 subtype truth는 SICAP cribriform만 있어 나머지는 별도 복원을 주장하지 않는다.
+  Age, PSA, pT, margin, node, seminal-vesicle/capsular/lymphovascular invasion은 grading 기준이
+  아니라 별도 BCR 예후 공변량이다.
+- 사용 비중은 단일 숫자가 아니라 representation recoverability, ordinal-logit Shapley/
+  dominance allocation, fixed-head QWK loss를 분리한다. BCR은 별도 C-index denominator를
+  사용한다. 외부 accuracy와 joint erasure가 통과하기 전에는 grading residual을 계산하지 않는다.
+
+### 21.29 FM8 BCR Tier 4 계산 탐색과 Tier 3 gate 분리 — 2026-09-01
+
+- 2026-08-25 entry-audit NO-GO는 그 당시 전체 residual-discovery 진입 조건이 충족되지
+  않았다는 역사적 결정으로 보존한다. 이번 단계는 frozen paired embedding, BCR labels,
+  patient folds와 available QC만으로 실행 가능한 **Tier 4 계산 탐색**을 별도 lane으로
+  정의한 것이며, shortcut clearance와 image-review 권리가 필요한 Tier 3 병리 workstream을
+  연 것이 아니다. 논문 1 closure baseline도 변경하지 않았다.
+- 첫 endpoint는 TCGA-PRAD 392명/80 events를 source, CHIMERA 95명/27 events를 external로
+  고정한 BCR이다. CONCH와 Virchow는 별도로 분석하고, ISUP baseline, known/QC 방향을
+  제거한 latent-only, additive와 interaction Cox model을 비교했다. 모든 normalization,
+  projection, rank와 penalty 선택은 source train fold 내부에서 수행했으며 환자 OOF와
+  source-only final fit을 사용했다. External cohort에서는 tuning·recalibration·threshold
+  변경을 하지 않았다.
+- CONCH의 source/external latent C-index는 0.615/0.659, additive delta는 +0.017/+0.036이었다.
+  Virchow는 0.620/0.658과 +0.012/+0.053이었다. 두 후보 모두 5/5 source fold에서 latent
+  C-index가 0.5보다 커 standalone과 complementary 역할을 지지했지만, source interaction
+  delta가 음수여서 interactive 역할은 지지하지 않았다. 후보 ID는
+  `FM8-BCR-CON-L001`과 `FM8-BCR-VIR-L001`로 고정했다.
+- CONCH는 TCGA site/scanner 및 CHIMERA color 통계, Virchow는 TCGA 잔여 ISUP 및
+  site/scanner와 사전고정 기준 이상의 연관을 보였다. External site/scanner와 tumor
+  amount/purity도 평가할 수 없다. 따라서 두 후보 모두
+  `not_qualified_shortcut_unresolved`이며 whole-tissue Tier 4 가설일 뿐이다. 좌표
+  localization, patch 선택, morphology 명명, blinded pathology package와 Tier 3 승격을
+  생성하지 않았다.
+- Cancer presence와 grading은 BCR과 분리된 endpoint lane이다. 현재 NADT/PANDA 자산은
+  QFM 사용 권한, patient ID와 endpoint-specific label map을 갖춘 hash-locked shared
+  manifest가 없어 각각 `NOT_READY`로 기록하고 실행하지 않았다. Benign/cancer와 cancer-only
+  ordinal grade를 섞지 않으며 HGPIN·atypical·uncertain 상태를 보존한다.
+- Design, plan, protocol, source table과 결과 report는 각각 `docs/designs/`, `docs/plans/`,
+  `docs/protocols/fm8-tier4-discovery-protocol-ko.md`,
+  `milestones/fm8_bcr_tier4_discovery/outputs/`에 둔다. 독립 clean rerun으로 nonvolatile
+  source table SHA-256 9/9 exact match를 확인했다.
 
 ### 21.28 FM8 residual-discovery entry audit NO-GO — 2026-08-25
 

@@ -1,0 +1,48 @@
+registry_id: qfm_prostate_diagnostic_cohort_portfolio
+owner_project: quantitative_foundation_model_validation
+status: active
+locked_on: 2026-09-02
+governing_protocol: projects/quantitative_foundation_model_validation/docs/protocols/fm9-prostate-diagnostic-anchor-and-discovery-protocol-ko.md
+rules:
+  endpoint_separation: cancer_presence_and_cancer_only_grading_are_distinct
+  diagnostic_anchor_separation: task_specific_anchor_cannot_establish_frozen_fm_feature_use
+  external_tuning: prohibited
+  historical_par_use: stress_test_only_not_model_selection
+  residual_entry: accuracy_plus_external_recoverability_plus_functional_erasure_plus_shortcut_clearance
+cohorts:
+  - dataset_id: PANDA
+    endpoints: [cancer_presence, grading]
+    roles: [development]
+    access_state: local
+    prohibited_uses: [external_performance, patient_clustered_claim]
+  - dataset_id: DiagSet
+    endpoints: [cancer_presence, cancer_localization]
+    roles: [development, spatial_criterion, multi_reader_qualification]
+    access_state: registration_required_not_acquired
+    preflight_gates: [license, patient_mapping, subset_overlap, source_hash]
+  - dataset_id: PBGG-1-2
+    endpoints: [cancer_only_grading]
+    roles: [multi_reader_consensus_qualification]
+    access_state: wsi_public_reader_table_request_required_not_acquired
+    prohibited_uses: [cancer_detection, prevalence_calibration, model_selection]
+  - dataset_id: PRECISE
+    endpoints: [cancer_criterion]
+    roles: [paired_ihc_spatial_criterion_anchor]
+    access_state: local_he_only_legacy_failed_paired_ihc_target_not_acquired
+    local_integrity_result: 25_subjects_27_he_wsi_27_masks_0_ihc_and_malformed_sub_11_row
+    prohibited_uses: [final_clinical_accuracy, population_prevalence]
+  - dataset_id: SICAPv2
+    endpoints: [grading_criterion]
+    roles: [development, prior_open_preconfirmatory_positive_control]
+    access_state: local
+    prohibited_uses: [pristine_confirmatory_claim]
+  - dataset_id: PAR-S-BIAD2323
+    endpoints: [cancer_presence, grading, scanner_repeatability]
+    roles: [historical_reader_conditioned_stress]
+    access_state: local_results_opened
+    prohibited_uses: [fm9_model_selection, fm9_primary_gate, supplied_consensus_claim]
+  - dataset_id: SPROB20
+    endpoints: [cancer_presence, grading, clinical_transport]
+    roles: [optional_patient_level_transport]
+    access_state: controlled_access_not_acquired
+    preflight_gates: [institutional_signatory, data_sharing_agreement, cohort_overlap]

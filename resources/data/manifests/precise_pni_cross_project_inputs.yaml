@@ -1,0 +1,18 @@
+asset_set_id: precise_pni_cross_project_inputs
+provider_project: precise_pni_candidate_triage
+consuming_projects:
+  - quantitative_foundation_model_validation
+purpose: explicit hash-locked boundary and exclusion inputs; no transfer of PNI claims
+assets:
+  - asset_id: immutable_candidate_review
+    path: resources/data/precise_pni_candidate_triage/pathologist_reviews/candidate_review/precise_pni_review (1).csv
+    sha256: c1dd522b4ff4f233b3a23630bf9074da881bb7b9145996fc47c3383a0448d2a3
+    role: unrelated immutable PNI source boundary
+  - asset_id: locked_pni_focus_exclusions
+    path: resources/artifacts/precise_pni_candidate_triage/morphology_rereview/locked/normalized_morphology_review.csv
+    sha256: 247fec68fe3691e013b93439053b8e8e90493533fc71e182fbf1679fde3a8c9f
+    role: fourteen locked PNI-focus exclusion rectangles
+governance:
+  source_project_claims_do_not_transfer: true
+  consumer_must_verify_hashes: true
+  missing_uncertain_not_evaluable_preserved: true

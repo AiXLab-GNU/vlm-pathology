@@ -5,5 +5,11 @@ local_archive: resources/data/shared/opendataset/SICAPv2 - Prostate Whole Slide 
 archive_size_bytes: 2153353595
 archive_sha256: e08c5c17d03096baf10805daf54ec05b91ef6e7835a8cff66e5df862d29ad8f1
 local_extracted_root: resources/data/shared/opendataset/SICAPv2/SICAPv2
-declared_use: independent tumor-region detector development and locked official-split audit
+declared_use: independent tumor-region detector development, locked official-split audit, and grading-criterion qualification
+qfm_grading_role: grading_criterion_qualification
+qfm_grading_partition: partition/Test/Test.xlsx
+qfm_grading_unit: patient_clustered_wsi_and_patch
+qfm_grading_truth: global_primary_secondary_gleason_plus_pixel_patch_GP3_GP4_GP5_and_cribriform_G4C
+qfm_grading_holdout_state: previously_opened_for_detector_task_not_pristine_confirmatory_grading
+qfm_grading_claim_boundary: preconfirmatory_external_criterion_qualification_not_clinical_validation
 rule: raw images, masks, detector weights, arrays, and patient-level outputs are not committed

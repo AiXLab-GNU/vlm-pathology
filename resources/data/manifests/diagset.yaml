@@ -1,0 +1,22 @@
+dataset_id: DiagSet
+data_class: external_pathology_registration_required
+projects: [quantitative_foundation_model_validation]
+source_name: DiagSet prostate cancer histopathology dataset
+source_url: https://github.com/michalkoziarski/DiagSet
+publication_url: https://doi.org/10.1038/s41598-024-52183-4
+access_url: https://ai-econsilio.diag.pl
+access_contract: public_after_registration_and_administrator_activation
+partitions:
+  A:
+    declared_scope: over_2_6_million_patches_from_430_fully_annotated_scans
+    qfm_role: cancer_localization_and_criterion_development
+  B:
+    declared_scope: 4675_wsi_with_binary_diagnosis
+    qfm_role: cancer_presence_development_after_patient_overlap_audit
+  C:
+    declared_scope: 46_wsi_independently_assessed_by_9_pathologists
+    qfm_role: multi_reader_cancer_presence_and_abstention_qualification
+qfm_required_preflight: [license, membership, patient_mapping, subset_overlap, label_semantics, source_hash]
+qfm_target_tuning: prohibited_for_partition_C
+acquisition_status: not_acquired_registration_required
+rule: raw WSI, patches, labels, patient mappings, arrays, weights and predictions are local and must not be committed

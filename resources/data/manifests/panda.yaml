@@ -1,6 +1,26 @@
 dataset_id: PANDA
 data_class: external_pathology
 projects: [prostate_biomarker_validation, quantitative_foundation_model_validation]
-qfm_declared_use: deterministic provider-stratified pixel-mask scanner-proxy audit only
+source_name: Prostate cANcer graDe Assessment public development set
+source_url: https://panda.grand-challenge.org/
+local_archive: resources/data/shared/opendataset/PANDA/prostate-cancer-grade-assessment.zip
+local_archive_bytes: 206791269662
+local_archive_sha256: 4d7526f0b270ef923d6ba7af26d0ac627a63f880d5b85c551ffc74d074d9756a
+local_extracted_root: resources/data/shared/opendataset/PANDA_extracted
+local_label_path: resources/data/shared/opendataset/PANDA_extracted/train.csv
+local_label_sha256: f67935796d8da5ff9dcb27865968e51f24d297fe7f17e69f4af3ca1b3737f45a
+local_extracted_wsi: 10616
+local_archive_mask_members: 10516
+local_extracted_masks: 10516
+local_mask_status: complete_from_registered_archive
+local_wsi_name_size_inventory_sha256: 225bbcc538b0ffb8d685eaf8a54c694e8f198d8dc9745e3b7d22bb89f4034cc1
+local_mask_name_size_inventory_sha256: f54487424d847ae8c7041d8f3e936e595d0ada45a9a3073dcb28f558d154ab52
+qfm_declared_use: deterministic provider-stratified pixel-mask scanner-proxy audit and grading development
 qfm_claim_boundary: provider is an acquisition-domain proxy, not a verified scanner identifier or clinical external validation
+qfm_grading_role: grading_development_only
+qfm_grading_unit: biopsy_wsi
+qfm_grading_label_contract: benign_isup0_separate_from_cancer_only_ordinal_isup1_to5
+qfm_grading_patient_identity: not_exposed_in_public_train_table
+qfm_grading_external_performance_use: prohibited
+qfm_cross_project_generated_cache_use: prohibited
 rule: raw data and derived arrays are not committed

@@ -2337,3 +2337,172 @@ format·release metadata 확인 단계로 넘긴다. Multi-domain detector와 re
 - 근거 연결 최종 보고서는
   `projects/quantitative_foundation_model_validation/milestones/fm8_residual_discovery_entry_audit/outputs/fm8-residual-discovery-entry-audit-report.md`이며,
   독립 clean rerun에서 protocol-defined nonvolatile output hash가 정확히 일치했다.
+
+### 21.29 FM8 BCR Tier 4 계산 탐색 완료·Tier 3 잠금 — 2026-09-01
+
+**범위와 역사적 경계**
+
+- 21.28의 entry-audit NO-GO를 삭제하거나 소급 변경하지 않는다. 해당 결정은 shortcut,
+  cross-project provenance와 pathology-review gate를 함께 요구한 전체 FM8 진입 감사의
+  역사적 결론이다.
+- 이번 단계는 frozen paired embedding, BCR source labels, patient folds와 available QC가
+  준비된 Tier 4 계산 lane만 별도 설계로 연 것이다. 논문 1 closure baseline, Tier 3
+  morphology gate와 병리 review 잠금은 그대로 유지한다.
+- 사전 승인 문서는
+  `docs/designs/2026-08-31-quantitative-foundation-model-validation-fm8-tier4-discovery-design.md`,
+  `docs/plans/2026-08-31-quantitative-foundation-model-validation-fm8-tier4-discovery-plan.md`,
+  `docs/protocols/fm8-tier4-discovery-protocol-ko.md`다.
+
+**BCR 설계와 leakage control**
+
+- Source는 TCGA-PRAD 392명/80 events, external은 CHIMERA 95명/27 events다. CONCH와
+  Virchow를 섞지 않고 별도 후보로 분석했다.
+- ISUP baseline, known/QC 방향을 fold 내부에서 제거한 latent-only, ISUP+latent additive,
+  ISUP+latent+interaction 모델을 비교했다. Projection penalty, PCA rank와 Cox penalty는
+  source train fold 안의 inner patient folds와 one-standard-error rule로 선택했다.
+- Stacked model은 inner-OOF latent score로 outer train을 적합했고, 각 source 환자는 정확히
+  한 번 outer OOF prediction을 받았다. Final model은 source 전체에서만 적합하고 CHIMERA에
+  tuning·recalibration·threshold 변경 없이 적용했다. 불확실성은 2,000회 patient bootstrap으로
+  계산하고 undefined replicate를 숨기지 않았다.
+
+**결과와 후보 역할**
+
+| Candidate | Encoder | Source latent C | External latent C | Source/External additive delta | Standalone | Complementary | Interactive | Shortcut |
+|---|---|---:|---:|---:|---|---|---|---|
+| `FM8-BCR-CON-L001` | CONCH | 0.615 | 0.659 | +0.017 / +0.036 | supported | supported | not supported | `FAIL_MATERIAL_ASSOCIATION` |
+| `FM8-BCR-VIR-L001` | Virchow | 0.620 | 0.658 | +0.012 / +0.053 | supported | supported | not supported | `FAIL_MATERIAL_ASSOCIATION` |
+
+- ISUP baseline C-index는 source 0.696, external 0.674였다. 두 후보 모두 source 5/5 fold에서
+  latent C-index가 0.5보다 컸다. Additive delta는 두 cohort에서 양수였지만 source CI는
+  0을 포함했다. Interaction의 source delta는 CONCH -0.005, Virchow -0.007이어서
+  interactive 역할을 지지하지 않았다. Redundant/supportive 조건도 지지하지 않았다.
+- CONCH는 source site $\eta^2=0.168$, scanner $\eta^2=0.123$과 CHIMERA color 통계
+  $|\rho|=0.317$--0.478 경보가 남았다. Virchow는 source ISUP $\rho=0.408$, site
+  $\eta^2=0.276$, scanner $\eta^2=0.165$ 경보가 남았다. External site/scanner와 tumor
+  amount/purity는 NOT-EVALUABLE이다.
+- 따라서 두 후보의 external reproduction 상태는 모두
+  `not_qualified_shortcut_unresolved`다. 알려진 방향을 선형 투영으로 제거한 뒤에도 남은
+  연관은 제거 완료의 증거가 아니라 shortcut 경보다. 허용 상한은
+  `whole-tissue Tier 4 computational hypothesis; not Tier 3; not tumor-specific`다.
+
+**다른 endpoint와 다음 gate**
+
+- Cancer presence와 grading은 각각 별도 lane으로 감사했으나, NADT/PANDA에 QFM 사용
+  권한·patient ID·endpoint label map을 명시한 hash-locked shared manifest가 없어
+  `NOT_READY`다. Cancer presence는 benign/cancer를, grading은 cancer-only ordinal
+  ISUP/Gleason을 사용해야 하며 HGPIN·atypical·uncertain을 임의로 병합하지 않는다.
+- 좌표 localization, patch 선정, morphology naming과 blinded pathology package는 만들지
+  않았다. Tier 3는 acquisition/tumor shortcut clearance, cohort별 image-review 권리,
+  병리전문의 승인·repeat/adjudication protocol과 외부 형태 반복이 모두 준비된 뒤 별도
+  GO로만 연다.
+- 결과 report와 source table은 `milestones/fm8_bcr_tier4_discovery/outputs/`에 보존한다.
+  독립 `primary`/`clean` 실행의 protocol-defined nonvolatile output SHA-256은 9/9 정확히
+  일치해 `PASS_EXACT_HASH`였다. Input integrity 25행과 provenance 10행, QFM tests
+  125/125, Python syntax, file-governance, worktree와 diff check가 통과했다. Boundary
+  validator의 유일한 실패는 작업 전부터 존재한 미등록 top-level
+  `webportal-refactoring.md`다.
+
+### 21.30 FM8 grading-criterion qualification 진입 — 2026-09-01
+
+**범위 변경과 코호트 잠금**
+
+- 책임자 지시에 따라 grading residual을 중단하고 `독립 grade accuracy → grading criterion
+  표현 → locked grading 판단의 기능적 사용 → criterion별 기여도`를 먼저 확립한다.
+- PANDA 공개 10,616 biopsy를 development 전용으로, SICAPv2 공식 test 21명/31 WSI를
+  preconfirmatory criterion qualification으로 잠갔다. SICAP은 detector task에서 이미 열린
+  이력이 있으므로 pristine confirmatory라는 표현을 금지한다.
+- 공개 PAR S-BIAD2323의 label/file-list를 QFM local source로 확보해 hash-lock했다. PAR는
+  185명/339 glass slides를 세 scanner로 반복 스캔하며 reader label은 339/337/59개다.
+  Reader 1--2 QWK 0.811, exact agreement 0.644이므로 supplied consensus가 없는 사실을
+  보존하고 reader-conditioned agreement와 scanner repeatability를 평가한다.
+- CHIMERA는 prostatectomy grade transport와 BCR-use의 secondary cohort다. Reported ISUP
+  95개와 primary/secondary Gleason은 완전하지만 3개 mapping discrepancy와 중앙 재판독
+  부재를 유지한다.
+
+**진입 판정과 다음 gate**
+
+- Biopsy highest-grade secondary rule과 prostatectomy second-most-prevalent/minor-pattern rule을
+  분리한다. 형태 criterion은 GP3 well-formed, GP4 poorly formed/fused/cribriform/glomeruloid,
+  GP5 no-gland/solid/cord/single-cell/comedonecrosis와 GP3/4/5 proportion이다. 현재 별도 subtype
+  truth는 SICAP cribriform뿐이다. Age, PSA, pT, margin, node, SVI/capsular/LVI는 grading
+  criterion denominator에서 제외하고 BCR 공변량으로만 둔다.
+- 판정은 `GO_SOURCE_PREPARATION_NO_GO_CONFIRMATORY_MODELING`이다. PANDA 206.8 GB archive
+  SHA-256와 10,516 mask extraction/inventory, PAR metadata/label 및 339-file Hamamatsu remote
+  inventory는 잠갔다. PAR primary WSI payload는 acquisition 중이며 QFM-owned frozen embedding,
+  PANDA-only grading head가 없으므로 외부 accuracy·functional-use·residual은 아직 실행하지 않는다.
+- Fixed-head erasure는 reliance, refit은 replaceability로 분리한다. 사용 비중은 QWK 절대/
+  normalized loss, ordinal-logit Shapley/dominance, representation recoverability의 세 축으로
+  보고하고 BCR C-index 비중과 합치지 않는다.
+- Design, plan, protocol과 entry audit는 `docs/designs/`, `docs/plans/`,
+  `docs/protocols/fm8-grading-criterion-qualification-protocol-ko.md`,
+  `milestones/fm8_grading_criterion_qualification/`에 둔다. 외부 accuracy와 joint criterion
+  erasure가 사전고정 gate를 통과하기 전에는 residual 단계로 이동하지 않는다.
+
+### 21.31 FM8 M1 grading accuracy 최종 판정 — 2026-09-01
+
+**완료된 실행**
+
+- PANDA 10,615 eligible slide에서 CONCH와 Virchow의 outcome-blind paired frozen embedding을
+  완성하고 PANDA-only gated-attention ordinal head와 secondary mean-linear head를 고정했다.
+  SICAP 공식 Test 21명/31 slide는 prior-open qualification으로만 무튜닝 평가했다.
+- PAR Hamamatsu 185명/339 WSI, 245,652,045,798 bytes를 전부 확보했다. SHA-256 339/339,
+  OpenSlide 개방성 339/339, 누락·크기·디코딩 오류 0으로 `PASS_HASHED_OPENABLE`을 받았다.
+  두 encoder의 동일 decoded-RGB crop hash를 확인하고 185명/339 slide bag을 조립했다.
+- PANDA에서 잠근 head를 PAR R1/R2 co-primary와 R3 uropathologist subset에 변경 없이
+  적용했다. 2,000회 patient-clustered bootstrap은 모든 reader/encoder에서 정의됐고,
+  PAR 결과를 epoch·threshold·pooling·tile rule 선택에 사용하지 않았다.
+
+**결과와 gate**
+
+- CONCH gated-MIL cancer-only QWK는 R1 0.524 (95% CI 0.411--0.623), R2 0.583
+  (0.386--0.733), R3 0.659 (0.463--0.823)였다. R1/R2 within-one은 0.703/0.906,
+  severe-error는 0.297/0.094였다.
+- Virchow gated-MIL cancer-only QWK는 R1 0.580 (0.480--0.662), R2 0.410
+  (0.244--0.555), R3 0.720 (0.576--0.832)였다. R1/R2 within-one은 0.766/0.781,
+  severe-error는 0.234/0.219였다.
+- 두 encoder 모두 R1/R2 bootstrap lower bound가 0보다 커 `ABOVE_CHANCE`였지만, 양 reader
+  모두에서 QWK >=0.60, within-one >=0.90, severe-error <=0.05를 동시에 만족하지 못해
+  `ADEQUATE_FOR_FUNCTIONAL_TESTING=false`였다. G8은 FAIL이고 최종 판정은
+  `NO_GO_FUNCTIONAL_INTERPRETATION_NO_GO_RESIDUAL`이다.
+- 네 평가의 predictions·confusion·metrics·gate/check 16개를 독립 재실행한 결과 SHA-256이
+  16/16 정확히 일치했다. M1은 재현 가능한 negative gate로 종결한다. M2--M4는 잠그며,
+  재개에는 현재 PAR와 독립인 검증 코호트와 사전 고정 remediation protocol이 필요하다.
+
+### 21.32 FM9 진단 anchor·frozen discovery 재설계 — 2026-09-02
+
+**데이터 선정**
+
+- 하나의 데이터셋을 gold standard로 정하지 않았다. DiagSet-A/B/C는 암 유무의 공간
+  truth·개발·9-reader qualification, PBGG-1/2는 암 양성 multi-reader grading qualification,
+  최신 PRECISE release는 paired H&E–HMWCK/AMACR criterion anchor로 역할을 분리했다.
+- Local PRECISE preflight에서 25명/27 session, H&E WSI 27장과 mask 27장, IHC WSI 0장을
+  확인했다. `sub-11` participant 행은 열 수가 한 칸 부족해 SUBJECT/SESSION/AGE/PSA가
+  이동한다. 이 local legacy payload는 FM9에서 제외하고 최신 25명/37 biopsy paired-IHC
+  release를 별도 root에 획득·hash-lock한다.
+- PANDA는 development-only, SICAP은 prior-open criterion positive control, PAR는 이미 열린
+  historical reader/scanner stress로 남긴다. PAR 결과를 새 head, tile selection, scale,
+  threshold 또는 gate 선택에 사용하지 않는다.
+- SPROB20은 460 case/2,611 biopsy의 patient-level controlled-access transport 후보지만,
+  PhD와 기관 서명권자의 data-sharing agreement가 필요하므로 즉시 core cohort로 두지 않았다.
+
+**수정된 모델 구조**
+
+- Task-specific diagnostic anchor와 frozen CONCH/Virchow discovery를 분리했다. Anchor는
+  데이터·truth·pipeline이 진단을 학습할 수 있다는 양성 대조이며 frozen feature use의
+  근거가 아니다.
+- 암 유무는 `1-P(ISUP0)`가 아니라 전용 binary/abstaining head로 평가한다. 기존 random
+  maximum-64 tissue tile primary sampling을 폐기하고, 전체조직 저배율 coverage 후 tumor/
+  uncertain 후보를 고배율로 표집한다.
+- Grading은 cancer ROI에서 GP3/4/5 map·proportion과 primary/secondary pattern을 집계한다.
+  Direct ordinal head는 병렬 sensitivity로 유지한다. 두 encoder는 동일 physical FOV의 common
+  branch와 공식 model-card 해상도의 native branch를 분리한다.
+
+**현재 gate와 산출물**
+
+- 설계, 실행계획, protocol과 machine-readable portfolio registry를 각각 `docs/designs/`,
+  `docs/plans/`, `docs/protocols/`, `manifests/prostate_diagnostic_cohort_portfolio.yaml`에 등록했다.
+- 현재 D0다. DiagSet registration/activation, PBGG grading-result request와 최신 PRECISE
+  paired-IHC acquisition을 완료하고, license, membership, patient identity/subset overlap,
+  label semantics와 source hash를 prediction 전에 잠가야 D1--D2 구현으로 이동한다.
+- PBGG-1/2와 DiagSet-C는 model selection에 사용하지 않는다. Frozen accuracy, 외부 criterion
+  recoverability와 joint erasure가 모두 통과하기 전 D5 residual은 잠근다.

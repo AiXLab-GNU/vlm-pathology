@@ -1,0 +1,39 @@
+dataset_id: PAR-S-BIAD2323
+data_class: external_pathology_multiscanner
+projects: [quantitative_foundation_model_validation]
+source_name: PAR prostate biopsy whole-slide image dataset
+source_accession: S-BIAD2323
+source_url: https://www.ebi.ac.uk/biostudies/BioImages/studies/S-BIAD2323
+source_doi: https://doi.org/10.6019/S-BIAD2323
+publication_url: https://doi.org/10.1038/s41597-026-07798-9
+license: CC-BY-4.0
+published_on: 2026-07-16
+n_patients: 185
+n_glass_slides: 339
+n_scanner_images: 1017
+scanner_components: [Grundium_Ocus40, Hamamatsu_NanoZoomer_HT_2_0, Leica_Aperio_GT_450_DX]
+reference_contract: two_near_complete_independent_pathologists_plus_59_slide_uropathologist_subset_no_supplied_consensus
+qfm_grading_role: historical_reader_conditioned_stress_and_paired_scanner_repeatability
+qfm_primary_scanner: Hamamatsu_NanoZoomer_HT_2_0
+qfm_primary_scanner_files: 339
+qfm_primary_scanner_remote_bytes: 245652045798
+qfm_unit: patient_clustered_glass_slide_with_scanner_repeats
+qfm_label_contract: reader_conditioned_Gleason_and_ISUP_benign_separate
+qfm_target_tuning: prohibited
+local_root: resources/data/quantitative_foundation_model_validation/local-data/par_s_biad2323
+local_label_path: resources/data/quantitative_foundation_model_validation/local-data/par_s_biad2323/slide_labels.tsv
+local_primary_scanner_remote_inventory_path: resources/data/quantitative_foundation_model_validation/local-data/par_s_biad2323/hamamatsu_remote_inventory.csv
+local_primary_scanner_remote_inventory_sha256: 7540398b4ed31264858d7feb12cf79e01e2411c4ef982c512232e89c18aee105
+local_label_sha256: 75c587673c81a79d94d9d036ba0f7d8980266937296673f273cb4297381f4614
+local_file_list_annotation_sha256: 0ed30214edd42c78c01cfdeca223225a8ba5522b9d88e312d971e64ced237f9f
+local_file_list_grundium_sha256: 0911c1d8e1fe10630ad4d15583f525cc17af8b92f600c7f99cdc935e115c00c8
+local_file_list_hamamatsu_sha256: b18617b1650e3205a0ef3ba28dda1181c9cf81590989fa85314581b22157e152
+local_file_list_leica_sha256: 02324c19275f8da5d22b18764ea5c5e5c7ebd3ec5fb88fd1db1725f47eb91849
+label_rows: 339
+reader_1_rows: 339
+reader_2_rows: 337
+reader_3_rows: 59
+acquisition_status: primary_hamamatsu_339_wsi_hash_locked_openable_and_results_opened
+fm9_model_selection: prohibited
+fm9_primary_gate: prohibited
+rule: raw patient-level tables, WSI, arrays, derived embeddings and predictions are local and must not be committed or served by the portal

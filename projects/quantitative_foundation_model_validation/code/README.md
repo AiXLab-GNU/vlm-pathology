@@ -9,3 +9,20 @@ current executable entry points remain beside their frozen P0 and FM1–FM4 prot
 - New entry points use a clear verb prefix such as `run_`, `build_`, or `validate_`.
 - Reusable repository code moves to `infrastructure/packages/` only after its scientific
   contract is identical across projects and covered by tests.
+
+## Active FM8 entry point
+
+- `entrypoints/run_fm8_bcr_tier4_discovery.py`: one auditable `audit`, `run`, and
+  `compare-clean-rerun` CLI for the TCGA-PRAD to CHIMERA whole-tissue BCR Tier 4 lane.
+- `lib/fm8_tier4.py`: tested patient-level leakage control, nested source-only model selection,
+  bootstrap, and candidate-role functions. It contains no endpoint-lane label mapping.
+- `../milestones/fm8_grading_criterion_qualification/audit_fm8_grading_criterion_qualification.py`:
+  milestone-local, read-only PANDA/SICAP/PAR/CHIMERA source and grading-entry audit. It does not fit
+  a grading head or open residual analysis.
+- `../milestones/fm8_grading_criterion_qualification/acquire_fm8_par_source.py`: resumable,
+  primary-Hamamatsu-only PAR remote inventory, acquisition, size audit, and optional SHA-256 entry
+  point; patient-level inventory and WSI remain in the local QFM data root.
+- `../milestones/fm8_grading_criterion_qualification/run_fm8_grading_criterion_qualification.py`:
+  outcome-blind PANDA/PAR tile preparation, paired frozen CONCH/Virchow extraction, locked
+  PANDA-only ordinal MIL-head training, and no-tuning SICAP/PAR grading evaluation. Large arrays,
+  checkpoints and per-slide caches are written only to the local QFM artifact root.

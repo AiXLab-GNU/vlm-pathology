@@ -7,6 +7,7 @@
 
 | 문서 | 역할 | 상위 입력 | 후속 결정 | 권위 상태 |
 |---|---|---|---|---|
+| [prostate-diagnostic-cohort-selection-survey-ko.md](prostate-diagnostic-cohort-selection-survey-ko.md) | 전립선 biopsy 암 유무·grading·criterion truth 코호트 비교 | `01-quantitative-ai-validation-disease-diagnosis-plan-ko.md` | DiagSet + PBGG-1/2 + PRECISE 역할별 포트폴리오와 FM9 이중 경로 | CURRENT |
 | [QUANTITATIV_AI_SURVEY.md](QUANTITATIV_AI_SURVEY.md) | quantitative pathology와 representation validation의 과거 광범위 탐색 기록 | [연구계획](../research_plan/01-quantitative-ai-validation-disease-diagnosis-plan-ko.md) | H1/H2 분리와 metric taxonomy 형성에 참고 | HISTORICAL |
 | `quantitative-foundation-model-related-work-survey-ko.md` (미작성) | 검색 protocol과 source audit를 갖춘 후속 종합 서베이 | [연구계획](../research_plan/01-quantitative-ai-validation-disease-diagnosis-plan-ko.md) | novelty·baseline·외부 transport 전략 재검토 | PLANNED |
 

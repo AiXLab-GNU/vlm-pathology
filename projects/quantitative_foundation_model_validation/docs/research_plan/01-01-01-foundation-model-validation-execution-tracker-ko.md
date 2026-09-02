@@ -12,11 +12,11 @@ parent_document: projects/quantitative_foundation_model_validation/docs/research
 # 정량 기반모델 검증 실행 추적표
 
 - Governing research plan: [01-quantitative-ai-validation-disease-diagnosis-plan-ko.md](01-quantitative-ai-validation-disease-diagnosis-plan-ko.md)
-- Current milestone: [FM8 residual-discovery entry audit NO-GO; Scientific Reports revision 과학 작업은 종결·잠금 유지](01-01-foundation-model-validation-milestones-ko.md)
+- Current milestone: [FM9 D0 역할별 코호트 접근·source lock; FM8 negative gate와 Scientific Reports revision 잠금 유지](01-01-foundation-model-validation-milestones-ko.md)
 - 프로그램 핵심 목표: 복수의 독립 임상·병리 지표가 CONCH/Virchow의 frozen 표현과 locked 질병판단을 얼마나 완전하게 설명하는지 검증하고, 알려진 지표·기술적 교란을 제거한 뒤 두 모델·외부 코호트에서 반복되는 residual을 명시적 신규 정량 마커 후보로 전환·검증
 - 증거 사슬: `개별 복원성 → 조건부 고유정보·포함관계 → joint completeness → 기능적 활용 → 표현·판단 residual → 명시적 지표화 → 외부·생물학적 검증`
-- 현재 상태: P0와 FM1–FM5, FM6 TCGA whole-tissue 내부 pilot, 7-site holdout, LEOPARD 및 CHIMERA locked external reanalysis와 revision 원고 편입·QA를 완료했다. Site와 CHIMERA는 Virchow만 통과했고 LEOPARD는 두 encoder 모두 fail/inconclusive다. 초기 제출본은 `submission_orig/`로 보존하며 revision 과학 workstream은 현재 결과로 종결·잠금한다. 별도 후속 FM8 entry audit은 shortcut metadata 부족으로 **NO-GO**이며 FM8 본 연구는 시작하지 않았다.
-- 현재 과학적 위치: TCGA 392명/80 events의 internal R/A/U는 유지된다. Site transport는 encoder-specific이고 LEOPARD 508명/87 events에서는 External T가 통과하지 않았지만, CHIMERA 95명/27 events에서는 Virchow만 모든 prespecified whole-tissue gate를 통과했다. 이는 encoder·cohort-specific external T이며 strong H2·encoder 우월성·tumor-specific mechanism·residual marker 근거가 아니다.
+- 현재 상태: P0와 FM1–FM8의 산출물·negative gate는 보존한다. 2026-09-02 FM9 remediation에서 DiagSet-A/B/C를 암 유무 개발·공간 truth·9-reader qualification, PBGG-1/2를 암 양성 multi-reader grading qualification, 최신 PRECISE release를 paired-IHC criterion anchor로 잠갔다. Local PRECISE preflight는 25명/27 H&E WSI+27 mask, IHC 0과 malformed `sub-11` row로 FAIL하여 FM9 입력에서 제외했다. PANDA는 development-only, SICAP은 prior-open positive control, PAR는 이미 개봉된 historical reader/scanner stress다. Task-specific diagnostic anchor와 frozen CONCH/Virchow discovery를 분리하고, 전용 binary cancer head, 전체조직 coverage, tumor-conditioned grading 및 common/native scale을 고정했다. 새 외부 prediction은 아직 만들지 않았으며 D0 access·identity·hash gate 중이다. 논문 1은 종결·잠금을 유지한다.
+- 현재 과학적 위치: TCGA 392명/80 events의 internal R/A/U와 Virchow--CHIMERA encoder-specific external T는 유지된다. FM8 BCR source-only nested 분석에서는 CONCH와 Virchow 후보가 각각 TCGA/CHIMERA latent C-index 0.615/0.659와 0.620/0.658, ISUP baseline 대비 additive delta +0.017/+0.036과 +0.012/+0.053을 보였다. 그러나 두 후보 모두 shortcut 감사에 실패해 `not qualified`이며, whole-tissue Tier 4 계산 가설을 넘어선 residual marker 근거가 아니다.
 - 병렬 원고 workstream: PBV의 hash-locked 근거를 승계한 QFM alignment 원고를
   `기존 cohort의 지표 복원 정확성·외부 재현성 → 공통 해석 좌표의 가능성·한계`
   기조로 재편집했다. FM6의 ISUP fixed-head erasure 결과는 두 encoder에서 반복된
@@ -24,12 +24,12 @@ parent_document: projects/quantitative_foundation_model_validation/docs/research
   임상 증분의 불충분한 평가와 독립 domain sensitivity 미해결을 함께 보고하며 strong
   H2 claim ceiling은 변경하지 않는다. CHIMERA는 Virchow에 한한 external whole-tissue
   transport로 편입하고, Residual/unknown AI feature marker는 후속 논문으로 유지한다.
-- 근거: 프로젝트 sequence, `PROJECT.yaml`, FM1–FM5 저장 산출물, FM6 entry-audit 산출물, CHIMERA acquisition 보고서·source manifest·semantic/power protocol과 governance record, FM8 entry-audit protocol·availability/shortcut/external/review matrix와 최종 NO-GO 보고서
-- 주장 경계: tumor_fraction descriptive H1, FM6 internal whole-tissue R/A/U, encoder-specific site evidence와 Virchow--CHIMERA external whole-tissue T만 허용; universal External T와 strong H2=`PROHIBITED`
+- 근거: 프로젝트 sequence, `PROJECT.yaml`, FM1–FM5 저장 산출물, FM6 entry-audit 산출물, CHIMERA acquisition 보고서·source manifest·semantic/power protocol과 governance record, FM8 역사적 entry-audit NO-GO 보고서, FM8 Tier 4 design·protocol·input/provenance·성능·effect·fold·candidate·shortcut source table과 clean-rerun 비교
+- 주장 경계: tumor_fraction descriptive H1, FM6 internal whole-tissue R/A/U, encoder-specific site evidence와 Virchow--CHIMERA external whole-tissue T, FM8의 `whole-tissue Tier 4 computational hypothesis not qualified`만 허용; universal External T, strong H2, Tier 3 marker, morphology/tumor-specific mechanism과 임상 증분=`PROHIBITED`
 - 최근 결정: 1차 SICAP detector는 test specificity 0.751로 실패했다. Train-only 3-fold 후보 비교로 HED+scale를 선택해 OOF AUROC/sensitivity/specificity 0.949/0.887/0.887을 얻었고, 열린 SICAP test 참고 재평가 specificity는 0.810으로 개선됐다. 그러나 새로 잠근 PANDA 100-slide holdout의 sensitivity가 Karolinska 0.563, Radboud 0.679로 모두 0.75 미만이어서 threshold를 사후 변경하지 않고 TCGA scoring을 중단했다.
-- Blocker: FM8 G4는 source/external stain·color, scanner·MPP, blur/fold/compression, tumor amount/purity, specimen metadata 부족으로 FAIL이다. G6는 pathologist 승인·burden, reviewer access와 CHIMERA patient-level image-review clearance가 없어 NOT-EVALUABLE이고, residual stability도 NOT-EVALUABLE이다. TCGA age/path-T source가 PBV generated model workspace를 가리켜 cross-project provenance readiness도 FAIL이다. 독립 tumor-detector sensitivity 실패는 tumor-specific shortcut이 배제됐다는 근거가 아니다.
-- 현재 단일 다음 작업: FM8 본 분석 대신 blocker-resolution packet을 만든다. QFM-owned 또는 hash-locked shared age/path-T source와 source·external shortcut/QC metadata를 확보하고, cohort별 image-review 허용 범위와 pathologist burden·repeat/adjudication 승인을 문서화한다. Journal revision upload/public tag는 이 후속 과학 작업과 분리된 행정·release 작업이다.
-- 다음 상태 전환 조건: 동일 entry-audit protocol로 G1–G7이 모두 PASS이고 residual stability와 cross-project provenance readiness가 해소된 경우에만 FM8 본 연구를 별도 두 번째 논문 workstream으로 연다. NOT-EVALUABLE은 GO로 간주하지 않는다. 논문 1 revision은 새 편집부 요구와 책임저자의 명시적 재개 결정이 없는 한 계속 잠근다.
+- Blocker: DiagSet은 등록·관리자 활성화와 patient/subset mapping 확인이 필요하고, PBGG reader table은 작성한 사용 양식으로 별도 요청해야 한다. 최신 PRECISE paired-IHC release도 아직 local에 없다. SPROB20은 기관 서명권자의 controlled-access 계약이 필요하다. 이 외부 접근 전에는 독립 accuracy run을 열 수 없다.
+- 현재 단일 다음 작업: DiagSet 계정을 활성화하고 PBGG-1/2 grading-result 사용 양식을 확보하며 최신 PRECISE paired-IHC release를 별도 root에 획득한다. Payload 처리 전에 license, membership, patient identity, label semantics와 source-hash schema를 잠근다.
+- 다음 상태 전환 조건: D0 access·identity·overlap·hash gate가 통과하면 diagnostic anchor와 frozen-FM 경로를 분리 구현한다. DiagSet-C/PBGG 결과를 보기 전에 sampling, scale, threshold, calibration과 stop rule을 고정하며, 독립 accuracy와 joint criterion erasure를 모두 통과하기 전 residual은 열지 않는다. BCR Tier 3와 논문 1 잠금은 별도로 유지한다.
 
 ## 완료 체크리스트
 
@@ -68,6 +68,40 @@ parent_document: projects/quantitative_foundation_model_validation/docs/research
 - [x] `Rscore`/`Rrepr` 분리 estimand, leakage control, source threshold·sampling rule 고정
 - [x] shortcut/external recurrence/blinded-review feasibility와 근거 연결 gate 판정
 - [x] FM8 entry audit **NO-GO** 및 논문 1 revision 종결·잠금 유지 기록
+- [x] 역사적 FM8 entry-audit NO-GO와 별도 Tier 4 계산/Tier 3 병리 gate 분리
+- [x] TCGA 392명/80 events source-only nested fitting과 환자 단위 OOF·leakage 감사
+- [x] CHIMERA 95명/27 events 무튜닝 locked external transport 및 2,000회 환자 bootstrap
+- [x] CONCH/Virchow 후보 registry와 standalone·complementary·interactive·redundant 역할 판정
+- [x] Available QC/color 기반 shortcut 감사와 두 후보 `not_qualified_shortcut_unresolved` 판정
+- [x] BCR/cancer presence/grading endpoint lane 분리 및 후자 두 lane `NOT_READY` 기록
+- [x] FM8 Tier 4 독립 clean rerun과 nonvolatile output hash 비교
+- [x] PANDA development·SICAP criterion qualification·PAR external·CHIMERA secondary transport 역할 잠금
+- [x] Grading criterion과 BCR prognostic covariate 분리
+- [x] PAR public label/file-list 확보·hash lock과 reader agreement 감사
+- [x] PANDA mask 추출·archive/source inventory hash lock 완료
+- [x] PANDA 10,616 WSI outcome-blind tile preparation; 10,615 eligible/1 insufficient-tissue 명시
+- [x] SICAP 공식 Test 21명/31 slide/2,122 patch paired CONCH·Virchow embedding과 crop-hash 일치
+- [x] PAR primary Hamamatsu WSI 339개 acquisition·openability·hash audit
+- [x] M1.3 QFM-owned PANDA/PAR CONCH·Virchow embedding 생성과 paired crop-hash audit
+- [x] M1.4 PANDA-only gated-attention ordinal MIL grading head lock
+- [x] M1.5 PANDA development diagnostic 산출(외부 근거로 승격 금지)
+- [x] M1.6 SICAP prior-open qualification grading accuracy 무튜닝 평가
+- [x] M1.7 PAR R1/R2 co-primary·R3 subset confirmatory grading accuracy 무튜닝 평가
+- [x] M1.8 accuracy gate 판정·16/16 nonvolatile output hash clean rerun
+- [ ] M2 clinical criterion recoverability 실행 — M1 adequacy 실패로 잠금
+- [ ] M3 joint erasure·negative control·dose response·usage allocation 실행 — M1 adequacy 실패로 잠금
+- [x] Grading residual entry gate 재판정 — `NO_GO_FUNCTIONAL_INTERPRETATION_NO_GO_RESIDUAL`
+- [x] FM9 DiagSet/PBGG/PRECISE 역할별 데이터 포트폴리오 선정과 금지 용도 잠금
+- [x] Task-specific diagnostic anchor와 frozen CONCH/Virchow discovery 경로 분리 설계
+- [x] 전용 cancer head, 전체조직 coverage, tumor-conditioned grading, common/native scale protocol 고정
+- [ ] DiagSet registration·activation·patient/subset overlap·source hash 확보
+- [ ] PBGG-1/2 WSI와 grading-result request 조건·reader/majority label hash 확보
+- [x] PRECISE local integrity 재감사 — 25명/27 H&E WSI+27 mask, IHC 0, malformed `sub-11`; FM9 입력 제외
+- [ ] 최신 PRECISE 25명/37 biopsy paired-IHC release 획득·pairing/mask/hash 감사
+- [ ] FM9 diagnostic anchor와 frozen-FM 구현·development-only lock
+- [ ] DiagSet-C cancer 및 PBGG-1/2 grading independent qualification
+- [ ] FM8 BCR shortcut alert와 NOT-EVALUABLE acquisition/tumor metadata 해소
+- [ ] FM8 Tier 3 localization·병리 review 권한·승인·외부 형태 반복 gate 통과
 - [ ] FM8 source/external shortcut metadata와 QFM-owned 또는 hash-locked shared provenance 보강
 - [ ] residual fold/seed/rank stability 및 blinded review 승인·clearance 확보 후 entry audit 재수행
 - [x] 새 scope의 main·Supplementary build, numeric/semantic·visual·governance QA
@@ -96,6 +130,13 @@ ICT funding 기대 문구의 기존 불일치로 이번 FM6 rerun 또는 QFM 원
 Python syntax check, file-governance audit가 통과했다. Project-boundary validator의 유일한
 실패는 작업 시작 전부터 존재한 미등록 top-level `webportal-refactoring.md`이며 FM8 파일,
 프로젝트 간 입력 또는 논문 1 변경에서 발생한 실패가 아니다.
+
+2026-09-01 FM8 BCR Tier 4 QA: input integrity 25행과 provenance 10행이 통과했고,
+`primary`와 독립 `clean` 실행의 protocol-defined nonvolatile 산출물 SHA-256은 9/9 정확히
+일치했다. 두 실행은 별도 tmux session에서 CPU-only로 종료 코드 0을 기록했다. QFM 전체
+회귀검사는 125/125, Python syntax, file-governance와 worktree audit, `git diff --check`는
+모두 통과했다. Project-boundary validator의 유일한 실패는 이번 작업과 무관한 기존 미등록
+top-level `webportal-refactoring.md`다. 논문 1 경로에는 변경을 만들지 않았다.
 
 범위 변경은 이 추적표에서 독자적으로 결정하지 않는다. 변경이 필요하면
 [연구계획](01-quantitative-ai-validation-disease-diagnosis-plan-ko.md),

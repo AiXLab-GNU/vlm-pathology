@@ -1,10 +1,34 @@
 dataset_id: PRECISE
-local_path: opendataset/PRECISE
+local_path: resources/data/shared/opendataset/PRECISE
 data_class: restricted_local_pathology
 projects:
   - precise_pni_candidate_triage
   - quantitative_foundation_model_validation
 separation_rule: shared images do not imply shared labels or endpoints
-immutable_clinician_source:
-  path: opendataset/PRECISE/precise_pni_review (1).csv
-  sha256: c1dd522b4ff4f233b3a23630bf9074da881bb7b9145996fc47c3383a0448d2a3
+shared_contents:
+  - dataset documentation and license
+  - participants.csv and label_descriptions.json
+  - original archive and extracted WSI/masks
+project_asset_manifest: resources/data/manifests/precise_pni_cross_project_inputs.yaml
+local_release_doi: https://doi.org/10.5281/zenodo.18930300
+local_archive: resources/data/shared/opendataset/PRECISE/data.zip
+local_archive_bytes: 55579773830
+local_extracted_root: resources/data/shared/opendataset/PRECISE/extracted/data
+local_observed_subjects: 25
+local_observed_sessions: 27
+local_observed_he_wsi: 27
+local_observed_he_masks: 27
+local_observed_ihc_wsi: 0
+local_participants_sha256: 8b5f18120b83e84eb235eb746eb005f8dbbd0b9d46c30d248c90c0a7b31cdcaf
+local_label_descriptions_sha256: 31f9687f2611fce5a56e5f983c9a97b6ae0f5d1b6171be65e9bbc961ad2ec11c
+local_integrity_status: fail_not_paired_ihc_and_sub_11_row_column_shift
+target_paired_ihc_release_doi: https://doi.org/10.5281/zenodo.20721779
+target_publication_url: https://www.medrxiv.org/content/10.64898/2026.07.21.26358559v1.full
+target_declared_subjects: 25
+target_declared_biopsies: 37
+target_declared_annotations: 24387
+target_acquisition_status: not_acquired
+qfm_declared_scope: paired_HnE_HMWCK_AMACR_spatial_cancer_criterion_anchor_after_new_release_acquisition
+qfm_criterion_classes: [malignant_gland, benign_gland, stroma, IDC_P, HGPIN, AIP, artifact]
+qfm_required_preflight: [participant_row_integrity, biopsy_session_mapping, HnE_IHC_pairing, mask_hash]
+qfm_prohibited_uses: [final_clinical_accuracy, population_prevalence, grading_consensus]

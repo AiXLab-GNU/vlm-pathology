@@ -35,11 +35,46 @@ tumor-specific mechanism, 임상 증분과 신규 biomarker 주장은 계속 금
 P0부터 FM/H2까지의 진행 순서는 [`00-project-sequence/`](00-project-sequence/)에서
 번호순으로 확인한다.
 
+별도 FM8 workstream에서는 역사적 entry-audit NO-GO를 보존한 채, frozen paired
+embedding과 이용 가능한 QC만 요구하는 BCR Tier 4 계산 탐색을 분리해 수행했다.
+TCGA-PRAD 392명/80 events에서만 nested fitting한 encoder별 잠재 점수를 CHIMERA
+95명/27 events에 변경 없이 적용했다. CONCH와 Virchow 후보 모두 standalone 및
+ISUP baseline 대비 complementary 계산 신호를 보였지만, source site/scanner와 external
+color 연관 또는 잔여 ISUP 연관 때문에 shortcut 감사에 실패했다. 따라서 두 후보는
+`not qualified`이고 whole-tissue Tier 4 가설일 뿐이다. 좌표 localization, morphology
+명명, 병리전문의 검토와 Tier 3 승격은 계속 금지한다.
+
+현재는 grading residual보다 먼저 M1 accuracy, M2 criterion representation, M3 functional
+use/allocation, M4 shortcut-cleared residual의 네 순차 gate를 운영한다. PANDA 공개 10,616
+biopsy는 development 전용, SICAPv2 공식 patient-disjoint Test는 prior-open qualification,
+PAR 185명/339 biopsy Hamamatsu는 reader-conditioned confirmatory external cohort, CHIMERA는
+prostatectomy/BCR secondary transport로 역할을 고정했다. M1에서 PANDA 10,615 eligible
+slide의 paired embedding과 PANDA-only locked head, SICAP 21명/31 slide qualification,
+PAR 185명/339 slide의 hash/openability·paired embedding·R1/R2/R3 confirmatory 평가를
+완료했다. CONCH와 Virchow 모두 co-primary reader에서 chance를 초과했지만 사전 고정
+adequacy 기준을 통과하지 못했다. 따라서 M1은 negative gate로 종결하며 M2--M4는 새
+protocol과 PAR-독립 검증 코호트가 마련될 때까지 잠근다.
+
+2026-09-02에 PAR 결과를 사용하지 않는 FM9 remediation 설계를 승인했다. 암 유무에는
+DiagSet-A/B/C, grading에는 PBGG-1/2, 독립 병리 criterion에는 최신 PRECISE paired H&E–IHC release를
+우선 포트폴리오로 선정했다. PANDA는 개발, SICAP은 prior-open positive control, PAR는
+historical reader/scanner stress로 제한한다. 또한 task-specific 진단 성능 anchor와 frozen
+CONCH/Virchow discovery를 분리하며, 전용 binary cancer head, 전체조직 coverage,
+tumor-conditioned grading과 common/native scale을 새 구조로 고정했다. 외부 데이터 접근·hash
+잠금 전에는 prediction을 열지 않는다.
+현재 local PRECISE 사본은 25명/27 H&E WSI와 mask만 있고 IHC가 없으며 `sub-11` metadata가
+malformed라서 FM9 입력에서 제외했다. 최신 paired-IHC release는 별도 획득 대상이다.
+
 - 현재 상태: [실행 추적표](docs/research_plan/01-01-01-foundation-model-validation-execution-tracker-ko.md)
 - 연구계획: [canonical plan](docs/research_plan/01-quantitative-ai-validation-disease-diagnosis-plan-ko.md)
 - 마일스톤: [canonical milestones](docs/research_plan/01-01-foundation-model-validation-milestones-ko.md)
 - 관련연구: [survey index](docs/surveys/README.md)
 - 결과: [report index](reports/README.md)
+- FM8 Tier 4 결과: [BCR discovery report](milestones/fm8_bcr_tier4_discovery/outputs/fm8-bcr-tier4-discovery-report-ko.md)
+- FM8 grading gate: [grading-criterion entry audit](milestones/fm8_grading_criterion_qualification/outputs/fm8-grading-criterion-qualification-entry-report-ko.md)
+- FM8 grading M1 결과: [CONCH·Virchow accuracy report](milestones/fm8_grading_criterion_qualification/outputs/fm8-grading-accuracy-report-ko.md)
+- FM9 데이터 선정: [cohort selection survey](docs/surveys/prostate-diagnostic-cohort-selection-survey-ko.md)
+- FM9 수정 구조: [diagnostic anchor/discovery design](docs/designs/2026-09-02-quantitative-foundation-model-validation-prostate-diagnostic-anchor-and-discovery-design.md)
 - 논문: [paper entry point](paper/README.md)
 
 ## 재현

@@ -56,3 +56,33 @@ qualified external whole-tissue functional transport를 주장하지만 strong H
 않는다. Indispensable use, encoder superiority, universal transport, tumor-specific mechanism 또는
 clinical increment를 주장하지 않는다. Residual/unknown AI feature의 신규
 정량 marker화는 현재 원고에서 제외하고 별도 후속 논문으로 다룬다.
+
+2026-09-01 FM8 BCR Tier 4 계산 탐색은 이 경계를 높이지 않는다. TCGA-PRAD
+392명/80 events의 source-only nested fitting으로 만든 CONCH와 Virchow 잠재 점수를
+CHIMERA 95명/27 events에 변경 없이 적용했을 때, 두 후보 모두 latent-only C-index가
+0.5를 넘고 ISUP baseline 대비 additive delta가 양수였다. 그러나 CONCH는 TCGA
+site/scanner와 CHIMERA color 통계에, Virchow는 TCGA 잔여 ISUP 및 site/scanner에
+사전고정 기준 이상의 연관을 보였다. External site/scanner와 tumor amount/purity도
+평가할 수 없다. 따라서 후보 상태는 `not_qualified_shortcut_unresolved`이며 허용 주장은
+`whole-tissue Tier 4 computational hypothesis`뿐이다. 이는 병리 형태, tumor-specific
+mechanism, Tier 3 marker, external biomarker validation 또는 임상 증분의 근거가 아니다.
+Shortcut clearance, cohort별 image-review 권한, 병리 승인과 외부 형태 반복 전에는
+localization·patch 선정·morphology 명명·blinded review package를 만들지 않는다. Cancer
+presence와 grading은 서로 및 BCR과 분리된 endpoint lane이며, 현재 source lock이 없어
+실행하지 않았다.
+
+2026-09-01 grading-first gate에서는 PANDA 10,615-slide paired embedding과 PANDA-only
+head, SICAP prior-open qualification, PAR 185명/339 Hamamatsu WSI의 hash/openability·paired
+embedding·R1/R2/R3 무튜닝 평가를 완료했다. CONCH와 Virchow 모두 co-primary reader에서
+chance를 초과했지만 사전 고정 adequacy 기준을 통과하지 못했다. 따라서 이 결과는
+`reproducible negative grading-accuracy gate`이며 clinical-grade/pathologist-level grading,
+criterion use percentage와 grading residual 주장은 금지된다. PAR 결과를 새 head,
+sampling, scale 또는 threshold 선택에 사용할 수 없다.
+
+2026-09-02 FM9 remediation은 이 음성 결과를 지우지 않는다. DiagSet은 암 유무,
+PBGG-1/2는 multi-reader cancer-only grading, 최신 PRECISE paired-IHC release는 criterion
+anchor로 역할을 분리한다. Task-specific diagnostic anchor는 데이터·진단 pipeline의 양성
+대조일 뿐 frozen CONCH/Virchow의 자발적 feature use 근거가 아니다. 현재 local PRECISE는
+H&E-only/metadata integrity failure로 제외했다. 새 외부 source lock과 accuracy gate,
+외부 criterion recoverability, matched-control joint erasure가 모두 통과하기 전에는 기능적
+사용 또는 residual marker 주장을 열지 않는다.
