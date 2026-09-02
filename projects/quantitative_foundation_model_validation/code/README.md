@@ -10,7 +10,7 @@ current executable entry points remain beside their frozen P0 and FM1–FM4 prot
 - Reusable repository code moves to `infrastructure/packages/` only after its scientific
   contract is identical across projects and covered by tests.
 
-## Active FM8 entry point
+## Active FM8/FM9 entry points
 
 - `entrypoints/run_fm8_bcr_tier4_discovery.py`: one auditable `audit`, `run`, and
   `compare-clean-rerun` CLI for the TCGA-PRAD to CHIMERA whole-tissue BCR Tier 4 lane.
@@ -26,3 +26,9 @@ current executable entry points remain beside their frozen P0 and FM1–FM4 prot
   outcome-blind PANDA/PAR tile preparation, paired frozen CONCH/Virchow extraction, locked
   PANDA-only ordinal MIL-head training, and no-tuning SICAP/PAR grading evaluation. Large arrays,
   checkpoints and per-slide caches are written only to the local QFM artifact root.
+- `entrypoints/run_fm9_diagnostic_anchor.py`: CHIMERA-HViT source commit, weight-checksum
+  contract, geometry/output, license/build/dependency/weight state와 D0 data gate를 prediction 없이
+  감사하는 fail-closed FM9 entry point.
+- `lib/fm9_anchor.py`: deterministic model-registry validation, source/hash audit와 readiness
+  판정 함수. Off-the-shelf grading anchor를 cancer-primary 또는 frozen-feature-use 근거로
+  재해석하지 못하게 한다.

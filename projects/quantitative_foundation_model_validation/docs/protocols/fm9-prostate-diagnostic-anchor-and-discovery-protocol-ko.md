@@ -44,6 +44,14 @@ claim namespace가 다르다.
 - 전용 cancer/abstain head
 - cancer ROI의 GP3/4/5 map, pattern proportion, primary/secondary pattern, deterministic ISUP
 - task-specific 학습을 허용하되 외부 cohort tuning은 금지
+- off-the-shelf grading 양성 대조군은
+  `chimera_hvit_biopsy_isup_off_the_shelf_weights_v1`로 고정하고, 재학습 HViT는
+  `qfm_hvit_biopsy_isup_retrained`로 분리한다.
+- off-the-shelf 모델은 commit `2b17a75891e8f017e7a92201509c63770cd39fe5`,
+  `weights-v1`의 10개 SHA-256, 0.5 micrometre/pixel, 2,048-pixel region, 256-pixel patch,
+  5-fold와 960차원 latent 계약을 변경하지 않는다.
+- 명시적 license/permission, weight materialization, digest/dependency-locked container와 D0
+  data gate 중 하나라도 PASS가 아니면 fail-closed로 prediction을 금지한다.
 
 ### Frozen FM
 
@@ -113,3 +121,11 @@ hash 불완전, diagnostic anchor 실패, frozen accuracy 실패, external crite
 DiagSet-C 또는 PAR 결과로 threshold/scale/sampling/head를 바꾸면 새 독립 cohort 없이는
 exploratory다. D3와 D4가 통과하기 전에는 residual coordinate나 pathology review packet을
 생성하지 않는다.
+
+## 구현 상태 — 2026-09-02
+
+공식 CHIMERA-HViT source checkout의 commit, source-file hash, upstream weight checksum,
+geometry와 ensemble/output 계약을 preflight했다. 이 항목들은 PASS였지만 upstream source에
+명시적 license 파일이 없고 Dockerfile base image가 mutable tag이며 requirements가 부분적으로만
+고정돼 있다. Weight 10개와 D0 external data도 아직 local hash verification을 마치지 않았다.
+따라서 상태는 `NOT_READY`, `prediction_permitted=false`이며 성능 결과는 생성하지 않았다.

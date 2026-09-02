@@ -2506,3 +2506,40 @@ format·release metadata 확인 단계로 넘긴다. Multi-domain detector와 re
   label semantics와 source hash를 prediction 전에 잠가야 D1--D2 구현으로 이동한다.
 - PBGG-1/2와 DiagSet-C는 model selection에 사용하지 않는다. Frozen accuracy, 외부 criterion
   recoverability와 joint erasure가 모두 통과하기 전 D5 residual은 잠근다.
+
+### 21.33 FM9 재현 가능한 CHIMERA-HViT anchor preflight — 2026-09-02
+
+**수행**
+
+- Off-the-shelf grading 양성 대조군을
+  `chimera_hvit_biopsy_isup_off_the_shelf_weights_v1`, PANDA 재학습 계열을
+  `qfm_hvit_biopsy_isup_retrained`로 분리했다. 전자는 전용 cancer detector 또는 frozen
+  CONCH/Virchow의 feature-use 근거로 사용할 수 없다.
+- 공식 source commit `2b17a75891e8f017e7a92201509c63770cd39fe5`, `weights-v1`의
+  feature extractor 5개와 aggregator 5개 SHA-256, 0.5 micrometre/pixel, 2,048-pixel region,
+  256-pixel patch, 5-fold ISUP 0--5와 960차원 latent 계약을 registry에 고정했다.
+- 한 개의 auditable entry point가 model registry, checkout commit/remote, 핵심 source-file
+  hash, weight-checksum manifest, geometry/output과 D0 cohort state를 deterministic JSON으로
+  감사하며 하나라도 미통과면 `prediction_permitted=false`로 fail-closed한다.
+
+**결과·배운 점**
+
+- 실제 공식 checkout에서 source identity, 10개 upstream checksum 계약, geometry와 ensemble
+  계약은 PASS였다. Base image tag의 현재 registry digest도
+  `sha256:b2a0cc0217aa152e507150e341b9ac7695c226599c9d4af0d74b01be67186eab`로
+  해결했다.
+- 그러나 locked commit에는 명시적 license 파일이 없고 Dockerfile은 digest가 아닌 mutable
+  tag를 사용하며 requirements 12개가 exact pin이 아니다. Weight는 checksum만 잠겼고 local
+  materialization 전이며 DiagSet/PBGG/PRECISE D0도 미완료다.
+- 따라서 D1.0 구현은 완료했지만 실행 상태는 `NOT_READY`다. PAR historical stress도 이
+  model/data gate가 전부 PASS하기 전에는 실행하지 않는다. 공개 코드·weight 존재와 실제
+  재현·사용 가능성을 구분해야 한다는 것을 확인했다.
+
+**산출물·다음 gate**
+
+- `manifests/fm9_diagnostic_model_registry.yaml`
+- `code/entrypoints/run_fm9_diagnostic_anchor.py`
+- `code/lib/fm9_anchor.py`
+- `tests/test_fm9_prostate_diagnostic_anchor_and_discovery.py`
+- 다음 gate는 명시적 license/permission, digest/dependency-locked build 또는 immutable built
+  image, 10개 local weight hash와 D0 cohort access·identity·hash의 전부 PASS다.

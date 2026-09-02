@@ -65,6 +65,22 @@ benign 또는 invasive cancer로 병합하지 않는다.
 집계한다. Sensitivity, specificity, AUROC/AUPRC, NPV/PPV, calibration, abstention coverage-risk를
 환자 단위로 보고한다.
 
+### 1A. 재현 가능한 grading 양성 대조군
+
+첫 off-the-shelf anchor는 `chimera_hvit_biopsy_isup_off_the_shelf_weights_v1`로 고정한다.
+DIAGNijmegen의 CHIMERA biopsy inference commit
+`2b17a75891e8f017e7a92201509c63770cd39fe5`와 `weights-v1`의 10개 SHA-256을 사용하며,
+입력은 0.5 micrometre/pixel, 2,048-pixel region, 256-pixel patch로 변경하지 않는다. 5개
+fold의 192차원 latent를 순서대로 결합한 960차원 표현과 ISUP 0--5 majority output을
+보존한다. 이 모델은 grading 양성 대조군이며 전용 cancer head가 아니므로 `1-P(ISUP0)`를
+primary 암 판정으로 승격하지 않는다.
+
+공개 저장소라는 사실만으로 실행 권한과 재현성이 충족됐다고 간주하지 않는다. 명시적
+license/permission, 실제 weight hash, digest-pinned base image 또는 잠긴 built image,
+dependency lock과 D0 data gate가 모두 PASS일 때만 prediction을 허용한다. 같은 HViT 계열을
+PANDA에서 재학습하는 모델은 별도 ID `qfm_hvit_biopsy_isup_retrained`로 관리하고
+off-the-shelf 결과와 checkpoint·선택·주장을 합치지 않는다.
+
 ### 2. Grading
 
 Grading은 cancer-positive tissue에서만 평가한다. 모델 출력은 GP3/4/5 spatial probability,
@@ -132,13 +148,15 @@ Tier 1 임상 연관/유용성 순으로 승격한다. 단계 하나를 건너�
 
 ## 실행 우선순위
 
-1. DiagSet 접근과 PBGG-1/2 WSI·reader table 사용 권한을 확보한다.
-2. PRECISE local H&E-only legacy source의 integrity failure를 보존하고 최신 paired-IHC
+1. 고정 CHIMERA-HViT source·weight·geometry·container·license preflight를 실행하고 모든
+   blocker를 닫는다.
+2. DiagSet 접근과 PBGG-1/2 WSI·reader table 사용 권한을 확보한다.
+3. PRECISE local H&E-only legacy source의 integrity failure를 보존하고 최신 paired-IHC
    release를 별도 root에 획득·감사한다.
-3. 전용 암 head, 전체조직 coverage, tumor-conditioned grading과 common/native scale을 구현한다.
-4. PANDA/DiagSet 개발만으로 모든 선택을 끝낸다.
-5. DiagSet-C와 PBGG-1/2를 변경 없이 연다.
-6. 통과한 frozen encoder만 criterion-use 분석으로 진행한다.
+4. 전용 암 head, 전체조직 coverage, tumor-conditioned grading과 common/native scale을 구현한다.
+5. PANDA/DiagSet 개발만으로 모든 선택을 끝낸다.
+6. DiagSet-C와 PBGG-1/2를 변경 없이 연다.
+7. 통과한 frozen encoder만 criterion-use 분석으로 진행한다.
 
 ## 주장 경계
 
@@ -150,3 +168,7 @@ universal grading, 새로운 바이오마커 또는 encoder 우월성을 주장�
 
 - 2026-09-02: FM8 negative gate를 보존하고, 역할별 데이터 포트폴리오와 진단 anchor/
   frozen-discovery 이중 경로로 2026-09-01 grading-only 설계를 대체했다.
+- 2026-09-02: CHIMERA-HViT off-the-shelf grading anchor의 commit·weight checksum·geometry와
+  claim boundary를 고정했다. 실제 preflight에서 source 계약은 통과했지만 license,
+  immutable build/dependency lock, weight materialization과 D0 data access가 미해결이므로
+  prediction은 계속 차단했다.

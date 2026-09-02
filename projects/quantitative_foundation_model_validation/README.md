@@ -65,6 +65,13 @@ tumor-conditioned grading과 common/native scale을 새 구조로 고정했다. 
 현재 local PRECISE 사본은 25명/27 H&E WSI와 mask만 있고 IHC가 없으며 `sub-11` metadata가
 malformed라서 FM9 입력에서 제외했다. 최신 paired-IHC release는 별도 획득 대상이다.
 
+첫 재현 가능한 grading 양성 대조군으로 DIAGNijmegen CHIMERA-HViT의 source commit,
+`weights-v1` SHA-256 10개, 0.5 micrometre/pixel 및 2048/256-pixel geometry와 5-fold/960-d
+output 계약을 고정하고 fail-closed preflight를 구현했다. Source 계약은 일치했지만 명시적
+license, digest/dependency-locked build, 실제 weight hash와 D0 external data가 아직 미해결이므로
+상태는 `NOT_READY`이며 prediction은 생성하지 않았다. 이 모델은 grading 양성 대조군일 뿐
+전용 암 판정기나 frozen CONCH/Virchow feature-use 근거가 아니다.
+
 - 현재 상태: [실행 추적표](docs/research_plan/01-01-01-foundation-model-validation-execution-tracker-ko.md)
 - 연구계획: [canonical plan](docs/research_plan/01-quantitative-ai-validation-disease-diagnosis-plan-ko.md)
 - 마일스톤: [canonical milestones](docs/research_plan/01-01-foundation-model-validation-milestones-ko.md)
@@ -75,6 +82,7 @@ malformed라서 FM9 입력에서 제외했다. 최신 paired-IHC release는 별�
 - FM8 grading M1 결과: [CONCH·Virchow accuracy report](milestones/fm8_grading_criterion_qualification/outputs/fm8-grading-accuracy-report-ko.md)
 - FM9 데이터 선정: [cohort selection survey](docs/surveys/prostate-diagnostic-cohort-selection-survey-ko.md)
 - FM9 수정 구조: [diagnostic anchor/discovery design](docs/designs/2026-09-02-quantitative-foundation-model-validation-prostate-diagnostic-anchor-and-discovery-design.md)
+- FM9 모델 잠금: [diagnostic model registry](manifests/fm9_diagnostic_model_registry.yaml)
 - 논문: [paper entry point](paper/README.md)
 
 ## 재현

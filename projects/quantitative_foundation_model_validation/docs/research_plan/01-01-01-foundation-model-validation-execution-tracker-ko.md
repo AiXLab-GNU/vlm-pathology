@@ -12,10 +12,10 @@ parent_document: projects/quantitative_foundation_model_validation/docs/research
 # 정량 기반모델 검증 실행 추적표
 
 - Governing research plan: [01-quantitative-ai-validation-disease-diagnosis-plan-ko.md](01-quantitative-ai-validation-disease-diagnosis-plan-ko.md)
-- Current milestone: [FM9 D0 역할별 코호트 접근·source lock; FM8 negative gate와 Scientific Reports revision 잠금 유지](01-01-foundation-model-validation-milestones-ko.md)
+- Current milestone: [FM9 D1.0 reproducible anchor preflight 구현·NOT READY; D0 접근과 FM8 negative gate 유지](01-01-foundation-model-validation-milestones-ko.md)
 - 프로그램 핵심 목표: 복수의 독립 임상·병리 지표가 CONCH/Virchow의 frozen 표현과 locked 질병판단을 얼마나 완전하게 설명하는지 검증하고, 알려진 지표·기술적 교란을 제거한 뒤 두 모델·외부 코호트에서 반복되는 residual을 명시적 신규 정량 마커 후보로 전환·검증
 - 증거 사슬: `개별 복원성 → 조건부 고유정보·포함관계 → joint completeness → 기능적 활용 → 표현·판단 residual → 명시적 지표화 → 외부·생물학적 검증`
-- 현재 상태: P0와 FM1–FM8의 산출물·negative gate는 보존한다. 2026-09-02 FM9 remediation에서 DiagSet-A/B/C를 암 유무 개발·공간 truth·9-reader qualification, PBGG-1/2를 암 양성 multi-reader grading qualification, 최신 PRECISE release를 paired-IHC criterion anchor로 잠갔다. Local PRECISE preflight는 25명/27 H&E WSI+27 mask, IHC 0과 malformed `sub-11` row로 FAIL하여 FM9 입력에서 제외했다. PANDA는 development-only, SICAP은 prior-open positive control, PAR는 이미 개봉된 historical reader/scanner stress다. Task-specific diagnostic anchor와 frozen CONCH/Virchow discovery를 분리하고, 전용 binary cancer head, 전체조직 coverage, tumor-conditioned grading 및 common/native scale을 고정했다. 새 외부 prediction은 아직 만들지 않았으며 D0 access·identity·hash gate 중이다. 논문 1은 종결·잠금을 유지한다.
+- 현재 상태: P0와 FM1–FM8의 산출물·negative gate는 보존한다. 2026-09-02 FM9 remediation에서 DiagSet-A/B/C를 암 유무 개발·공간 truth·9-reader qualification, PBGG-1/2를 암 양성 multi-reader grading qualification, 최신 PRECISE release를 paired-IHC criterion anchor로 잠갔다. Local PRECISE preflight는 25명/27 H&E WSI+27 mask, IHC 0과 malformed `sub-11` row로 FAIL하여 FM9 입력에서 제외했다. PANDA는 development-only, SICAP은 prior-open positive control, PAR는 이미 개봉된 historical reader/scanner stress다. Task-specific diagnostic anchor와 frozen CONCH/Virchow discovery를 분리하고, 전용 binary cancer head, 전체조직 coverage, tumor-conditioned grading 및 common/native scale을 고정했다. CHIMERA-HViT off-the-shelf grading anchor의 source commit, weight checksum, 0.5 mpp/2048/256 geometry와 5-fold/960-d output 계약 및 fail-closed preflight를 구현했다. Source 계약은 PASS지만 license, immutable build/dependency lock, weight materialization과 D0 data gate가 BLOCKED이므로 새 prediction은 만들지 않았다. 논문 1은 종결·잠금을 유지한다.
 - 현재 과학적 위치: TCGA 392명/80 events의 internal R/A/U와 Virchow--CHIMERA encoder-specific external T는 유지된다. FM8 BCR source-only nested 분석에서는 CONCH와 Virchow 후보가 각각 TCGA/CHIMERA latent C-index 0.615/0.659와 0.620/0.658, ISUP baseline 대비 additive delta +0.017/+0.036과 +0.012/+0.053을 보였다. 그러나 두 후보 모두 shortcut 감사에 실패해 `not qualified`이며, whole-tissue Tier 4 계산 가설을 넘어선 residual marker 근거가 아니다.
 - 병렬 원고 workstream: PBV의 hash-locked 근거를 승계한 QFM alignment 원고를
   `기존 cohort의 지표 복원 정확성·외부 재현성 → 공통 해석 좌표의 가능성·한계`
@@ -27,8 +27,8 @@ parent_document: projects/quantitative_foundation_model_validation/docs/research
 - 근거: 프로젝트 sequence, `PROJECT.yaml`, FM1–FM5 저장 산출물, FM6 entry-audit 산출물, CHIMERA acquisition 보고서·source manifest·semantic/power protocol과 governance record, FM8 역사적 entry-audit NO-GO 보고서, FM8 Tier 4 design·protocol·input/provenance·성능·effect·fold·candidate·shortcut source table과 clean-rerun 비교
 - 주장 경계: tumor_fraction descriptive H1, FM6 internal whole-tissue R/A/U, encoder-specific site evidence와 Virchow--CHIMERA external whole-tissue T, FM8의 `whole-tissue Tier 4 computational hypothesis not qualified`만 허용; universal External T, strong H2, Tier 3 marker, morphology/tumor-specific mechanism과 임상 증분=`PROHIBITED`
 - 최근 결정: 1차 SICAP detector는 test specificity 0.751로 실패했다. Train-only 3-fold 후보 비교로 HED+scale를 선택해 OOF AUROC/sensitivity/specificity 0.949/0.887/0.887을 얻었고, 열린 SICAP test 참고 재평가 specificity는 0.810으로 개선됐다. 그러나 새로 잠근 PANDA 100-slide holdout의 sensitivity가 Karolinska 0.563, Radboud 0.679로 모두 0.75 미만이어서 threshold를 사후 변경하지 않고 TCGA scoring을 중단했다.
-- Blocker: DiagSet은 등록·관리자 활성화와 patient/subset mapping 확인이 필요하고, PBGG reader table은 작성한 사용 양식으로 별도 요청해야 한다. 최신 PRECISE paired-IHC release도 아직 local에 없다. SPROB20은 기관 서명권자의 controlled-access 계약이 필요하다. 이 외부 접근 전에는 독립 accuracy run을 열 수 없다.
-- 현재 단일 다음 작업: DiagSet 계정을 활성화하고 PBGG-1/2 grading-result 사용 양식을 확보하며 최신 PRECISE paired-IHC release를 별도 root에 획득한다. Payload 처리 전에 license, membership, patient identity, label semantics와 source-hash schema를 잠근다.
+- Blocker: CHIMERA-HViT locked commit에는 명시적 license 파일이 없고 upstream Dockerfile은 digest가 아닌 base-image tag와 부분 고정 requirements를 사용한다. Weight 10개도 아직 local materialization/hash verification 전이다. 별도로 DiagSet은 등록·관리자 활성화와 patient/subset mapping 확인이 필요하고, PBGG reader table은 작성한 사용 양식으로 별도 요청해야 하며 최신 PRECISE paired-IHC release도 아직 local에 없다. SPROB20은 기관 서명권자의 controlled-access 계약이 필요하다.
+- 현재 단일 다음 작업: CHIMERA-HViT의 명시적 license/서면 허가를 확인하고 digest/dependency-locked build와 10개 weight hash를 닫는다. 동시에 DiagSet 계정을 활성화하고 PBGG-1/2 grading-result 사용 양식 및 최신 PRECISE paired-IHC release를 확보해 membership, patient identity, label semantics와 source hash를 잠근다.
 - 다음 상태 전환 조건: D0 access·identity·overlap·hash gate가 통과하면 diagnostic anchor와 frozen-FM 경로를 분리 구현한다. DiagSet-C/PBGG 결과를 보기 전에 sampling, scale, threshold, calibration과 stop rule을 고정하며, 독립 accuracy와 joint criterion erasure를 모두 통과하기 전 residual은 열지 않는다. BCR Tier 3와 논문 1 잠금은 별도로 유지한다.
 
 ## 완료 체크리스트
@@ -94,6 +94,9 @@ parent_document: projects/quantitative_foundation_model_validation/docs/research
 - [x] FM9 DiagSet/PBGG/PRECISE 역할별 데이터 포트폴리오 선정과 금지 용도 잠금
 - [x] Task-specific diagnostic anchor와 frozen CONCH/Virchow discovery 경로 분리 설계
 - [x] 전용 cancer head, 전체조직 coverage, tumor-conditioned grading, common/native scale protocol 고정
+- [x] CHIMERA-HViT off-the-shelf/retrained ID 분리와 source commit·weight checksum·geometry/output registry 고정
+- [x] FM9 diagnostic-anchor fail-closed preflight 구현·source 계약 PASS 확인
+- [ ] CHIMERA-HViT 명시적 license/permission·digest/dependency-locked build·10개 local weight hash PASS
 - [ ] DiagSet registration·activation·patient/subset overlap·source hash 확보
 - [ ] PBGG-1/2 WSI와 grading-result request 조건·reader/majority label hash 확보
 - [x] PRECISE local integrity 재감사 — 25명/27 H&E WSI+27 mask, IHC 0, malformed `sub-11`; FM9 입력 제외
@@ -141,3 +144,13 @@ top-level `webportal-refactoring.md`다. 논문 1 경로에는 변경을 만들�
 범위 변경은 이 추적표에서 독자적으로 결정하지 않는다. 변경이 필요하면
 [연구계획](01-quantitative-ai-validation-disease-diagnosis-plan-ko.md),
 [마일스톤](01-01-foundation-model-validation-milestones-ko.md), 이 실행 추적표 순서로 반영한다.
+
+2026-09-02 FM9 anchor preflight QA: 공식 source commit
+`2b17a75891e8f017e7a92201509c63770cd39fe5`, upstream 10개 weight checksum, 0.5
+micrometre/pixel·2048/256-pixel geometry, 5-fold ISUP 0--5와 960차원 latent 계약이 registry와
+일치했다. Base image digest는
+`sha256:b2a0cc0217aa152e507150e341b9ac7695c226599c9d4af0d74b01be67186eab`로
+해결했지만 upstream Dockerfile에는 아직 tag로 남아 있다. License, dependency lock, 실제
+weight와 D0 data가 미해결이라 `prediction_permitted=false`로 닫았다. Focused tests 6/6과
+Python syntax check가 통과했다. Preflight JSON의 독립 재실행 SHA-256은 두 번 모두
+`f15e3ebe277d3d8b6f4658e4c86bb7b4e04ef814441803a210a7a3409148d112`로 일치했다.

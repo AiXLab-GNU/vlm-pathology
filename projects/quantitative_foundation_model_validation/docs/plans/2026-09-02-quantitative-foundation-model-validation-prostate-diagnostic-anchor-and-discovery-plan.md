@@ -44,6 +44,7 @@ D0.2--D0.3은 계정 활성화·서명 양식 같은 외부 조치가 필요하�
 
 | Task | State | 완료 조건 |
 |---|---|---|
+| D1.0 reproducible SOTA preflight | 구현 완료 — prediction NOT READY | CHIMERA-HViT commit·10 weight SHA-256·0.5 mpp/2048/256 geometry·5-fold/960-d 계약 PASS; license, digest-pinned build/dependency lock, 실제 weight와 D0가 모두 PASS일 때만 실행 |
 | D1.1 exhaustive/coarse tissue coverage | pending | random 64-tile 의존 제거, 작은 focus coverage 통계 저장 |
 | D1.2 전용 binary cancer model | pending | ISUP head와 분리, uncertain/IHC 상태와 abstention 구현 |
 | D1.3 tumor localization | pending | 독립 pixel truth에서 sensitivity/FROC와 오류 지도 검증 |
@@ -101,7 +102,8 @@ qualification이지 최종 clinical validation이 아니다.
 
 ## 현재 단일 다음 실행
 
-DiagSet 등록·활성화와 PBGG-1/2 판독표 사용 양식을 확보하고, 다운로드 전 membership,
-patient identity, license와 source-hash schema를 잠근다. 최신 PRECISE paired-IHC release도
-별도 source root에 획득한다. 현재 local PRECISE는 H&E-only payload/metadata integrity failure
-때문에 FM9 입력에서 제외한다. D0가 닫히기 전 외부 prediction은 만들지 않는다.
+CHIMERA-HViT upstream의 명시적 license 또는 서면 사용 허가를 확인하고, registry에 고정한
+base-image digest와 exact dependency 또는 built-image digest로 immutable build를 만든 뒤
+10개 weight를 SHA-256 검증한다. 동시에 DiagSet 등록·활성화와 PBGG-1/2 판독표 사용 양식,
+최신 PRECISE paired-IHC release를 확보해 membership, patient identity와 source hash를 잠근다.
+이 model/data gate가 모두 닫히기 전에는 PAR를 포함한 어떤 cohort에도 prediction을 만들지 않는다.

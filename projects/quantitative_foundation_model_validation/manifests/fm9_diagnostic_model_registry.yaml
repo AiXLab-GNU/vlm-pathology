@@ -1,0 +1,71 @@
+registry_id: qfm_fm9_diagnostic_model_registry
+owner_project: quantitative_foundation_model_validation
+status: active
+locked_on: 2026-09-02
+governing_protocol: projects/quantitative_foundation_model_validation/docs/protocols/fm9-prostate-diagnostic-anchor-and-discovery-protocol-ko.md
+rules:
+  anchor_and_frozen_paths_are_separate: true
+  off_the_shelf_and_retrained_ids_are_separate: true
+  target_cohort_tuning: prohibited
+  prediction_before_readiness_pass: prohibited
+models:
+  - model_id: chimera_hvit_biopsy_isup_off_the_shelf_weights_v1
+    lane: diagnostic_anchor
+    mode: off_the_shelf_locked_inference
+    status: preflight_blocked
+    task: cancer_positive_biopsy_isup_0_to_5
+    source:
+      repository_url: https://github.com/DIAGNijmegen/chimera-agent-biopsy-inference.git
+      commit: 2b17a75891e8f017e7a92201509c63770cd39fe5
+      weights_release: weights-v1
+      checksum_manifest: resources/SHA256SUMS
+      local_relative_path: resources/projects/quantitative_foundation_model_validation/chimera_agent_biopsy_inference
+      license_state: unresolved_no_license_file_at_locked_commit
+    container:
+      upstream_base_image: docker.io/waticlems/slide2vec:v1.3.0
+      resolved_base_image_digest: sha256:b2a0cc0217aa152e507150e341b9ac7695c226599c9d4af0d74b01be67186eab
+      upstream_dockerfile_uses_digest: false
+      dependency_lock_state: incomplete_upstream_requirements_are_partially_pinned
+    geometry:
+      spacing_microns_per_pixel: 0.5
+      region_size_pixels: 2048
+      patch_size_pixels: 256
+      feature_dimension: 384
+    ensemble:
+      folds: 5
+      fold_latent_dimension: 192
+      concatenated_latent_dimension: 960
+      output_classes: [0, 1, 2, 3, 4, 5]
+      aggregation: custom_distance_majority_vote
+    weight_sha256:
+      aggregator/checkpoints/pretrained/vit_256_small_dino_fold_0.pt: def74febf6a68e227c15ea85f5199842a150a7103cb93b4852b01647a3dd5c6c
+      aggregator/checkpoints/pretrained/vit_256_small_dino_fold_1.pt: 1058758f08ebf894e00201c84bc1d28621bb9a50a2e4b0e353f1fe16ee021803
+      aggregator/checkpoints/pretrained/vit_256_small_dino_fold_2.pt: 4f11b6ea6384576be965961fa5d417f0af65ab997b58aea08027f49218d68d29
+      aggregator/checkpoints/pretrained/vit_256_small_dino_fold_3.pt: 85233d891a2300a7a7cb6935a40f1fcd8a4b87636a374e49bd211f6843def8ab
+      aggregator/checkpoints/pretrained/vit_256_small_dino_fold_4.pt: e8df755c170a99ea25d05b97fceab39547c5186d690400f45ae1577339fa09eb
+      aggregator/checkpoints/trained/fold-0.pt: 6591c20b35b5f4398ff0db5fd4902f86267e24d6bd54b18c09813145b6a3c3ef
+      aggregator/checkpoints/trained/fold-1.pt: fea1c4d28888bd3a3230624bb9b6650b9c4a462b4d33464eeb73e29baa7f24b7
+      aggregator/checkpoints/trained/fold-2.pt: 490e0e372bca4c30d4eef91d4d81c2e961352aeb9458045c3270b70790f156cc
+      aggregator/checkpoints/trained/fold-3.pt: e7edcbe0136519951ecf47a79c1847980a8075488c3701ea56b9414c5217139a
+      aggregator/checkpoints/trained/fold-4.pt: 6e0a88dfc0ccc5ce8e1601f1f95b61c7e06c86c66bdeb8f9697197948438f438
+    allowed_uses:
+      - locked_isup_grading_positive_control
+      - historical_par_technical_stress_after_readiness_pass
+      - pbgg_multi_reader_qualification_after_external_lock
+    prohibited_uses:
+      - primary_binary_cancer_probability
+      - frozen_fm_feature_use_evidence
+      - panda_independent_external_validation
+      - target_cohort_model_selection
+      - clinical_grade_claim
+  - model_id: qfm_hvit_biopsy_isup_retrained
+    lane: diagnostic_anchor
+    mode: task_specific_retraining
+    status: planned_not_source_locked
+    task: cancer_conditioned_biopsy_grading
+    development_data: [PANDA]
+    qualification_data: [PBGG-1, PBGG-2]
+    prohibited_uses:
+      - off_the_shelf_benchmark_claim
+      - target_cohort_model_selection
+      - frozen_fm_feature_use_evidence

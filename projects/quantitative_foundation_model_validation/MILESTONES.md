@@ -37,6 +37,9 @@ qualification, PBGG-1/2는 암 양성 multi-reader grading qualification, 최신
 paired-IHC criterion anchor다. 현재 local PRECISE는 H&E-only/metadata integrity failure로
 제외했다. PANDA는 개발 전용이고 PAR는 historical stress test로만 남긴다.
 모델도 task-specific diagnostic performance anchor와 frozen CONCH/Virchow discovery 경로를
-분리한다. 현재 단일 다음 작업은 DiagSet 접근과 PBGG 판독표 사용 조건, membership/patient
-identity/source hash를 prediction 전에 잠그는 것이다. 상세 내용은
+분리한다. 첫 off-the-shelf grading anchor인 CHIMERA-HViT의 commit, weight checksum,
+geometry와 output 계약을 고정하고 fail-closed preflight를 구현했다. Source 계약은 PASS지만
+license, immutable container/dependency lock, 실제 weight와 D0 data가 미해결이어서 prediction은
+`NOT_READY`다. 현재 단일 다음 작업은 이 model gate와 DiagSet/PBGG/PRECISE의 membership,
+patient identity/source hash를 prediction 전에 잠그는 것이다. 상세 내용은
 [`FM9 plan`](docs/plans/2026-09-02-quantitative-foundation-model-validation-prostate-diagnostic-anchor-and-discovery-plan.md)에 있다.
